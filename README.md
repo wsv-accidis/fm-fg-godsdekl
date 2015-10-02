@@ -20,7 +20,9 @@ with the Swedish Armed Forces._**
 ## Status
 Applikationen är under utveckling och har inte publicerats ännu.
 
+## Behörigheter
+Den här appen kräver inga behörigheter.
+
 ## Licensiering
 FM FG Godsdeklaration distribueras i enlighet med licensvillkoren i **Apache License version 2.0**.
-
 _FM FG Godsdeklaration is distributed according to the terms of the **Apache License version 2.0**._
