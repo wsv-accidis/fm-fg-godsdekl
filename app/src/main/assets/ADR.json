@@ -1,0 +1,2121 @@
+﻿[
+  {
+    "Fbet": "M4012-117301",
+    "Fben": "12,7/45 BRSPRJBRAND",
+    "UNnr": "0010",
+    "Namn": "BRANDAMMUNITION",
+    "KlassKod": [
+      "1.2G"
+    ],
+    "NEMmg": 17000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4012-119901",
+    "Fben": "12,7/45 LÖS PTR 90 BAND",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR HANDELDVAPEN",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 15000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4012-116001",
+    "Fben": "12,7/45 NBAND",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 15000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4012-107000",
+    "Fben": "12,7/45 PBRANDPRJ",
+    "UNnr": "0009",
+    "Namn": "BRANDAMMUNITION",
+    "KlassKod": [
+      "1.2G"
+    ],
+    "NEMmg": 17500,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4012-117100",
+    "Fben": "12,7/45 SLBRSPRJ",
+    "UNnr": "0009",
+    "Namn": "BRANDAMMUNITION",
+    "KlassKod": [
+      "1.2G"
+    ],
+    "NEMmg": 17500,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4012-117101",
+    "Fben": "12,7/45 SLBRSPRJBRAND",
+    "UNnr": "0009",
+    "Namn": "BRANDAMMUNITION",
+    "KlassKod": [
+      "1.2G"
+    ],
+    "NEMmg": 17500,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4012-116401",
+    "Fben": "12,7/45 SLNBAND",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 15000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4012-716401",
+    "Fben": "12,7/45 SLPRJ",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 15000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-851110",
+    "Fben": "120 BANMOTOR 94",
+    "UNnr": "0281",
+    "Namn": "RAKETMOTORER",
+    "KlassKod": [
+      "1.2C"
+    ],
+    "NEMmg": 924000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-805804",
+    "Fben": "120 LYSVINGGR 70",
+    "UNnr": "0254",
+    "Namn": "LYSAMMUNITION",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 1920000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-854804",
+    "Fben": "120 PSVINGGR94 SLUFA",
+    "UNnr": "0006",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.1E"
+    ],
+    "NEMmg": 2300000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-805024",
+    "Fben": "120 RÖKVINGGR 74",
+    "UNnr": "0016",
+    "Namn": "RÖKAMMUNITION",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 3230000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-802254",
+    "Fben": "120 SVINGGR 58C",
+    "UNnr": "0006",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.1E"
+    ],
+    "NEMmg": 3000000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-822304",
+    "Fben": "120 SVINGGR 86Z",
+    "UNnr": "0006",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.1E"
+    ],
+    "NEMmg": 2729000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-851210",
+    "Fben": "120 UTSJUTNDEL 94",
+    "UNnr": "0414",
+    "Namn": "DRIVLADDNING FÖR ARTILLERIPJÄSER",
+    "KlassKod": [
+      "1.2C"
+    ],
+    "NEMmg": 640000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-808015",
+    "Fben": "120 ÖVNVINGGR 42B",
+    "UNnr": "0321",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.2E"
+    ],
+    "NEMmg": 96000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-157200",
+    "Fben": "120/95 SLPPRJ 95",
+    "UNnr": "0326",
+    "Namn": "PATRONER FÖR VAPEN, LÖS AMMUNITION",
+    "KlassKod": [
+      "1.1C"
+    ],
+    "NEMmg": 8000000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-152305",
+    "Fben": "120/95 SLSGR 95",
+    "UNnr": "0006",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.1E"
+    ],
+    "NEMmg": 6104000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-158005",
+    "Fben": "120/95 SLÖVNGR 95",
+    "UNnr": "0321",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.2E"
+    ],
+    "NEMmg": 3404000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-159130",
+    "Fben": "120/95 SLÖVNPRJ 01",
+    "UNnr": "0326",
+    "Namn": "PATRONER FÖR VAPEN, LÖS AMMUNITION",
+    "KlassKod": [
+      "1.1C"
+    ],
+    "NEMmg": 8000000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-159000",
+    "Fben": "120/95SLÖVNGR 95 BARL",
+    "UNnr": "0417",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.3C"
+    ],
+    "NEMmg": 3400000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4747-120501",
+    "Fben": "15 ELDMARK 54",
+    "UNnr": "0431",
+    "Namn": "FÖREMÅL PYROTEKNISKA",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 3000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4747-120801",
+    "Fben": "20 ELDMARK 64",
+    "UNnr": "0338",
+    "Namn": "PATRONER FÖR VAPEN, LÖS AMMUNITION",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 20000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4020-334201",
+    "Fben": "20/41 SLBRHPGR 95",
+    "UNnr": "0434",
+    "Namn": "PROJEKTILER",
+    "KlassKod": [
+      "1.2G"
+    ],
+    "NEMmg": 10600,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4020-309030",
+    "Fben": "20/41 SLÖVNPRJ 98",
+    "UNnr": "0328",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.2C"
+    ],
+    "NEMmg": 32000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4020-509000",
+    "Fben": "20/64 SLÖVNPRJ 64",
+    "UNnr": "0417",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.3C"
+    ],
+    "NEMmg": 33600,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4020-529020",
+    "Fben": "20/86 SLÖVNPRJ 86B",
+    "UNnr": "0417",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.3C"
+    ],
+    "NEMmg": 11500,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4025-312514",
+    "Fben": "25/98 SLSGR 98",
+    "UNnr": "0321",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.2E"
+    ],
+    "NEMmg": 83000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4025-319010",
+    "Fben": "25/98 SLÖVNPRJ 98",
+    "UNnr": "0417",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.3C"
+    ],
+    "NEMmg": 97000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4040-512201",
+    "Fben": "40 GSGR (Ak 5)",
+    "UNnr": "0321",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.2E"
+    ],
+    "NEMmg": 27000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4040-518004",
+    "Fben": "40 GÖVNGR 07 (Ak 5)",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 500,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4040-234701",
+    "Fben": "40 PSGR (granatspruta)",
+    "UNnr": "0006",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.1E"
+    ],
+    "NEMmg": 38000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4040-202977",
+    "Fben": "40/48 KULSGR 90",
+    "UNnr": "0321",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.2E"
+    ],
+    "NEMmg": 620000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4040-202284",
+    "Fben": "40/48 SLSGR 90",
+    "UNnr": "0321",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.2E"
+    ],
+    "NEMmg": 623000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4040-209070",
+    "Fben": "40/48 SLÖVNPRJ 484C",
+    "UNnr": "0417",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.3C"
+    ],
+    "NEMmg": 517000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4040-242904",
+    "Fben": "40/48B KULSGR 95 LK",
+    "UNnr": "0321",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.2E"
+    ],
+    "NEMmg": 621000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4040-406601",
+    "Fben": "40/48B SLPPRJ 90",
+    "UNnr": "0328",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.2C"
+    ],
+    "NEMmg": 572400,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4040-406610",
+    "Fben": "40/48B SLPPRJ 90LK",
+    "UNnr": "0328",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.2C"
+    ],
+    "NEMmg": 550000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4040-209090",
+    "Fben": "40/48B SLÖVRNPRJ 95",
+    "UNnr": "0328",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.2E"
+    ],
+    "NEMmg": 550000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4005-209910",
+    "Fben": "5,56 LÖS PTR 5B",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR HANDELDVAPEN",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 600,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4005-309900",
+    "Fben": "5,56 LÖSPTR 5B BAND",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR HANDELDVAPEN",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 600,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4005-306111",
+    "Fben": "5,56/5B NBAND",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 1500,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4005-306410",
+    "Fben": "5,56/5B SLNBAND",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 1500,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4005-206410",
+    "Fben": "5,56/5B SLPRJ",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 1500,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4005-206310",
+    "Fben": "5,56/5B STKPRJ",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 1500,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4057-712904",
+    "Fben": "57/70 KULSGR 2000 LK",
+    "UNnr": "0321",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.2E"
+    ],
+    "NEMmg": 1000500,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4007-509910",
+    "Fben": "7,62 LÖS PTR 10",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR HANDELDVAPEN",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 1400,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4007-519900",
+    "Fben": "7,62 LÖS PTR 10 BAND",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR HANDELDVAPEN",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 1400,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4007-529900",
+    "Fben": "7,62 LÖS PTR 10 PS",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR HANDELDVAPEN",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 1400,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4007-516010",
+    "Fben": "7,62 NBAND 10",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 2900,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4007-516410",
+    "Fben": "7,62 SLNBAND 10",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 3900,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4007-526301",
+    "Fben": "7,62/10 PRICK",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 3500,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4007-506010",
+    "Fben": "7,62/10 PRJ",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 2900,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4007-506420",
+    "Fben": "7,62/10 SLPRJ",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 3800,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4080-205864",
+    "Fben": "80 LYSVINGGR 85",
+    "UNnr": "0254",
+    "Namn": "LYSAMMUNITION",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 10200,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4080-202264",
+    "Fben": "80 SVINGGR 29-32D",
+    "UNnr": "0168",
+    "Namn": "PROJEKTILER",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 677000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4080-202304",
+    "Fben": "80 SVINGGR 80",
+    "UNnr": "0168",
+    "Namn": "PROJEKTILER",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 800000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4080-208034",
+    "Fben": "80 ÖVNINGGR 29-32D",
+    "UNnr": "0346",
+    "Namn": "PROJEKTILER",
+    "KlassKod": [
+      "1.2D"
+    ],
+    "NEMmg": 58000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4084-405804",
+    "Fben": "84/48B LYSGR 82",
+    "UNnr": "0254",
+    "Namn": "LYSAMMUNITION",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 407000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4084-405034",
+    "Fben": "84/48B RÖKGR 73",
+    "UNnr": "0015",
+    "Namn": "RÖKAMMUNITION",
+    "KlassKod": [
+      "1.2G"
+    ],
+    "NEMmg": 410000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4084-405044",
+    "Fben": "84/48B RÖKGR 81",
+    "UNnr": "0015",
+    "Namn": "RÖKAMMUNITION",
+    "KlassKod": [
+      "1.2G"
+    ],
+    "NEMmg": 410000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4084-412204",
+    "Fben": "84/48B SGR 00",
+    "UNnr": "0006",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.1E"
+    ],
+    "NEMmg": 700000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4084-402234",
+    "Fben": "84/48B SGR 58",
+    "UNnr": "0006",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.1E"
+    ],
+    "NEMmg": 708000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4084-409090",
+    "Fben": "84/48B SLÖVNPRJ 66B",
+    "UNnr": "0328",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.2C"
+    ],
+    "NEMmg": 396500,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4084-404765",
+    "Fben": "84/48F SLPSGR 75",
+    "UNnr": "0006",
+    "Namn": "PATRONER FÖR VAPEN",
+    "KlassKod": [
+      "1.1E"
+    ],
+    "NEMmg": 885500,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4009-206030",
+    "Fben": "9/39 B RAM",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 400,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4009-206430",
+    "Fben": "9/67 SLPRJ",
+    "UNnr": "0339",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4C"
+    ],
+    "NEMmg": 200,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "ACETYLEN, LÖST",
+    "UNnr": "1001",
+    "Namn": "ACETYLEN, LÖST",
+    "KlassKod": [
+      "2.1"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "B/D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "ARGON",
+    "UNnr": "1006",
+    "Namn": "ARGON, KOMPRIMERAD",
+    "KlassKod": [
+      "2.2"
+    ],
+    "NEMmg": 0,
+    "TpKat": 3,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4741-105502",
+    "Fben": "CHOCKHGR 96 B",
+    "UNnr": "0284",
+    "Namn": "GRANATER",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 50000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-801100",
+    "Fben": "DELLNG 42",
+    "UNnr": "0242",
+    "Namn": "DRIVLADDNING FÖR ARTILLERIPJÄSER",
+    "KlassKod": [
+      "1.3C"
+    ],
+    "NEMmg": 39000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4120-801300",
+    "Fben": "DELLNG 58",
+    "UNnr": "0242",
+    "Namn": "DRIVLADDNING FÖR ARTILLERIPJÄSER",
+    "KlassKod": [
+      "1.3C"
+    ],
+    "NEMmg": 44000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4080-201500",
+    "Fben": "DRIVPTR 29",
+    "UNnr": "0327",
+    "Namn": "PATRONER FÖR VAPEN, LÖS AMMUNITION",
+    "KlassKod": [
+      "1.3C"
+    ],
+    "NEMmg": 8000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4747-124002",
+    "Fben": "ELDMARK LUFTBRISAD 7",
+    "UNnr": "0430",
+    "Namn": "FÖREMÅL PYROTEKNISKA",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 87000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4747-120602",
+    "Fben": "ELDMARKERING 56 KSP",
+    "UNnr": "0431",
+    "Namn": "FÖREMÅL PYROTEKNISKA",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 15000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4747-120701",
+    "Fben": "ELDMARKERING 65 STRV",
+    "UNnr": "0431",
+    "Namn": "FÖREMÅL PYROTEKNISKA",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 35000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4747-125001",
+    "Fben": "ELDMARKPTR 05",
+    "UNnr": "0431",
+    "Namn": "FÖREMÅL PYROTEKNISKA",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 5000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4747-120201",
+    "Fben": "ELDMARKPTR 86",
+    "UNnr": "0430",
+    "Namn": "FÖREMÅL PYROTEKNISKA",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 11000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4701-250001",
+    "Fben": "ELSPTR 4 NR 0",
+    "UNnr": "0030",
+    "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA",
+    "KlassKod": [
+      "1.1B"
+    ],
+    "NEMmg": 2000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4701-410012",
+    "Fben": "ELSPTR 6 NR 0",
+    "UNnr": "0030",
+    "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA",
+    "KlassKod": [
+      "1.1B"
+    ],
+    "NEMmg": 1000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4708-801601",
+    "Fben": "ELTÄNDSATS 4 /S",
+    "UNnr": "0255",
+    "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA",
+    "KlassKod": [
+      "1.4B"
+    ],
+    "NEMmg": 20000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M0754-410000",
+    "Fben": "FORDONSDIESEL MK1",
+    "UNnr": "1202",
+    "Namn": "DIESELOLJA",
+    "KlassKod": [
+      "3"
+    ],
+    "NEMmg": 0,
+    "TpKat": 3,
+    "FrpGrp": "III",
+    "TunnelKod": "D/E",
+    "Miljo": true
+  },
+  {
+    "Fbet": "M4731-230021",
+    "Fben": "FORDONSMINA 13 R",
+    "UNnr": "0137",
+    "Namn": "MINOR",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 5500000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4731-230111",
+    "Fben": "FORDONSMINA 14",
+    "UNnr": "0137",
+    "Namn": "MINOR",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 1500000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M0754-324000",
+    "Fben": "FOTOGEN 24",
+    "UNnr": "1223",
+    "Namn": "FOTOGEN",
+    "KlassKod": [
+      "3"
+    ],
+    "NEMmg": 0,
+    "TpKat": 3,
+    "FrpGrp": "III",
+    "TunnelKod": "D/E",
+    "Miljo": true
+  },
+  {
+    "Fbet": "M4731-220013",
+    "Fben": "FÖRSVARSLADDNING 21",
+    "UNnr": "0137",
+    "Namn": "MINOR",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 700000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4731-220014",
+    "Fben": "FÖRSVARSLADDNING 22",
+    "UNnr": "0137",
+    "Namn": "MINOR",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 900000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "GAS TILL SOLDATKÖK",
+    "UNnr": "2037",
+    "Namn": "ENGÅNGSBEHÅLLARE FÖR GAS",
+    "KlassKod": [
+      "2.1"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "GASOL",
+    "UNnr": "1965",
+    "Namn": "KOLVÄTEGASBLANDNING, KONDENSERAD",
+    "KlassKod": [
+      "2.1"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "B/C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4742-500010",
+    "Fben": "GEVÄRSRÖKGR 1",
+    "UNnr": "0303",
+    "Namn": "RÖKAMMUNITION",
+    "KlassKod": [
+      "1.4G",
+      "8"
+    ],
+    "NEMmg": 321000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4745-100901",
+    "Fben": "IR-LYSPTR",
+    "UNnr": "0254",
+    "Namn": "LYSAMMUNITION",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 0,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M0844-790857",
+    "Fben": "KALCIUMHYPOKLOR 65 %",
+    "UNnr": "2880",
+    "Namn": "KALCIUMHYPOKLORIT, HYDRATISERAD",
+    "KlassKod": [
+      "5.1"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4747-110801",
+    "Fben": "KNALLSKOTT 10",
+    "UNnr": "0431",
+    "Namn": "FÖREMÅL PYROTEKNISKA",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 8000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4747-200601",
+    "Fben": "KREVADPTR 6",
+    "UNnr": "0430",
+    "Namn": "FÖREMÅL PYROTEKNISKA",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 35000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4708-100001",
+    "Fben": "KRUTSTUBIN",
+    "UNnr": "0105",
+    "Namn": "SVARTKRUTSSTUBIN",
+    "KlassKod": [
+      "1.4S"
+    ],
+    "NEMmg": 15000,
+    "TpKat": 4,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4057-709201",
+    "Fben": "KULSGR70 BARL",
+    "UNnr": "0417",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.3C"
+    ],
+    "NEMmg": 1190000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "KVÄVE, KOMPRIMERAD",
+    "UNnr": "1066",
+    "Namn": "KVÄVE, KOMPRIMERAD",
+    "KlassKod": [
+      "2.2"
+    ],
+    "NEMmg": 0,
+    "TpKat": 3,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4733-310002",
+    "Fben": "LARMMINA 2 B",
+    "UNnr": "0254",
+    "Namn": "LYSAMMUNITION",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 21000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "LUFT, TRYCKLUFT",
+    "UNnr": "1002",
+    "Namn": "LUFT, KOMPRIMERAD (tryckluft)",
+    "KlassKod": [
+      "2.2"
+    ],
+    "NEMmg": 0,
+    "TpKat": 3,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4745-100121",
+    "Fben": "LYSPTR 8",
+    "UNnr": "0297",
+    "Namn": "LYSAMMUNITION",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 88000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4745-100401",
+    "Fben": "LYSPTR 9",
+    "UNnr": "0254",
+    "Namn": "LYSAMMUNITION",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 48000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4742-420101",
+    "Fben": "MASS OMNITRAP IR/F",
+    "UNnr": "0435",
+    "Namn": "PROJEKTILER",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 157000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M0754-294000",
+    "Fben": "MOTORBENSIN 95",
+    "UNnr": "1203",
+    "Namn": "BENSIN",
+    "KlassKod": [
+      "3"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "D/E",
+    "Miljo": true
+  },
+  {
+    "Fbet": "M0754-298000",
+    "Fben": "MOTORBENSIN 98",
+    "UNnr": "1203",
+    "Namn": "BENSIN",
+    "KlassKod": [
+      "3"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "D/E",
+    "Miljo": true
+  },
+  {
+    "Fbet": "M4747-300002",
+    "Fben": "NEDSLAGSMARK 2",
+    "UNnr": "0431",
+    "Namn": "FÖREMÅL PYROTEKNISKA",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 18000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4705-411401",
+    "Fben": "NONELTÄNDANORD 100M",
+    "UNnr": "0361",
+    "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA APTERADE",
+    "KlassKod": [
+      "1.4B"
+    ],
+    "NEMmg": 1000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4745-100511",
+    "Fben": "NÄRLYS",
+    "UNnr": "0254",
+    "Namn": "LYSAMMUNITION",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 218000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4791-801210",
+    "Fben": "NÖDSIGNSATS FARTYG",
+    "UNnr": "0195",
+    "Namn": "NÖDSIGNALER",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 390000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4708-200011",
+    "Fben": "PENTYLSTUBIN 47 (m)",
+    "UNnr": "0065",
+    "Namn": "DETONERANDE STUBIN",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 10000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4400-056010",
+    "Fben": "ROBOT 56",
+    "UNnr": "0181",
+    "Namn": "RAKETER",
+    "KlassKod": [
+      "1.1E"
+    ],
+    "NEMmg": 2680000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4400-057010",
+    "Fben": "ROBOT 57",
+    "UNnr": "0182",
+    "Namn": "RAKETER",
+    "KlassKod": [
+      "1.2E"
+    ],
+    "NEMmg": 3600000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4742-200201",
+    "Fben": "RÖKFACKLA 4",
+    "UNnr": "0303",
+    "Namn": "RÖKAMMUNITION",
+    "KlassKod": [
+      "1.4G",
+      "8"
+    ],
+    "NEMmg": 2400000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4742-100301",
+    "Fben": "RÖKHGR 05",
+    "UNnr": "0303",
+    "Namn": "RÖKAMMUNITION",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 193000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4744-300101",
+    "Fben": "RÖKSPÅRPTR 1",
+    "UNnr": "0312",
+    "Namn": "SIGNALPATRONER",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 30000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4744-300214",
+    "Fben": "RÖKSPÅRPTR 2",
+    "UNnr": "0312",
+    "Namn": "SIGNALPATRONER",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 30000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4744-300314",
+    "Fben": "RÖKSPÅRPTR 3",
+    "UNnr": "0054",
+    "Namn": "SIGNALPATRONER",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 51000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4747-400001",
+    "Fben": "RÖKSTAV 52",
+    "UNnr": "0197",
+    "Namn": "RÖKSIGNALER",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 60000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4741-100031",
+    "Fben": "SHGR 56",
+    "UNnr": "0284",
+    "Namn": "GRANATER",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 191000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4741-105401",
+    "Fben": "SHGR 90",
+    "UNnr": "0284",
+    "Namn": "GRANATER",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 95000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4744-100703",
+    "Fben": "SIGNALPTR 4 GRÖN",
+    "UNnr": "0312",
+    "Namn": "SIGNALPATRONER",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 15000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4744-100702",
+    "Fben": "SIGNALPTR 4 RÖD",
+    "UNnr": "0312",
+    "Namn": "SIGNALPATRONER",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 15000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4744-101004",
+    "Fben": "SIGNALPTR 5 KOMB RG",
+    "UNnr": "0312",
+    "Namn": "SIGNALPATRONER",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 30000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4747-131001",
+    "Fben": "SIGNATURLNG 86/95",
+    "UNnr": "0430",
+    "Namn": "FÖREMÅL PYROTEKNISKA",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 60000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4744-100804",
+    "Fben": "SIGNPTR 4 RÖD/GRÖN",
+    "UNnr": "0312",
+    "Namn": "SIGNALPATRONER",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 15000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4313-033005",
+    "Fben": "SJUNKBOMB 33 LDEL",
+    "UNnr": "0137",
+    "Namn": "MINOR",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 105000000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4740-100304",
+    "Fben": "SK PSKOTT 86 SLPSGR 86",
+    "UNnr": "0181",
+    "Namn": "RAKETER",
+    "KlassKod": [
+      "1.1E"
+    ],
+    "NEMmg": 454500,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4740-105040",
+    "Fben": "SK PSKOTT 86 SLÖVNPRJ",
+    "UNnr": "0182",
+    "Namn": "RAKETER",
+    "KlassKod": [
+      "1.2E"
+    ],
+    "NEMmg": 355000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4705-210111",
+    "Fben": "SLAGTÄNDARE 48",
+    "UNnr": "0073",
+    "Namn": "SPRÄNGKAPSLAR FÖR AMMUNITION",
+    "KlassKod": [
+      "1.1B"
+    ],
+    "NEMmg": 1000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M0741-042311",
+    "Fben": "SMÖRJOLJA 042",
+    "UNnr": "1950",
+    "Namn": "AEROSOLER",
+    "KlassKod": [
+      "2.1"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "SPILLOLJA (Brandfarlig)",
+    "UNnr": "1993",
+    "Namn": "BRANDFARLIG VÄTSKA N.O.S",
+    "KlassKod": [
+      "3"
+    ],
+    "NEMmg": 0,
+    "TpKat": 3,
+    "FrpGrp": null,
+    "TunnelKod": "D/E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "SPOLARVÄTSKA färdigblandad",
+    "UNnr": "1170",
+    "Namn": "ETANOLLÖSNING (etylakohollösning)",
+    "KlassKod": [
+      "3"
+    ],
+    "NEMmg": 0,
+    "TpKat": 3,
+    "FrpGrp": "III",
+    "TunnelKod": "D/E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "SPOLARVÄTSKA konc.",
+    "UNnr": "1987",
+    "Namn": "ALKOHOLER n.o.s. (etanol/isopropanol)",
+    "KlassKod": [
+      "3"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "D/E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4721-400101",
+    "Fben": "SPRÄNGDEG 46 PTR",
+    "UNnr": "0150",
+    "Namn": "PENTAERYTRITTETRANITRAT, FUKTAD",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 125000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4701-210205",
+    "Fben": "SPTR 46 D",
+    "UNnr": "0029",
+    "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA",
+    "KlassKod": [
+      "1.1B"
+    ],
+    "NEMmg": 1000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4701-210221",
+    "Fben": "SPTR46 KRUTSTUBINTÄND",
+    "UNnr": "0360",
+    "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA",
+    "KlassKod": [
+      "1.1B"
+    ],
+    "NEMmg": 300,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4730-000301",
+    "Fben": "STRVMINA 5",
+    "UNnr": "0137",
+    "Namn": "MINOR",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 10000000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4730-000401",
+    "Fben": "STRVMINA 6",
+    "UNnr": "0137",
+    "Namn": "MINOR",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 4040000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4708-801501",
+    "Fben": "STUBINTÄNDSATS 2 /S",
+    "UNnr": "0360",
+    "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA",
+    "KlassKod": [
+      "1.1B"
+    ],
+    "NEMmg": 1066000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "SYRE (OXYGEN), KOMPRIMEREAD",
+    "UNnr": "1072",
+    "Namn": "SYRE (OXYGEN), KOMPRIMEREAD",
+    "KlassKod": [
+      "2.2",
+      "5.1"
+    ],
+    "NEMmg": 0,
+    "TpKat": 3,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4708-802301",
+    "Fben": "TA 9 K0/S",
+    "UNnr": "0255",
+    "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA",
+    "KlassKod": [
+      "1.4B"
+    ],
+    "NEMmg": 24000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M0754-735000",
+    "Fben": "T-SPRIT, T-RÖD",
+    "UNnr": "1987",
+    "Namn": "ALKOHOLER n.o.s. (etanol)",
+    "KlassKod": [
+      "3"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "D/E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4746-215031",
+    "Fben": "TÅRGASFACKLA 4",
+    "UNnr": "0301",
+    "Namn": "TÅRGASAMMUNITION",
+    "KlassKod": [
+      "1.4G",
+      "6.1",
+      "8"
+    ],
+    "NEMmg": 15000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4313-003000",
+    "Fben": "UTV 03",
+    "UNnr": "0408",
+    "Namn": "TÄNDRÖR",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 55000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4313-003010",
+    "Fben": "UTV 03 A",
+    "UNnr": "0408",
+    "Namn": "TÄNDRÖR",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 55000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4303-003030",
+    "Fben": "UTV 03 C SIGNAL",
+    "UNnr": "0408",
+    "Namn": "TÄNDRÖR",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 55000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4313-005120",
+    "Fben": "UTV 05B /T",
+    "UNnr": "0408",
+    "Namn": "TÄNDRÖR",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 55600,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4705-415201",
+    "Fben": "ÖVNBRYTTÄNDARE",
+    "UNnr": "0317",
+    "Namn": "ANTÄNDMEDEL",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 50000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4705-410402",
+    "Fben": "ÖVNELSPTR 12B",
+    "UNnr": "0317",
+    "Namn": "ANTÄNDMEDEL",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 1000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4705-515301",
+    "Fben": "ÖVNINGSTÄNDARE 7",
+    "UNnr": "0325",
+    "Namn": "ÖVERFÖRINGSTÄNDARE",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 10000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4705-515602",
+    "Fben": "ÖVNINGSTÄNDARE 90 B",
+    "UNnr": "0368",
+    "Namn": "ANTÄNDMEDEL",
+    "KlassKod": [
+      "1.4S"
+    ],
+    "NEMmg": 10000,
+    "TpKat": 4,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4705-515702",
+    "Fben": "ÖVNINGSTÄNDARE 96 B",
+    "UNnr": "0368",
+    "Namn": "ANTÄNDMEDEL",
+    "KlassKod": [
+      "1.4S"
+    ],
+    "NEMmg": 10000,
+    "TpKat": 4,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  }
+]
