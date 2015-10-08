@@ -1,5 +1,7 @@
 package se.accidis.fmfg.app.model;
 
+import android.text.TextUtils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +24,8 @@ public final class Material {
     private String mFrpGrp; // Förpackningsgrupp
     private String mTunnelkod; // Tunnelkod
     private boolean mMiljo; // Miljöfarligt
+    private String mFullText;
+    private String mSearchText;
 
     public static Material fromJSON(JSONObject json) throws JSONException {
         Material m = new Material();
@@ -44,6 +48,8 @@ public final class Material {
         }
         m.mKlassKod = Collections.unmodifiableList(klassKod);
 
+        m.initFullText();
+        m.initSearchText();
         return m;
     }
 
@@ -89,6 +95,79 @@ public final class Material {
 
     public String getUNnr() {
         return mUNnr;
+    }
+
+    public boolean matches(CharSequence search) {
+        return mSearchText.contains(search);
+    }
+
+    private void initFullText() {
+        StringBuilder builder = new StringBuilder();
+
+        if (!TextUtils.isEmpty(mUNnr)) {
+            builder.append("UN ");
+            builder.append(mUNnr);
+            builder.append(' ');
+        }
+
+        builder.append(mNamn);
+
+        String labels = getLabels();
+        if (!TextUtils.isEmpty(labels)) {
+            builder.append(", ");
+            builder.append(getLabels());
+        }
+
+        if (!TextUtils.isEmpty(mFrpGrp)) {
+            builder.append(", ");
+            builder.append(mFrpGrp);
+        }
+
+        if (!TextUtils.isEmpty(mTunnelkod)) {
+            builder.append(" (");
+            builder.append(mTunnelkod);
+            builder.append(")");
+        }
+
+        mFullText = builder.toString();
+    }
+
+    public void initSearchText() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(mNamn.toLowerCase());
+
+        if (!TextUtils.isEmpty(mFbet)) {
+            builder.append(' ');
+            builder.append(mFbet.toLowerCase());
+        }
+
+        if (!TextUtils.isEmpty(mFben)) {
+            builder.append(' ');
+            builder.append(mFben.toLowerCase());
+        }
+
+        mSearchText = builder.toString();
+    }
+
+    public String getFullText() {
+        return mFullText;
+    }
+
+    private String getLabels() {
+        if (mKlassKod.isEmpty()) {
+            return null;
+        } else if (1 == mKlassKod.size()) {
+            return mKlassKod.get(0);
+        }
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 1; i < mKlassKod.size(); i++) {
+            if (0 != builder.length()) {
+                builder.append(", ");
+            }
+            builder.append(mKlassKod.get(i));
+        }
+        return String.format("%s (%s)", mKlassKod.get(0), builder.toString());
     }
 
     public static class Keys {

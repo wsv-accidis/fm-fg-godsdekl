@@ -1,13 +1,16 @@
 package se.accidis.fmfg.app.ui.materials;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ListFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.List;
@@ -23,6 +26,9 @@ public class MaterialsListFragment extends ListFragment {
     private static final int INTERNAL_LIST_CONTAINER_ID = 0x00ff0003; // from android.support.v4.app.ListFragment
     private final Handler mHandler = new Handler();
     private MaterialsRepository mMaterialsRepository;
+    private EditText mSearchText;
+    private ImageButton mClearSearchButton;
+    private MaterialsListAdapter mListAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,12 @@ public class MaterialsListFragment extends ListFragment {
 
         // Put the custom container inside the root
         root.addView(outerContainer, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        mSearchText = (EditText) outerContainer.findViewById(R.id.materials_search);
+        mSearchText.addTextChangedListener(new SearchChangedListener());
+        mClearSearchButton = (ImageButton) outerContainer.findViewById(R.id.materials_search_clear);
+        mClearSearchButton.setOnClickListener(new ClearSearchClickedListener());
+
         return root;
     }
 
@@ -57,8 +69,36 @@ public class MaterialsListFragment extends ListFragment {
         if (null == mMaterialsRepository) {
             mMaterialsRepository = MaterialsRepository.getInstance(getContext());
         }
+
+        mSearchText.setEnabled(false);
+        mClearSearchButton.setEnabled(false);
+
         mMaterialsRepository.setOnLoadedListener(new MaterialsLoadedListener());
         mMaterialsRepository.beginLoad();
+    }
+
+    private final class SearchChangedListener implements TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (null != mListAdapter) {
+                mListAdapter.getFilter().filter(s.toString().toLowerCase());
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    }
+
+    private final class ClearSearchClickedListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            mSearchText.setText("");
+        }
     }
 
     private final class MaterialsLoadedListener implements MaterialsRepository.OnLoadedListener {
@@ -73,7 +113,11 @@ public class MaterialsListFragment extends ListFragment {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    setListAdapter(new MaterialsListAdapter(getContext(), list));
+                    mSearchText.setEnabled(true);
+                    mClearSearchButton.setEnabled(true);
+
+                    mListAdapter = new MaterialsListAdapter(getContext(), list);
+                    setListAdapter(mListAdapter);
                 }
             });
         }

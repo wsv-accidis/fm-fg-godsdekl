@@ -26,7 +26,6 @@ import se.accidis.fmfg.app.R;
  * Manages the navigation drawer which is part of the main application UI.
  */
 public class NavigationDrawerFragment extends Fragment {
-    private static final String PREF_USER_LEARNED_DRAWER = "navigationDrawerLearned";
     private static final String STATE_SELECTED_POSITION = "selectedNavigationDrawerPosition";
     private NavigationDrawerCallbacks mCallbacks;
     private NavigationItem mCurrentSelectedPosition = NavigationItem.getDefault();
@@ -35,7 +34,6 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
     private View mFragmentContainerView;
     private boolean mFromSavedInstanceState;
-    private boolean mUserLearnedDrawer;
 
     public boolean isDrawerOpen() {
         return (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView));
@@ -56,9 +54,6 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = NavigationItem.fromPosition(savedInstanceState.getInt(STATE_SELECTED_POSITION));
@@ -164,21 +159,10 @@ public class NavigationDrawerFragment extends Fragment {
                     return;
                 }
 
-                if (!mUserLearnedDrawer) {
-                    mUserLearnedDrawer = true;
-                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
-                }
-
                 // Ensures the option menu is invalidated so it gets refreshed
                 getActivity().supportInvalidateOptionsMenu();
             }
         };
-
-        // First app launch always shows the drawer so the user knows it exists
-        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-            mDrawerLayout.openDrawer(mFragmentContainerView);
-        }
 
         mDrawerLayout.post(new Runnable() {
             @Override
