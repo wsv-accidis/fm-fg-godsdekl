@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +25,13 @@ import se.accidis.fmfg.app.services.MaterialsRepository;
  */
 public class MaterialsListFragment extends ListFragment {
     private static final int INTERNAL_LIST_CONTAINER_ID = 0x00ff0003; // from android.support.v4.app.ListFragment
+    private static final String STATE_SEARCH_QUERY = "stateSearchQuery";
     private final Handler mHandler = new Handler();
     private MaterialsRepository mMaterialsRepository;
     private EditText mSearchText;
     private ImageButton mClearSearchButton;
     private MaterialsListAdapter mListAdapter;
+    private String mSearchQuery;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,10 @@ public class MaterialsListFragment extends ListFragment {
         mClearSearchButton = (ImageButton) outerContainer.findViewById(R.id.materials_search_clear);
         mClearSearchButton.setOnClickListener(new ClearSearchClickedListener());
 
+        if (null != savedInstanceState) {
+            mSearchQuery = savedInstanceState.getString(STATE_SEARCH_QUERY);
+        }
+
         return root;
     }
 
@@ -77,6 +84,14 @@ public class MaterialsListFragment extends ListFragment {
         mMaterialsRepository.beginLoad();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (null != mSearchQuery) {
+            outState.putString(STATE_SEARCH_QUERY, mSearchQuery);
+        }
+    }
+
     private final class SearchChangedListener implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -84,8 +99,9 @@ public class MaterialsListFragment extends ListFragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            mSearchQuery = s.toString();
             if (null != mListAdapter) {
-                mListAdapter.getFilter().filter(s.toString().toLowerCase());
+                mListAdapter.getFilter().filter(mSearchQuery.toLowerCase());
             }
         }
 
@@ -118,6 +134,10 @@ public class MaterialsListFragment extends ListFragment {
 
                     mListAdapter = new MaterialsListAdapter(getContext(), list);
                     setListAdapter(mListAdapter);
+
+                    if (!TextUtils.isEmpty(mSearchQuery)) {
+                        mListAdapter.getFilter().filter(mSearchQuery);
+                    }
                 }
             });
         }
