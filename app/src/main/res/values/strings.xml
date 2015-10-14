@@ -4,6 +4,16 @@
 
     <string name="generic_load_error">Ett oväntat fel har uppstått. Vänligen kontakta utvecklaren.</string>
 
+    <string name="material_load">Lasta</string>
+    <string name="material_remove">Ta bort</string>
+
+    <string name="material_fben">Förrådsbenämning</string>
+    <string name="material_klasskod">Klassificeringskoder</string>
+    <string name="material_namn">Transportbenämning</string>
+    <string name="material_no_data">-</string>
+    <string name="material_unnr">UN-nummer</string>
+    <string name="material_un_format">UN %1$s</string>
+
     <string name="materials_list_empty">Inget funnet.</string>
     <string name="materials_nav_title">Materiel</string>
     <string name="materials_search_hint">Sök benämning eller M-nr</string>

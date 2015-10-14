@@ -95,14 +95,12 @@ public final class MaterialsListFragment extends ListFragment {
             return;
         }
 
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
-
         Material material = (Material) mListAdapter.getItem(position);
         MaterialsInfoFragment fragment = MaterialsInfoFragment.createInstance(material);
 
         Activity activity = getActivity();
         if (activity instanceof MainActivity) {
+            hideSoftKeyboard();
             saveInstanceState();
             MainActivity mainActivity = (MainActivity) activity;
             mainActivity.openFragment(fragment);
@@ -139,6 +137,15 @@ public final class MaterialsListFragment extends ListFragment {
         }
         if (null != mSearchQuery) {
             outState.putString(STATE_SEARCH_QUERY, mSearchQuery);
+        }
+    }
+
+    private void hideSoftKeyboard() {
+        Context context = getContext();
+        View view = getView();
+        if (null != context && null != view) {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

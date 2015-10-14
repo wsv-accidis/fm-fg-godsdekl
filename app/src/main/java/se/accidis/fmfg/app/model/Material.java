@@ -34,6 +34,7 @@ public final class Material implements Parcelable {
     private final String mFrpGrp; // Förpackningsgrupp
     private final String mFullText;
     private final List<String> mKlassKod; // Klassificeringskod/etiketter
+    private final String mLabelsText;
     private final boolean mMiljo; // Miljöfarligt
     private final int mNEMmg; // NEM i mg
     private final String mNamn; // Namn
@@ -54,6 +55,7 @@ public final class Material implements Parcelable {
         mTunnelkod = tunnelKod;
         mMiljo = miljo;
 
+        mLabelsText = createLabels();
         mFullText = createFullText();
         mSearchText = createSearchText();
     }
@@ -122,6 +124,10 @@ public final class Material implements Parcelable {
         return mKlassKod;
     }
 
+    public String getKlassKodAsString() {
+        return mLabelsText;
+    }
+
     public boolean getMiljo() {
         return mMiljo;
     }
@@ -182,10 +188,9 @@ public final class Material implements Parcelable {
 
         builder.append(mNamn);
 
-        String labels = getLabels();
-        if (!TextUtils.isEmpty(labels)) {
+        if (!TextUtils.isEmpty(mLabelsText)) {
             builder.append(", ");
-            builder.append(getLabels());
+            builder.append(mLabelsText);
         }
 
         if (!TextUtils.isEmpty(mFrpGrp)) {
@@ -200,6 +205,23 @@ public final class Material implements Parcelable {
         }
 
         return builder.toString();
+    }
+
+    private String createLabels() {
+        if (mKlassKod.isEmpty()) {
+            return null;
+        } else if (1 == mKlassKod.size()) {
+            return mKlassKod.get(0);
+        }
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 1; i < mKlassKod.size(); i++) {
+            if (0 != builder.length()) {
+                builder.append(", ");
+            }
+            builder.append(mKlassKod.get(i));
+        }
+        return String.format("%s (%s)", mKlassKod.get(0), builder.toString());
     }
 
     private String createSearchText() {
@@ -217,23 +239,6 @@ public final class Material implements Parcelable {
         }
 
         return builder.toString();
-    }
-
-    private String getLabels() {
-        if (mKlassKod.isEmpty()) {
-            return null;
-        } else if (1 == mKlassKod.size()) {
-            return mKlassKod.get(0);
-        }
-
-        StringBuilder builder = new StringBuilder();
-        for (int i = 1; i < mKlassKod.size(); i++) {
-            if (0 != builder.length()) {
-                builder.append(", ");
-            }
-            builder.append(mKlassKod.get(i));
-        }
-        return String.format("%s (%s)", mKlassKod.get(0), builder.toString());
     }
 
     private static String getStringOrNull(JSONObject json, String key) throws JSONException {
