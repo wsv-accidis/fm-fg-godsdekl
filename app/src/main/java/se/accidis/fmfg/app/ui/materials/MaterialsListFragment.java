@@ -1,17 +1,22 @@
 package se.accidis.fmfg.app.ui.materials;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -19,23 +24,37 @@ import java.util.List;
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.MaterialsRepository;
+import se.accidis.fmfg.app.ui.MainActivity;
 
 /**
  * Fragment showing the list of materials.
  */
-public class MaterialsListFragment extends ListFragment {
+public final class MaterialsListFragment extends ListFragment {
+    private static final String TAG = MaterialsListFragment.class.getSimpleName();
     private static final int INTERNAL_LIST_CONTAINER_ID = 0x00ff0003; // from android.support.v4.app.ListFragment
-    private static final String STATE_SEARCH_QUERY = "stateSearchQuery";
+    private static final String STATE_SEARCH_QUERY = "materialsSearchQueryState";
+    private static final String STATE_LIST_VIEW = "materialsListViewState";
     private final Handler mHandler = new Handler();
     private MaterialsRepository mMaterialsRepository;
     private EditText mSearchText;
     private ImageButton mClearSearchButton;
     private MaterialsListAdapter mListAdapter;
     private String mSearchQuery;
+    private Parcelable mListState;
+    private boolean mIsLoaded;
+    private List<Material> mMaterialsList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            mListState = savedInstanceState.getParcelable(STATE_LIST_VIEW);
+        }
     }
 
     @Override
@@ -69,6 +88,29 @@ public class MaterialsListFragment extends ListFragment {
     }
 
     @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        if (null == mListAdapter || position < 0 || position >= mListAdapter.getCount()) {
+            return;
+        }
+
+        Material material = (Material) mListAdapter.getItem(position);
+        MaterialsInfoFragment fragment = MaterialsInfoFragment.createInstance(material);
+
+        Activity activity = getActivity();
+        if (activity instanceof MainActivity) {
+            saveInstanceState();
+            MainActivity mainActivity = (MainActivity) activity;
+            mainActivity.openFragment(fragment);
+        } else {
+            Log.e(TAG, "Activity holding fragment is not MainActivity!");
+        }
+    }
+
+    private void saveInstanceState() {
+        mListState = getListView().onSaveInstanceState();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         setEmptyText(getString(R.string.materials_list_empty));
@@ -80,13 +122,18 @@ public class MaterialsListFragment extends ListFragment {
         mSearchText.setEnabled(false);
         mClearSearchButton.setEnabled(false);
 
-        mMaterialsRepository.setOnLoadedListener(new MaterialsLoadedListener());
-        mMaterialsRepository.beginLoad();
+        if (!mIsLoaded) {
+            mMaterialsRepository.setOnLoadedListener(new MaterialsLoadedListener());
+            mMaterialsRepository.beginLoad();
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        if (null != getView()) {
+            outState.putParcelable(STATE_LIST_VIEW, getListView().onSaveInstanceState());
+        }
         if (null != mSearchQuery) {
             outState.putString(STATE_SEARCH_QUERY, mSearchQuery);
         }
@@ -126,20 +173,35 @@ public class MaterialsListFragment extends ListFragment {
 
         @Override
         public void onLoaded(final List<Material> list) {
+            mMaterialsList = list;
+            mIsLoaded = true;
+
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    mSearchText.setEnabled(true);
-                    mClearSearchButton.setEnabled(true);
-
-                    mListAdapter = new MaterialsListAdapter(getContext(), list);
-                    setListAdapter(mListAdapter);
-
-                    if (!TextUtils.isEmpty(mSearchQuery)) {
-                        mListAdapter.getFilter().filter(mSearchQuery);
+                    if (null != getActivity() && isVisible()) {
+                        initializeList();
                     }
                 }
             });
+        }
+    }
+
+    private void initializeList() {
+        mSearchText.setEnabled(true);
+        mClearSearchButton.setEnabled(true);
+
+        mIsLoaded = true;
+        mListAdapter = new MaterialsListAdapter(getContext(), mMaterialsList);
+        setListAdapter(mListAdapter);
+
+        if (null != mListState) {
+            getListView().onRestoreInstanceState(mListState);
+            mListState = null;
+        }
+
+        if (!TextUtils.isEmpty(mSearchQuery)) {
+            mListAdapter.getFilter().filter(mSearchQuery);
         }
     }
 }

@@ -1,5 +1,8 @@
 package se.accidis.fmfg.app.model;
 
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import org.json.JSONArray;
@@ -13,12 +16,22 @@ import java.util.List;
 /**
  * Model object for materials.
  */
-public final class Material {
+public final class Material implements Parcelable {
+    public static final Parcelable.Creator<Material> CREATOR = new Parcelable.Creator<Material>() {
+        public Material createFromParcel(Parcel in) {
+            return Material.fromParcel(in);
+        }
+
+        public Material[] newArray(int size) {
+            return new Material[size];
+        }
+    };
+
     private String mFbet; // Förrådsbeteckning
     private String mFben; // Förrådsbenämning
     private String mUNnr; // UN-nummer
     private String mNamn; // Namn
-    private List<String> mKlassKod; // Klassificeringskod och etiketter
+    private List<String> mKlassKod; // Klassificeringskod/etiketter
     private int mNEMmg; // NEM i mg
     private int mTpKat; // Transportkategori
     private String mFrpGrp; // Förpackningsgrupp
@@ -51,6 +64,20 @@ public final class Material {
         m.initFullText();
         m.initSearchText();
         return m;
+    }
+
+    private static Material fromParcel(Parcel parcel) {
+        Material m = new Material();
+        m.mFbet = parcel.readString();
+        m.mFben = parcel.readString();
+        m.mUNnr = parcel.readString();
+        m.mNamn = parcel.readString();
+        m.mKlassKod = Collections.unmodifiableList(new ArrayList<String>(parcel.readStringArray();))
+        m.mNEMmg = parcel.readInt();
+        m.mTpKat = parcel.readInt();
+        m.mFrpGrp = parcel.readString();
+        m.mTunnelkod = parcel.readString();
+        m.mMiljo = ( 0 != parcel.readInt());
     }
 
     private static String getStringOrNull(JSONObject json, String key) throws JSONException {
@@ -168,6 +195,28 @@ public final class Material {
             builder.append(mKlassKod.get(i));
         }
         return String.format("%s (%s)", mKlassKod.get(0), builder.toString());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        Bundle bundle = new Bundle();
+        // TODO Waaah
+
+        dest.writeString(mFbet);
+        dest.writeString(mFben);
+        dest.writeString(mUNnr);
+        dest.writeString(mNamn);
+        dest.writeStringArray(mKlassKod.toArray(new String[mKlassKod.size()]));
+        dest.writeInt(mNEMmg);
+        dest.writeInt(mTpKat);
+        dest.writeString(mFrpGrp);
+        dest.writeString(mTunnelkod);
+        dest.writeInt(mMiljo ? 1 : 0);
     }
 
     public static class Keys {
