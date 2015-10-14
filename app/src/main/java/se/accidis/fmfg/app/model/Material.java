@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,7 +20,8 @@ import java.util.List;
 public final class Material implements Parcelable {
     public static final Parcelable.Creator<Material> CREATOR = new Parcelable.Creator<Material>() {
         public Material createFromParcel(Parcel in) {
-            return Material.fromParcel(in);
+            Bundle bundle = in.readBundle();
+            return fromBundle(bundle);
         }
 
         public Material[] newArray(int size) {
@@ -27,30 +29,62 @@ public final class Material implements Parcelable {
         }
     };
 
-    private String mFbet; // Förrådsbeteckning
-    private String mFben; // Förrådsbenämning
-    private String mUNnr; // UN-nummer
-    private String mNamn; // Namn
-    private List<String> mKlassKod; // Klassificeringskod/etiketter
-    private int mNEMmg; // NEM i mg
-    private int mTpKat; // Transportkategori
-    private String mFrpGrp; // Förpackningsgrupp
-    private String mTunnelkod; // Tunnelkod
-    private boolean mMiljo; // Miljöfarligt
-    private String mFullText;
-    private String mSearchText;
+    private final String mFben; // Förrådsbenämning
+    private final String mFbet; // Förrådsbeteckning
+    private final String mFrpGrp; // Förpackningsgrupp
+    private final String mFullText;
+    private final List<String> mKlassKod; // Klassificeringskod/etiketter
+    private final boolean mMiljo; // Miljöfarligt
+    private final int mNEMmg; // NEM i mg
+    private final String mNamn; // Namn
+    private final String mSearchText;
+    private final int mTpKat; // Transportkategori
+    private final String mTunnelkod; // Tunnelkod
+    private final String mUNnr; // UN-nummer
+
+    public Material(String fbet, String fben, String unNr, String namn, List<String> klassKod, int NEMmg, int tpKat, String frpGrp, String tunnelKod, boolean miljo) {
+        mFbet = fbet;
+        mFben = fben;
+        mUNnr = unNr;
+        mNamn = namn;
+        mKlassKod = Collections.unmodifiableList(klassKod);
+        mNEMmg = NEMmg;
+        mTpKat = tpKat;
+        mFrpGrp = frpGrp;
+        mTunnelkod = tunnelKod;
+        mMiljo = miljo;
+
+        mFullText = createFullText();
+        mSearchText = createSearchText();
+    }
+
+    public static Material fromBundle(Bundle bundle) {
+        String fbet = bundle.getString(Keys.FBET);
+        String fben = bundle.getString(Keys.FBEN);
+        String unNr = bundle.getString(Keys.UNNR);
+        String namn = bundle.getString(Keys.NAMN);
+        int NEMmg = bundle.getInt(Keys.NEMMG);
+        int tpKat = bundle.getInt(Keys.TPKAT);
+        String frpGrp = bundle.getString(Keys.FRPGRP);
+        String tunnelkod = bundle.getString(Keys.TUNNELKOD);
+        boolean miljo = bundle.getBoolean(Keys.MILJO);
+
+        String[] klassKodArray = bundle.getStringArray(Keys.KLASSKOD);
+        List<String> klassKod = (null != klassKodArray ? Arrays.asList(klassKodArray) : new ArrayList<String>(0));
+
+        return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, tpKat, frpGrp, tunnelkod, miljo);
+    }
 
     public static Material fromJSON(JSONObject json) throws JSONException {
-        Material m = new Material();
-        m.mFbet = getStringOrNull(json, Keys.FBET);
-        m.mFben = getStringOrNull(json, Keys.FBEN);
-        m.mUNnr = getStringOrNull(json, Keys.UNNR);
-        m.mNamn = json.getString(Keys.NAMN);
-        m.mNEMmg = json.optInt(Keys.NEMMG);
-        m.mTpKat = json.getInt(Keys.TPKAT);
-        m.mFrpGrp = getStringOrNull(json, Keys.FRPGRP);
-        m.mTunnelkod = getStringOrNull(json, Keys.TUNNELKOD);
-        m.mMiljo = json.optBoolean(Keys.MILJO);
+        String fbet = getStringOrNull(json, Keys.FBET);
+        String fben = getStringOrNull(json, Keys.FBEN);
+        String unNr = getStringOrNull(json, Keys.UNNR);
+        String namn = json.getString(Keys.NAMN);
+        int NEMmg = json.optInt(Keys.NEMMG);
+        int tpKat = json.getInt(Keys.TPKAT);
+        String frpGrp = getStringOrNull(json, Keys.FRPGRP);
+        String tunnelkod = getStringOrNull(json, Keys.TUNNELKOD);
+        boolean miljo = json.optBoolean(Keys.MILJO);
 
         JSONArray klassKodJson = json.optJSONArray(Keys.KLASSKOD);
         List<String> klassKod = new ArrayList<>((null == klassKodJson) ? 0 : klassKodJson.length());
@@ -59,29 +93,13 @@ public final class Material implements Parcelable {
                 klassKod.add(klassKodJson.getString(i));
             }
         }
-        m.mKlassKod = Collections.unmodifiableList(klassKod);
 
-        m.initFullText();
-        m.initSearchText();
-        return m;
+        return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, tpKat, frpGrp, tunnelkod, miljo);
     }
 
-    private static Material fromParcel(Parcel parcel) {
-        Material m = new Material();
-        m.mFbet = parcel.readString();
-        m.mFben = parcel.readString();
-        m.mUNnr = parcel.readString();
-        m.mNamn = parcel.readString();
-        m.mKlassKod = Collections.unmodifiableList(new ArrayList<String>(parcel.readStringArray();))
-        m.mNEMmg = parcel.readInt();
-        m.mTpKat = parcel.readInt();
-        m.mFrpGrp = parcel.readString();
-        m.mTunnelkod = parcel.readString();
-        m.mMiljo = ( 0 != parcel.readInt());
-    }
-
-    private static String getStringOrNull(JSONObject json, String key) throws JSONException {
-        return (json.isNull(key) ? null : json.getString(key));
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public String getFben() {
@@ -96,6 +114,10 @@ public final class Material implements Parcelable {
         return mFrpGrp;
     }
 
+    public String getFullText() {
+        return mFullText;
+    }
+
     public List<String> getKlassKod() {
         return mKlassKod;
     }
@@ -104,12 +126,12 @@ public final class Material implements Parcelable {
         return mMiljo;
     }
 
-    public String getNamn() {
-        return mNamn;
-    }
-
     public int getNEMmg() {
         return mNEMmg;
+    }
+
+    public String getNamn() {
+        return mNamn;
     }
 
     public int getTpKat() {
@@ -128,7 +150,28 @@ public final class Material implements Parcelable {
         return mSearchText.contains(search);
     }
 
-    private void initFullText() {
+    public Bundle toBundle() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Keys.FBET, mFbet);
+        bundle.putString(Keys.FBEN, mFben);
+        bundle.putString(Keys.UNNR, mUNnr);
+        bundle.putString(Keys.NAMN, mNamn);
+        bundle.putStringArray(Keys.KLASSKOD, mKlassKod.toArray(new String[mKlassKod.size()]));
+        bundle.putInt(Keys.NEMMG, mNEMmg);
+        bundle.putInt(Keys.TPKAT, mTpKat);
+        bundle.putString(Keys.FRPGRP, mFrpGrp);
+        bundle.putString(Keys.TUNNELKOD, mTunnelkod);
+        bundle.putBoolean(Keys.MILJO, mMiljo);
+        return bundle;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        Bundle bundle = toBundle();
+        dest.writeBundle(bundle);
+    }
+
+    private String createFullText() {
         StringBuilder builder = new StringBuilder();
 
         if (!TextUtils.isEmpty(mUNnr)) {
@@ -156,10 +199,10 @@ public final class Material implements Parcelable {
             builder.append(")");
         }
 
-        mFullText = builder.toString();
+        return builder.toString();
     }
 
-    public void initSearchText() {
+    private String createSearchText() {
         StringBuilder builder = new StringBuilder();
         builder.append(mNamn.toLowerCase());
 
@@ -173,11 +216,7 @@ public final class Material implements Parcelable {
             builder.append(mFben.toLowerCase());
         }
 
-        mSearchText = builder.toString();
-    }
-
-    public String getFullText() {
-        return mFullText;
+        return builder.toString();
     }
 
     private String getLabels() {
@@ -197,39 +236,21 @@ public final class Material implements Parcelable {
         return String.format("%s (%s)", mKlassKod.get(0), builder.toString());
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        Bundle bundle = new Bundle();
-        // TODO Waaah
-
-        dest.writeString(mFbet);
-        dest.writeString(mFben);
-        dest.writeString(mUNnr);
-        dest.writeString(mNamn);
-        dest.writeStringArray(mKlassKod.toArray(new String[mKlassKod.size()]));
-        dest.writeInt(mNEMmg);
-        dest.writeInt(mTpKat);
-        dest.writeString(mFrpGrp);
-        dest.writeString(mTunnelkod);
-        dest.writeInt(mMiljo ? 1 : 0);
+    private static String getStringOrNull(JSONObject json, String key) throws JSONException {
+        return (json.isNull(key) ? null : json.getString(key));
     }
 
     public static class Keys {
-        public static final String FBET = "Fbet";
         public static final String FBEN = "Fben";
-        public static final String UNNR = "UNnr";
-        public static final String NAMN = "Namn";
+        public static final String FBET = "Fbet";
+        public static final String FRPGRP = "FrpGrp";
         public static final String KLASSKOD = "KlassKod";
+        public static final String MILJO = "Miljo";
+        public static final String NAMN = "Namn";
         public static final String NEMMG = "NEMmg";
         public static final String TPKAT = "TpKat";
-        public static final String FRPGRP = "FrpGrp";
         public static final String TUNNELKOD = "TunnelKod";
-        public static final String MILJO = "Miljo";
+        public static final String UNNR = "UNnr";
 
         private Keys() {
         }

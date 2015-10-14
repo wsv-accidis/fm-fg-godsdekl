@@ -22,8 +22,8 @@ import se.accidis.fmfg.app.model.Material;
 public final class MaterialsListAdapter extends BaseAdapter implements Filterable {
     private final LayoutInflater mInflater;
     private final List<Material> mList;
-    private List<Material> mFilteredList;
     private Filter mFilter = new MaterialsListFilter();
+    private List<Material> mFilteredList;
 
     public MaterialsListAdapter(Context context, List<Material> list) {
         mList = list;
@@ -34,6 +34,11 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
     @Override
     public int getCount() {
         return mFilteredList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return mFilter;
     }
 
     @Override
@@ -64,11 +69,6 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
         descText.setText(material.getFullText());
 
         return view;
-    }
-
-    @Override
-    public Filter getFilter() {
-        return mFilter;
     }
 
     private final class MaterialsListFilter extends Filter {

@@ -39,6 +39,8 @@ public final class MaterialsRepository {
             if (null != mOnLoadedListener) {
                 mOnLoadedListener.onLoaded(mList);
             }
+
+            return;
         }
 
         LoadTask loadTask = new LoadTask();

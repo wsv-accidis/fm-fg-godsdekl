@@ -1,6 +1,7 @@
 package se.accidis.fmfg.app.ui.materials;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -30,24 +32,19 @@ import se.accidis.fmfg.app.ui.MainActivity;
  * Fragment showing the list of materials.
  */
 public final class MaterialsListFragment extends ListFragment {
-    private static final String TAG = MaterialsListFragment.class.getSimpleName();
     private static final int INTERNAL_LIST_CONTAINER_ID = 0x00ff0003; // from android.support.v4.app.ListFragment
-    private static final String STATE_SEARCH_QUERY = "materialsSearchQueryState";
     private static final String STATE_LIST_VIEW = "materialsListViewState";
+    private static final String STATE_SEARCH_QUERY = "materialsSearchQueryState";
+    private static final String TAG = MaterialsListFragment.class.getSimpleName();
     private final Handler mHandler = new Handler();
-    private MaterialsRepository mMaterialsRepository;
-    private EditText mSearchText;
     private ImageButton mClearSearchButton;
-    private MaterialsListAdapter mListAdapter;
-    private String mSearchQuery;
-    private Parcelable mListState;
     private boolean mIsLoaded;
+    private MaterialsListAdapter mListAdapter;
+    private Parcelable mListState;
     private List<Material> mMaterialsList;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    private MaterialsRepository mMaterialsRepository;
+    private String mSearchQuery;
+    private EditText mSearchText;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -55,6 +52,11 @@ public final class MaterialsListFragment extends ListFragment {
         if (savedInstanceState != null) {
             mListState = savedInstanceState.getParcelable(STATE_LIST_VIEW);
         }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -93,6 +95,9 @@ public final class MaterialsListFragment extends ListFragment {
             return;
         }
 
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+
         Material material = (Material) mListAdapter.getItem(position);
         MaterialsInfoFragment fragment = MaterialsInfoFragment.createInstance(material);
 
@@ -104,10 +109,6 @@ public final class MaterialsListFragment extends ListFragment {
         } else {
             Log.e(TAG, "Activity holding fragment is not MainActivity!");
         }
-    }
-
-    private void saveInstanceState() {
-        mListState = getListView().onSaveInstanceState();
     }
 
     @Override
@@ -125,6 +126,8 @@ public final class MaterialsListFragment extends ListFragment {
         if (!mIsLoaded) {
             mMaterialsRepository.setOnLoadedListener(new MaterialsLoadedListener());
             mMaterialsRepository.beginLoad();
+        } else {
+            initializeList();
         }
     }
 
@@ -139,22 +142,24 @@ public final class MaterialsListFragment extends ListFragment {
         }
     }
 
-    private final class SearchChangedListener implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
+    private void initializeList() {
+        mSearchText.setEnabled(true);
+        mClearSearchButton.setEnabled(true);
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mSearchQuery = s.toString();
-            if (null != mListAdapter) {
-                mListAdapter.getFilter().filter(mSearchQuery.toLowerCase());
-            }
-        }
+        mListAdapter = new MaterialsListAdapter(getContext(), mMaterialsList);
+        setListAdapter(mListAdapter);
 
-        @Override
-        public void afterTextChanged(Editable s) {
+        if (null != mListState) {
+            getListView().onRestoreInstanceState(mListState);
+            mListState = null;
         }
+        if (!TextUtils.isEmpty(mSearchQuery)) {
+            mListAdapter.getFilter().filter(mSearchQuery);
+        }
+    }
+
+    private void saveInstanceState() {
+        mListState = getListView().onSaveInstanceState();
     }
 
     private final class ClearSearchClickedListener implements View.OnClickListener {
@@ -187,21 +192,21 @@ public final class MaterialsListFragment extends ListFragment {
         }
     }
 
-    private void initializeList() {
-        mSearchText.setEnabled(true);
-        mClearSearchButton.setEnabled(true);
-
-        mIsLoaded = true;
-        mListAdapter = new MaterialsListAdapter(getContext(), mMaterialsList);
-        setListAdapter(mListAdapter);
-
-        if (null != mListState) {
-            getListView().onRestoreInstanceState(mListState);
-            mListState = null;
+    private final class SearchChangedListener implements TextWatcher {
+        @Override
+        public void afterTextChanged(Editable s) {
         }
 
-        if (!TextUtils.isEmpty(mSearchQuery)) {
-            mListAdapter.getFilter().filter(mSearchQuery);
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            mSearchQuery = s.toString();
+            if (null != mListAdapter) {
+                mListAdapter.getFilter().filter(mSearchQuery.toLowerCase());
+            }
         }
     }
 }
