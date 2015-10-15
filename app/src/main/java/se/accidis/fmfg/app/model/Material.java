@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -132,6 +133,11 @@ public final class Material implements Parcelable {
         return mMiljo;
     }
 
+    public BigDecimal getNEMkg() {
+        BigDecimal value = new BigDecimal(mNEMmg);
+        return value.divide(new BigDecimal(1000000), 6, BigDecimal.ROUND_FLOOR);
+    }
+
     public int getNEMmg() {
         return mNEMmg;
     }
@@ -201,7 +207,7 @@ public final class Material implements Parcelable {
         if (!TextUtils.isEmpty(mTunnelkod)) {
             builder.append(" (");
             builder.append(mTunnelkod);
-            builder.append(")");
+            builder.append(')');
         }
 
         return builder.toString();

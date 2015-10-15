@@ -117,6 +117,57 @@
                     style="@style/MaterialLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/material_frpgrp_heading"
+                    style="@style/MaterialHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/material_frpgrp"/>
+
+                <TextView
+                    android:id="@+id/material_frpgrp"
+                    style="@style/MaterialLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/material_tunnelkod_heading"
+                    style="@style/MaterialHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/material_tunnelkod"/>
+
+                <TextView
+                    android:id="@+id/material_tunnelkod"
+                    style="@style/MaterialLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    style="@style/MaterialHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/material_tpkat"/>
+
+                <TextView
+                    android:id="@+id/material_tpkat"
+                    style="@style/MaterialLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/material_nem_heading"
+                    style="@style/MaterialHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/material_nem"/>
+
+                <TextView
+                    android:id="@+id/material_nem"
+                    style="@style/MaterialLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

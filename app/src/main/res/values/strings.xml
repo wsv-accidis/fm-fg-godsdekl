@@ -8,9 +8,14 @@
     <string name="material_remove">Ta bort</string>
 
     <string name="material_fben">Förrådsbenämning</string>
-    <string name="material_klasskod">Klassificeringskoder</string>
+    <string name="material_frpgrp">Förpackningsgrupp</string>
+    <string name="material_klasskod">Klassificeringskod</string>
     <string name="material_namn">Transportbenämning</string>
+    <string name="material_nem">Netto expl.mängd</string>
+    <string name="material_nem_format">%1$s kg</string>
     <string name="material_no_data">-</string>
+    <string name="material_tunnelkod">Tunnelrestriktionskod</string>
+    <string name="material_tpkat">Transportkategori</string>
     <string name="material_unnr">UN-nummer</string>
     <string name="material_un_format">UN %1$s</string>
 

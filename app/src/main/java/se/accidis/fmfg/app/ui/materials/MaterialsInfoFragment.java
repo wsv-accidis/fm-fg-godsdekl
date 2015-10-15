@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import se.accidis.fmfg.app.R;
@@ -71,6 +73,43 @@ public final class MaterialsInfoFragment extends Fragment {
             klassKodView.setText(mMaterial.getKlassKodAsString());
         } else {
             klassKodView.setText(R.string.material_no_data);
+        }
+
+        TextView frpGrpHeading = (TextView) view.findViewById(R.id.material_frpgrp_heading);
+        TextView frpGrpView = (TextView) view.findViewById(R.id.material_frpgrp);
+        if (!TextUtils.isEmpty(mMaterial.getFrpGrp())) {
+            frpGrpView.setText(mMaterial.getFrpGrp());
+        } else {
+            frpGrpHeading.setVisibility(View.GONE);
+            frpGrpView.setVisibility(View.GONE);
+        }
+
+        TextView tunnelKodHeading = (TextView) view.findViewById(R.id.material_tunnelkod_heading);
+        TextView tunnelKodView = (TextView) view.findViewById(R.id.material_tunnelkod);
+        if (!TextUtils.isEmpty(mMaterial.getTunnelkod())) {
+            tunnelKodView.setText(mMaterial.getTunnelkod());
+        } else {
+            tunnelKodHeading.setVisibility(View.GONE);
+            tunnelKodView.setVisibility(View.GONE);
+        }
+
+        TextView tpKatView = (TextView) view.findViewById(R.id.material_tpkat);
+        if (0 != mMaterial.getTpKat()) {
+            tpKatView.setText(String.valueOf(mMaterial.getTpKat()));
+        } else {
+            tpKatView.setText(R.string.material_no_data);
+        }
+
+        TextView nemHeading = (TextView) view.findViewById(R.id.material_nem_heading);
+        TextView nemView = (TextView) view.findViewById(R.id.material_nem);
+        if(0 != mMaterial.getNEMmg()) {
+            DecimalFormat format = new DecimalFormat();
+            format.setMaximumFractionDigits(5);
+            format.setMinimumFractionDigits(0);
+            nemView.setText(String.format(getString(R.string.material_nem_format), format.format(mMaterial.getNEMkg())));
+        } else {
+            nemHeading.setVisibility(View.GONE);
+            nemView.setVisibility(View.GONE);
         }
 
         LinearLayout labelsLayout = (LinearLayout) view.findViewById(R.id.material_layout_labels);
