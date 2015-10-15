@@ -1,8 +1,6 @@
 package se.accidis.fmfg.app.model;
 
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.text.TextUtils;
 
 import org.json.JSONArray;
@@ -18,18 +16,7 @@ import java.util.List;
 /**
  * Model object for materials.
  */
-public final class Material implements Parcelable {
-    public static final Parcelable.Creator<Material> CREATOR = new Parcelable.Creator<Material>() {
-        public Material createFromParcel(Parcel in) {
-            Bundle bundle = in.readBundle();
-            return fromBundle(bundle);
-        }
-
-        public Material[] newArray(int size) {
-            return new Material[size];
-        }
-    };
-
+public final class Material {
     private final String mFben; // Förrådsbenämning
     private final String mFbet; // Förrådsbeteckning
     private final String mFrpGrp; // Förpackningsgrupp
@@ -101,8 +88,18 @@ public final class Material implements Parcelable {
     }
 
     @Override
-    public int describeContents() {
-        return 0;
+    public boolean equals(Object o) {
+        if (!(o instanceof Material)) {
+            return false;
+        }
+
+        Material other = (Material) o;
+        return TextUtils.equals(mNamn, other.mNamn) && TextUtils.equals(mFben, other.mFben) && TextUtils.equals(mFbet, other.mFbet);
+    }
+
+    @Override
+    public String toString() {
+        return (TextUtils.isEmpty(mFben) ? mNamn : mFben);
     }
 
     public String getFben() {
@@ -175,12 +172,6 @@ public final class Material implements Parcelable {
         bundle.putString(Keys.TUNNELKOD, mTunnelkod);
         bundle.putBoolean(Keys.MILJO, mMiljo);
         return bundle;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        Bundle bundle = toBundle();
-        dest.writeBundle(bundle);
     }
 
     private String createFullText() {
