@@ -9,8 +9,8 @@ import se.accidis.fmfg.app.model.Material;
 /**
  * Simple helper for finding the labels corresponding to a certain material.
  */
-public final class MaterialLabels {
-    private MaterialLabels() {
+public final class LabelsHelper {
+    private LabelsHelper() {
     }
 
     public static List<Integer> getLabelsByMaterial(Material material) {

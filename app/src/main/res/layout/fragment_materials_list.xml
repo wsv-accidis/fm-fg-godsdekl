@@ -17,7 +17,7 @@
         android:layout_toLeftOf="@id/materials_search_clear"
         android:hint="@string/materials_search_hint"
         android:inputType="textNoSuggestions"
-        android:textColorHint="@android:color/darker_gray" />
+        android:textColorHint="@color/darkgray" />
 
     <FrameLayout
         android:id="@+id/materials_list_container"

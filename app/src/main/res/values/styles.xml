@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="black">#000000</color>
+    <color name="darkgray">#808080</color>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Global app theme -->
@@ -7,27 +9,69 @@
 
     <style name="MaterialHeading">
         <item name="android:layout_marginTop">5dp</item>
-        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textColor">@color/darkgray</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="MaterialLabel">
         <item name="android:layout_marginTop">2dp</item>
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">18sp</item>
     </style>
 
     <style name="MaterialListItemPrimary">
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">20sp</item>
     </style>
 
     <style name="MaterialListItemSecondary">
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textColor">@color/darkgray</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="MaterialLoadDialogHeading">
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_gravity">right|center_vertical</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="MaterialLoadDialogLabel">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="MaterialLoadDialogLabelHeading">
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_gravity">right|center_vertical</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="MaterialLoadDialogSubLabel">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/darkgray</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="MaterialLoadDialogSubLabelHeading">
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_gravity">right|center_vertical</item>
+        <item name="android:textColor">@color/darkgray</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="MaterialLoadDialogUnit">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
     </style>
 </resources>

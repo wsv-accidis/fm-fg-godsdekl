@@ -12,12 +12,22 @@
     <string name="material_klasskod">Klassificeringskod</string>
     <string name="material_namn">Transportbenämning</string>
     <string name="material_nem">Netto expl.mängd</string>
-    <string name="material_nem_format">%1$s kg</string>
     <string name="material_no_data">-</string>
     <string name="material_tunnelkod">Tunnelrestriktionskod</string>
     <string name="material_tpkat">Transportkategori</string>
     <string name="material_unnr">UN-nummer</string>
     <string name="material_un_format">UN %1$s</string>
+
+    <string name="material_load_amount">Mängd:</string>
+    <string name="material_load_cancel">Avbryt</string>
+    <string name="material_load_multiplier">Mult.faktor:</string>
+    <string name="material_load_nem">NEM:</string>
+    <string name="material_load_num_pkgs">Antal kollin:</string>
+    <string name="material_load_save">Spara</string>
+    <string name="material_load_total_value">Totalt dekl. värde:</string>
+    <string name="material_load_type_pkgs">Typ av kollin:</string>
+    <string name="material_load_value">Värde:</string>
+    <string name="material_load_weight_volume">Vikt/volym:</string>
 
     <string name="materials_list_empty">Inget funnet.</string>
     <string name="materials_nav_title">Materiel</string>
@@ -25,4 +35,14 @@
 
     <string name="navigation_drawer_open">Öppna navigation</string>
     <string name="navigation_drawer_close">Stäng navigation</string>
+
+    <string name="unit_amount">styck</string>
+    <string name="unit_kg_format">%1$s kg</string>
+    <string name="unit_liter_format">%1$s liter</string>
+    <string name="unit_points_format">%1$s p</string>
+
+    <string-array name="unit_weight_volume">
+        <item>kg</item>
+        <item>liter</item>
+    </string-array>
 </resources>

@@ -10,12 +10,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.List;
 
 import se.accidis.fmfg.app.R;
@@ -102,11 +101,8 @@ public final class MaterialsInfoFragment extends Fragment {
 
         TextView nemHeading = (TextView) view.findViewById(R.id.material_nem_heading);
         TextView nemView = (TextView) view.findViewById(R.id.material_nem);
-        if(0 != mMaterial.getNEMmg()) {
-            DecimalFormat format = new DecimalFormat();
-            format.setMaximumFractionDigits(5);
-            format.setMinimumFractionDigits(0);
-            nemView.setText(String.format(getString(R.string.material_nem_format), format.format(mMaterial.getNEMkg())));
+        if (0 != mMaterial.getNEMmg()) {
+            nemView.setText(String.format(getString(R.string.unit_kg_format), ValueHelper.formatValue(mMaterial.getNEMkg())));
         } else {
             nemHeading.setVisibility(View.GONE);
             nemView.setVisibility(View.GONE);
@@ -119,6 +115,9 @@ public final class MaterialsInfoFragment extends Fragment {
             labelsLayout.setVisibility(View.GONE);
         }
 
+        Button loadButton = (Button) view.findViewById(R.id.material_button_load);
+        loadButton.setOnClickListener(new LoadButtonClickListener());
+
         return view;
     }
 
@@ -128,7 +127,7 @@ public final class MaterialsInfoFragment extends Fragment {
         int size = resources.getDimensionPixelSize(R.dimen.material_label_size);
         int margin = resources.getDimensionPixelSize(R.dimen.material_label_margin);
 
-        List<Integer> labels = MaterialLabels.getLabelsByMaterial(mMaterial);
+        List<Integer> labels = LabelsHelper.getLabelsByMaterial(mMaterial);
 
         for (Integer label : labels) {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
@@ -140,6 +139,15 @@ public final class MaterialsInfoFragment extends Fragment {
             imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
             layout.addView(imageView);
+        }
+    }
+
+    private final class LoadButtonClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            MaterialsLoadDialogFragment dialog = new MaterialsLoadDialogFragment();
+            dialog.setArguments(mMaterial.toBundle());
+            dialog.show(getFragmentManager(), MaterialsLoadDialogFragment.class.getSimpleName());
         }
     }
 }
