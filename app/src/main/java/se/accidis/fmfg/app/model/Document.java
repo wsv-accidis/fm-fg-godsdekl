@@ -57,6 +57,13 @@ public final class Document {
         return Collections.unmodifiableList(mRows);
     }
 
+    public void removeRowByMaterial(Material material) {
+        DocumentRow row = getRowByMaterial(material);
+        if (null != row) {
+            mRows.remove(row);
+        }
+    }
+
     public JSONObject toJson() throws JSONException {
         JSONArray rowsArray = new JSONArray();
         for (DocumentRow row : mRows) {

@@ -12,21 +12,23 @@ import se.accidis.fmfg.app.ui.materials.ValueHelper;
  */
 public final class DocumentRow {
     private final Material mMaterial;
-    private int mAmount; // Antal enheter för beräkning av NEM
+    private BigDecimal mAmount; // Antal enheter för beräkning av NEM
     private boolean mIsVolume; // Huruvida kvantitet är angiven i liter
     private int mNumberOfPkgs; // Antal kolli
     private String mTypeOfPkgs; // Beskrivning av kolli
     private BigDecimal mWeightVolume; // Kvantitet farligt gods i liter / kg
+    private final BigDecimal mMultiplier;
 
     public DocumentRow(Material material) {
         mMaterial = material;
+        mMultiplier = new BigDecimal(ValueHelper.getMultiplierByTpKat(mMaterial.getTpKat()));
         mWeightVolume = BigDecimal.ZERO;
     }
 
     public static DocumentRow fromJson(JSONObject json) throws JSONException {
         Material material = Material.fromJSON(json);
         DocumentRow row = new DocumentRow(material);
-        row.mAmount = json.getInt(Keys.AMOUNT);
+        row.mAmount = new BigDecimal(json.getString(Keys.AMOUNT));
         row.mIsVolume = json.getBoolean(Keys.IS_VOLUME);
         row.mNumberOfPkgs = json.getInt(Keys.NUMBER_OF_PKGS);
         row.mTypeOfPkgs = json.getString(Keys.TYPE_OF_PKGS);
@@ -42,22 +44,22 @@ public final class DocumentRow {
         other.mWeightVolume = mWeightVolume;
     }
 
-    public int getAmount() {
+    public BigDecimal getAmount() {
         return mAmount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(BigDecimal amount) {
         mAmount = amount;
     }
 
     public BigDecimal getCalculatedValue() {
         BigDecimal value;
         if (0 != mMaterial.getNEMmg()) {
-            value = mMaterial.getNEMkg().multiply(new BigDecimal(mAmount));
+            value = mMaterial.getNEMkg().multiply(mAmount);
         } else {
             value = mWeightVolume;
         }
-        return value.multiply(new BigDecimal(ValueHelper.getMultiplierByTpKat(mMaterial.getTpKat())));
+        return value.multiply(mMultiplier);
     }
 
     public Material getMaterial() {
@@ -98,7 +100,7 @@ public final class DocumentRow {
 
     public JSONObject toJson() throws JSONException {
         JSONObject json = mMaterial.toJson();
-        json.put(Keys.AMOUNT, mAmount);
+        json.put(Keys.AMOUNT, mAmount.toString());
         json.put(Keys.IS_VOLUME, mIsVolume);
         json.put(Keys.NUMBER_OF_PKGS, mNumberOfPkgs);
         json.put(Keys.TYPE_OF_PKGS, mTypeOfPkgs);

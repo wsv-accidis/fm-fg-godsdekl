@@ -4,6 +4,7 @@
 
     <string name="generic_load_error">Ett oväntat fel har uppstått. Vänligen kontakta utvecklaren.</string>
 
+    <string name="material_change">Ändra</string>
     <string name="material_load">Lasta</string>
     <string name="material_remove">Ta bort</string>
 

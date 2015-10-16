@@ -1,6 +1,7 @@
 package se.accidis.fmfg.app.ui.materials;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,13 +19,19 @@ import android.widget.TextView;
 import java.util.List;
 
 import se.accidis.fmfg.app.R;
+import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Material;
+import se.accidis.fmfg.app.services.DocumentsRepository;
 
 /**
  * Fragment showing information about a material.
  */
 public final class MaterialsInfoFragment extends Fragment {
+    private final LoadDialogDismissedListener mLoadDialogDismissedListener = new LoadDialogDismissedListener();
+    private Button mLoadButton;
     private Material mMaterial;
+    private Button mRemoveButton;
+    private DocumentsRepository mRepository;
 
     public static MaterialsInfoFragment createInstance(Material material) {
         Bundle bundle = material.toBundle();
@@ -115,8 +122,12 @@ public final class MaterialsInfoFragment extends Fragment {
             labelsLayout.setVisibility(View.GONE);
         }
 
-        Button loadButton = (Button) view.findViewById(R.id.material_button_load);
-        loadButton.setOnClickListener(new LoadButtonClickListener());
+        mRepository = DocumentsRepository.getInstance(getContext());
+        mLoadButton = (Button) view.findViewById(R.id.material_button_load);
+        mLoadButton.setOnClickListener(new LoadButtonClickListener());
+        mRemoveButton = (Button) view.findViewById(R.id.material_button_remove);
+        mRemoveButton.setOnClickListener(new RemoveButtonClickListener());
+        refreshDocumentState();
 
         return view;
     }
@@ -142,12 +153,39 @@ public final class MaterialsInfoFragment extends Fragment {
         }
     }
 
+    private void refreshDocumentState() {
+        DocumentRow row = mRepository.getCurrentDocument().getRowByMaterial(mMaterial);
+        if (null != row) {
+            mLoadButton.setText(R.string.material_change);
+            mRemoveButton.setVisibility(View.VISIBLE);
+        } else {
+            mLoadButton.setText(R.string.material_load);
+            mRemoveButton.setVisibility(View.GONE);
+        }
+    }
+
     private final class LoadButtonClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             MaterialsLoadDialogFragment dialog = new MaterialsLoadDialogFragment();
             dialog.setArguments(mMaterial.toBundle());
+            dialog.setOnDismissListener(mLoadDialogDismissedListener);
             dialog.show(getFragmentManager(), MaterialsLoadDialogFragment.class.getSimpleName());
+        }
+    }
+
+    private final class LoadDialogDismissedListener implements DialogInterface.OnDismissListener {
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            refreshDocumentState();
+        }
+    }
+
+    private final class RemoveButtonClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            mRepository.getCurrentDocument().removeRowByMaterial(mMaterial);
+            refreshDocumentState();
         }
     }
 }

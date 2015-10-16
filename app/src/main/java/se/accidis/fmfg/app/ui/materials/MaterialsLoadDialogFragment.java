@@ -35,6 +35,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
     private BigDecimal mMultiplier;
     private TextView mNEMView;
     private EditText mNumberPkgsField;
+    private DialogInterface.OnDismissListener mOnDismissListener;
     private DocumentsRepository mRepository;
     private TextView mTotalValueView;
     private EditText mTypePkgsField;
@@ -115,6 +116,18 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
         return builder.create();
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (null != mOnDismissListener) {
+            mOnDismissListener.onDismiss(dialog);
+        }
+    }
+
+    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
+        mOnDismissListener = onDismissListener;
+    }
+
     private void calculate() {
         if (null == mAmount) {
             mAmount = BigDecimal.ZERO;
@@ -165,7 +178,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
             row.setNumberOfPackages(numberPkgs);
             String typePkgs = mTypePkgsField.getText().toString();
             row.setTypeOfPackages(typePkgs);
-            row.setAmount(mAmount.intValue());
+            row.setAmount(mAmount);
             row.setWeightVolume(mWeightVolume);
             row.setIsVolume(mWeightVolumeIsVolume);
 
