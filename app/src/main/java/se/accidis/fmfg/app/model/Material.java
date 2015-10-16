@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import se.accidis.fmfg.app.utils.JSONUtils;
+
 /**
  * Model object for materials.
  */
@@ -66,14 +68,14 @@ public final class Material {
     }
 
     public static Material fromJSON(JSONObject json) throws JSONException {
-        String fbet = getStringOrNull(json, Keys.FBET);
-        String fben = getStringOrNull(json, Keys.FBEN);
-        String unNr = getStringOrNull(json, Keys.UNNR);
+        String fbet = JSONUtils.getStringOrNull(json, Keys.FBET);
+        String fben = JSONUtils.getStringOrNull(json, Keys.FBEN);
+        String unNr = JSONUtils.getStringOrNull(json, Keys.UNNR);
         String namn = json.getString(Keys.NAMN);
         int NEMmg = json.optInt(Keys.NEMMG);
         int tpKat = json.getInt(Keys.TPKAT);
-        String frpGrp = getStringOrNull(json, Keys.FRPGRP);
-        String tunnelkod = getStringOrNull(json, Keys.TUNNELKOD);
+        String frpGrp = JSONUtils.getStringOrNull(json, Keys.FRPGRP);
+        String tunnelkod = JSONUtils.getStringOrNull(json, Keys.TUNNELKOD);
         boolean miljo = json.optBoolean(Keys.MILJO);
 
         JSONArray klassKodJson = json.optJSONArray(Keys.KLASSKOD);
@@ -95,11 +97,6 @@ public final class Material {
 
         Material other = (Material) o;
         return TextUtils.equals(mNamn, other.mNamn) && TextUtils.equals(mFben, other.mFben) && TextUtils.equals(mFbet, other.mFbet);
-    }
-
-    @Override
-    public String toString() {
-        return (TextUtils.isEmpty(mFben) ? mNamn : mFben);
     }
 
     public String getFben() {
@@ -174,6 +171,26 @@ public final class Material {
         return bundle;
     }
 
+    public JSONObject toJson() throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put(Keys.FBET, mFbet);
+        json.put(Keys.FBEN, mFben);
+        json.put(Keys.UNNR, mUNnr);
+        json.put(Keys.NAMN, mNamn);
+        json.put(Keys.KLASSKOD, new JSONArray(mKlassKod));
+        json.put(Keys.NEMMG, mNEMmg);
+        json.put(Keys.TPKAT, mTpKat);
+        json.put(Keys.FRPGRP, mFrpGrp);
+        json.put(Keys.TUNNELKOD, mTunnelkod);
+        json.put(Keys.MILJO, mMiljo);
+        return json;
+    }
+
+    @Override
+    public String toString() {
+        return (TextUtils.isEmpty(mFben) ? mNamn : mFben);
+    }
+
     private String createFullText() {
         StringBuilder builder = new StringBuilder();
 
@@ -236,10 +253,6 @@ public final class Material {
         }
 
         return builder.toString();
-    }
-
-    private static String getStringOrNull(JSONObject json, String key) throws JSONException {
-        return (json.isNull(key) ? null : json.getString(key));
     }
 
     public static class Keys {

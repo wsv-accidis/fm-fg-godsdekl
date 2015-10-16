@@ -7,19 +7,17 @@ import android.util.Log;
 import org.json.JSONArray;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import se.accidis.fmfg.app.model.Material;
+import se.accidis.fmfg.app.utils.IOUtils;
 
 /**
  * Repository for the materials list.
  */
 public final class MaterialsRepository {
     private static final String ADR_JSON_ASSET = "ADR.json";
-    private static final int BUFFER_SIZE = 8192;
     private static final String TAG = MaterialsRepository.class.getSimpleName();
     private final Context mContext;
     private static MaterialsRepository mInstance;
@@ -88,31 +86,7 @@ public final class MaterialsRepository {
         }
 
         private String readAssetsFile() throws IOException {
-            InputStream stream = null;
-            InputStreamReader reader = null;
-            try {
-                stream = mContext.getAssets().open(ADR_JSON_ASSET);
-                reader = new InputStreamReader(stream);
-
-                StringBuilder string = new StringBuilder();
-                char[] buffer = new char[BUFFER_SIZE];
-                int numRead;
-                while (0 <= (numRead = reader.read(buffer))) {
-                    string.append(buffer, 0, numRead);
-                }
-
-                return string.toString();
-            } finally {
-                try {
-                    if (null != reader) {
-                        reader.close();
-                    }
-                    if (null != stream) {
-                        stream.close();
-                    }
-                } catch (IOException ignored) {
-                }
-            }
+            return IOUtils.readToEnd(mContext.getAssets().open(ADR_JSON_ASSET));
         }
     }
 }
