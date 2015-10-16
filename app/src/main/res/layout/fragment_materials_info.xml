@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_load"
             android:text="@string/material_load"/>
 
         <Button
@@ -31,6 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_clear"
             android:text="@string/material_remove"/>
     </LinearLayout>
 

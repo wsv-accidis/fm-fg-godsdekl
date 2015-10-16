@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">FM FG Godsdeklaration</string>
 
+    <string name="document_nav_title">Redigera godsdekl.</string>
+
     <string name="generic_load_error">Ett oväntat fel har uppstått. Vänligen kontakta utvecklaren.</string>
 
     <string name="material_change">Ändra</string>
