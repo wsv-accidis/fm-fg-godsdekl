@@ -3,8 +3,5 @@
       tools:context=".MainActivity">
     <!--
         This menu is displayed when the action drawer is open. Not currently used.
-
-    <item android:id="@+id/action_settings" android:orderInCategory="100"
-        android:title="@string/action_settings" app:showAsAction="never" />
     -->
 </menu>

@@ -1,10 +1,14 @@
 package se.accidis.fmfg.app.model;
 
+import android.content.Context;
+import android.text.TextUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
 
+import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.ui.materials.ValueHelper;
 
 /**
@@ -74,6 +78,16 @@ public final class DocumentRow {
         mNumberOfPkgs = numPackages;
     }
 
+    public String getPackagesText(Context context) {
+        if (0 == mNumberOfPkgs && TextUtils.isEmpty(mTypeOfPkgs)) {
+            return "";
+        } else if (TextUtils.isEmpty(mTypeOfPkgs)) {
+            return String.valueOf(mNumberOfPkgs) + ' ' + context.getString(1 == mNumberOfPkgs ? R.string.document_unspecified_package : R.string.document_unspecified_packages);
+        } else {
+            return String.valueOf(mNumberOfPkgs) + ' ' + mTypeOfPkgs.trim();
+        }
+    }
+
     public String getTypeOfPackages() {
         return mTypeOfPkgs;
     }
@@ -88,6 +102,10 @@ public final class DocumentRow {
 
     public void setWeightVolume(BigDecimal weightVolume) {
         mWeightVolume = (null != weightVolume ? weightVolume : BigDecimal.ZERO);
+    }
+
+    public String getWeightVolumeText(Context context) {
+        return mWeightVolume.toString() + ' ' + context.getString(mIsVolume ? R.string.unit_liter_format : R.string.unit_kg_format);
     }
 
     public boolean isVolume() {

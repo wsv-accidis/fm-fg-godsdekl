@@ -54,7 +54,7 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view;
-        if (convertView == null) {
+        if (null == convertView) {
             view = mInflater.inflate(R.layout.list_item_material, parent, false);
         } else {
             view = convertView;

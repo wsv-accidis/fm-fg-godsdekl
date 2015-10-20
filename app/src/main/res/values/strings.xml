@@ -2,7 +2,13 @@
 <resources>
     <string name="app_name">FM FG Godsdeklaration</string>
 
-    <string name="document_nav_title">Redigera godsdekl.</string>
+    <string name="document_copy">Kopiera</string>
+    <string name="document_delete">Rensa</string>
+    <string name="document_nav_title">Godsdeklaration</string>
+    <string name="document_nem_format">NEM: %1$s kg</string>
+    <string name="document_save">Spara</string>
+    <string name="document_unspecified_package">kolli</string>
+    <string name="document_unspecified_packages">kollin</string>
 
     <string name="generic_load_error">Ett oväntat fel har uppstått. Vänligen kontakta utvecklaren.</string>
 

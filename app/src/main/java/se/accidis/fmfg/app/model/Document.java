@@ -8,15 +8,26 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Model object for transport documents.
  */
 public final class Document {
+    private final UUID mId;
     private final List<DocumentRow> mRows = new ArrayList<DocumentRow>();
 
+    public Document() {
+        this(UUID.randomUUID());
+    }
+
+    private Document(UUID id) {
+        mId = id;
+    }
+
     public static Document fromJson(JSONObject json) throws JSONException {
-        Document document = new Document();
+        UUID id = UUID.fromString(json.getString(Keys.ID));
+        Document document = new Document(id);
 
         JSONArray rowsArray = json.getJSONArray(Keys.ROWS);
         for (int i = 0; i < rowsArray.length(); i++) {
@@ -42,6 +53,10 @@ public final class Document {
             result = result.add(row.getCalculatedValue());
         }
         return result;
+    }
+
+    public UUID getId() {
+        return mId;
     }
 
     public DocumentRow getRowByMaterial(Material material) {
@@ -71,11 +86,13 @@ public final class Document {
         }
 
         JSONObject json = new JSONObject();
+        json.put(Keys.ID, mId.toString());
         json.put(Keys.ROWS, rowsArray);
         return json;
     }
 
     public static class Keys {
+        public static final String ID = "Id";
         public static final String ROWS = "Rows";
 
         private Keys() {
