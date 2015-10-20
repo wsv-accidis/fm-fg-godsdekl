@@ -58,6 +58,12 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // TODO Update navigation drawer
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

@@ -10,12 +10,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import se.accidis.fmfg.app.utils.JSONUtils;
+
 /**
  * Model object for transport documents.
  */
 public final class Document {
     private final UUID mId;
     private final List<DocumentRow> mRows = new ArrayList<DocumentRow>();
+    private String mRecipient;
+    private String mSender;
 
     public Document() {
         this(UUID.randomUUID());
@@ -28,6 +32,8 @@ public final class Document {
     public static Document fromJson(JSONObject json) throws JSONException {
         UUID id = UUID.fromString(json.getString(Keys.ID));
         Document document = new Document(id);
+        document.mRecipient = JSONUtils.getStringOrNull(json, Keys.RECIPIENT);
+        document.mSender = JSONUtils.getStringOrNull(json, Keys.SENDER);
 
         JSONArray rowsArray = json.getJSONArray(Keys.ROWS);
         for (int i = 0; i < rowsArray.length(); i++) {
@@ -59,6 +65,14 @@ public final class Document {
         return mId;
     }
 
+    public String getRecipient() {
+        return mRecipient;
+    }
+
+    public void setRecipient(String recipient) {
+        mRecipient = recipient;
+    }
+
     public DocumentRow getRowByMaterial(Material material) {
         for (DocumentRow row : mRows) {
             if (row.getMaterial().equals(material)) {
@@ -70,6 +84,14 @@ public final class Document {
 
     public List<DocumentRow> getRows() {
         return Collections.unmodifiableList(mRows);
+    }
+
+    public String getSender() {
+        return mSender;
+    }
+
+    public void setSender(String sender) {
+        mSender = sender;
     }
 
     public void removeRowByMaterial(Material material) {
@@ -93,7 +115,9 @@ public final class Document {
 
     public static class Keys {
         public static final String ID = "Id";
+        public static final String RECIPIENT = "Recipient";
         public static final String ROWS = "Rows";
+        public static final String SENDER = "Sender";
 
         private Keys() {
         }

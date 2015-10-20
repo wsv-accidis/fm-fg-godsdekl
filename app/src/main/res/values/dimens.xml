@@ -9,7 +9,8 @@
     <dimen name="dialog_horizontal_margin">10dp</dimen>
     <dimen name="dialog_vertical_margin">5dp</dimen>
 
-    <dimen name="document_row_vertical_margin">9dp</dimen>
+    <dimen name="document_row_vertical_margin">5dp</dimen>
+    <dimen name="document_separator_vertical_margin">10dp</dimen>
 
     <dimen name="material_label_size">90dp</dimen>
     <dimen name="material_label_margin">5dp</dimen>

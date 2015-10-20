@@ -33,7 +33,6 @@ public class NavigationDrawerFragment extends Fragment {
     private ListView mDrawerListView;
     private ActionBarDrawerToggle mDrawerToggle;
     private View mFragmentContainerView;
-    private boolean mFromSavedInstanceState;
 
     public boolean isDrawerOpen() {
         return (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView));
@@ -60,7 +59,6 @@ public class NavigationDrawerFragment extends Fragment {
             if (null == mCurrentSelectedPosition) {
                 mCurrentSelectedPosition = NavigationItem.getDefault();
             }
-            mFromSavedInstanceState = true;
         }
 
         selectItem(mCurrentSelectedPosition);

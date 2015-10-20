@@ -6,7 +6,10 @@
     <string name="document_delete">Rensa</string>
     <string name="document_nav_title">Godsdeklaration</string>
     <string name="document_nem_format">NEM: %1$s kg</string>
+    <string name="document_recipient">Mottagare</string>
     <string name="document_save">Spara</string>
+    <string name="document_sender">Avsändare</string>
+    <string name="document_tap_to_edit">Tryck här för att ange namn och adress.</string>
     <string name="document_unspecified_package">kolli</string>
     <string name="document_unspecified_packages">kollin</string>
 

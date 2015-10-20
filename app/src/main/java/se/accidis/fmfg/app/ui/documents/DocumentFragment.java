@@ -13,6 +13,7 @@ import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.ui.MainActivity;
+import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
  * Fragment for viewing/editing a document.
@@ -67,6 +68,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
         boolean isCurrentDocument = mDocument.getId().equals(mRepository.getCurrentDocument().getId());
         mButtonBar.setVisibility(isCurrentDocument ? View.VISIBLE : View.GONE);
 
+        AndroidUtils.hideSoftKeyboard(getContext(), getView());
         initializeList();
     }
 

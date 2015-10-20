@@ -1,7 +1,6 @@
 package se.accidis.fmfg.app.ui.materials;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -27,6 +25,7 @@ import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.MaterialsRepository;
 import se.accidis.fmfg.app.ui.MainActivity;
+import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
  * Fragment showing the list of materials.
@@ -95,7 +94,7 @@ public final class MaterialsListFragment extends ListFragment {
 
         Activity activity = getActivity();
         if (activity instanceof MainActivity) {
-            hideSoftKeyboard();
+            AndroidUtils.hideSoftKeyboard(getContext(), getView());
             saveInstanceState();
             MainActivity mainActivity = (MainActivity) activity;
             mainActivity.openFragment(fragment);
@@ -132,15 +131,6 @@ public final class MaterialsListFragment extends ListFragment {
         }
         if (null != mSearchQuery) {
             outState.putString(STATE_SEARCH_QUERY, mSearchQuery);
-        }
-    }
-
-    private void hideSoftKeyboard() {
-        Context context = getContext();
-        View view = getView();
-        if (null != context && null != view) {
-            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

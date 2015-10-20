@@ -16,12 +16,12 @@ import se.accidis.fmfg.app.ui.materials.ValueHelper;
  */
 public final class DocumentRow {
     private final Material mMaterial;
+    private final BigDecimal mMultiplier;
     private BigDecimal mAmount; // Antal enheter för beräkning av NEM
     private boolean mIsVolume; // Huruvida kvantitet är angiven i liter
     private int mNumberOfPkgs; // Antal kolli
     private String mTypeOfPkgs; // Beskrivning av kolli
     private BigDecimal mWeightVolume; // Kvantitet farligt gods i liter / kg
-    private final BigDecimal mMultiplier;
 
     public DocumentRow(Material material) {
         mMaterial = material;
@@ -105,7 +105,7 @@ public final class DocumentRow {
     }
 
     public String getWeightVolumeText(Context context) {
-        return mWeightVolume.toString() + ' ' + context.getString(mIsVolume ? R.string.unit_liter_format : R.string.unit_kg_format);
+        return String.format(context.getString(mIsVolume ? R.string.unit_liter_format : R.string.unit_kg_format), mWeightVolume.toString());
     }
 
     public boolean isVolume() {
