@@ -108,7 +108,7 @@ public final class MaterialsInfoFragment extends Fragment {
 
         TextView nemHeading = (TextView) view.findViewById(R.id.material_nem_heading);
         TextView nemView = (TextView) view.findViewById(R.id.material_nem);
-        if (0 != mMaterial.getNEMmg()) {
+        if (mMaterial.hasNEM()) {
             nemView.setText(String.format(getString(R.string.unit_kg_format), ValueHelper.formatValue(mMaterial.getNEMkg())));
         } else {
             nemHeading.setVisibility(View.GONE);

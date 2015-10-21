@@ -152,6 +152,10 @@ public final class Material {
         return mUNnr;
     }
 
+    public boolean hasNEM() {
+        return (0 != mNEMmg);
+    }
+
     public boolean matches(CharSequence search) {
         return mSearchText.contains(search);
     }

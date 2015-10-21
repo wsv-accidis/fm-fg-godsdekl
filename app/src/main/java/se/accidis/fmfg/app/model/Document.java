@@ -1,5 +1,7 @@
 package se.accidis.fmfg.app.model;
 
+import android.content.Context;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +12,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import se.accidis.fmfg.app.R;
+import se.accidis.fmfg.app.ui.materials.ValueHelper;
 import se.accidis.fmfg.app.utils.JSONUtils;
 
 /**
@@ -61,6 +65,16 @@ public final class Document {
         return result;
     }
 
+    public BigDecimal getCalculatedValueByTpKat(int tpKat) {
+        BigDecimal result = BigDecimal.ZERO;
+        for (DocumentRow row : mRows) {
+            if (tpKat == row.getMaterial().getTpKat()) {
+                result = result.add(row.getCalculatedValue());
+            }
+        }
+        return result;
+    }
+
     public UUID getId() {
         return mId;
     }
@@ -92,6 +106,49 @@ public final class Document {
 
     public void setSender(String sender) {
         mSender = sender;
+    }
+
+    public BigDecimal getTotalNEMkg() {
+        BigDecimal totalNEM = BigDecimal.ZERO;
+        for (DocumentRow row : mRows) {
+            if (row.hasNEM()) {
+                totalNEM = totalNEM.add(row.getNEMkg());
+            }
+        }
+        return totalNEM;
+    }
+
+    public String getWeightVolumeStringByTpKat(int tpKat, Context context) {
+        BigDecimal totalWeight = BigDecimal.ZERO, totalVolume = BigDecimal.ZERO;
+        for (DocumentRow row : mRows) {
+            if (tpKat == row.getMaterial().getTpKat()) {
+                if (row.hasNEM()) {
+                    totalWeight = totalWeight.add(row.getNEMkg());
+                } else if (row.isVolume()) {
+                    totalVolume = totalVolume.add(row.getWeightVolume());
+                } else {
+                    totalWeight = totalWeight.add(row.getWeightVolume());
+                }
+            }
+        }
+
+        boolean hasWeight = (0.0 != totalWeight.doubleValue()), hasVolume = (0.0 != totalVolume.doubleValue());
+        if (!hasWeight && !hasVolume) {
+            return "";
+        }
+
+        // String will be of the format "1 kg, 2 liter" or either of the two if the other is zero
+        StringBuilder builder = new StringBuilder();
+        if (hasWeight) {
+            builder.append(String.format(context.getString(R.string.unit_kg_format), ValueHelper.formatValue(totalWeight)));
+            if (hasVolume) {
+                builder.append(", ");
+            }
+        }
+        if (hasVolume) {
+            builder.append(String.format(context.getString(R.string.unit_liter_format), ValueHelper.formatValue(totalVolume)));
+        }
+        return builder.toString();
     }
 
     public void removeRowByMaterial(Material material) {

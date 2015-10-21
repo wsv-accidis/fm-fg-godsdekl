@@ -9,9 +9,14 @@
     <string name="document_recipient">Mottagare</string>
     <string name="document_save">Spara</string>
     <string name="document_sender">Avsändare</string>
+    <string name="document_summary_total_format">Totalt värde %1$s p.</string>
+    <string name="document_summary_total_nem_format">Total NEM: %1$s kg.</string>
+    <string name="document_summary_tpkat_format">Transportkategori %1$d: %2$s, värde %3$s p.</string>
     <string name="document_tap_to_edit">Tryck här för att ange namn och adress.</string>
     <string name="document_unspecified_package">kolli</string>
     <string name="document_unspecified_packages">kollin</string>
+    <string name="document_warning_class1_line1">Varning! Godsdeklarationen innehåller ämnen som inte får samlastas (ämnen märka med etikett 1, 1.4, 1.5 och 1.6 får som regel inte lastas på samma fordon som kollin som innehåller farligt gods från övriga klasser, undantaget etikett 1.4S).</string>
+    <string name="document_warning_class1_line2">Du kan dela upp en godsdeklaration i två med hjälp av funktionen "Dela godsdeklaration" i menyn.</string>
 
     <string name="generic_load_error">Ett oväntat fel har uppstått. Vänligen kontakta utvecklaren.</string>
 

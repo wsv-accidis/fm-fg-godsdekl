@@ -59,7 +59,7 @@ public final class DocumentRow {
     public BigDecimal getCalculatedValue() {
         BigDecimal value;
         if (0 != mMaterial.getNEMmg()) {
-            value = mMaterial.getNEMkg().multiply(mAmount);
+            value = getNEMkg();
         } else {
             value = mWeightVolume;
         }
@@ -68,6 +68,10 @@ public final class DocumentRow {
 
     public Material getMaterial() {
         return mMaterial;
+    }
+
+    public BigDecimal getNEMkg() {
+        return mMaterial.getNEMkg().multiply(mAmount);
     }
 
     public int getNumberOfPackages() {
@@ -106,6 +110,10 @@ public final class DocumentRow {
 
     public String getWeightVolumeText(Context context) {
         return String.format(context.getString(mIsVolume ? R.string.unit_liter_format : R.string.unit_kg_format), mWeightVolume.toString());
+    }
+
+    public boolean hasNEM() {
+        return mMaterial.hasNEM();
     }
 
     public boolean isVolume() {

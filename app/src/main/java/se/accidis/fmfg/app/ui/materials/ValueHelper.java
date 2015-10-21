@@ -9,6 +9,9 @@ import java.text.DecimalFormat;
  * Simple helper class for calculating the value of a shipment.
  */
 public final class ValueHelper {
+    public static final int TPKAT_MIN = 1;
+    public static final int TPKAT_MAX = 3;
+
     private ValueHelper() {
     }
 

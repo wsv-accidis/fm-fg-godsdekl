@@ -16,6 +16,7 @@ import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.ui.materials.ValueHelper;
+import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
  * Adapter for the document list view. The list contains both the document rows and additional information.
@@ -142,6 +143,42 @@ public final class DocumentAdapter extends BaseAdapter {
             view = convertView;
         }
 
+        TextView nemView = (TextView) view.findViewById(R.id.document_summary_nem);
+        BigDecimal documentNEM = mDocument.getTotalNEMkg();
+        if (0.0 != documentNEM.doubleValue()) {
+            nemView.setText(String.format(mContext.getString(R.string.document_summary_total_nem_format), ValueHelper.formatValue(documentNEM)));
+            nemView.setVisibility(View.VISIBLE);
+        } else {
+            nemView.setVisibility(View.GONE);
+        }
+
+        StringBuilder valueBuilder = new StringBuilder();
+        for (int tpKat = ValueHelper.TPKAT_MIN; tpKat <= ValueHelper.TPKAT_MAX; tpKat++) {
+            BigDecimal valueByTpKat = mDocument.getCalculatedValueByTpKat(tpKat);
+            if (0.0 != valueByTpKat.doubleValue()) {
+                if (0 != valueBuilder.length()) {
+                    valueBuilder.append(AndroidUtils.LINE_SEPARATOR);
+                }
+                String weightVolumeByTpKat = mDocument.getWeightVolumeStringByTpKat(tpKat, mContext);
+                valueBuilder.append(String.format(mContext.getString(R.string.document_summary_tpkat_format), tpKat, weightVolumeByTpKat, ValueHelper.formatValue(valueByTpKat)));
+            }
+        }
+
+        TextView totalByTpKatView = (TextView) view.findViewById(R.id.document_summary_tpkat);
+        if (0 != valueBuilder.length()) {
+            totalByTpKatView.setText(valueBuilder.toString());
+            totalByTpKatView.setVisibility(View.VISIBLE);
+        } else {
+            totalByTpKatView.setVisibility(View.GONE);
+        }
+
+        BigDecimal totalValue = mDocument.getCalculatedTotalValue();
+        TextView totalView = (TextView) view.findViewById(R.id.document_summary_total);
+        totalView.setText(String.format(mContext.getString(R.string.document_summary_total_format), ValueHelper.formatValue(totalValue)));
+
+        View warningClass1View = view.findViewById(R.id.document_warning_class1);
+        warningClass1View.setVisibility(View.GONE); // TODO
+
         return view;
     }
 
@@ -168,7 +205,7 @@ public final class DocumentAdapter extends BaseAdapter {
         }
 
         TextView nemText = (TextView) view.findViewById(R.id.document_row_nem);
-        if (0 != row.getMaterial().getNEMmg()) {
+        if (row.hasNEM()) {
             BigDecimal nemValue = row.getAmount().multiply(row.getMaterial().getNEMkg());
             nemText.setText(String.format(mContext.getString(R.string.document_nem_format), ValueHelper.formatValue(nemValue)));
             nemText.setVisibility(View.VISIBLE);

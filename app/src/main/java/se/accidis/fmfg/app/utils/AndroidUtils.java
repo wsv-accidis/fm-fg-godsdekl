@@ -8,6 +8,8 @@ import android.view.inputmethod.InputMethodManager;
  * General system utils.
  */
 public final class AndroidUtils {
+    public static final String LINE_SEPARATOR = "\n";
+
     public static void hideSoftKeyboard(Context context, View view) {
         if (null != context && null != view) {
             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);

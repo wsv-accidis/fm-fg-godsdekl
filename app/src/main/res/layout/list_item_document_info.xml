@@ -7,8 +7,57 @@
               android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
               android:paddingRight="?android:attr/listPreferredItemPaddingRight"
               android:paddingTop="@dimen/document_row_vertical_margin">
+
+
     <TextView
+        android:id="@+id/document_summary_nem"
+        style="@style/DocumentSummaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TODO"/>
+        android:text="@string/document_summary_total_nem_format"/>
+
+    <TextView
+        android:id="@+id/document_summary_tpkat"
+        style="@style/DocumentSummaryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/document_summary_tpkat_format"/>
+
+    <TextView
+        android:id="@+id/document_summary_total"
+        style="@style/DocumentSummaryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/document_summary_total_format"/>
+
+    <RelativeLayout
+        android:id="@+id/document_warning_class1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp">
+
+        <ImageView
+            android:id="@+id/document_warning_class1_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_warning"/>
+
+        <TextView
+            android:id="@+id/document_warning_class1_line1"
+            style="@style/DocumentWarningText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/document_warning_class1_icon"
+            android:text="@string/document_warning_class1_line1"/>
+
+        <TextView
+            style="@style/DocumentNoticeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/document_warning_class1_line1"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/document_warning_class1_icon"
+            android:text="@string/document_warning_class1_line2"/>
+    </RelativeLayout>
 </LinearLayout>

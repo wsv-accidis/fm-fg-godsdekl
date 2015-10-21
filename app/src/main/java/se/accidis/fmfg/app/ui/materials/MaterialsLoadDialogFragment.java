@@ -78,7 +78,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
         mValueView = (TextView) view.findViewById(R.id.material_load_value);
         mTotalValueView = (TextView) view.findViewById(R.id.material_load_total_value);
 
-        if (!shouldUseNEM()) {
+        if (!mMaterial.hasNEM()) {
             TextView amountHeading = (TextView) view.findViewById(R.id.material_load_amount_heading);
             LinearLayout amountLayout = (LinearLayout) view.findViewById(R.id.material_load_amount_layout);
             TextView nemHeading = (TextView) view.findViewById(R.id.material_load_nem_heading);
@@ -137,7 +137,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
         }
 
         BigDecimal value;
-        if (shouldUseNEM()) {
+        if (mMaterial.hasNEM()) {
             value = mMaterial.getNEMkg().multiply(mAmount);
             mNEMView.setText(String.format(getString(R.string.unit_kg_format), ValueHelper.formatValue(value)));
         } else {
@@ -147,10 +147,6 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
         value = value.multiply(mMultiplier);
         mValueView.setText(String.format(getString(R.string.unit_points_format), ValueHelper.formatValue(value)));
         mTotalValueView.setText(String.format(getString(R.string.unit_points_format), ValueHelper.formatValue(value.add(mDocumentTotalValue))));
-    }
-
-    private boolean shouldUseNEM() {
-        return (0 != mMaterial.getNEMmg());
     }
 
     private final class AmountChangedListener implements TextWatcher {
