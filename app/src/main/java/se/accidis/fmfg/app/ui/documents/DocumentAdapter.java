@@ -22,6 +22,8 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
  * Adapter for the document list view. The list contains both the document rows and additional information.
  */
 public final class DocumentAdapter extends BaseAdapter {
+    public static final int RECIPIENT_POSITION = 1;
+    public static final int SENDER_POSITION = 0;
     private static final int ROW_BOTTOM_OFFSET = 2;
     private static final int ROW_TOP_OFFSET = 3;
     private static final int VIEW_TYPE_ADDRESS = 1;
@@ -32,12 +34,14 @@ public final class DocumentAdapter extends BaseAdapter {
     private final Document mDocument;
     private final LayoutInflater mInflater;
     private final List<DocumentRow> mRows;
+    private boolean mIsCurrentDocument;
 
-    public DocumentAdapter(Context context, Document document) {
+    public DocumentAdapter(Context context, Document document, boolean isCurrentDocument) {
         mContext = context;
         mDocument = document;
         mRows = document.getRows();
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mIsCurrentDocument = isCurrentDocument;
     }
 
     @Override
@@ -104,8 +108,12 @@ public final class DocumentAdapter extends BaseAdapter {
 
     @Override
     public boolean isEnabled(int position) {
-        int type = getItemViewType(position);
-        return (VIEW_TYPE_INFO != type && VIEW_TYPE_SEPARATOR != type);
+        if (!mIsCurrentDocument) {
+            return false;
+        } else {
+            int type = getItemViewType(position);
+            return (VIEW_TYPE_INFO != type && VIEW_TYPE_SEPARATOR != type);
+        }
     }
 
     private View getAddressView(int position, View convertView, ViewGroup parent) {
@@ -116,7 +124,7 @@ public final class DocumentAdapter extends BaseAdapter {
             view = convertView;
         }
 
-        boolean isSender = (0 == position);
+        boolean isSender = (SENDER_POSITION == position);
 
         TextView headingText = (TextView) view.findViewById(R.id.document_address_heading);
         headingText.setText(isSender ? R.string.document_sender : R.string.document_recipient);
@@ -125,8 +133,13 @@ public final class DocumentAdapter extends BaseAdapter {
         String text = (isSender ? mDocument.getSender() : mDocument.getRecipient());
 
         if (TextUtils.isEmpty(text)) {
-            addressText.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, R.drawable.ic_create), null, null, null);
-            addressText.setText(R.string.document_tap_to_edit);
+            if(mIsCurrentDocument) {
+                addressText.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, R.drawable.ic_create), null, null, null);
+                addressText.setText(R.string.document_tap_to_edit);
+            } else {
+                addressText.setCompoundDrawables(null, null, null, null);
+                addressText.setText(R.string.document_no_data);
+            }
         } else {
             addressText.setCompoundDrawables(null, null, null, null);
             addressText.setText(text);

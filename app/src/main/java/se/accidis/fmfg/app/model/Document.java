@@ -166,6 +166,8 @@ public final class Document {
 
         JSONObject json = new JSONObject();
         json.put(Keys.ID, mId.toString());
+        json.put(Keys.SENDER, mSender);
+        json.put(Keys.RECIPIENT, mRecipient);
         json.put(Keys.ROWS, rowsArray);
         return json;
     }

@@ -2,10 +2,14 @@
 <resources>
     <string name="app_name">FM FG Godsdeklaration</string>
 
+    <string name="address_recipient_heading">Skriv mottagarens namn och adress:</string>
+    <string name="address_sender_heading">Skriv avsändarens namn och adress:</string>
+
     <string name="document_copy">Kopiera</string>
     <string name="document_delete">Rensa</string>
     <string name="document_nav_title">Godsdeklaration</string>
     <string name="document_nem_format">NEM: %1$s kg</string>
+    <string name="document_no_data">Uppgift saknas.</string>
     <string name="document_recipient">Mottagare</string>
     <string name="document_save">Spara</string>
     <string name="document_sender">Avsändare</string>
@@ -18,7 +22,9 @@
     <string name="document_warning_class1_line1">Varning! Godsdeklarationen innehåller ämnen som inte får samlastas (ämnen märka med etikett 1, 1.4, 1.5 och 1.6 får som regel inte lastas på samma fordon som kollin som innehåller farligt gods från övriga klasser, undantaget etikett 1.4S).</string>
     <string name="document_warning_class1_line2">Du kan dela upp en godsdeklaration i två med hjälp av funktionen "Dela godsdeklaration" i menyn.</string>
 
+    <string name="generic_cancel">Avbryt</string>
     <string name="generic_load_error">Ett oväntat fel har uppstått. Vänligen kontakta utvecklaren.</string>
+    <string name="generic_save">Spara</string>
 
     <string name="material_change">Ändra</string>
     <string name="material_load">Lasta</string>
@@ -36,11 +42,9 @@
     <string name="material_un_format">UN %1$s</string>
 
     <string name="material_load_amount">Mängd:</string>
-    <string name="material_load_cancel">Avbryt</string>
     <string name="material_load_multiplier">Mult.faktor:</string>
     <string name="material_load_nem">NEM:</string>
     <string name="material_load_num_pkgs">Antal kollin:</string>
-    <string name="material_load_save">Spara</string>
     <string name="material_load_total_value">Totalt dekl. värde:</string>
     <string name="material_load_type_pkgs">Typ av kollin:</string>
     <string name="material_load_value">Värde:</string>

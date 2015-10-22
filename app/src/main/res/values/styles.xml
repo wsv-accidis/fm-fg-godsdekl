@@ -8,6 +8,11 @@
         <!-- Global app theme -->
     </style>
 
+    <style name="AddressHeading">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="DocumentAddressHeading">
         <item name="android:textColor">@color/darkgray</item>
         <item name="android:textSize">14sp</item>

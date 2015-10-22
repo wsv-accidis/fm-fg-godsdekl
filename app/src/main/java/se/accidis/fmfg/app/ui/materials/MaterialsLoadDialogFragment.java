@@ -110,8 +110,8 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view)
-                .setPositiveButton(R.string.material_load_save, new SaveClickedListener())
-                .setNegativeButton(R.string.material_load_cancel, null);
+                .setPositiveButton(R.string.generic_save, new SaveClickedListener())
+                .setNegativeButton(R.string.generic_cancel, null);
 
         return builder.create();
     }

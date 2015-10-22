@@ -34,6 +34,7 @@ public final class MaterialsRepository {
 
     public void beginLoad() {
         if (null != mList) {
+            Log.d(TAG, "Assets already loaded, nothing to do.");
             if (null != mOnLoadedListener) {
                 mOnLoadedListener.onLoaded(mList);
             }
@@ -41,6 +42,7 @@ public final class MaterialsRepository {
             return;
         }
 
+        Log.d(TAG, "Loading assets.");
         LoadTask loadTask = new LoadTask();
         loadTask.execute();
     }

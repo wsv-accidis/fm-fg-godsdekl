@@ -176,7 +176,7 @@ public final class MaterialsListFragment extends ListFragment {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (null != getActivity() && isVisible()) {
+                    if (null != getActivity()) {
                         initializeList();
                     }
                 }
