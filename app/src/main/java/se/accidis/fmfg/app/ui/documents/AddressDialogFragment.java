@@ -15,18 +15,13 @@ import android.widget.TextView;
 import se.accidis.fmfg.app.R;
 
 /**
- * Fragment for entering/editing an address.
+ * Dialog fragment for entering/editing an address.
  */
 public final class AddressDialogFragment extends DialogFragment {
-    public static final String ARG_IS_SENDER = "isSender";
     public static final String ARG_CURRENT_ADDRESS = "address";
-    private OnDismissListener mOnDismissListener;
+    public static final String ARG_IS_SENDER = "isSender";
     private EditText mAddressText;
-    private boolean mIsSaving;
-
-    public interface OnDismissListener {
-        void onDismiss(DialogInterface dialog, String address);
-    }
+    private AddressDialogListener mListener;
 
     @NonNull
     @Override
@@ -54,23 +49,21 @@ public final class AddressDialogFragment extends DialogFragment {
         return dialog;
     }
 
-    public void setOnDismissListener(OnDismissListener onDismissListener) {
-        mOnDismissListener = onDismissListener;
+    public void setDialogListener(AddressDialogListener listener) {
+        mListener = listener;
     }
 
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        if (null != mOnDismissListener) {
-            String address = (mIsSaving ? mAddressText.getText().toString() : null);
-            mOnDismissListener.onDismiss(dialog, address);
-        }
+    public interface AddressDialogListener {
+        void onDismiss(String address);
     }
 
     private final class SaveClickedListener implements DialogInterface.OnClickListener {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            mIsSaving = true;
+            String address = mAddressText.getText().toString();
+            if (null != mListener) {
+                mListener.onDismiss(address);
+            }
         }
     }
 }

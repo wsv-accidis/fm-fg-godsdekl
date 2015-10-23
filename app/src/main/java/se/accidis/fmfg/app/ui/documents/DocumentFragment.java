@@ -1,6 +1,5 @@
 package se.accidis.fmfg.app.ui.documents;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -9,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import se.accidis.fmfg.app.R;
@@ -48,6 +48,9 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
         mButtonBar = view.findViewById(R.id.document_button_bar);
 
+        Button clearButton = (Button) view.findViewById(R.id.document_button_clear);
+        clearButton.setOnClickListener(new ClearDialogListener());
+
         return view;
     }
 
@@ -65,7 +68,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
             AddressDialogFragment dialog = new AddressDialogFragment();
             dialog.setArguments(args);
-            dialog.setOnDismissListener(new AddressDialogDismissListener(isSender));
+            dialog.setDialogListener(new AddressDialogListener(isSender));
             dialog.show(getFragmentManager(), AddressDialogFragment.class.getSimpleName());
         }
     }
@@ -118,23 +121,40 @@ public final class DocumentFragment extends ListFragment implements MainActivity
         mListState = getListView().onSaveInstanceState();
     }
 
-    private final class AddressDialogDismissListener implements AddressDialogFragment.OnDismissListener {
+    private final class AddressDialogListener implements AddressDialogFragment.AddressDialogListener {
         private final boolean mIsSender;
 
-        public AddressDialogDismissListener(boolean isSender) {
+        public AddressDialogListener(boolean isSender) {
             mIsSender = isSender;
         }
 
         @Override
-        public void onDismiss(DialogInterface dialog, String address) {
-            if (null == address) {
-                return;
-            }
-
+        public void onDismiss(String address) {
             if (mIsSender) {
                 mDocument.setSender(address);
             } else {
                 mDocument.setRecipient(address);
+            }
+
+            mRepository.commit();
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private final class ClearDialogListener implements View.OnClickListener, ClearDialogFragment.ClearDialogListener {
+        @Override
+        public void onClick(View v) {
+            ClearDialogFragment dialog = new ClearDialogFragment();
+            dialog.setDialogListener(this);
+            dialog.show(getFragmentManager(), ClearDialogFragment.class.getSimpleName());
+        }
+
+        @Override
+        public void onDismiss(boolean keepAddresses) {
+            mDocument.removeAllRows();
+            if (!keepAddresses) {
+                mDocument.setSender("");
+                mDocument.setRecipient("");
             }
 
             mRepository.commit();

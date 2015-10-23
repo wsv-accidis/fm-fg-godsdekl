@@ -151,6 +151,10 @@ public final class Document {
         return builder.toString();
     }
 
+    public void removeAllRows() {
+        mRows.clear();
+    }
+
     public void removeRowByMaterial(Material material) {
         DocumentRow row = getRowByMaterial(material);
         if (null != row) {

@@ -16,7 +16,7 @@
         android:paddingTop="@dimen/button_bar_vertical_margin">
 
         <Button
-            android:id="@+id/material_button_save"
+            android:id="@+id/document_button_save"
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -26,14 +26,14 @@
             android:text="@string/document_save"/>
 
         <Button
-            android:id="@+id/material_button_delete"
+            android:id="@+id/document_button_clear"
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:drawableLeft="@drawable/ic_clear"
-            android:text="@string/document_delete"/>
+            android:text="@string/document_clear"/>
     </LinearLayout>
 
     <ListView
