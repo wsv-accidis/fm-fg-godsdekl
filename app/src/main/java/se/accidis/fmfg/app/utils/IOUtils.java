@@ -10,6 +10,9 @@ import java.io.InputStreamReader;
 public final class IOUtils {
     private static final int BUFFER_SIZE = 8192;
 
+    private IOUtils() {
+    }
+
     public static String readToEnd(InputStream inputStream) throws IOException {
         InputStreamReader reader = null;
         try {
@@ -34,8 +37,5 @@ public final class IOUtils {
             } catch (IOException ignored) {
             }
         }
-    }
-
-    private IOUtils() {
     }
 }

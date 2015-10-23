@@ -7,10 +7,10 @@ import org.json.JSONObject;
  * Utility methods for working with JSON.
  */
 public final class JSONUtils {
-    public static String getStringOrNull(JSONObject json, String key) throws JSONException {
-        return (json.isNull(key) ? null : json.getString(key));
+    private JSONUtils() {
     }
 
-    private JSONUtils() {
+    public static String getStringOrNull(JSONObject json, String key) throws JSONException {
+        return (json.isNull(key) ? null : json.getString(key));
     }
 }
