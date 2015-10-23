@@ -15,6 +15,7 @@ import java.util.List;
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentRow;
+import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.ui.materials.ValueHelper;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
@@ -166,7 +167,7 @@ public final class DocumentAdapter extends BaseAdapter {
         }
 
         StringBuilder valueBuilder = new StringBuilder();
-        for (int tpKat = ValueHelper.TPKAT_MIN; tpKat <= ValueHelper.TPKAT_MAX; tpKat++) {
+        for (int tpKat = Material.TPKAT_MIN; tpKat <= Material.TPKAT_MAX; tpKat++) {
             BigDecimal valueByTpKat = mDocument.getCalculatedValueByTpKat(tpKat);
             if (0.0 != valueByTpKat.doubleValue()) {
                 if (0 != valueBuilder.length()) {

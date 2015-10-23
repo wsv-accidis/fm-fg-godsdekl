@@ -19,6 +19,9 @@ import se.accidis.fmfg.app.utils.JSONUtils;
  * Model object for materials.
  */
 public final class Material {
+    public static final int TPKAT_MAX = 3;
+    public static final int TPKAT_MIN = 1;
+
     private final String mFben; // Förrådsbenämning
     private final String mFbet; // Förrådsbeteckning
     private final String mFrpGrp; // Förpackningsgrupp
