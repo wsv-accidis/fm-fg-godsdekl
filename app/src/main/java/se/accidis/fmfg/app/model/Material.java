@@ -159,6 +159,14 @@ public final class Material {
         return (0 != mNEMmg);
     }
 
+    @Override
+    public int hashCode() {
+        int result = mNamn.hashCode();
+        result = 31 * result + (mFbet != null ? mFbet.hashCode() : 0);
+        result = 31 * result + (mFben != null ? mFben.hashCode() : 0);
+        return result;
+    }
+
     public boolean matches(CharSequence search) {
         return mSearchText.contains(search);
     }

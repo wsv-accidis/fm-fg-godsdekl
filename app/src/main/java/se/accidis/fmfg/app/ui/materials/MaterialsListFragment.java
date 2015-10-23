@@ -20,9 +20,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Set;
 
 import se.accidis.fmfg.app.R;
+import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.Material;
+import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.MaterialsRepository;
 import se.accidis.fmfg.app.ui.MainActivity;
 import se.accidis.fmfg.app.ui.NavigationItem;
@@ -140,7 +143,10 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
         mSearchText.setEnabled(true);
         mClearSearchButton.setEnabled(true);
 
-        mListAdapter = new MaterialsListAdapter(getContext(), mMaterialsList);
+        Document currentDocument = DocumentsRepository.getInstance(getContext()).getCurrentDocument();
+        Set<Material> loadedMaterials = currentDocument.getMaterialsSet();
+
+        mListAdapter = new MaterialsListAdapter(getContext(), mMaterialsList, loadedMaterials);
         setListAdapter(mListAdapter);
 
         if (null != mListState) {

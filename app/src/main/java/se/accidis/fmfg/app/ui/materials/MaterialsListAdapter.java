@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Material;
@@ -24,11 +25,13 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
     private final List<Material> mList;
     private Filter mFilter = new MaterialsListFilter();
     private List<Material> mFilteredList;
+    private Set<Material> mLoadedMaterials;
 
-    public MaterialsListAdapter(Context context, List<Material> list) {
+    public MaterialsListAdapter(Context context, List<Material> list, Set<Material> loadedMaterials) {
         mList = list;
         mFilteredList = list;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mLoadedMaterials = loadedMaterials;
     }
 
     @Override
@@ -64,6 +67,12 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 
         TextView titleText = (TextView) view.findViewById(R.id.material_title);
         titleText.setText(material.getFben());
+
+        if (mLoadedMaterials.contains(material)) {
+            titleText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_circle_small, 0, 0, 0);
+        } else {
+            titleText.setCompoundDrawables(null, null, null, null);
+        }
 
         TextView descText = (TextView) view.findViewById(R.id.material_description);
         descText.setText(material.getFullText());

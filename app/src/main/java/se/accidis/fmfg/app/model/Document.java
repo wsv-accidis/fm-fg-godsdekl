@@ -10,7 +10,9 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import se.accidis.fmfg.app.R;
@@ -82,6 +84,14 @@ public final class Document {
 
     public UUID getId() {
         return mId;
+    }
+
+    public Set<Material> getMaterialsSet() {
+        Set<Material> materials = new HashSet<>();
+        for (DocumentRow row : mRows) {
+            materials.add(row.getMaterial());
+        }
+        return materials;
     }
 
     public String getName() {
