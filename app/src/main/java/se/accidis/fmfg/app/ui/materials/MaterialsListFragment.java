@@ -25,12 +25,13 @@ import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.MaterialsRepository;
 import se.accidis.fmfg.app.ui.MainActivity;
+import se.accidis.fmfg.app.ui.NavigationItem;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
  * Fragment showing the list of materials.
  */
-public final class MaterialsListFragment extends ListFragment {
+public final class MaterialsListFragment extends ListFragment implements MainActivity.HasNavigationItem {
     private static final int INTERNAL_LIST_CONTAINER_ID = 0x00ff0003; // from android.support.v4.app.ListFragment
     private static final String STATE_LIST_VIEW = "materialsListViewState";
     private static final String STATE_SEARCH_QUERY = "materialsSearchQueryState";
@@ -44,6 +45,11 @@ public final class MaterialsListFragment extends ListFragment {
     private MaterialsRepository mMaterialsRepository;
     private String mSearchQuery;
     private EditText mSearchText;
+
+    @Override
+    public NavigationItem getItem() {
+        return NavigationItem.MATERIALS_ITEM;
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

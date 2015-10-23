@@ -1,9 +1,7 @@
 package se.accidis.fmfg.app.ui;
 
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -122,6 +120,13 @@ public class NavigationDrawerFragment extends Fragment {
         mCallbacks = callbacks;
     }
 
+    public void setSelectedItem(NavigationItem item) {
+        mCurrentSelectedPosition = item;
+        if (mDrawerListView != null) {
+            mDrawerListView.setItemChecked(item.getPosition(), true);
+        }
+    }
+
     /**
      * Users of this fragment must call this method to set up the navigation drawer interactions.
      *
@@ -176,10 +181,8 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void selectItem(NavigationItem item) {
-        mCurrentSelectedPosition = item;
-        if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(item.getPosition(), true);
-        }
+        setSelectedItem(item);
+
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }

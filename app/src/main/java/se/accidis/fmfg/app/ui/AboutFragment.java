@@ -17,9 +17,14 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
 /**
  * Fragment which displays some information about the app.
  */
-public final class AboutFragment extends Fragment implements MainActivity.HasTitle {
+public final class AboutFragment extends Fragment implements MainActivity.HasTitle, MainActivity.HasNavigationItem {
     private static final String EMAIL = "wilhelm.svenselius@gmail.com";
     private static final String TAG = AboutFragment.class.getSimpleName();
+
+    @Override
+    public NavigationItem getItem() {
+        return NavigationItem.ABOUT_ITEM;
+    }
 
     @Override
     public int getTitle() {

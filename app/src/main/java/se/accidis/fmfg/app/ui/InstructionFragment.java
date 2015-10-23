@@ -13,8 +13,13 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
 /**
  * Fragment which displays instructions for ADR.
  */
-public final class InstructionFragment extends Fragment implements MainActivity.HasTitle {
+public final class InstructionFragment extends Fragment implements MainActivity.HasTitle, MainActivity.HasNavigationItem {
     private WebView mWebView;
+
+    @Override
+    public NavigationItem getItem() {
+        return NavigationItem.INSTRUCTIONS_ITEM;
+    }
 
     @Override
     public int getTitle() {

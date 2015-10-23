@@ -15,18 +15,24 @@ import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.ui.MainActivity;
+import se.accidis.fmfg.app.ui.NavigationItem;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
  * Fragment for viewing/editing a document.
  */
-public final class DocumentFragment extends ListFragment implements MainActivity.HasMenu {
+public final class DocumentFragment extends ListFragment implements MainActivity.HasMenu, MainActivity.HasNavigationItem {
     private static final String STATE_LIST_VIEW = "documentListViewState";
     private DocumentAdapter mAdapter;
     private View mButtonBar;
     private Document mDocument;
     private Parcelable mListState;
     private DocumentsRepository mRepository;
+
+    @Override
+    public NavigationItem getItem() {
+        return NavigationItem.CURRENT_DOCUMENT_ITEM;
+    }
 
     @Override
     public int getMenu() {

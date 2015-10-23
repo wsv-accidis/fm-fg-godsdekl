@@ -22,11 +22,13 @@ import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
+import se.accidis.fmfg.app.ui.MainActivity;
+import se.accidis.fmfg.app.ui.NavigationItem;
 
 /**
  * Fragment showing information about a material.
  */
-public final class MaterialsInfoFragment extends Fragment {
+public final class MaterialsInfoFragment extends Fragment implements MainActivity.HasNavigationItem {
     private final LoadDialogDismissedListener mLoadDialogDismissedListener = new LoadDialogDismissedListener();
     private Button mLoadButton;
     private Material mMaterial;
@@ -38,6 +40,11 @@ public final class MaterialsInfoFragment extends Fragment {
         MaterialsInfoFragment fragment = new MaterialsInfoFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public NavigationItem getItem() {
+        return NavigationItem.MATERIALS_ITEM;
     }
 
     @Nullable

@@ -58,12 +58,6 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        // TODO Update navigation drawer
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -89,15 +83,7 @@ public final class MainActivity extends AppCompatActivity {
             openNavigationItem(mOpenFragmentItem, false);
         }
 
-        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                Fragment fragment = fragmentManager.findFragmentById(R.id.container);
-                if (null != fragment) {
-                    updateViewFromFragment(fragment);
-                }
-            }
-        });
+        fragmentManager.addOnBackStackChangedListener(new BackStackChangedListener());
     }
 
     @Override
@@ -144,6 +130,11 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     private void updateViewFromFragment(Fragment fragment) {
+        if (fragment instanceof HasNavigationItem) {
+            HasNavigationItem fragmentWithNavItem = (HasNavigationItem) fragment;
+            mNavigationDrawerFragment.setSelectedItem(fragmentWithNavItem.getItem());
+        }
+
         if (fragment instanceof HasTitle) {
             HasTitle fragmentWithTitle = (HasTitle) fragment;
             setMainTitle(fragmentWithTitle.getTitle());
@@ -168,8 +159,22 @@ public final class MainActivity extends AppCompatActivity {
         boolean onMenuItemSelected(MenuItem item);
     }
 
+    public interface HasNavigationItem {
+        NavigationItem getItem();
+    }
+
     public interface HasTitle {
         int getTitle();
+    }
+
+    private final class BackStackChangedListener implements FragmentManager.OnBackStackChangedListener {
+        @Override
+        public void onBackStackChanged() {
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+            if (null != fragment) {
+                updateViewFromFragment(fragment);
+            }
+        }
     }
 
     private final class NavigationDrawerCallbacks implements NavigationDrawerFragment.NavigationDrawerCallbacks {
