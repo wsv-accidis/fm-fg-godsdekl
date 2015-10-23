@@ -179,7 +179,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
             row.setIsVolume(mWeightVolumeIsVolume);
 
             mRepository.getCurrentDocument().addOrUpdateRow(row);
-            mRepository.commit();
+            mRepository.commitCurrentDocument();
         }
 
         private int parseIntOrZero(String str) {

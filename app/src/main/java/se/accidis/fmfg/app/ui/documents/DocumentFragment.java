@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
  * Fragment for viewing/editing a document.
  */
 public final class DocumentFragment extends ListFragment implements MainActivity.HasMenu, MainActivity.HasNavigationItem {
+    private static final String TAG = DocumentFragment.class.getSimpleName();
     private static final String STATE_LIST_VIEW = "documentListViewState";
     private DocumentAdapter mAdapter;
     private View mButtonBar;
@@ -53,6 +55,9 @@ public final class DocumentFragment extends ListFragment implements MainActivity
         View view = inflater.inflate(R.layout.fragment_document, container, false);
 
         mButtonBar = view.findViewById(R.id.document_button_bar);
+
+        Button saveButton = (Button) view.findViewById(R.id.document_button_save);
+        saveButton.setOnClickListener(new SaveDialogListener());
 
         Button clearButton = (Button) view.findViewById(R.id.document_button_clear);
         clearButton.setOnClickListener(new ClearDialogListener());
@@ -142,7 +147,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
                 mDocument.setRecipient(address);
             }
 
-            mRepository.commit();
+            mRepository.commitCurrentDocument();
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -163,8 +168,18 @@ public final class DocumentFragment extends ListFragment implements MainActivity
                 mDocument.setRecipient("");
             }
 
-            mRepository.commit();
-            mAdapter.notifyDataSetChanged();
+            mRepository.commitCurrentDocument();
+        }
+    }
+
+    private final class SaveDialogListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            try {
+                mRepository.saveCurrentDocument("Ej namngivet.");
+            } catch (Exception ex) {
+                Log.e(TAG, "Exception while saving document.", ex);
+            }
         }
     }
 }

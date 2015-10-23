@@ -2,6 +2,8 @@ package se.accidis.fmfg.app;
 
 import android.app.Application;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import java.util.Locale;
 
 import se.accidis.fmfg.app.services.DocumentsRepository;
@@ -14,6 +16,7 @@ public final class FmFgApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Locale.setDefault(new Locale("sv", "SE"));
-        DocumentsRepository.getInstance(getApplicationContext()).ensureInitialized();
+        JodaTimeAndroid.init(this);
+        DocumentsRepository.getInstance(getApplicationContext()).ensureCurrentDocumentLoaded();
     }
 }

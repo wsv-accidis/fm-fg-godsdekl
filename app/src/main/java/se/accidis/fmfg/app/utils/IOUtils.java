@@ -3,6 +3,8 @@ package se.accidis.fmfg.app.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 /**
  * Utils for reading/writing files.
@@ -33,6 +35,25 @@ public final class IOUtils {
                 }
                 if (null != inputStream) {
                     inputStream.close();
+                }
+            } catch (IOException ignored) {
+            }
+        }
+    }
+
+    public static void writeToStream(OutputStream outputStream, String content) throws IOException {
+        OutputStreamWriter writer = null;
+        try {
+            writer = new OutputStreamWriter(outputStream);
+            writer.write(content);
+            writer.flush();
+        } finally {
+            try {
+                if (null != writer) {
+                    writer.close();
+                }
+                if (null != outputStream) {
+                    outputStream.close();
                 }
             } catch (IOException ignored) {
             }

@@ -2,6 +2,7 @@ package se.accidis.fmfg.app.model;
 
 import android.content.Context;
 
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,9 +22,11 @@ import se.accidis.fmfg.app.utils.JSONUtils;
  */
 public final class Document {
     private final UUID mId;
-    private final List<DocumentRow> mRows = new ArrayList<DocumentRow>();
+    private final List<DocumentRow> mRows = new ArrayList<>();
+    private String mName;
     private String mRecipient;
     private String mSender;
+    private DateTime mTimestamp;
 
     public Document() {
         this(UUID.randomUUID());
@@ -36,7 +39,9 @@ public final class Document {
     public static Document fromJson(JSONObject json) throws JSONException {
         UUID id = UUID.fromString(json.getString(Keys.ID));
         Document document = new Document(id);
+        document.mName = JSONUtils.getStringOrNull(json, Keys.NAME);
         document.mRecipient = JSONUtils.getStringOrNull(json, Keys.RECIPIENT);
+        document.mTimestamp = JSONUtils.getDateTimeOrNull(json, Keys.TIMESTAMP);
         document.mSender = JSONUtils.getStringOrNull(json, Keys.SENDER);
 
         JSONArray rowsArray = json.getJSONArray(Keys.ROWS);
@@ -79,6 +84,14 @@ public final class Document {
         return mId;
     }
 
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
+
     public String getRecipient() {
         return mRecipient;
     }
@@ -106,6 +119,14 @@ public final class Document {
 
     public void setSender(String sender) {
         mSender = sender;
+    }
+
+    public DateTime getTimestamp() {
+        return mTimestamp;
+    }
+
+    public void setTimestamp(DateTime timestamp) {
+        mTimestamp = timestamp;
     }
 
     public BigDecimal getTotalNEMkg() {
@@ -170,6 +191,8 @@ public final class Document {
 
         JSONObject json = new JSONObject();
         json.put(Keys.ID, mId.toString());
+        JSONUtils.putDateTime(json, Keys.TIMESTAMP, mTimestamp);
+        json.put(Keys.NAME, mName);
         json.put(Keys.SENDER, mSender);
         json.put(Keys.RECIPIENT, mRecipient);
         json.put(Keys.ROWS, rowsArray);
@@ -178,9 +201,11 @@ public final class Document {
 
     public static class Keys {
         public static final String ID = "Id";
+        public static final String NAME = "Name";
         public static final String RECIPIENT = "Recipient";
         public static final String ROWS = "Rows";
         public static final String SENDER = "Sender";
+        public static final String TIMESTAMP = "Timestamp";
 
         private Keys() {
         }
