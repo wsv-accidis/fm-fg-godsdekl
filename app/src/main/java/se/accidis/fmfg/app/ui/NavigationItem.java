@@ -12,7 +12,8 @@ import se.accidis.fmfg.app.ui.materials.MaterialsListFragment;
  */
 public enum NavigationItem {
     MATERIALS_ITEM(0),
-    CURRENT_DOCUMENT_ITEM(1);
+    CURRENT_DOCUMENT_ITEM(1),
+    INSTRUCTIONS_ITEM(2);
 
     private final int mPosition;
 
@@ -24,16 +25,19 @@ public enum NavigationItem {
         // The index of each item in this array _MUST_ match its position in the enum
         return new String[]{
                 resources.getString(R.string.materials_nav_title),
-                resources.getString(R.string.document_nav_title)
+                resources.getString(R.string.document_nav_title),
+                resources.getString(R.string.instructions_nav_title)
         };
     }
 
     public static Fragment createFragment(NavigationItem item) {
         switch (item) {
-            case MATERIALS_ITEM:
-                return new MaterialsListFragment();
             case CURRENT_DOCUMENT_ITEM:
                 return new DocumentFragment();
+            case INSTRUCTIONS_ITEM:
+                return new InstructionFragment();
+            case MATERIALS_ITEM:
+                return new MaterialsListFragment();
         }
 
         return null;
