@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.ui.documents.DocumentFragment;
+import se.accidis.fmfg.app.ui.documents.DocumentsListFragment;
 import se.accidis.fmfg.app.ui.materials.MaterialsListFragment;
 
 /**
@@ -13,8 +14,9 @@ import se.accidis.fmfg.app.ui.materials.MaterialsListFragment;
 public enum NavigationItem {
     MATERIALS_ITEM(0),
     CURRENT_DOCUMENT_ITEM(1),
-    INSTRUCTIONS_ITEM(2),
-    ABOUT_ITEM(3);
+    DOCUMENTS_ITEM(2),
+    INSTRUCTIONS_ITEM(3),
+    ABOUT_ITEM(4);
 
     private final int mPosition;
 
@@ -27,6 +29,7 @@ public enum NavigationItem {
         return new String[]{
                 resources.getString(R.string.materials_nav_title),
                 resources.getString(R.string.document_nav_title),
+                resources.getString(R.string.documents_list_nav_title),
                 resources.getString(R.string.instructions_nav_title),
                 resources.getString(R.string.about_nav_title)
         };
@@ -38,6 +41,8 @@ public enum NavigationItem {
                 return new AboutFragment();
             case CURRENT_DOCUMENT_ITEM:
                 return new DocumentFragment();
+            case DOCUMENTS_ITEM:
+                return new DocumentsListFragment();
             case INSTRUCTIONS_ITEM:
                 return new InstructionFragment();
             case MATERIALS_ITEM:

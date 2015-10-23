@@ -45,6 +45,12 @@ public final class AboutFragment extends Fragment implements MainActivity.HasTit
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        AndroidUtils.hideSoftKeyboard(getContext(), getView());
+    }
+
     private static void sendEmailTo(String email, Fragment fragment) {
         try {
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null));

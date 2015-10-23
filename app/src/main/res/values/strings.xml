@@ -36,6 +36,9 @@
     <string name="document_warning_class1_line1">Varning! Godsdeklarationen innehåller ämnen som inte får samlastas (ämnen märka med etikett 1, 1.4, 1.5 och 1.6 får som regel inte lastas på samma fordon som kollin som innehåller farligt gods från övriga klasser, undantaget etikett 1.4S).</string>
     <string name="document_warning_class1_line2">Du kan dela upp en godsdeklaration i två med hjälp av funktionen "Dela godsdeklaration" i menyn.</string>
 
+    <string name="documents_list_nav_title">Sparade godsdekl.</string>
+    <string name="documents_list_empty">Inga sparade godsdeklarationer.</string>
+
     <string name="generic_cancel">Avbryt</string>
     <string name="generic_load_error">Ett oväntat fel har uppstått. Vänligen kontakta utvecklaren.</string>
     <string name="generic_save">Spara</string>
@@ -43,15 +46,14 @@
     <string name="instructions_nav_title">Instruktioner enl. ADR</string>
 
     <string name="material_change">Ändra</string>
-    <string name="material_load">Lasta</string>
-    <string name="material_remove">Ta bort</string>
-
     <string name="material_fben">Förrådsbenämning</string>
     <string name="material_frpgrp">Förpackningsgrupp</string>
     <string name="material_klasskod">Klassificeringskod</string>
+    <string name="material_load">Lasta</string>
     <string name="material_namn">Transportbenämning</string>
     <string name="material_nem">Netto expl.mängd</string>
     <string name="material_no_data">-</string>
+    <string name="material_remove">Ta bort</string>
     <string name="material_tunnelkod">Tunnelrestriktionskod</string>
     <string name="material_tpkat">Transportkategori</string>
     <string name="material_unnr">UN-nummer</string>

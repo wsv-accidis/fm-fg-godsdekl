@@ -169,6 +169,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
             }
 
             mRepository.commitCurrentDocument();
+            mAdapter.notifyDataSetChanged();
         }
     }
 

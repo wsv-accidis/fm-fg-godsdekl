@@ -42,7 +42,6 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
     private MaterialsListAdapter mListAdapter;
     private Parcelable mListState;
     private List<Material> mMaterialsList;
-    private MaterialsRepository mMaterialsRepository;
     private String mSearchQuery;
     private EditText mSearchText;
 
@@ -114,16 +113,13 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
         super.onResume();
         setEmptyText(getString(R.string.materials_list_empty));
 
-        if (null == mMaterialsRepository) {
-            mMaterialsRepository = MaterialsRepository.getInstance(getContext());
-        }
-
         mSearchText.setEnabled(false);
         mClearSearchButton.setEnabled(false);
 
         if (!mIsLoaded) {
-            mMaterialsRepository.setOnLoadedListener(new MaterialsLoadedListener());
-            mMaterialsRepository.beginLoad();
+            MaterialsRepository repository = MaterialsRepository.getInstance(getContext());
+            repository.setOnLoadedListener(new MaterialsLoadedListener());
+            repository.beginLoad();
         } else {
             initializeList();
         }
