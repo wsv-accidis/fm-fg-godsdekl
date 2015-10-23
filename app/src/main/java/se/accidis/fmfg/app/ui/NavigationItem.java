@@ -13,7 +13,8 @@ import se.accidis.fmfg.app.ui.materials.MaterialsListFragment;
 public enum NavigationItem {
     MATERIALS_ITEM(0),
     CURRENT_DOCUMENT_ITEM(1),
-    INSTRUCTIONS_ITEM(2);
+    INSTRUCTIONS_ITEM(2),
+    ABOUT_ITEM(3);
 
     private final int mPosition;
 
@@ -26,12 +27,15 @@ public enum NavigationItem {
         return new String[]{
                 resources.getString(R.string.materials_nav_title),
                 resources.getString(R.string.document_nav_title),
-                resources.getString(R.string.instructions_nav_title)
+                resources.getString(R.string.instructions_nav_title),
+                resources.getString(R.string.about_nav_title)
         };
     }
 
     public static Fragment createFragment(NavigationItem item) {
         switch (item) {
+            case ABOUT_ITEM:
+                return new AboutFragment();
             case CURRENT_DOCUMENT_ITEM:
                 return new DocumentFragment();
             case INSTRUCTIONS_ITEM:

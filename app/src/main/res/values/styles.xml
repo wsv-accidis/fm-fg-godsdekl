@@ -2,10 +2,25 @@
 <resources>
     <color name="black">#000000</color>
     <color name="darkgray">#808080</color>
+    <color name="darkgreen">#304020</color>
     <color name="red">#FF0000</color>
+    <color name="white">#FFFFFF</color>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Global app theme -->
+    </style>
+
+    <style name="AboutHeading">
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="AboutText">
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="AddressHeading">

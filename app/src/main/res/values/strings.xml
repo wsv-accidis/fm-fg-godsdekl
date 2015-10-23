@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="about_author">Utvecklad av och © Wilhelm Svenselius\nE-post: wilhelm.svenselius@gmail.com</string>
+    <string name="about_disclaimer">Denna applikation är inte utvecklad, utgiven, godkänd av eller på annat sätt anknuten till Försvarsmakten.</string>
+    <string name="about_instruction_heading">Användningsinstruktion</string>
+    <string name="about_instruction_para1">Välj materiel eller utrustning från listan Materiel och tryck Lasta för att lägga till det på din godsdeklaration. Observera att du för vissa typer av gods (t ex ammunition) bör ange både vikt och antal. Det är då antalet som avgör mängden farligt gods. För annan materiel anges endast vikt eller volym (vätskor/gaser).</string>
+    <string name="about_instruction_para2">Du kan endast redigera en godsdeklaration åt gången. När du är färdig med den, tryck Spara. En sparad godsdeklaration måste återöppnas för redigering innan den går att göra ytterligare ändringar i. Kommandon finns antingen på knappar i sidans nederkant eller i menyn i övre högra hörnet.</string>
+    <string name="about_instruction_para3">Vänligen rapportera ev. brister och saknad funktionalitet till utvecklaren.</string>
+    <string name="about_nav_title">Om appen</string>
+    <string name="about_para1">Det här är en mobilapp för digital godsdeklaration av farligt gods-transporter riktad till personal inom Försvarsmakten. Syftet är att enkelt kunna framställa godsdeklarationer som uppfyller kraven i SäkI Tp FG vid transport av materiel och utrustning, exempelvis ammunition och drivmedel.</string>
+    <string name="about_para2">Appen saknar dock anknytning till Försvarsmakten; den är utvecklad på privat initiativ. Innehållets korrekthet garanteras inte; användning sker på eget ansvar. Appen innehåller ingen sekretessbelagd information.</string>
+    <string name="about_version">Version %1$s</string>
+
     <string name="app_name">FM FG Godsdeklaration</string>
 
     <string name="address_recipient_heading">Skriv mottagarens namn och adress:</string>

@@ -7,13 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
- * Displays instructions for ADR.
+ * Fragment which displays instructions for ADR.
  */
-public final class InstructionFragment extends Fragment {
+public final class InstructionFragment extends Fragment implements MainActivity.HasTitle {
     private WebView mWebView;
+
+    @Override
+    public int getTitle() {
+        return R.string.instructions_nav_title;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
