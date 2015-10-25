@@ -94,7 +94,7 @@
     <orderEntry type="library" exported="" name="android.joda-2.8.2" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.1.0" level="project" />
-    <orderEntry type="library" exported="" name="joda-time-2.8.2-no-tzdb" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.1.0" level="project" />
+    <orderEntry type="library" exported="" name="joda-time-2.8.2-no-tzdb" level="project" />
   </component>
 </module>

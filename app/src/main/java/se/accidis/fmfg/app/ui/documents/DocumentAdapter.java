@@ -25,12 +25,12 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
 public final class DocumentAdapter extends BaseAdapter {
     public static final int RECIPIENT_POSITION = 1;
     public static final int SENDER_POSITION = 0;
+    public static final int VIEW_TYPE_ADDRESS = 1;
+    public static final int VIEW_TYPE_INFO = 2;
+    public static final int VIEW_TYPE_ROW = 0;
+    public static final int VIEW_TYPE_SEPARATOR = 3;
     private static final int ROW_BOTTOM_OFFSET = 2;
     private static final int ROW_TOP_OFFSET = 3;
-    private static final int VIEW_TYPE_ADDRESS = 1;
-    private static final int VIEW_TYPE_INFO = 2;
-    private static final int VIEW_TYPE_ROW = 0;
-    private static final int VIEW_TYPE_SEPARATOR = 3;
     private final Context mContext;
     private final Document mDocument;
     private final LayoutInflater mInflater;
@@ -134,7 +134,7 @@ public final class DocumentAdapter extends BaseAdapter {
         String text = (isSender ? mDocument.getSender() : mDocument.getRecipient());
 
         if (TextUtils.isEmpty(text)) {
-            if(mIsCurrentDocument) {
+            if (mIsCurrentDocument) {
                 addressText.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, R.drawable.ic_create), null, null, null);
                 addressText.setText(R.string.document_tap_to_edit);
             } else {

@@ -17,9 +17,11 @@ import android.widget.ListView;
 
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
+import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.ui.MainActivity;
 import se.accidis.fmfg.app.ui.NavigationItem;
+import se.accidis.fmfg.app.ui.materials.MaterialsInfoFragment;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
@@ -79,7 +81,9 @@ public final class DocumentFragment extends ListFragment implements MainActivity
             return;
         }
 
-        if (DocumentAdapter.SENDER_POSITION == position || DocumentAdapter.RECIPIENT_POSITION == position) {
+        int type = mAdapter.getItemViewType(position);
+
+        if (DocumentAdapter.VIEW_TYPE_ADDRESS == type) {
             Bundle args = new Bundle();
             boolean isSender = (DocumentAdapter.SENDER_POSITION == position);
             args.putBoolean(AddressDialogFragment.ARG_IS_SENDER, isSender);
@@ -89,6 +93,21 @@ public final class DocumentFragment extends ListFragment implements MainActivity
             dialog.setArguments(args);
             dialog.setDialogListener(new AddressDialogListener(isSender));
             dialog.show(getFragmentManager(), AddressDialogFragment.class.getSimpleName());
+
+        } else if (DocumentAdapter.VIEW_TYPE_ROW == type) {
+            DocumentRow row = (DocumentRow) mAdapter.getItem(position);
+            if (null != row) {
+                MaterialsInfoFragment fragment = MaterialsInfoFragment.createInstance(row.getMaterial());
+                Activity activity = getActivity();
+                if (activity instanceof MainActivity) {
+                    AndroidUtils.hideSoftKeyboard(getContext(), getView());
+                    saveInstanceState();
+                    MainActivity mainActivity = (MainActivity) activity;
+                    mainActivity.openFragment(fragment);
+                } else {
+                    Log.e(TAG, "Activity holding fragment is not MainActivity!");
+                }
+            }
         }
     }
 
