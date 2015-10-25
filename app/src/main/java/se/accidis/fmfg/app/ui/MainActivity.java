@@ -1,5 +1,6 @@
 package se.accidis.fmfg.app.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,6 +56,12 @@ public final class MainActivity extends AppCompatActivity {
         }
 
         transaction.commit();
+        updateViewFromFragment(fragment);
+    }
+
+    public void updateFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentById(R.id.container);
         updateViewFromFragment(fragment);
     }
 
@@ -117,11 +125,12 @@ public final class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setMainTitle(int resId) {
-        if (0 == resId) {
-            resId = R.string.app_name;
+    private void setMainTitle(String title) {
+        if (TextUtils.isEmpty(title)) {
+            mTitle = getString(R.string.app_name);
+        } else {
+            mTitle = title;
         }
-        mTitle = getString(resId);
     }
 
     private void updateViewFromFragment(Fragment fragment) {
@@ -132,9 +141,9 @@ public final class MainActivity extends AppCompatActivity {
 
         if (fragment instanceof HasTitle) {
             HasTitle fragmentWithTitle = (HasTitle) fragment;
-            setMainTitle(fragmentWithTitle.getTitle());
+            setMainTitle(fragmentWithTitle.getTitle(this));
         } else {
-            setMainTitle(0);
+            setMainTitle(null);
         }
 
         if (fragment instanceof HasMenu) {
@@ -159,7 +168,7 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     public interface HasTitle {
-        int getTitle();
+        String getTitle(Context context);
     }
 
     private final class BackStackChangedListener implements FragmentManager.OnBackStackChangedListener {

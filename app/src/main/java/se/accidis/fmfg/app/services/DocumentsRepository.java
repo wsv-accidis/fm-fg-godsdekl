@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import se.accidis.fmfg.app.model.Document;
@@ -57,26 +58,11 @@ public final class DocumentsRepository {
     }
 
     public void commitCurrentDocument() {
-        OutputStream outputStream = null;
-        OutputStreamWriter writer = null;
-
         try {
-            JSONObject json = mCurrentDocument.toJson();
-            outputStream = mContext.openFileOutput(CURRENT_DOCUMENT, Context.MODE_PRIVATE);
-            writer = new OutputStreamWriter(outputStream);
-            writer.write(json.toString());
+            String json = mCurrentDocument.toJson().toString();
+            IOUtils.writeToStream(mContext.openFileOutput(CURRENT_DOCUMENT, Context.MODE_PRIVATE), json);
         } catch (Exception ex) {
             Log.e(TAG, "Exception while writing current document.", ex);
-        } finally {
-            try {
-                if (null != writer) {
-                    writer.close();
-                }
-                if (null != outputStream) {
-                    outputStream.close();
-                }
-            } catch (IOException ignored) {
-            }
         }
     }
 
@@ -105,7 +91,7 @@ public final class DocumentsRepository {
     }
 
     public void saveCurrentDocument(String name) throws IOException, JSONException {
-        Log.d(TAG, "Saving current document with ID: " + mCurrentDocument.getId());
+        Log.d(TAG, "Saving current document with ID: " + mCurrentDocument.getId() + ", name = " + mCurrentDocument.getName());
         ensureCurrentDocumentLoaded();
         mCurrentDocument.setName(name);
         mCurrentDocument.setTimestamp(DateTime.now());
@@ -155,7 +141,9 @@ public final class DocumentsRepository {
                     list.add(docLink);
                 }
 
+                Collections.sort(list);
                 mList = list;
+
                 Log.i(TAG, "Finished loading documents (" + mList.size() + " documents loaded).");
 
             } catch (Exception ex) {

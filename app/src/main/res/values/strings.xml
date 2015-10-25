@@ -24,6 +24,7 @@
     <string name="document_nav_title">Godsdeklaration</string>
     <string name="document_nem_format">NEM: %1$s kg</string>
     <string name="document_no_data">Uppgift saknas.</string>
+    <string name="document_no_name">Namnlös</string>
     <string name="document_recipient">Mottagare</string>
     <string name="document_save_as_new">Spara som ny</string>
     <string name="document_save_heading">Ge godsdeklarationen ett beskrivande namn så att du hittar den senare:</string>

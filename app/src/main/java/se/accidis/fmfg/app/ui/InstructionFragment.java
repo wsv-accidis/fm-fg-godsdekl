@@ -1,5 +1,6 @@
 package se.accidis.fmfg.app.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,8 +23,8 @@ public final class InstructionFragment extends Fragment implements MainActivity.
     }
 
     @Override
-    public int getTitle() {
-        return R.string.instructions_nav_title;
+    public String getTitle(Context context) {
+        return context.getString(R.string.instructions_nav_title);
     }
 
     @Override

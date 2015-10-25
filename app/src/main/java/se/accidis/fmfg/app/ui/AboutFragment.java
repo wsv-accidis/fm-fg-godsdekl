@@ -1,5 +1,6 @@
 package se.accidis.fmfg.app.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,8 +28,8 @@ public final class AboutFragment extends Fragment implements MainActivity.HasTit
     }
 
     @Override
-    public int getTitle() {
-        return R.string.about_nav_title;
+    public String getTitle(Context context) {
+        return context.getString(R.string.about_nav_title);
     }
 
     @Nullable

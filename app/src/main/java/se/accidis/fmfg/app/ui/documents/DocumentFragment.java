@@ -1,9 +1,12 @@
 package se.accidis.fmfg.app.ui.documents;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,9 +25,9 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
 /**
  * Fragment for viewing/editing a document.
  */
-public final class DocumentFragment extends ListFragment implements MainActivity.HasMenu, MainActivity.HasNavigationItem {
-    private static final String TAG = DocumentFragment.class.getSimpleName();
+public final class DocumentFragment extends ListFragment implements MainActivity.HasNavigationItem, MainActivity.HasMenu, MainActivity.HasTitle {
     private static final String STATE_LIST_VIEW = "documentListViewState";
+    private static final String TAG = DocumentFragment.class.getSimpleName();
     private DocumentAdapter mAdapter;
     private View mButtonBar;
     private Document mDocument;
@@ -39,6 +42,11 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     @Override
     public int getMenu() {
         return R.menu.document;
+    }
+
+    @Override
+    public String getTitle(Context context) {
+        return (null != mDocument && mDocument.isSaved()) ? mDocument.getName() : context.getString(R.string.app_name);
     }
 
     @Override
@@ -104,6 +112,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
         AndroidUtils.hideSoftKeyboard(getContext(), getView());
         initializeList();
+        updateMainView();
     }
 
     @Override
@@ -112,6 +121,12 @@ public final class DocumentFragment extends ListFragment implements MainActivity
         if (null != getView()) {
             outState.putParcelable(STATE_LIST_VIEW, getListView().onSaveInstanceState());
         }
+    }
+
+    void commit() {
+        mRepository.commitCurrentDocument();
+        mAdapter.notifyDataSetChanged();
+        updateMainView();
     }
 
     private void initializeList() {
@@ -132,6 +147,15 @@ public final class DocumentFragment extends ListFragment implements MainActivity
         mListState = getListView().onSaveInstanceState();
     }
 
+    private void updateMainView() {
+        Activity activity = getActivity();
+        if (activity instanceof MainActivity) {
+            ((MainActivity) activity).updateFragment();
+        } else {
+            Log.e(TAG, "Activity holding fragment is not MainActivity!");
+        }
+    }
+
     private final class AddressDialogListener implements AddressDialogFragment.AddressDialogListener {
         private final boolean mIsSender;
 
@@ -147,8 +171,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
                 mDocument.setRecipient(address);
             }
 
-            mRepository.commitCurrentDocument();
-            mAdapter.notifyDataSetChanged();
+            commit();
         }
     }
 
@@ -173,8 +196,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
             mDocument.setName("");
             mDocument.setTimestamp(null);
 
-            mRepository.commitCurrentDocument();
-            mAdapter.notifyDataSetChanged();
+            commit();
         }
     }
 
@@ -197,10 +219,16 @@ public final class DocumentFragment extends ListFragment implements MainActivity
                 mDocument.assignNewId();
             }
             try {
+                name = name.trim();
+                if (TextUtils.isEmpty(name)) {
+                    name = getString(R.string.document_no_name);
+                }
                 mRepository.saveCurrentDocument(name);
             } catch (Exception ex) {
                 Log.e(TAG, "Exception while saving document.", ex);
             }
+
+            commit();
         }
     }
 }
