@@ -65,17 +65,17 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 
         Material material = mFilteredList.get(position);
 
-        TextView titleText = (TextView) view.findViewById(R.id.material_title);
-        titleText.setText(material.getFben());
+        TextView fbenText = (TextView) view.findViewById(R.id.material_fben);
+        fbenText.setText(material.getFben());
 
         if (mLoadedMaterials.contains(material)) {
-            titleText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_circle_small, 0, 0, 0);
+            fbenText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_circle_small, 0, 0, 0);
         } else {
-            titleText.setCompoundDrawables(null, null, null, null);
+            fbenText.setCompoundDrawables(null, null, null, null);
         }
 
-        TextView descText = (TextView) view.findViewById(R.id.material_description);
-        descText.setText(material.getFullText());
+        TextView textText = (TextView) view.findViewById(R.id.material_text);
+        textText.setText(material.getFullText());
 
         return view;
     }

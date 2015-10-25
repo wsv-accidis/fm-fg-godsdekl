@@ -92,6 +92,9 @@ public final class DocumentsRepository {
 
             if (null == mCurrentDocument) {
                 mCurrentDocument = new Document();
+                Log.d(TAG, "Created a document with ID: " + mCurrentDocument.getId());
+            } else {
+                Log.d(TAG, "Loaded current document with ID: " + mCurrentDocument.getId());
             }
         }
     }
@@ -102,12 +105,11 @@ public final class DocumentsRepository {
     }
 
     public void saveCurrentDocument(String name) throws IOException, JSONException {
+        Log.d(TAG, "Saving current document with ID: " + mCurrentDocument.getId());
         ensureCurrentDocumentLoaded();
         mCurrentDocument.setName(name);
         mCurrentDocument.setTimestamp(DateTime.now());
         writeDocument(mCurrentDocument);
-        // TODO Once we can open the document we should clear current
-        //mCurrentDocument = new Document();
         invalidate();
     }
 

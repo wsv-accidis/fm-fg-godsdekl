@@ -8,15 +8,14 @@
                 android:paddingTop="9dp">
 
     <TextView
-        android:id="@+id/material_fben"
-        style="@style/MaterialListItemPrimary"
+        android:id="@+id/document_name"
+        style="@style/DocumentListItemPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawablePadding="4dp"/>
+        android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/material_text"
-        style="@style/MaterialListItemSecondary"
+        android:id="@+id/document_timestamp"
+        style="@style/DocumentListItemSecondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"/>

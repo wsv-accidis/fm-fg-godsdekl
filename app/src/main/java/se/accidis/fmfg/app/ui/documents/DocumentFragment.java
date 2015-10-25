@@ -168,16 +168,36 @@ public final class DocumentFragment extends ListFragment implements MainActivity
                 mDocument.setRecipient("");
             }
 
+            // Ensure saving now does not overwrite an existing document
+            mDocument.assignNewId();
+            mDocument.setName("");
+            mDocument.setTimestamp(null);
+
             mRepository.commitCurrentDocument();
             mAdapter.notifyDataSetChanged();
         }
     }
 
-    private final class SaveDialogListener implements View.OnClickListener {
+    private final class SaveDialogListener implements View.OnClickListener, SaveDialogFragment.SaveDialogListener {
         @Override
         public void onClick(View v) {
+            Bundle args = new Bundle();
+            args.putBoolean(SaveDialogFragment.ARG_IS_SAVED, mDocument.isSaved());
+            args.putString(SaveDialogFragment.ARG_NAME, mDocument.getName());
+
+            SaveDialogFragment dialog = new SaveDialogFragment();
+            dialog.setArguments(args);
+            dialog.setDialogListener(this);
+            dialog.show(getFragmentManager(), SaveDialogFragment.class.getSimpleName());
+        }
+
+        @Override
+        public void onDismiss(String name, boolean asCopy) {
+            if (asCopy) {
+                mDocument.assignNewId();
+            }
             try {
-                mRepository.saveCurrentDocument("Ej namngivet.");
+                mRepository.saveCurrentDocument(name);
             } catch (Exception ex) {
                 Log.e(TAG, "Exception while saving document.", ex);
             }

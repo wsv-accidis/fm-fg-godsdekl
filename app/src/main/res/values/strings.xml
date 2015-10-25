@@ -4,7 +4,7 @@
     <string name="about_disclaimer">Denna applikation är inte utvecklad, utgiven, godkänd av eller på annat sätt anknuten till Försvarsmakten.</string>
     <string name="about_instruction_heading">Användningsinstruktion</string>
     <string name="about_instruction_para1">Välj materiel eller utrustning från listan Materiel och tryck Lasta för att lägga till det på din godsdeklaration. Observera att du för vissa typer av gods (t ex ammunition) bör ange både vikt och antal. Det är då antalet som avgör mängden farligt gods. För annan materiel anges endast vikt eller volym (vätskor/gaser).</string>
-    <string name="about_instruction_para2">Du kan endast redigera en godsdeklaration åt gången. När du är färdig med den, tryck Spara. En sparad godsdeklaration måste återöppnas för redigering innan den går att göra ytterligare ändringar i. Kommandon finns antingen på knappar i sidans nederkant eller i menyn i övre högra hörnet.</string>
+    <string name="about_instruction_para2">Du kan endast redigera en godsdeklaration åt gången. När du är färdig med den, tryck Spara. Sparade godsdeklarationer finner du på sidan med samma namn. Kommandon finns antingen på knappar i sidans nederkant eller i menyn i övre högra hörnet.</string>
     <string name="about_instruction_para3">Vänligen rapportera ev. brister och saknad funktionalitet till utvecklaren.</string>
     <string name="about_nav_title">Om appen</string>
     <string name="about_para1">Det här är en mobilapp för digital godsdeklaration av farligt gods-transporter riktad till personal inom Försvarsmakten. Syftet är att enkelt kunna framställa godsdeklarationer som uppfyller kraven i SäkI Tp FG vid transport av materiel och utrustning, exempelvis ammunition och drivmedel.</string>
@@ -19,13 +19,15 @@
     <string name="document_copy">Kopiera</string>
     <string name="document_clear">Rensa</string>
     <string name="document_clear_everything">Rensa allt</string>
+    <string name="document_clear_heading">Vill du ta bort innehållet i den här godsdeklarationen? (Detta går inte att ångra.)</string>
     <string name="document_clear_keep_addresses">Behåll adresser</string>
-    <string name="document_clear_prompt">Vill du ta bort innehållet i den här godsdeklarationen? (Detta går inte att ångra.)</string>
     <string name="document_nav_title">Godsdeklaration</string>
     <string name="document_nem_format">NEM: %1$s kg</string>
     <string name="document_no_data">Uppgift saknas.</string>
     <string name="document_recipient">Mottagare</string>
-    <string name="document_save">Spara</string>
+    <string name="document_save_as_new">Spara som ny</string>
+    <string name="document_save_heading">Ge godsdeklarationen ett beskrivande namn så att du hittar den senare:</string>
+    <string name="document_save_already_saved">Den här godsdeklarationen är redan sparad. Om du sparar den nu så skriver du över den tidigare sparade versionen. Välj "Spara som ny" för att inte skriva över den tidigare.</string>
     <string name="document_sender">Avsändare</string>
     <string name="document_summary_total_format">Totalt värde %1$s p.</string>
     <string name="document_summary_total_nem_format">Total NEM: %1$s kg.</string>

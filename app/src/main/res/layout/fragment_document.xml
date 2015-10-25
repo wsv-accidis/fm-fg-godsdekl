@@ -23,7 +23,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:drawableLeft="@drawable/ic_save"
-            android:text="@string/document_save"/>
+            android:text="@string/generic_save"/>
 
         <Button
             android:id="@+id/document_button_clear"

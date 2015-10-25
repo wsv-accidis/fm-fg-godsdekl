@@ -26,7 +26,7 @@ public final class AddressDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Bundle args = getArguments();
+        Bundle args = getArguments();
         boolean isSender = args.getBoolean(ARG_IS_SENDER);
         String address = args.getString(ARG_CURRENT_ADDRESS);
 

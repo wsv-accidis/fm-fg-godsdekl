@@ -19,7 +19,7 @@ public final class ClearDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage(R.string.document_clear_prompt)
+        builder.setMessage(R.string.document_clear_heading)
                 .setPositiveButton(R.string.document_clear_everything, new ClearEverythingClicked())
                 .setNeutralButton(R.string.document_clear_keep_addresses, new KeepAddressesClicked())
                 .setNegativeButton(R.string.generic_cancel, null);

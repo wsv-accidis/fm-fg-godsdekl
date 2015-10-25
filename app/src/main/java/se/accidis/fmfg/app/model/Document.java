@@ -23,8 +23,8 @@ import se.accidis.fmfg.app.utils.JSONUtils;
  * Model object for transport documents.
  */
 public final class Document {
-    private final UUID mId;
     private final List<DocumentRow> mRows = new ArrayList<>();
+    private UUID mId;
     private String mName;
     private String mRecipient;
     private String mSender;
@@ -62,6 +62,10 @@ public final class Document {
         } else {
             mRows.add(row);
         }
+    }
+
+    public void assignNewId() {
+        mId = UUID.randomUUID();
     }
 
     public BigDecimal getCalculatedTotalValue() {
@@ -180,6 +184,10 @@ public final class Document {
             builder.append(String.format(context.getString(R.string.unit_liter_format), ValueHelper.formatValue(totalVolume)));
         }
         return builder.toString();
+    }
+
+    public boolean isSaved() {
+        return (null != mTimestamp);
     }
 
     public void removeAllRows() {
