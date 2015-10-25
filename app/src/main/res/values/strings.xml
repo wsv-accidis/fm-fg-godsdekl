@@ -43,8 +43,8 @@
     <string name="documents_list_empty">Inga sparade godsdeklarationer.</string>
 
     <string name="generic_cancel">Avbryt</string>
-    <string name="generic_load_error">Ett oväntat fel har uppstått. Vänligen kontakta utvecklaren.</string>
     <string name="generic_save">Spara</string>
+    <string name="generic_unexpected_error">Ett oväntat fel har uppstått. Vänligen kontakta utvecklaren.</string>
 
     <string name="instructions_nav_title">Instruktioner enl. ADR</string>
 

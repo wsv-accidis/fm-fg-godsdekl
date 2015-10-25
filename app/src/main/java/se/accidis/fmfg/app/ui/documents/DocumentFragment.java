@@ -9,14 +9,19 @@ import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.UUID;
 
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
+import se.accidis.fmfg.app.model.DocumentLink;
 import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.ui.MainActivity;
@@ -28,6 +33,7 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
  * Fragment for viewing/editing a document.
  */
 public final class DocumentFragment extends ListFragment implements MainActivity.HasNavigationItem, MainActivity.HasMenu, MainActivity.HasTitle {
+    public static final String ARG_ID = "id";
     private static final String STATE_LIST_VIEW = "documentListViewState";
     private static final String TAG = DocumentFragment.class.getSimpleName();
     private DocumentAdapter mAdapter;
@@ -35,6 +41,19 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     private Document mDocument;
     private Parcelable mListState;
     private DocumentsRepository mRepository;
+
+    public static DocumentFragment createInstance(DocumentLink docLink) {
+        Bundle bundle = new Bundle();
+        bundle.putString(ARG_ID, docLink.getId().toString());
+        DocumentFragment fragment = new DocumentFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public NavigationItem getItem() {
@@ -124,8 +143,21 @@ public final class DocumentFragment extends ListFragment implements MainActivity
             mRepository = DocumentsRepository.getInstance(getContext());
         }
 
-        mDocument = mRepository.getCurrentDocument();
-        // TODO Or open saved document depending on args
+        Bundle args = getArguments();
+        if (null != args && args.containsKey(ARG_ID)) {
+            try {
+                UUID id = UUID.fromString(args.getString(ARG_ID, ""));
+                mDocument = mRepository.loadDocument(id);
+            } catch (Exception ex) {
+                Log.e(TAG, "Exception while loading document.", ex);
+                Toast toast = Toast.makeText(getContext(), R.string.generic_unexpected_error, Toast.LENGTH_LONG);
+                toast.show();
+
+                mDocument = new Document();
+            }
+        } else {
+            mDocument = mRepository.getCurrentDocument();
+        }
 
         mButtonBar.setVisibility(isCurrentDocument() ? View.VISIBLE : View.GONE);
 
@@ -197,6 +229,10 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     private final class ClearDialogListener implements View.OnClickListener, ClearDialogFragment.ClearDialogListener {
         @Override
         public void onClick(View v) {
+            if(!isCurrentDocument()) {
+                return;
+            }
+
             ClearDialogFragment dialog = new ClearDialogFragment();
             dialog.setDialogListener(this);
             dialog.show(getFragmentManager(), ClearDialogFragment.class.getSimpleName());
@@ -222,6 +258,10 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     private final class SaveDialogListener implements View.OnClickListener, SaveDialogFragment.SaveDialogListener {
         @Override
         public void onClick(View v) {
+            if(!isCurrentDocument()) {
+                return;
+            }
+
             Bundle args = new Bundle();
             args.putBoolean(SaveDialogFragment.ARG_IS_SAVED, mDocument.isSaved());
             args.putString(SaveDialogFragment.ARG_NAME, mDocument.getName());
@@ -245,6 +285,8 @@ public final class DocumentFragment extends ListFragment implements MainActivity
                 mRepository.saveCurrentDocument(name);
             } catch (Exception ex) {
                 Log.e(TAG, "Exception while saving document.", ex);
+                Toast toast = Toast.makeText(getContext(), R.string.generic_unexpected_error, Toast.LENGTH_LONG);
+                toast.show();
             }
 
             commit();

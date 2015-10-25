@@ -1,10 +1,12 @@
 package se.accidis.fmfg.app.ui.documents;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
  */
 public final class DocumentsListFragment extends ListFragment implements MainActivity.HasNavigationItem {
     private static final String STATE_LIST_VIEW = "documentListViewState";
+    private static final String TAG = DocumentsListFragment.class.getSimpleName();
     private final Handler mHandler = new Handler();
     private List<DocumentLink> mDocumentsList;
     private DocumentsListAdapter mListAdapter;
@@ -72,7 +75,16 @@ public final class DocumentsListFragment extends ListFragment implements MainAct
         }
 
         DocumentLink docLink = (DocumentLink) mListAdapter.getItem(position);
-        // TODO Open document
+        DocumentFragment fragment = DocumentFragment.createInstance(docLink);
+
+        Activity activity = getActivity();
+        if (activity instanceof MainActivity) {
+            saveInstanceState();
+            MainActivity mainActivity = (MainActivity) activity;
+            mainActivity.openFragment(fragment);
+        } else {
+            Log.e(TAG, "Activity holding fragment is not MainActivity!");
+        }
     }
 
     private void initializeList() {
@@ -92,7 +104,7 @@ public final class DocumentsListFragment extends ListFragment implements MainAct
     private final class DocumentsLoadedListener implements DocumentsRepository.OnLoadedListener {
         @Override
         public void onException(Exception ex) {
-            Toast toast = Toast.makeText(getContext(), R.string.generic_load_error, Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getContext(), R.string.generic_unexpected_error, Toast.LENGTH_LONG);
             toast.show();
         }
 

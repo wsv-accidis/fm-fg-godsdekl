@@ -10,11 +10,10 @@ import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentLink;
@@ -90,6 +89,12 @@ public final class DocumentsRepository {
         return mCurrentDocument;
     }
 
+    public Document loadDocument(UUID id) throws IOException, JSONException {
+        Log.d(TAG, "Loading document with ID: " + id);
+        String filename = getFilenameByDocumentId(id);
+        return readDocument(filename);
+    }
+
     public void saveCurrentDocument(String name) throws IOException, JSONException {
         Log.d(TAG, "Saving current document with ID: " + mCurrentDocument.getId() + ", name = " + mCurrentDocument.getName());
         ensureCurrentDocumentLoaded();
@@ -103,8 +108,8 @@ public final class DocumentsRepository {
         mOnLoadedListener = listener;
     }
 
-    private static String getFilenameByDocument(Document document) {
-        return String.format(SAVED_DOCUMENT_FORMAT, document.getId().toString());
+    private static String getFilenameByDocumentId(UUID documentId) {
+        return String.format(SAVED_DOCUMENT_FORMAT, documentId.toString());
     }
 
     private void invalidate() {
@@ -118,7 +123,7 @@ public final class DocumentsRepository {
     }
 
     private void writeDocument(Document document) throws IOException, JSONException {
-        String fileName = getFilenameByDocument(document);
+        String fileName = getFilenameByDocumentId(document.getId());
         String json = document.toJson().toString();
         IOUtils.writeToStream(mContext.openFileOutput(fileName, Context.MODE_PRIVATE), json);
     }

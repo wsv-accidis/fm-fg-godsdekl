@@ -173,7 +173,7 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
     private final class MaterialsLoadedListener implements MaterialsRepository.OnLoadedListener {
         @Override
         public void onException(Exception ex) {
-            Toast toast = Toast.makeText(getContext(), R.string.generic_load_error, Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getContext(), R.string.generic_unexpected_error, Toast.LENGTH_LONG);
             toast.show();
         }
 
