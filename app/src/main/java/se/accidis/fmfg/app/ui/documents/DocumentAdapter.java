@@ -141,7 +141,7 @@ public final class DocumentAdapter extends BaseAdapter {
 
         if (TextUtils.isEmpty(text)) {
             if (mIsCurrentDocument) {
-                addressText.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, R.drawable.ic_create), null, null, null);
+                addressText.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, R.drawable.ic_create_small), null, null, null);
                 addressText.setText(R.string.document_tap_to_edit);
             } else {
                 addressText.setCompoundDrawables(null, null, null, null);
