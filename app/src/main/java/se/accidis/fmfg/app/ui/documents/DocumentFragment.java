@@ -40,6 +40,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     private DocumentAdapter mAdapter;
     private View mButtonBar;
     private Document mDocument;
+    private boolean mIsCurrentDocument;
     private Parcelable mListState;
     private Preferences mPrefs;
     private DocumentsRepository mRepository;
@@ -94,7 +95,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        if (null == mAdapter || position < 0 || position >= mAdapter.getCount() || !isCurrentDocument()) {
+        if (null == mAdapter || position < 0 || position >= mAdapter.getCount() || !mIsCurrentDocument) {
             return;
         }
 
@@ -130,13 +131,9 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     public boolean onMenuItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.document_menu_delete:
-                mRepository.deleteDocument(mDocument.getId());
-                Activity activity = getActivity();
-                if (activity instanceof MainActivity) {
-                    ((MainActivity) activity).popFragmentFromBackStack();
-                } else {
-                    Log.e(TAG, "Activity holding fragment is not MainActivity!");
-                }
+                DeleteDialogFragment dialog = new DeleteDialogFragment();
+                dialog.setDialogListener(new DeleteDialogListener());
+                dialog.show(getFragmentManager(), DeleteDialogFragment.class.getSimpleName());
                 return true;
 
             case R.id.document_menu_show_fbet:
@@ -159,7 +156,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
         }
         MenuItem deleteItem = menu.findItem(R.id.document_menu_delete);
         if (null != deleteItem) {
-            boolean canDelete = (null != mDocument && !isCurrentDocument());
+            boolean canDelete = (null != mDocument && !mIsCurrentDocument);
             deleteItem.setEnabled(canDelete);
         }
     }
@@ -171,24 +168,26 @@ public final class DocumentFragment extends ListFragment implements MainActivity
             mRepository = DocumentsRepository.getInstance(getContext());
         }
 
+        mDocument = null;
         Bundle args = getArguments();
         if (null != args && args.containsKey(ARG_ID)) {
             try {
                 UUID id = UUID.fromString(args.getString(ARG_ID, ""));
                 mDocument = mRepository.loadDocument(id);
+                mIsCurrentDocument = false;
             } catch (Exception ex) {
                 Log.e(TAG, "Exception while loading document.", ex);
                 Toast toast = Toast.makeText(getContext(), R.string.generic_unexpected_error, Toast.LENGTH_LONG);
                 toast.show();
-
-                mDocument = new Document();
             }
-        } else {
-            mDocument = mRepository.getCurrentDocument();
         }
 
-        mButtonBar.setVisibility(isCurrentDocument() ? View.VISIBLE : View.GONE);
+        if (null == mDocument) {
+            mDocument = mRepository.getCurrentDocument();
+            mIsCurrentDocument = true;
+        }
 
+        mButtonBar.setVisibility(mIsCurrentDocument ? View.VISIBLE : View.GONE);
         AndroidUtils.hideSoftKeyboard(getContext(), getView());
         initializeList();
         updateMainView();
@@ -209,7 +208,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     }
 
     private void initializeList() {
-        mAdapter = new DocumentAdapter(getContext(), mDocument, isCurrentDocument());
+        mAdapter = new DocumentAdapter(getContext(), mDocument, mIsCurrentDocument);
         mAdapter.setShowFbet(mPrefs.shouldShowFbetInDocument());
         setListAdapter(mAdapter);
 
@@ -217,10 +216,6 @@ public final class DocumentFragment extends ListFragment implements MainActivity
             getListView().onRestoreInstanceState(mListState);
             mListState = null;
         }
-    }
-
-    private boolean isCurrentDocument() {
-        return mDocument.getId().equals(mRepository.getCurrentDocument().getId());
     }
 
     private void saveInstanceState() {
@@ -258,7 +253,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     private final class ClearDialogListener implements View.OnClickListener, ClearDialogFragment.ClearDialogListener {
         @Override
         public void onClick(View v) {
-            if (!isCurrentDocument()) {
+            if (!mIsCurrentDocument) {
                 return;
             }
 
@@ -284,10 +279,28 @@ public final class DocumentFragment extends ListFragment implements MainActivity
         }
     }
 
+    private final class DeleteDialogListener implements DeleteDialogFragment.DeleteDialogListener {
+        @Override
+        public void onDismiss() {
+            if(mIsCurrentDocument) {
+                return;
+            }
+
+            mRepository.deleteDocument(mDocument.getId());
+
+            Activity activity = getActivity();
+            if (activity instanceof MainActivity) {
+                ((MainActivity) activity).popFragmentFromBackStack();
+            } else {
+                Log.e(TAG, "Activity holding fragment is not MainActivity!");
+            }
+        }
+    }
+
     private final class SaveDialogListener implements View.OnClickListener, SaveDialogFragment.SaveDialogListener {
         @Override
         public void onClick(View v) {
-            if (!isCurrentDocument()) {
+            if (!mIsCurrentDocument) {
                 return;
             }
 
