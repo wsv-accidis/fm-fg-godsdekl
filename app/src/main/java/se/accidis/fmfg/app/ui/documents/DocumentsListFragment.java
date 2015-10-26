@@ -51,8 +51,8 @@ public final class DocumentsListFragment extends ListFragment implements MainAct
         setEmptyText(getString(R.string.documents_list_empty));
         AndroidUtils.hideSoftKeyboard(getContext(), getView());
 
-        if (!mIsLoaded) {
-            DocumentsRepository repository = DocumentsRepository.getInstance(getContext());
+        DocumentsRepository repository = DocumentsRepository.getInstance(getContext());
+        if (!mIsLoaded || !repository.isLoaded()) {
             repository.setOnLoadedListener(new DocumentsLoadedListener());
             repository.beginLoad();
         } else {
@@ -80,8 +80,7 @@ public final class DocumentsListFragment extends ListFragment implements MainAct
         Activity activity = getActivity();
         if (activity instanceof MainActivity) {
             saveInstanceState();
-            MainActivity mainActivity = (MainActivity) activity;
-            mainActivity.openFragment(fragment);
+            ((MainActivity) activity).openFragment(fragment);
         } else {
             Log.e(TAG, "Activity holding fragment is not MainActivity!");
         }

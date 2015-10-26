@@ -59,6 +59,11 @@ public final class MainActivity extends AppCompatActivity {
         updateViewFromFragment(fragment);
     }
 
+    public void popFragmentFromBackStack() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
+    }
+
     public void updateFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.container);

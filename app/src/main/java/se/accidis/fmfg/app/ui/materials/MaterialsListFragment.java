@@ -104,8 +104,7 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
         if (activity instanceof MainActivity) {
             AndroidUtils.hideSoftKeyboard(getContext(), getView());
             saveInstanceState();
-            MainActivity mainActivity = (MainActivity) activity;
-            mainActivity.openFragment(fragment);
+            ((MainActivity) activity).openFragment(fragment);
         } else {
             Log.e(TAG, "Activity holding fragment is not MainActivity!");
         }

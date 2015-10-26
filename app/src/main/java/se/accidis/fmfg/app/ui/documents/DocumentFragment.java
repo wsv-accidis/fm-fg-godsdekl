@@ -41,8 +41,8 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     private View mButtonBar;
     private Document mDocument;
     private Parcelable mListState;
-    private DocumentsRepository mRepository;
     private Preferences mPrefs;
+    private DocumentsRepository mRepository;
 
     public static DocumentFragment createInstance(DocumentLink docLink) {
         Bundle bundle = new Bundle();
@@ -50,16 +50,6 @@ public final class DocumentFragment extends ListFragment implements MainActivity
         DocumentFragment fragment = new DocumentFragment();
         fragment.setArguments(bundle);
         return fragment;
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
-        MenuItem showFbetItem = menu.findItem(R.id.document_menu_show_fbet);
-        if (null != showFbetItem) {
-            showFbetItem.setChecked(mPrefs.shouldShowFbetInDocument());
-        }
     }
 
     @Override
@@ -127,10 +117,8 @@ public final class DocumentFragment extends ListFragment implements MainActivity
                 MaterialsInfoFragment fragment = MaterialsInfoFragment.createInstance(row.getMaterial());
                 Activity activity = getActivity();
                 if (activity instanceof MainActivity) {
-                    AndroidUtils.hideSoftKeyboard(getContext(), getView());
                     saveInstanceState();
-                    MainActivity mainActivity = (MainActivity) activity;
-                    mainActivity.openFragment(fragment);
+                    ((MainActivity) activity).openFragment(fragment);
                 } else {
                     Log.e(TAG, "Activity holding fragment is not MainActivity!");
                 }
@@ -141,6 +129,16 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     @Override
     public boolean onMenuItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.document_menu_delete:
+                mRepository.deleteDocument(mDocument.getId());
+                Activity activity = getActivity();
+                if (activity instanceof MainActivity) {
+                    ((MainActivity) activity).popFragmentFromBackStack();
+                } else {
+                    Log.e(TAG, "Activity holding fragment is not MainActivity!");
+                }
+                return true;
+
             case R.id.document_menu_show_fbet:
                 boolean value = !mPrefs.shouldShowFbetInDocument();
                 mPrefs.setShowFbetInDocument(value);
@@ -152,9 +150,23 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        MenuItem showFbetItem = menu.findItem(R.id.document_menu_show_fbet);
+        if (null != showFbetItem) {
+            showFbetItem.setChecked(mPrefs.shouldShowFbetInDocument());
+        }
+        MenuItem deleteItem = menu.findItem(R.id.document_menu_delete);
+        if (null != deleteItem) {
+            boolean canDelete = (null != mDocument && !isCurrentDocument());
+            deleteItem.setEnabled(canDelete);
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-
         if (null == mRepository) {
             mRepository = DocumentsRepository.getInstance(getContext());
         }

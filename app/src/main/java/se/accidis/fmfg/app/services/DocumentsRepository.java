@@ -42,7 +42,7 @@ public final class DocumentsRepository {
     }
 
     public void beginLoad() {
-        if (null != mList) {
+        if (isLoaded()) {
             Log.d(TAG, "Documents already loaded, nothing to do.");
             if (null != mOnLoadedListener) {
                 mOnLoadedListener.onLoaded(mList);
@@ -63,6 +63,13 @@ public final class DocumentsRepository {
         } catch (Exception ex) {
             Log.e(TAG, "Exception while writing current document.", ex);
         }
+    }
+
+    public void deleteDocument(UUID id) {
+        Log.d(TAG, "Deleting document with ID: " + id);
+        String filename = getFilenameByDocumentId(id);
+        mContext.deleteFile(filename);
+        invalidate();
     }
 
     public void ensureCurrentDocumentLoaded() {
@@ -87,6 +94,10 @@ public final class DocumentsRepository {
     public Document getCurrentDocument() {
         ensureCurrentDocumentLoaded();
         return mCurrentDocument;
+    }
+
+    public boolean isLoaded() {
+        return (null != mList);
     }
 
     public Document loadDocument(UUID id) throws IOException, JSONException {
