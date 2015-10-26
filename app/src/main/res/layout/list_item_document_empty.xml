@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:paddingBottom="@dimen/document_row_vertical_margin"
+             android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
+             android:paddingRight="?android:attr/listPreferredItemPaddingRight"
+             android:paddingTop="@dimen/document_row_vertical_margin">
+
+    <TextView
+        style="@style/DocumentListItemSecondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/document_empty"/>
+</FrameLayout>

@@ -23,9 +23,9 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
  * Adapter for the document list view. The list contains both the document rows and additional information.
  */
 public final class DocumentAdapter extends BaseAdapter {
-    public static final int RECIPIENT_POSITION = 1;
     public static final int SENDER_POSITION = 0;
     public static final int VIEW_TYPE_ADDRESS = 1;
+    public static final int VIEW_TYPE_EMPTY = 4;
     public static final int VIEW_TYPE_INFO = 2;
     public static final int VIEW_TYPE_ROW = 0;
     public static final int VIEW_TYPE_SEPARATOR = 3;
@@ -52,7 +52,7 @@ public final class DocumentAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return ROW_TOP_OFFSET + mRows.size() + ROW_BOTTOM_OFFSET;
+        return ROW_TOP_OFFSET + Math.max(1, mRows.size()) + ROW_BOTTOM_OFFSET;
     }
 
     @Override
@@ -71,15 +71,19 @@ public final class DocumentAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == ROW_TOP_OFFSET - 1 || position == ROW_TOP_OFFSET + mRows.size()) {
+        int numRows = Math.max(1, mRows.size());
+        if (position == ROW_TOP_OFFSET - 1 || position == ROW_TOP_OFFSET + numRows) {
             // There is a separator between the addresses and the list, and another between the list and the summary
             return VIEW_TYPE_SEPARATOR;
         } else if (position < ROW_TOP_OFFSET) {
             // Above the list are addresses
             return VIEW_TYPE_ADDRESS;
-        } else if (position >= ROW_TOP_OFFSET + mRows.size()) {
+        } else if (position >= ROW_TOP_OFFSET + numRows) {
             // Below the list is the summary
             return VIEW_TYPE_INFO;
+        } else if (mRows.isEmpty()) {
+            // Empty list
+            return VIEW_TYPE_EMPTY;
         } else {
             // Everything else is the list
             return VIEW_TYPE_ROW;
@@ -91,6 +95,8 @@ public final class DocumentAdapter extends BaseAdapter {
         switch (getItemViewType(position)) {
             case VIEW_TYPE_ADDRESS:
                 return getAddressView(position, convertView, parent);
+            case VIEW_TYPE_EMPTY:
+                return getEmptyView(convertView, parent);
             case VIEW_TYPE_INFO:
                 return getInfoView(convertView, parent);
             case VIEW_TYPE_ROW:
@@ -104,7 +110,7 @@ public final class DocumentAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -113,7 +119,7 @@ public final class DocumentAdapter extends BaseAdapter {
             return false;
         } else {
             int type = getItemViewType(position);
-            return (VIEW_TYPE_INFO != type && VIEW_TYPE_SEPARATOR != type);
+            return (VIEW_TYPE_INFO != type && VIEW_TYPE_SEPARATOR != type && VIEW_TYPE_EMPTY != type);
         }
     }
 
@@ -147,6 +153,10 @@ public final class DocumentAdapter extends BaseAdapter {
         }
 
         return view;
+    }
+
+    private View getEmptyView(View convertView, ViewGroup parent) {
+        return (null != convertView ? convertView : mInflater.inflate(R.layout.list_item_document_empty, parent, false));
     }
 
     private View getInfoView(View convertView, ViewGroup parent) {
