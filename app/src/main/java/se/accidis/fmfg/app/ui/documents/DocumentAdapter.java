@@ -36,6 +36,7 @@ public final class DocumentAdapter extends BaseAdapter {
     private final LayoutInflater mInflater;
     private final List<DocumentRow> mRows;
     private boolean mIsCurrentDocument;
+    private boolean mShowFbet;
 
     public DocumentAdapter(Context context, Document document, boolean isCurrentDocument) {
         mContext = context;
@@ -121,6 +122,11 @@ public final class DocumentAdapter extends BaseAdapter {
             int type = getItemViewType(position);
             return (VIEW_TYPE_INFO != type && VIEW_TYPE_SEPARATOR != type && VIEW_TYPE_EMPTY != type);
         }
+    }
+
+    public void setShowFbet(boolean value) {
+        mShowFbet = value;
+        notifyDataSetChanged();
     }
 
     private View getAddressView(int position, View convertView, ViewGroup parent) {
@@ -221,8 +227,11 @@ public final class DocumentAdapter extends BaseAdapter {
 
         TextView fbenText = (TextView) view.findViewById(R.id.document_row_fben);
         if (!TextUtils.isEmpty(row.getMaterial().getFben())) {
-            // TODO Toggle showing Fbet here as well
-            fbenText.setText(row.getMaterial().getFben());
+            if (mShowFbet) {
+                fbenText.setText(row.getMaterial().getFbet() + ' ' + row.getMaterial().getFben());
+            } else {
+                fbenText.setText(row.getMaterial().getFben());
+            }
             fbenText.setVisibility(View.VISIBLE);
         } else {
             fbenText.setVisibility(View.GONE);

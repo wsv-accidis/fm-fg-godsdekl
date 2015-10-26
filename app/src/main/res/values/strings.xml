@@ -16,7 +16,6 @@
     <string name="address_recipient_heading">Skriv mottagarens namn och adress:</string>
     <string name="address_sender_heading">Skriv avsändarens namn och adress:</string>
 
-    <string name="document_copy">Kopiera</string>
     <string name="document_clear">Rensa</string>
     <string name="document_clear_everything">Rensa allt</string>
     <string name="document_clear_heading">Vill du ta bort innehållet i den här godsdeklarationen? (Detta går inte att ångra.)</string>
@@ -31,6 +30,7 @@
     <string name="document_save_heading">Ge godsdeklarationen ett beskrivande namn så att du hittar den senare:</string>
     <string name="document_save_already_saved">Den här godsdeklarationen är redan sparad. Om du sparar den nu så skriver du över den tidigare sparade versionen. Välj "Spara som ny" för att inte skriva över den tidigare.</string>
     <string name="document_sender">Avsändare</string>
+    <string name="document_show_fbet">Visa M-nummer</string>
     <string name="document_summary_total_format">Totalt värde %1$s p.</string>
     <string name="document_summary_total_nem_format">Total NEM: %1$s kg.</string>
     <string name="document_summary_tpkat_format">Transportkategori %1$d: %2$s, värde %3$s p.</string>

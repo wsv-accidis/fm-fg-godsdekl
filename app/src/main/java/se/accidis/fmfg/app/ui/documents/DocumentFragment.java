@@ -24,6 +24,7 @@ import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentLink;
 import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.services.DocumentsRepository;
+import se.accidis.fmfg.app.services.Preferences;
 import se.accidis.fmfg.app.ui.MainActivity;
 import se.accidis.fmfg.app.ui.NavigationItem;
 import se.accidis.fmfg.app.ui.materials.MaterialsInfoFragment;
@@ -41,6 +42,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     private Document mDocument;
     private Parcelable mListState;
     private DocumentsRepository mRepository;
+    private Preferences mPrefs;
 
     public static DocumentFragment createInstance(DocumentLink docLink) {
         Bundle bundle = new Bundle();
@@ -53,6 +55,11 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+
+        MenuItem showFbetItem = menu.findItem(R.id.document_menu_show_fbet);
+        if (null != showFbetItem) {
+            showFbetItem.setChecked(mPrefs.shouldShowFbetInDocument());
+        }
     }
 
     @Override
@@ -83,6 +90,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_document, container, false);
 
+        mPrefs = new Preferences(getContext());
         mButtonBar = view.findViewById(R.id.document_button_bar);
 
         Button saveButton = (Button) view.findViewById(R.id.document_button_save);
@@ -132,6 +140,14 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
     @Override
     public boolean onMenuItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.document_menu_show_fbet:
+                boolean value = !mPrefs.shouldShowFbetInDocument();
+                mPrefs.setShowFbetInDocument(value);
+                mAdapter.setShowFbet(value);
+                return true;
+        }
+
         return false;
     }
 
@@ -182,6 +198,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
     private void initializeList() {
         mAdapter = new DocumentAdapter(getContext(), mDocument, isCurrentDocument());
+        mAdapter.setShowFbet(mPrefs.shouldShowFbetInDocument());
         setListAdapter(mAdapter);
 
         if (null != mListState) {
@@ -229,7 +246,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     private final class ClearDialogListener implements View.OnClickListener, ClearDialogFragment.ClearDialogListener {
         @Override
         public void onClick(View v) {
-            if(!isCurrentDocument()) {
+            if (!isCurrentDocument()) {
                 return;
             }
 
@@ -258,7 +275,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     private final class SaveDialogListener implements View.OnClickListener, SaveDialogFragment.SaveDialogListener {
         @Override
         public void onClick(View v) {
-            if(!isCurrentDocument()) {
+            if (!isCurrentDocument()) {
                 return;
             }
 
