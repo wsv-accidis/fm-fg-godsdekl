@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.ui.documents.DocumentFragment;
 import se.accidis.fmfg.app.ui.documents.DocumentsListFragment;
+import se.accidis.fmfg.app.ui.instructions.ColoadingFragment;
+import se.accidis.fmfg.app.ui.instructions.InstructionFragment;
 import se.accidis.fmfg.app.ui.materials.MaterialsListFragment;
 
 /**

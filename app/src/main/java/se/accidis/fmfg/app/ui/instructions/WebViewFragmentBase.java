@@ -1,6 +1,5 @@
-package se.accidis.fmfg.app.ui;
+package se.accidis.fmfg.app.ui.instructions;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,24 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
-import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
- * Fragment which displays instructions for ADR.
+ * Base class for fragments based on webviews.
  */
-public final class InstructionFragment extends Fragment implements MainActivity.HasTitle, MainActivity.HasNavigationItem {
+public abstract class WebViewFragmentBase extends Fragment {
     private WebView mWebView;
 
-    @Override
-    public NavigationItem getItem() {
-        return NavigationItem.INSTRUCTIONS_ITEM;
-    }
-
-    @Override
-    public String getTitle(Context context) {
-        return context.getString(R.string.instructions_nav_title);
-    }
+    protected abstract String getUrl();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,7 +24,7 @@ public final class InstructionFragment extends Fragment implements MainActivity.
         }
 
         mWebView = new WebView(getActivity());
-        mWebView.loadUrl("file:///android_asset/www/instr_adr.html");
+        mWebView.loadUrl(getUrl());
 
         return mWebView;
     }
