@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <TextView
+            style="@style/InstructionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kollin som innehåller explosiva ämnen eller föremål i klass 1, märkta med etikett nr 1, 1.4, 1.5, 1.6 utom etikett 1.4 med samhanteringsgrupp S får inte lastas på samma fordon som kollin som innehåller farligt gods från övriga klasser."/>
+
+        <TextView
+            style="@style/InstructionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kollin som är försedda med etiketterna 1, 1.4, 1.5 och 1.6 och som tillhör olika samhanteringsgrupper i klass 1, får endast  samlastas på ett fordon om det tillåts enligt bilden nedan."/>
+
+        <TextView
+            style="@style/InstructionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Samlastningsbestämmelserna gäller för ett fordon. Detta innebär till exempel att de kollin som inte får samlastas med andra kollin på ett fordon, kan fördelas mellan bil och släp på en transportenhet."/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitStart"
+            android:src="@drawable/coloading_instructions"/>
+
+        <TextView
+            style="@style/InstructionTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1. Kollin med föremål i samhanteringsgrupp B och kollin med ämnen och föremål i samhanteringsgrupp D får samlastas i ett fordon eller i en container, förutsatt att de är effektivt åtskilda, så att det inte finns någon risk att en detonation överförs från föremål i samhanteringsgrupp B till ämnen och föremål i samhanteringsgrupp D. Separationen ska verkställas genom användning av skilda utrymmen eller genom att ett av de två slagen av explosiva ämnen eller föremål placeras i ett särskilt inneslutningssystem. Båda separationsmetoderna ska vara godkända av behörig myndighet."/>
+
+        <TextView
+            style="@style/InstructionTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2. Tillåts inte vid järnvägstransport."/>
+
+        <TextView
+            style="@style/InstructionTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3. Olika slag av föremål i klass 1.6N får samlastas som föremål i klass 1.6N endast om det visats genom provning eller analogislutsatser att ingen extra detonationsrisk genom överföring föreligger bland föremålen. I annat fall ska de behandlas som föremål i riskgrupp 1.1."/>
+
+        <TextView
+            style="@style/InstructionTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4. Om föremål i samhanteringsgrupp samlastats med ämnen eller föremål i grupp C, D eller E, ska föremålen i grupp N behandlas som om de hade egenskaper enligt grupp D."/>
+
+        <TextView
+            style="@style/InstructionTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5. Kollin med ämnen och föremål i samhanteringsgrupp L får samlastas i ett fordon eller container innehållande kollin med ämnen och föremål av samma slag i denna grupp."/>
+
+        <TextView
+            style="@style/InstructionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Information från SäkI Tp Farligt Gods, 2013 års utgåva."
+            android:textStyle="italic"/>
+    </LinearLayout>
+</ScrollView>

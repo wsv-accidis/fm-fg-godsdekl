@@ -16,7 +16,8 @@ public enum NavigationItem {
     CURRENT_DOCUMENT_ITEM(1),
     DOCUMENTS_ITEM(2),
     INSTRUCTIONS_ITEM(3),
-    ABOUT_ITEM(4);
+    COLOADING_ITEM(4),
+    ABOUT_ITEM(5);
 
     private final int mPosition;
 
@@ -31,6 +32,7 @@ public enum NavigationItem {
                 resources.getString(R.string.document_nav_title),
                 resources.getString(R.string.documents_list_nav_title),
                 resources.getString(R.string.instructions_nav_title),
+                resources.getString(R.string.coloading_nav_title),
                 resources.getString(R.string.about_nav_title)
         };
     }
@@ -39,6 +41,8 @@ public enum NavigationItem {
         switch (item) {
             case ABOUT_ITEM:
                 return new AboutFragment();
+            case COLOADING_ITEM:
+                return new ColoadingFragment();
             case CURRENT_DOCUMENT_ITEM:
                 return new DocumentFragment();
             case DOCUMENTS_ITEM:

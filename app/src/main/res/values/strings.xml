@@ -16,6 +16,8 @@
     <string name="address_recipient_heading">Skriv mottagarens namn och adress:</string>
     <string name="address_sender_heading">Skriv avsändarens namn och adress:</string>
 
+    <string name="coloading_nav_title">Samlastning klass 1</string>
+
     <string name="document_clear">Rensa</string>
     <string name="document_clear_everything">Rensa allt</string>
     <string name="document_clear_heading">Vill du ta bort innehållet i den här godsdeklarationen? Detta går inte att ångra.</string>
