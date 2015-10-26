@@ -26,4 +26,12 @@ Den här appen kräver inga behörigheter.
 
 ## Licensiering
 FM FG Godsdeklaration distribueras i enlighet med licensvillkoren i **Apache License version 2.0**.
+
 _FM FG Godsdeklaration is distributed according to the terms of the **Apache License version 2.0**._
+
+## Tillkännagivanden
+FM FG Godsdeklaration använder följande tredjepartsbibliotek och resurser, utöver
+utvecklingsverktyg för Android utgivna av Google:
+
+* [Joda-Time för Android](https://github.com/dlew/joda-time-android)
+* [Material Design Icons från Google](https://github.com/google/material-design-icons)
