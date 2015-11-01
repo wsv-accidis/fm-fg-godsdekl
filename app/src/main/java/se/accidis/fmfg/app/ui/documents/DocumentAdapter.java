@@ -211,8 +211,9 @@ public final class DocumentAdapter extends BaseAdapter {
         TextView totalView = (TextView) view.findViewById(R.id.document_summary_total);
         totalView.setText(String.format(mContext.getString(R.string.document_summary_total_format), ValueHelper.formatValue(totalValue)));
 
+        boolean isViolatingColoadingRules = ColoadingHelper.isViolationOfColoadingRules(mDocument);
         View warningClass1View = view.findViewById(R.id.document_warning_class1);
-        warningClass1View.setVisibility(View.GONE); // TODO
+        warningClass1View.setVisibility(isViolatingColoadingRules ? View.VISIBLE : View.GONE);
 
         return view;
     }

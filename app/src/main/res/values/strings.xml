@@ -46,8 +46,8 @@
     <string name="document_tap_to_edit">Tryck här för att ange namn och adress.</string>
     <string name="document_unspecified_package">kolli</string>
     <string name="document_unspecified_packages">kollin</string>
-    <string name="document_warning_class1_line1">Varning! Godsdeklarationen innehåller ämnen som inte får samlastas (ämnen märka med etikett 1, 1.4, 1.5 och 1.6 får som regel inte lastas på samma fordon som kollin som innehåller farligt gods från övriga klasser, undantaget etikett 1.4S).</string>
-    <string name="document_warning_class1_line2">Du kan dela upp en godsdeklaration i två med hjälp av funktionen "Dela godsdeklaration" i menyn.</string>
+    <string name="document_warning_class1_line1">Varning! Godsdeklarationen innehåller ämnen som inte får samlastas (ämnen märkta med etikett 1, 1.4, 1.5 och 1.6 får som regel inte lastas på samma fordon som kollin som innehåller farligt gods från övriga klasser, undantaget etikett 1.4S). Beakta även klass 1-ämnenas samlastningsgrupper.</string>
+    <string name="document_warning_class1_line2">Tänk på att om du lastar farligt gods på ett separat fordon så måste du upprätta en separat godsdeklaration för det fordonet.</string>
 
     <string name="documents_list_nav_title">Sparade godsdekl.</string>
     <string name="documents_list_empty">Inga sparade godsdeklarationer.</string>
