@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentLink;
+import se.accidis.fmfg.app.model.DocumentSettings;
 import se.accidis.fmfg.app.utils.IOUtils;
 
 /**
@@ -54,6 +55,12 @@ public final class DocumentsRepository {
         Log.d(TAG, "Loading documents.");
         LoadTask loadTask = new LoadTask();
         loadTask.execute();
+    }
+
+    public void changeCurrentDocument(Document document) {
+        Log.d(TAG, "Replacing current document with ID: " + document.getId());
+        mCurrentDocument = document;
+        commitCurrentDocument();
     }
 
     public void commitCurrentDocument() {
@@ -111,6 +118,7 @@ public final class DocumentsRepository {
         ensureCurrentDocumentLoaded();
         mCurrentDocument.setName(name);
         mCurrentDocument.setTimestamp(DateTime.now());
+        mCurrentDocument.getSettings().remove(DocumentSettings.Keys.UNSAVED_CHANGES);
         writeDocument(mCurrentDocument);
         invalidate();
     }

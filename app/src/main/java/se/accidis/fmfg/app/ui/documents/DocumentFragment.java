@@ -23,6 +23,7 @@ import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentLink;
 import se.accidis.fmfg.app.model.DocumentRow;
+import se.accidis.fmfg.app.model.DocumentSettings;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.Preferences;
 import se.accidis.fmfg.app.ui.MainActivity;
@@ -65,7 +66,8 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
     @Override
     public String getTitle(Context context) {
-        return (null != mDocument && mDocument.isSaved()) ? mDocument.getName() : context.getString(R.string.app_name);
+        String displayName = (null != mDocument && mDocument.isSaved()) ? mDocument.getName() : context.getString(R.string.document_no_name);
+        return (mIsCurrentDocument ? (displayName + ' ' + context.getString(R.string.document_editing)) : displayName);
     }
 
     @Override
@@ -131,9 +133,19 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     public boolean onMenuItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.document_menu_delete:
-                DeleteDialogFragment dialog = new DeleteDialogFragment();
-                dialog.setDialogListener(new DeleteDialogListener());
-                dialog.show(getFragmentManager(), DeleteDialogFragment.class.getSimpleName());
+                DeleteDialogFragment deleteDialog = new DeleteDialogFragment();
+                deleteDialog.setDialogListener(new DeleteDialogListener());
+                deleteDialog.show(getFragmentManager(), DeleteDialogFragment.class.getSimpleName());
+                return true;
+
+            case R.id.document_menu_edit:
+                if (mRepository.getCurrentDocument().getSettings().getBoolean(DocumentSettings.Keys.UNSAVED_CHANGES)) {
+                    EditUnsavedDialogFragment editDialog = new EditUnsavedDialogFragment();
+                    editDialog.setDialogListener(new EditUnsavedDialogListener());
+                    editDialog.show(getFragmentManager(), EditUnsavedDialogFragment.class.getSimpleName());
+                } else {
+                    makeCurrentDocument();
+                }
                 return true;
 
             case R.id.document_menu_show_fbet:
@@ -158,6 +170,10 @@ public final class DocumentFragment extends ListFragment implements MainActivity
         if (null != deleteItem) {
             boolean canDelete = (null != mDocument && !mIsCurrentDocument);
             deleteItem.setEnabled(canDelete);
+        }
+        MenuItem editItem = menu.findItem(R.id.document_menu_edit);
+        if (null != editItem) {
+            editItem.setEnabled(!mIsCurrentDocument);
         }
     }
 
@@ -218,6 +234,15 @@ public final class DocumentFragment extends ListFragment implements MainActivity
         }
     }
 
+    private void makeCurrentDocument() {
+        if (!mIsCurrentDocument) {
+            mRepository.changeCurrentDocument(mDocument);
+            mIsCurrentDocument = true;
+            mAdapter.setIsCurrentDocument(true);
+            mButtonBar.setVisibility(mIsCurrentDocument ? View.VISIBLE : View.GONE);
+        }
+    }
+
     private void saveInstanceState() {
         mListState = getListView().onSaveInstanceState();
     }
@@ -246,6 +271,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
                 mDocument.setRecipient(address);
             }
 
+            mDocument.getSettings().put(DocumentSettings.Keys.UNSAVED_CHANGES, true);
             commit();
         }
     }
@@ -274,6 +300,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
             mDocument.assignNewId();
             mDocument.setName("");
             mDocument.setTimestamp(null);
+            mDocument.getSettings().remove(DocumentSettings.Keys.UNSAVED_CHANGES);
 
             commit();
         }
@@ -282,7 +309,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     private final class DeleteDialogListener implements DeleteDialogFragment.DeleteDialogListener {
         @Override
         public void onDismiss() {
-            if(mIsCurrentDocument) {
+            if (mIsCurrentDocument) {
                 return;
             }
 
@@ -294,6 +321,13 @@ public final class DocumentFragment extends ListFragment implements MainActivity
             } else {
                 Log.e(TAG, "Activity holding fragment is not MainActivity!");
             }
+        }
+    }
+
+    private final class EditUnsavedDialogListener implements EditUnsavedDialogFragment.EditUnsavedDialogListener {
+        @Override
+        public void onDismiss() {
+            makeCurrentDocument();
         }
     }
 

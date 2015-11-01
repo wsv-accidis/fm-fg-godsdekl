@@ -124,6 +124,11 @@ public final class DocumentAdapter extends BaseAdapter {
         }
     }
 
+    public void setIsCurrentDocument(boolean value) {
+        mIsCurrentDocument = value;
+        notifyDataSetChanged();
+    }
+
     public void setShowFbet(boolean value) {
         mShowFbet = value;
         notifyDataSetChanged();

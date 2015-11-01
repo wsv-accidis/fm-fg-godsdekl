@@ -24,6 +24,11 @@
     <string name="document_clear_keep_addresses">Behåll adresser</string>
     <string name="document_delete">Ta bort</string>
     <string name="document_delete_heading">Vill du ta bort den här godsdeklarationen? Detta går inte att ångra.</string>
+    <string name="document_edit">Redigera</string>
+    <string name="document_edit_unsaved_heading">Du har gjort ändringar i den nuvarande godsdeklarationen som inte är sparade. Om du börjar redigera den här godsdeklarationen så förlorar du de osparade ändringarna. Vill du fortsätta?</string>
+    <string name="document_edit_unsaved_no">Nej, avbryt</string>
+    <string name="document_edit_unsaved_yes">Ja, börja redigera</string>
+    <string name="document_editing">(redigerar)</string>
     <string name="document_empty">Godsdeklarationen är tom.</string>
     <string name="document_nav_title">Godsdeklaration</string>
     <string name="document_nem_format">NEM: %1$s kg</string>

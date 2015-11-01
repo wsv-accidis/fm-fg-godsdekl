@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentRow;
+import se.accidis.fmfg.app.model.DocumentSettings;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 
@@ -178,7 +179,9 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
             row.setWeightVolume(mWeightVolume);
             row.setIsVolume(mWeightVolumeIsVolume);
 
-            mRepository.getCurrentDocument().addOrUpdateRow(row);
+            Document document = mRepository.getCurrentDocument();
+            document.addOrUpdateRow(row);
+            document.getSettings().put(DocumentSettings.Keys.UNSAVED_CHANGES, true);
             mRepository.commitCurrentDocument();
         }
 

@@ -10,4 +10,8 @@
         android:id="@+id/document_menu_delete"
         android:title="@string/document_delete"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/document_menu_edit"
+        android:title="@string/document_edit"
+        app:showAsAction="never"/>
 </menu>
