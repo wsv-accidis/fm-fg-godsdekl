@@ -19,7 +19,7 @@ Försvarsmakten. _This application is not developed, published, endorsed or othe
 with the Swedish Armed Forces._**
 
 ## Status
-Applikationen är under utveckling och har inte publicerats ännu.
+Aktuell version är 0.2. Applikationen har publicerats på Google Play.
 
 ## Behörigheter
 Den här appen kräver inga behörigheter.
