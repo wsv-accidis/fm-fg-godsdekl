@@ -3,6 +3,9 @@ package se.accidis.fmfg.app.services;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Wrapper for Android shared preferences. Used to store application data between launches.
  */
@@ -15,6 +18,14 @@ public final class Preferences {
         mPrefs = context.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
     }
 
+    public Set<String> getFavoriteMaterials() {
+        return mPrefs.getStringSet(Keys.FAVORITE_MATERIALS, new HashSet<String>());
+    }
+
+    public void setFavoriteMaterials(Set<String> materialsKeys) {
+        mPrefs.edit().putStringSet(Keys.FAVORITE_MATERIALS, materialsKeys).apply();
+    }
+
     public void setShowFbetInDocument(boolean value) {
         mPrefs.edit().putBoolean(Keys.SHOW_FBET_IN_DOCUMENT, value).apply();
     }
@@ -24,7 +35,8 @@ public final class Preferences {
     }
 
     private static class Keys {
-        public static final String SHOW_FBET_IN_DOCUMENT = "showFbetInDocument";
+        public static final String FAVORITE_MATERIALS = "FavoriteMaterials";
+        public static final String SHOW_FBET_IN_DOCUMENT = "ShowFbetInDocument";
 
         private Keys() {
         }

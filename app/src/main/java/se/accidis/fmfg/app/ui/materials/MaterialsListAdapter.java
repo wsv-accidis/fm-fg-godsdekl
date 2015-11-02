@@ -11,11 +11,14 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Material;
+import se.accidis.fmfg.app.services.MaterialsRepository;
 
 /**
  * List adapter for the materials list.
@@ -26,12 +29,16 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
     private Filter mFilter = new MaterialsListFilter();
     private List<Material> mFilteredList;
     private Set<Material> mLoadedMaterials;
+    private final MaterialsComparator mComparator;
+    private final MaterialsRepository mRepository;
 
     public MaterialsListAdapter(Context context, List<Material> list, Set<Material> loadedMaterials) {
         mList = list;
         mFilteredList = list;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mLoadedMaterials = loadedMaterials;
+        mRepository = MaterialsRepository.getInstance(context);
+        mComparator = new MaterialsComparator(mRepository);
     }
 
     @Override
@@ -85,6 +92,26 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
         notifyDataSetChanged();
     }
 
+    private static class MaterialsComparator implements Comparator<Material> {
+        private final MaterialsRepository mRepository;
+
+        public MaterialsComparator(MaterialsRepository repository) {
+            mRepository = repository;
+        }
+
+        @Override
+        public int compare(Material lhs, Material rhs) {
+            boolean leftFav = mRepository.isFavoriteMaterial(lhs), rightFav = mRepository.isFavoriteMaterial(rhs);
+            if (leftFav && !rightFav) {
+                return -1;
+            } else if (rightFav && !leftFav) {
+                return 1;
+            }
+
+            return lhs.getFben().compareTo(rhs.getFben());
+        }
+    }
+
     private final class MaterialsListFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -102,6 +129,7 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
                 }
             }
 
+            Collections.sort(filteredList, mComparator);
             results.values = filteredList;
             results.count = filteredList.size();
             return results;

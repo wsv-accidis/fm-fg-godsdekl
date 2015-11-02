@@ -206,6 +206,10 @@ public final class Material {
         return (TextUtils.isEmpty(mFben) ? mNamn : mFben);
     }
 
+    public String toUniqueKey() {
+        return mNamn + '|' + mFben + '|' + mFbet;
+    }
+
     private String createFullText() {
         StringBuilder builder = new StringBuilder();
 

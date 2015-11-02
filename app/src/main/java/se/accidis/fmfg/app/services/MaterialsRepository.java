@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.utils.IOUtils;
@@ -23,13 +24,23 @@ public final class MaterialsRepository {
     private static MaterialsRepository mInstance;
     private List<Material> mList;
     private OnLoadedListener mOnLoadedListener;
+    private final Preferences mPrefs;
+    private final Set<String> mFavoriteMaterials;
 
     private MaterialsRepository(Context context) {
         mContext = context.getApplicationContext();
+        mPrefs = new Preferences(mContext);
+        mFavoriteMaterials = mPrefs.getFavoriteMaterials();
     }
 
     public static MaterialsRepository getInstance(Context context) {
         return (null == mInstance ? (mInstance = new MaterialsRepository(context)) : mInstance);
+    }
+
+    public void addFavoriteMaterial(Material material) {
+        String key = material.toUniqueKey();
+        mFavoriteMaterials.add(key);
+        mPrefs.setFavoriteMaterials(mFavoriteMaterials);
     }
 
     public void beginLoad() {
@@ -45,6 +56,17 @@ public final class MaterialsRepository {
         Log.d(TAG, "Loading assets.");
         LoadTask loadTask = new LoadTask();
         loadTask.execute();
+    }
+
+    public boolean isFavoriteMaterial(Material material) {
+        String key = material.toUniqueKey();
+        return mFavoriteMaterials.contains(key);
+    }
+
+    public void removeFavoriteMaterial(Material material) {
+        String key = material.toUniqueKey();
+        mFavoriteMaterials.remove(key);
+        mPrefs.setFavoriteMaterials(mFavoriteMaterials);
     }
 
     public void setOnLoadedListener(OnLoadedListener listener) {

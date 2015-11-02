@@ -74,6 +74,13 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
 
             switch (item.getItemId()) {
                 case R.id.material_menu_favorite:
+                    MaterialsRepository repository = MaterialsRepository.getInstance(getContext());
+                    if (repository.isFavoriteMaterial(material)) {
+                        repository.removeFavoriteMaterial(material);
+                    } else {
+                        repository.addFavoriteMaterial(material);
+                    }
+                    mListAdapter.getFilter().filter(mSearchQuery);
                     return true;
                 case R.id.material_menu_load:
                     MaterialsLoadDialogFragment dialog = new MaterialsLoadDialogFragment();
@@ -187,9 +194,8 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
             getListView().onRestoreInstanceState(mListState);
             mListState = null;
         }
-        if (!TextUtils.isEmpty(mSearchQuery)) {
-            mListAdapter.getFilter().filter(mSearchQuery);
-        }
+
+        mListAdapter.getFilter().filter(mSearchQuery);
     }
 
     private void saveInstanceState() {
@@ -237,9 +243,9 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mSearchQuery = s.toString();
+            mSearchQuery = s.toString().toLowerCase();
             if (null != mListAdapter) {
-                mListAdapter.getFilter().filter(mSearchQuery.toLowerCase());
+                mListAdapter.getFilter().filter(mSearchQuery);
             }
         }
     }
