@@ -80,6 +80,11 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
         return view;
     }
 
+    public void setLoadedMaterials(Set<Material> loadedMaterials) {
+        mLoadedMaterials = loadedMaterials;
+        notifyDataSetChanged();
+    }
+
     private final class MaterialsListFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {

@@ -1,7 +1,6 @@
 package se.accidis.fmfg.app.ui.materials;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,7 +28,6 @@ import se.accidis.fmfg.app.ui.NavigationItem;
  * Fragment showing information about a material.
  */
 public final class MaterialsInfoFragment extends Fragment implements MainActivity.HasNavigationItem {
-    private final LoadDialogDismissedListener mLoadDialogDismissedListener = new LoadDialogDismissedListener();
     private Button mLoadButton;
     private Material mMaterial;
     private Button mRemoveButton;
@@ -176,14 +174,14 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
         public void onClick(View v) {
             MaterialsLoadDialogFragment dialog = new MaterialsLoadDialogFragment();
             dialog.setArguments(mMaterial.toBundle());
-            dialog.setOnDismissListener(mLoadDialogDismissedListener);
+            dialog.setDialogListener(new MaterialsLoadDialogListener());
             dialog.show(getFragmentManager(), MaterialsLoadDialogFragment.class.getSimpleName());
         }
     }
 
-    private final class LoadDialogDismissedListener implements DialogInterface.OnDismissListener {
+    private final class MaterialsLoadDialogListener implements MaterialsLoadDialogFragment.MaterialsLoadDialogListener {
         @Override
-        public void onDismiss(DialogInterface dialog) {
+        public void onDismiss() {
             refreshDocumentState();
         }
     }

@@ -10,9 +10,13 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -56,9 +60,37 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        registerForContextMenu(getListView());
         if (savedInstanceState != null) {
             mListState = savedInstanceState.getParcelable(STATE_LIST_VIEW);
         }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        if (info.position < mListAdapter.getCount()) {
+            Material material = (Material) mListAdapter.getItem(info.position);
+
+            switch (item.getItemId()) {
+                case R.id.material_menu_favorite:
+                    return true;
+                case R.id.material_menu_load:
+                    MaterialsLoadDialogFragment dialog = new MaterialsLoadDialogFragment();
+                    dialog.setArguments(material.toBundle());
+                    dialog.setDialogListener(new MaterialsLoadDialogListener());
+                    dialog.show(getFragmentManager(), MaterialsLoadDialogFragment.class.getSimpleName());
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.materials_list, menu);
     }
 
     @Override
@@ -139,14 +171,16 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
         }
     }
 
+    private Set<Material> getLoadedMaterials() {
+        Document currentDocument = DocumentsRepository.getInstance(getContext()).getCurrentDocument();
+        return currentDocument.getMaterialsSet();
+    }
+
     private void initializeList() {
         mSearchText.setEnabled(true);
         mClearSearchButton.setEnabled(true);
 
-        Document currentDocument = DocumentsRepository.getInstance(getContext()).getCurrentDocument();
-        Set<Material> loadedMaterials = currentDocument.getMaterialsSet();
-
-        mListAdapter = new MaterialsListAdapter(getContext(), mMaterialsList, loadedMaterials);
+        mListAdapter = new MaterialsListAdapter(getContext(), mMaterialsList, getLoadedMaterials());
         setListAdapter(mListAdapter);
 
         if (null != mListState) {
@@ -207,6 +241,13 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
             if (null != mListAdapter) {
                 mListAdapter.getFilter().filter(mSearchQuery.toLowerCase());
             }
+        }
+    }
+
+    private class MaterialsLoadDialogListener implements MaterialsLoadDialogFragment.MaterialsLoadDialogListener {
+        @Override
+        public void onDismiss() {
+            mListAdapter.setLoadedMaterials(getLoadedMaterials());
         }
     }
 }

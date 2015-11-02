@@ -32,11 +32,11 @@ import se.accidis.fmfg.app.services.DocumentsRepository;
 public final class MaterialsLoadDialogFragment extends DialogFragment {
     private BigDecimal mAmount;
     private BigDecimal mDocumentTotalValue;
+    private MaterialsLoadDialogListener mListener;
     private Material mMaterial;
     private BigDecimal mMultiplier;
     private TextView mNEMView;
     private EditText mNumberPkgsField;
-    private DialogInterface.OnDismissListener mOnDismissListener;
     private DocumentsRepository mRepository;
     private TextView mTotalValueView;
     private EditText mTypePkgsField;
@@ -120,13 +120,13 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        if (null != mOnDismissListener) {
-            mOnDismissListener.onDismiss(dialog);
+        if (null != mListener) {
+            mListener.onDismiss();
         }
     }
 
-    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
-        mOnDismissListener = onDismissListener;
+    public void setDialogListener(MaterialsLoadDialogListener onDismissListener) {
+        mListener = onDismissListener;
     }
 
     private void calculate() {
@@ -148,6 +148,10 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
         value = value.multiply(mMultiplier);
         mValueView.setText(String.format(getString(R.string.unit_points_format), ValueHelper.formatValue(value)));
         mTotalValueView.setText(String.format(getString(R.string.unit_points_format), ValueHelper.formatValue(value.add(mDocumentTotalValue))));
+    }
+
+    public interface MaterialsLoadDialogListener {
+        void onDismiss();
     }
 
     private final class AmountChangedListener implements TextWatcher {
