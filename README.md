@@ -19,7 +19,8 @@ Försvarsmakten. _This application is not developed, published, endorsed or othe
 with the Swedish Armed Forces._**
 
 ## Status
-Aktuell version är 0.2. Applikationen har publicerats på Google Play.
+Aktuell version är 0.3. Applikationen har publicerats på 
+[Google Play](https://play.google.com/store/apps/details?id=se.accidis.fmfg.app).
 
 ## Behörigheter
 Den här appen kräver inga behörigheter.
