@@ -37,6 +37,7 @@ public final class Document {
 
     private Document(UUID id) {
         mId = id;
+        mSettings = new DocumentSettings(null);
     }
 
     public static Document fromJson(JSONObject json) throws JSONException {
