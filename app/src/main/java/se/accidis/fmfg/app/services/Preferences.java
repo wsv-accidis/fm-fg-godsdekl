@@ -19,7 +19,8 @@ public final class Preferences {
     }
 
     public Set<String> getFavoriteMaterials() {
-        return mPrefs.getStringSet(Keys.FAVORITE_MATERIALS, new HashSet<String>());
+        Set<String> set = mPrefs.getStringSet(Keys.FAVORITE_MATERIALS, null);
+        return (set != null ? new HashSet<>(set) : new HashSet<String>());
     }
 
     public void setFavoriteMaterials(Set<String> materialsKeys) {

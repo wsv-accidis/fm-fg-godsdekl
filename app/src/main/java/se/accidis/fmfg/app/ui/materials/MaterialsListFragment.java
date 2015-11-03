@@ -1,13 +1,13 @@
 package se.accidis.fmfg.app.ui.materials;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -49,6 +50,7 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
     private MaterialsListAdapter mListAdapter;
     private Parcelable mListState;
     private List<Material> mMaterialsList;
+    private MaterialsRepository mRepository;
     private String mSearchQuery;
     private EditText mSearchText;
 
@@ -67,6 +69,14 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (null == mRepository) {
+            mRepository = MaterialsRepository.getInstance(context);
+        }
+    }
+
+    @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         if (info.position < mListAdapter.getCount()) {
@@ -74,13 +84,7 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
 
             switch (item.getItemId()) {
                 case R.id.material_menu_favorite:
-                    MaterialsRepository repository = MaterialsRepository.getInstance(getContext());
-                    if (repository.isFavoriteMaterial(material)) {
-                        repository.removeFavoriteMaterial(material);
-                    } else {
-                        repository.addFavoriteMaterial(material);
-                    }
-                    mListAdapter.getFilter().filter(mSearchQuery);
+                    toggleFavorite(material);
                     return true;
                 case R.id.material_menu_load:
                     MaterialsLoadDialogFragment dialog = new MaterialsLoadDialogFragment();
@@ -98,6 +102,15 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.materials_list, menu);
+
+        MenuItem favoriteItem = menu.findItem(R.id.material_menu_favorite);
+        if (null != favoriteItem) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            Material material = (Material) mListAdapter.getItem(info.position);
+            if (mRepository.isFavoriteMaterial(material)) {
+                favoriteItem.setTitle(R.string.material_favorite_remove);
+            }
+        }
     }
 
     @Override
@@ -158,9 +171,8 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
         mClearSearchButton.setEnabled(false);
 
         if (!mIsLoaded) {
-            MaterialsRepository repository = MaterialsRepository.getInstance(getContext());
-            repository.setOnLoadedListener(new MaterialsLoadedListener());
-            repository.beginLoad();
+            mRepository.setOnLoadedListener(new MaterialsLoadedListener());
+            mRepository.beginLoad();
         } else {
             initializeList();
         }
@@ -202,10 +214,40 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
         mListState = getListView().onSaveInstanceState();
     }
 
+    private void toggleFavorite(final Material material) {
+        Filter.FilterListener filterListener = null;
+        if (mRepository.isFavoriteMaterial(material)) {
+            mRepository.removeFavoriteMaterial(material);
+        } else {
+            mRepository.addFavoriteMaterial(material);
+
+            // This listener will scroll to the new position of the favorite, so it doesn't disappear from the user
+            filterListener = new Filter.FilterListener() {
+                @Override
+                public void onFilterComplete(int count) {
+                    int position = mListAdapter.indexOf(material);
+                    ListView listView = getListView();
+                    if (null != listView && -1 != position) {
+                        getListView().smoothScrollToPosition(position);
+                    }
+                }
+            };
+        }
+
+        mListAdapter.getFilter().filter(mSearchQuery, filterListener);
+    }
+
     private final class ClearSearchClickedListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             mSearchText.setText("");
+        }
+    }
+
+    private final class MaterialsLoadDialogListener implements MaterialsLoadDialogFragment.MaterialsLoadDialogListener {
+        @Override
+        public void onDismiss() {
+            mListAdapter.setLoadedMaterials(getLoadedMaterials());
         }
     }
 
@@ -247,13 +289,6 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
             if (null != mListAdapter) {
                 mListAdapter.getFilter().filter(mSearchQuery);
             }
-        }
-    }
-
-    private class MaterialsLoadDialogListener implements MaterialsLoadDialogFragment.MaterialsLoadDialogListener {
-        @Override
-        public void onDismiss() {
-            mListAdapter.setLoadedMaterials(getLoadedMaterials());
         }
     }
 }

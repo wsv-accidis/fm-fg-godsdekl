@@ -21,11 +21,11 @@ public final class MaterialsRepository {
     private static final String ADR_JSON_ASSET = "ADR.json";
     private static final String TAG = MaterialsRepository.class.getSimpleName();
     private final Context mContext;
+    private final Set<String> mFavoriteMaterials;
+    private final Preferences mPrefs;
     private static MaterialsRepository mInstance;
     private List<Material> mList;
     private OnLoadedListener mOnLoadedListener;
-    private final Preferences mPrefs;
-    private final Set<String> mFavoriteMaterials;
 
     private MaterialsRepository(Context context) {
         mContext = context.getApplicationContext();

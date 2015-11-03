@@ -24,13 +24,13 @@ import se.accidis.fmfg.app.services.MaterialsRepository;
  * List adapter for the materials list.
  */
 public final class MaterialsListAdapter extends BaseAdapter implements Filterable {
+    private final MaterialsComparator mComparator;
     private final LayoutInflater mInflater;
     private final List<Material> mList;
+    private final MaterialsRepository mRepository;
     private Filter mFilter = new MaterialsListFilter();
     private List<Material> mFilteredList;
     private Set<Material> mLoadedMaterials;
-    private final MaterialsComparator mComparator;
-    private final MaterialsRepository mRepository;
 
     public MaterialsListAdapter(Context context, List<Material> list, Set<Material> loadedMaterials) {
         mList = list;
@@ -75,7 +75,14 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
         TextView fbenText = (TextView) view.findViewById(R.id.material_fben);
         fbenText.setText(material.getFben());
 
-        if (mLoadedMaterials.contains(material)) {
+        boolean isFavorite = mRepository.isFavoriteMaterial(material);
+        boolean isLoaded = mLoadedMaterials.contains(material);
+
+        if (isFavorite && isLoaded) {
+            fbenText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star_check_circle_small, 0, 0, 0);
+        } else if (isFavorite) {
+            fbenText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star_circle_small, 0, 0, 0);
+        } else if (isLoaded) {
             fbenText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_circle_small, 0, 0, 0);
         } else {
             fbenText.setCompoundDrawables(null, null, null, null);
@@ -85,6 +92,10 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
         textText.setText(material.getFullText());
 
         return view;
+    }
+
+    public int indexOf(Material material) {
+        return mFilteredList.indexOf(material);
     }
 
     public void setLoadedMaterials(Set<Material> loadedMaterials) {
@@ -101,7 +112,9 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 
         @Override
         public int compare(Material lhs, Material rhs) {
-            boolean leftFav = mRepository.isFavoriteMaterial(lhs), rightFav = mRepository.isFavoriteMaterial(rhs);
+            boolean leftFav = mRepository.isFavoriteMaterial(lhs);
+            boolean rightFav = mRepository.isFavoriteMaterial(rhs);
+
             if (leftFav && !rightFav) {
                 return -1;
             } else if (rightFav && !leftFav) {

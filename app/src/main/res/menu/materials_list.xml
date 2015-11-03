@@ -5,5 +5,5 @@
         android:title="@string/material_load" />
     <item
         android:id="@+id/material_menu_favorite"
-        android:title="@string/material_favorite" />
+        android:title="@string/material_favorite_add" />
 </menu>
