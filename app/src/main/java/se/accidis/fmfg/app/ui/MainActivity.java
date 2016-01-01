@@ -118,7 +118,7 @@ public final class MainActivity extends AppCompatActivity {
             mOpenFragmentItem = item;
             openFragment(nextFragment, addToBackStack);
         } else {
-            Log.e(TAG, "Trying to navigate to unrecognized fragment " + item + ".");
+            Log.e(TAG, "Trying to navigate to unrecognized fragment.");
         }
     }
 
