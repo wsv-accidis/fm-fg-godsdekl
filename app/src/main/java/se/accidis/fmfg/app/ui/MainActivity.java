@@ -16,180 +16,186 @@ import android.view.MenuItem;
 import se.accidis.fmfg.app.R;
 
 public final class MainActivity extends AppCompatActivity {
-    private static final String STATE_LAST_OPENED_FRAGMENT = "openMainActivityFragment";
-    private static final String STATE_LAST_OPENED_FRAGMENT_POS = "openMainActivityFragmentPos";
-    private static final String TAG = MainActivity.class.getSimpleName();
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-    private NavigationItem mOpenFragmentItem;
-    private HasMenu mOptionsMenu;
-    private CharSequence mTitle;
+	private static final String STATE_LAST_OPENED_FRAGMENT = "openMainActivityFragment";
+	private static final String STATE_LAST_OPENED_FRAGMENT_POS = "openMainActivityFragmentPos";
+	private static final String TAG = MainActivity.class.getSimpleName();
+	private NavigationDrawerFragment mNavigationDrawerFragment;
+	private NavigationItem mOpenFragmentItem;
+	private HasMenu mOptionsMenu;
+	private CharSequence mTitle;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen if the drawer is not showing. Otherwise, let the drawer decide what to show in the action bar.
-            int menuId = (null == mOptionsMenu ? R.menu.main : mOptionsMenu.getMenu());
-            getMenuInflater().inflate(menuId, menu);
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		if (!mNavigationDrawerFragment.isDrawerOpen()) {
+			// Only show items in the action bar relevant to this screen if the drawer is not showing. Otherwise, let the drawer decide what to show in the action bar.
+			int menuId = (null == mOptionsMenu ? R.menu.main : mOptionsMenu.getMenu());
+			getMenuInflater().inflate(menuId, menu);
+			restoreActionBar();
+			return true;
+		}
+		return super.onCreateOptionsMenu(menu);
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return (null != mOptionsMenu && mOptionsMenu.onMenuItemSelected(item)) || super.onOptionsItemSelected(item);
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return (null != mOptionsMenu && mOptionsMenu.onMenuItemSelected(item)) || super.onOptionsItemSelected(item);
+	}
 
-    public void openFragment(Fragment fragment) {
-        openFragment(fragment, true);
-    }
+	public void openFragment(Fragment fragment) {
+		openFragment(fragment, true);
+	}
 
-    public void openFragment(Fragment fragment, boolean addToBackStack) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+	public void openFragment(Fragment fragment, boolean addToBackStack) {
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		Fragment oldFragment = fragmentManager.findFragmentById(R.id.container);
 
-        if (addToBackStack) {
-            transaction.addToBackStack(null);
-        }
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+		transaction.replace(R.id.container, fragment);
+		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
-        transaction.commit();
-        updateViewFromFragment(fragment);
-    }
+		if (addToBackStack && !isSameFragment(oldFragment, fragment)) {
+			transaction.addToBackStack(null);
+		}
 
-    public void popFragmentFromBackStack() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.popBackStack();
-    }
+		transaction.commit();
+		updateViewFromFragment(fragment);
+	}
 
-    public void updateFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentById(R.id.container);
-        updateViewFromFragment(fragment);
-    }
+	public void popFragmentFromBackStack() {
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		fragmentManager.popBackStack();
+	}
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+	public void updateFragment() {
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		Fragment fragment = fragmentManager.findFragmentById(R.id.container);
+		updateViewFromFragment(fragment);
+	}
 
-        mTitle = getTitle();
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
 
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        mNavigationDrawerFragment = (NavigationDrawerFragment) fragmentManager.findFragmentById(R.id.navigation_drawer);
-        mNavigationDrawerFragment.setNavigationDrawerCallbacks(new NavigationDrawerCallbacks());
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+		mTitle = getTitle();
 
-        if (null != savedInstanceState) {
-            mOpenFragmentItem = NavigationItem.fromPosition(savedInstanceState.getInt(STATE_LAST_OPENED_FRAGMENT_POS));
-            if (null == mOpenFragmentItem) {
-                mOpenFragmentItem = NavigationItem.getDefault();
-                openNavigationItem(mOpenFragmentItem, false);
-            } else {
-                Fragment lastFragment = fragmentManager.getFragment(savedInstanceState, STATE_LAST_OPENED_FRAGMENT);
-                openFragment(lastFragment, false);
-            }
-        } else if (null == mOpenFragmentItem) {
-            mOpenFragmentItem = NavigationItem.getDefault();
-            openNavigationItem(mOpenFragmentItem, false);
-        }
+		final FragmentManager fragmentManager = getSupportFragmentManager();
+		mNavigationDrawerFragment = (NavigationDrawerFragment) fragmentManager.findFragmentById(R.id.navigation_drawer);
+		mNavigationDrawerFragment.setNavigationDrawerCallbacks(new NavigationDrawerCallbacks());
+		mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        fragmentManager.addOnBackStackChangedListener(new BackStackChangedListener());
-    }
+		if (null != savedInstanceState) {
+			mOpenFragmentItem = NavigationItem.fromPosition(savedInstanceState.getInt(STATE_LAST_OPENED_FRAGMENT_POS));
+			if (null == mOpenFragmentItem) {
+				mOpenFragmentItem = NavigationItem.getDefault();
+				openNavigationItem(mOpenFragmentItem, false);
+			} else {
+				Fragment lastFragment = fragmentManager.getFragment(savedInstanceState, STATE_LAST_OPENED_FRAGMENT);
+				openFragment(lastFragment, false);
+			}
+		} else if (null == mOpenFragmentItem) {
+			mOpenFragmentItem = NavigationItem.getDefault();
+			openNavigationItem(mOpenFragmentItem, false);
+		}
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+		fragmentManager.addOnBackStackChangedListener(new BackStackChangedListener());
+	}
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentById(R.id.container);
-        if (null != fragment) {
-            fragmentManager.putFragment(outState, STATE_LAST_OPENED_FRAGMENT, fragment);
-        }
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 
-        outState.putInt(STATE_LAST_OPENED_FRAGMENT_POS, mOpenFragmentItem.getPosition());
-    }
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		Fragment fragment = fragmentManager.findFragmentById(R.id.container);
+		if (null != fragment) {
+			fragmentManager.putFragment(outState, STATE_LAST_OPENED_FRAGMENT, fragment);
+		}
 
-    private void openNavigationItem(NavigationItem item, boolean addToBackStack) {
-        Fragment nextFragment = NavigationItem.createFragment(item);
-        if (null != nextFragment) {
-            mOpenFragmentItem = item;
-            openFragment(nextFragment, addToBackStack);
-        } else {
-            Log.e(TAG, "Trying to navigate to unrecognized fragment.");
-        }
-    }
+		outState.putInt(STATE_LAST_OPENED_FRAGMENT_POS, mOpenFragmentItem.getPosition());
+	}
 
-    private void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle(mTitle);
-        }
-    }
+	private boolean isSameFragment(Fragment oldFragment, Fragment newFragment) {
+		return null != oldFragment && oldFragment.getClass().getName().equals(newFragment.getClass().getName());
+	}
 
-    private void setMainTitle(String title) {
-        if (TextUtils.isEmpty(title)) {
-            mTitle = getString(R.string.app_name);
-        } else {
-            mTitle = title;
-        }
-    }
+	private void openNavigationItem(NavigationItem item, boolean addToBackStack) {
+		Fragment nextFragment = NavigationItem.createFragment(item);
+		if (null != nextFragment) {
+			mOpenFragmentItem = item;
+			openFragment(nextFragment, addToBackStack);
+		} else {
+			Log.e(TAG, "Trying to navigate to unrecognized fragment.");
+		}
+	}
 
-    private void updateViewFromFragment(Fragment fragment) {
-        if (fragment instanceof HasNavigationItem) {
-            HasNavigationItem fragmentWithNavItem = (HasNavigationItem) fragment;
-            mNavigationDrawerFragment.setSelectedItem(fragmentWithNavItem.getItem());
-        }
+	private void restoreActionBar() {
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayShowTitleEnabled(true);
+			actionBar.setTitle(mTitle);
+		}
+	}
 
-        if (fragment instanceof HasTitle) {
-            HasTitle fragmentWithTitle = (HasTitle) fragment;
-            setMainTitle(fragmentWithTitle.getTitle(this));
-        } else {
-            setMainTitle(null);
-        }
+	private void setMainTitle(String title) {
+		if (TextUtils.isEmpty(title)) {
+			mTitle = getString(R.string.app_name);
+		} else {
+			mTitle = title;
+		}
+	}
 
-        if (fragment instanceof HasMenu) {
-            mOptionsMenu = (HasMenu) fragment;
-            fragment.setHasOptionsMenu(true);
-        } else {
-            mOptionsMenu = null;
-            fragment.setHasOptionsMenu(false);
-        }
+	private void updateViewFromFragment(Fragment fragment) {
+		if (fragment instanceof HasNavigationItem) {
+			HasNavigationItem fragmentWithNavItem = (HasNavigationItem) fragment;
+			mNavigationDrawerFragment.setSelectedItem(fragmentWithNavItem.getItem());
+		}
 
-        restoreActionBar();
-    }
+		if (fragment instanceof HasTitle) {
+			HasTitle fragmentWithTitle = (HasTitle) fragment;
+			setMainTitle(fragmentWithTitle.getTitle(this));
+		} else {
+			setMainTitle(null);
+		}
 
-    public interface HasMenu {
-        int getMenu();
+		if (fragment instanceof HasMenu) {
+			mOptionsMenu = (HasMenu) fragment;
+			fragment.setHasOptionsMenu(true);
+		} else {
+			mOptionsMenu = null;
+			fragment.setHasOptionsMenu(false);
+		}
 
-        boolean onMenuItemSelected(MenuItem item);
-    }
+		restoreActionBar();
+	}
 
-    public interface HasNavigationItem {
-        NavigationItem getItem();
-    }
+	public interface HasMenu {
+		int getMenu();
 
-    public interface HasTitle {
-        String getTitle(Context context);
-    }
+		boolean onMenuItemSelected(MenuItem item);
+	}
 
-    private final class BackStackChangedListener implements FragmentManager.OnBackStackChangedListener {
-        @Override
-        public void onBackStackChanged() {
-            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
-            if (null != fragment) {
-                updateViewFromFragment(fragment);
-            }
-        }
-    }
+	public interface HasNavigationItem {
+		NavigationItem getItem();
+	}
 
-    private final class NavigationDrawerCallbacks implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-        @Override
-        public void onNavigationDrawerItemSelected(NavigationItem item) {
-            openNavigationItem(item, true);
-        }
-    }
+	public interface HasTitle {
+		String getTitle(Context context);
+	}
+
+	private final class BackStackChangedListener implements FragmentManager.OnBackStackChangedListener {
+		@Override
+		public void onBackStackChanged() {
+			Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+			if (null != fragment) {
+				updateViewFromFragment(fragment);
+			}
+		}
+	}
+
+	private final class NavigationDrawerCallbacks implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+		@Override
+		public void onNavigationDrawerItemSelected(NavigationItem item) {
+			openNavigationItem(item, true);
+		}
+	}
 }
