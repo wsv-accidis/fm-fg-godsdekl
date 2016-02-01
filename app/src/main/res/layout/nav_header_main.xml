@@ -11,12 +11,11 @@
 			  android:paddingTop="@dimen/activity_vertical_margin"
 			  android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-	<!--
 	<ImageView
-		android:layout_width="80dp"
-		android:layout_height="80dp"
+		android:id="@+id/nav_header_image"
+		android:layout_width="match_parent"
+		android:layout_height="95dp"
 		android:paddingTop="@dimen/nav_header_vertical_spacing"
-		android:scaleType="fitCenter"
-		android:src="@drawable/logo_tmeit"/>
-		-->
+		android:scaleType="fitStart"
+		android:src="@drawable/img_bv206"/>
 </LinearLayout>

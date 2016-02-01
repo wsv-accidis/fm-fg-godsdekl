@@ -99,4 +99,29 @@
         <item>kg</item>
         <item>liter</item>
     </string-array>
+
+	<string-array name="material_pkg_types">
+		<item>ask</item>
+		<item>askar</item>
+		<item>burk</item>
+		<item>burkar</item>
+		<item>dunk</item>
+		<item>dunkar</item>
+		<item>fat</item>
+		<item>flaska</item>
+		<item>flaskor</item>
+		<item>kartong</item>
+		<item>kartonger</item>
+		<item>kolli</item>
+		<item>kollin</item>
+		<item>låda</item>
+		<item>lådor</item>
+		<item>pall</item>
+		<item>pallar</item>
+		<item>påse</item>
+		<item>påsar</item>
+		<item>säck</item>
+		<item>säckar</item>
+		<item>tunna</item>
+	</string-array>
 </resources>

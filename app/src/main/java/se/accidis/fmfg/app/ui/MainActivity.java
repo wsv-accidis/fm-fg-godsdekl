@@ -16,6 +16,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+
+import java.util.Random;
 
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.ui.documents.DocumentFragment;
@@ -99,7 +103,7 @@ public final class MainActivity extends AppCompatActivity {
 
 		mNavigationDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mNavigationDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-		mNavigationDrawer.setDrawerListener(toggle);
+		mNavigationDrawer.setDrawerListener(new NavigationDrawerListener(toggle));
 		toggle.syncState();
 
 		mNavigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -211,6 +215,47 @@ public final class MainActivity extends AppCompatActivity {
 			if (null != fragment) {
 				updateViewFromFragment(fragment);
 			}
+		}
+	}
+
+	private final class NavigationDrawerListener implements DrawerLayout.DrawerListener {
+		private final ActionBarDrawerToggle mToggle;
+		private final Random mRandom = new Random();
+		private final int[] mHeaderImages = new int[]{R.drawable.img_bv206, R.drawable.img_tgb40, R.drawable.img_pb8};
+		private int mLastImage = R.drawable.img_bv206;
+
+		public NavigationDrawerListener(ActionBarDrawerToggle toggle) {
+			mToggle = toggle;
+		}
+
+		@Override
+		public void onDrawerSlide(View drawerView, float slideOffset) {
+			mToggle.onDrawerSlide(drawerView, slideOffset);
+		}
+
+		@Override
+		public void onDrawerOpened(View drawerView) {
+			mToggle.onDrawerOpened(drawerView);
+		}
+
+		@Override
+		public void onDrawerClosed(View drawerView) {
+			ImageView imageView = (ImageView) drawerView.findViewById(R.id.nav_header_image);
+			if (null != imageView) {
+				int index = mRandom.nextInt(mHeaderImages.length);
+				if (mLastImage == index) {
+					index = (1 + index) % mHeaderImages.length;
+				}
+				imageView.setImageResource(mHeaderImages[index]);
+				mLastImage = index;
+			}
+
+			mToggle.onDrawerClosed(drawerView);
+		}
+
+		@Override
+		public void onDrawerStateChanged(int newState) {
+			mToggle.onDrawerStateChanged(newState);
 		}
 	}
 
