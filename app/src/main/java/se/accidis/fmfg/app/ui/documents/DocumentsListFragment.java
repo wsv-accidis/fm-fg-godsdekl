@@ -17,7 +17,6 @@ import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.DocumentLink;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.ui.MainActivity;
-import se.accidis.fmfg.app.ui.NavigationItem;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
@@ -33,8 +32,8 @@ public final class DocumentsListFragment extends ListFragment implements MainAct
     private Parcelable mListState;
 
     @Override
-    public NavigationItem getItem() {
-        return NavigationItem.DOCUMENTS_ITEM;
+    public int getItemId() {
+        return R.id.nav_documents_list;
     }
 
     @Override

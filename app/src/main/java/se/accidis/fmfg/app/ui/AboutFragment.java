@@ -23,8 +23,8 @@ public final class AboutFragment extends Fragment implements MainActivity.HasTit
     private static final String TAG = AboutFragment.class.getSimpleName();
 
     @Override
-    public NavigationItem getItem() {
-        return NavigationItem.ABOUT_ITEM;
+    public int getItemId() {
+        return R.id.nav_about;
     }
 
     @Override

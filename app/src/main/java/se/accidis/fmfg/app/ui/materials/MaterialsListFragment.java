@@ -33,7 +33,6 @@ import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.MaterialsRepository;
 import se.accidis.fmfg.app.ui.MainActivity;
-import se.accidis.fmfg.app.ui.NavigationItem;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
@@ -55,8 +54,8 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
     private EditText mSearchText;
 
     @Override
-    public NavigationItem getItem() {
-        return NavigationItem.MATERIALS_ITEM;
+    public int getItemId() {
+        return R.id.nav_materials;
     }
 
     @Override

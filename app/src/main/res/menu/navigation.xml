@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<group android:checkableBehavior="single">
+		<item
+			android:id="@+id/nav_materials"
+			android:title="@string/materials_nav_title"/>
+		<item
+			android:id="@+id/nav_document"
+			android:title="@string/document_nav_title"/>
+		<item
+			android:id="@+id/nav_documents_list"
+			android:title="@string/documents_list_nav_title"/>
+		<item
+			android:id="@+id/nav_instructions"
+			android:title="@string/instructions_nav_title"/>
+		<item
+			android:id="@+id/nav_coloading"
+			android:title="@string/coloading_nav_title"/>
+		<item
+			android:id="@+id/nav_about"
+			android:title="@string/about_nav_title"/>
+	</group>
+</menu>

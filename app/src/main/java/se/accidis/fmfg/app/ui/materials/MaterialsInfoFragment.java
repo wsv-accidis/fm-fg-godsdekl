@@ -22,7 +22,6 @@ import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.ui.MainActivity;
-import se.accidis.fmfg.app.ui.NavigationItem;
 
 /**
  * Fragment showing information about a material.
@@ -41,8 +40,8 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
     }
 
     @Override
-    public NavigationItem getItem() {
-        return NavigationItem.MATERIALS_ITEM;
+    public int getItemId() {
+        return R.id.nav_materials;
     }
 
     @Nullable

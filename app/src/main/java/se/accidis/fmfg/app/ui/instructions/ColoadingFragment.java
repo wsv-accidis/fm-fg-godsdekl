@@ -4,15 +4,14 @@ import android.content.Context;
 
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.ui.MainActivity;
-import se.accidis.fmfg.app.ui.NavigationItem;
 
 /**
  * Fragment which displays co-loading rules.
  */
 public final class ColoadingFragment extends WebViewFragmentBase implements MainActivity.HasTitle, MainActivity.HasNavigationItem {
     @Override
-    public NavigationItem getItem() {
-        return NavigationItem.COLOADING_ITEM;
+    public int getItemId() {
+        return R.id.nav_coloading;
     }
 
     @Override

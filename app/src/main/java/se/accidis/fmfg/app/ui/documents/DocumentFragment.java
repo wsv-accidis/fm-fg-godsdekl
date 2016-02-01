@@ -27,7 +27,6 @@ import se.accidis.fmfg.app.model.DocumentSettings;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.Preferences;
 import se.accidis.fmfg.app.ui.MainActivity;
-import se.accidis.fmfg.app.ui.NavigationItem;
 import se.accidis.fmfg.app.ui.materials.MaterialsInfoFragment;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
@@ -55,8 +54,8 @@ public final class DocumentFragment extends ListFragment implements MainActivity
     }
 
     @Override
-    public NavigationItem getItem() {
-        return NavigationItem.CURRENT_DOCUMENT_ITEM;
+    public int getItemId() {
+        return R.id.nav_document;
     }
 
     @Override
