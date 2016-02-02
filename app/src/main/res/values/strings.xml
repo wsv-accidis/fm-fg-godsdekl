@@ -114,14 +114,20 @@
 		<item>kartonger</item>
 		<item>kolli</item>
 		<item>kollin</item>
+		<item>kärl</item>
 		<item>låda</item>
 		<item>lådor</item>
 		<item>pall</item>
 		<item>pallar</item>
 		<item>påse</item>
 		<item>påsar</item>
+		<item>rulle</item>
+		<item>rullar</item>
 		<item>säck</item>
 		<item>säckar</item>
+		<item>tank</item>
+		<item>tankar</item>
 		<item>tunna</item>
+		<item>tunnor</item>
 	</string-array>
 </resources>
