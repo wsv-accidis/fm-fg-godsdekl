@@ -221,8 +221,8 @@ public final class MainActivity extends AppCompatActivity {
 	private final class NavigationDrawerListener implements DrawerLayout.DrawerListener {
 		private final ActionBarDrawerToggle mToggle;
 		private final Random mRandom = new Random();
-		private final int[] mHeaderImages = new int[]{R.drawable.img_bv206, R.drawable.img_tgb40, R.drawable.img_pb8};
-		private int mLastImage = R.drawable.img_bv206;
+		private final int[] mHeaderImages = new int[]{R.drawable.img_bv206, R.drawable.img_tgb40, R.drawable.img_pb8, R.drawable.img_sb90};
+		private int mLastImage = 0;
 
 		public NavigationDrawerListener(ActionBarDrawerToggle toggle) {
 			mToggle = toggle;
