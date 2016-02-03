@@ -10,7 +10,7 @@ import java.util.Set;
  * Wrapper for Android shared preferences. Used to store application data between launches.
  */
 public final class Preferences {
-    private static final String PREFERENCES_FILE = "ThePreferences";
+    public static final String PREFERENCES_FILE = "ThePreferences";
     private static final String TAG = Preferences.class.getSimpleName();
     private final SharedPreferences mPrefs;
 

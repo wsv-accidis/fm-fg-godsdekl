@@ -90,6 +90,10 @@
     <string name="navigation_drawer_open">Öppna navigation</string>
     <string name="navigation_drawer_close">Stäng navigation</string>
 
+	<string name="preferences_nav_title">Inställningar</string>
+	<string name="preferences_show_fbet">Visa M-nummer</string>
+	<string name="preferences_show_fbet_description">Inkludera M-nummer i godsdeklaration</string>
+
     <string name="unit_amount">styck</string>
     <string name="unit_kg_format">%1$s kg</string>
     <string name="unit_liter_format">%1$s liter</string>

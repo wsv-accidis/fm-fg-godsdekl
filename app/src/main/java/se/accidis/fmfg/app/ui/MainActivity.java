@@ -27,6 +27,8 @@ import se.accidis.fmfg.app.ui.documents.DocumentsListFragment;
 import se.accidis.fmfg.app.ui.instructions.ColoadingFragment;
 import se.accidis.fmfg.app.ui.instructions.InstructionFragment;
 import se.accidis.fmfg.app.ui.materials.MaterialsListFragment;
+import se.accidis.fmfg.app.ui.preferences.PreferencesFragment;
+import se.accidis.fmfg.app.utils.AndroidUtils;
 
 public final class MainActivity extends AppCompatActivity {
 	private static final String STATE_LAST_OPENED_FRAGMENT = "openMainActivityFragment";
@@ -145,6 +147,8 @@ public final class MainActivity extends AppCompatActivity {
 				return new InstructionFragment();
 			case R.id.nav_materials:
 				return new MaterialsListFragment();
+			case R.id.nav_preferences:
+				return new PreferencesFragment();
 		}
 
 		return null;
@@ -235,6 +239,7 @@ public final class MainActivity extends AppCompatActivity {
 
 		@Override
 		public void onDrawerOpened(View drawerView) {
+			AndroidUtils.hideSoftKeyboard(MainActivity.this, getCurrentFocus());
 			mToggle.onDrawerOpened(drawerView);
 		}
 
