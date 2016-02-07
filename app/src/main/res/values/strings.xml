@@ -30,6 +30,8 @@
     <string name="document_edit_unsaved_yes">Ja, börja redigera</string>
     <string name="document_editing">(redigerar)</string>
     <string name="document_empty">Godsdeklarationen är tom.</string>
+	<string name="document_export">Exportera PDF</string>
+	<string name="document_export_chooser_title">Exportera PDF till…</string>
     <string name="document_nav_title">Godsdeklaration</string>
     <string name="document_nem_format">NEM: %1$s kg</string>
     <string name="document_no_data">Uppgift saknas.</string>
