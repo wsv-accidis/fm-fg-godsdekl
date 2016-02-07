@@ -19,52 +19,52 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
  * Fragment which displays some information about the app.
  */
 public final class AboutFragment extends Fragment implements MainActivity.HasTitle, MainActivity.HasNavigationItem {
-    private static final String EMAIL = "wilhelm.svenselius@gmail.com";
-    private static final String TAG = AboutFragment.class.getSimpleName();
+	private static final String EMAIL = "wilhelm.svenselius@gmail.com";
+	private static final String TAG = AboutFragment.class.getSimpleName();
 
-    @Override
-    public int getItemId() {
-        return R.id.nav_about;
-    }
+	@Override
+	public int getItemId() {
+		return R.id.nav_about;
+	}
 
-    @Override
-    public String getTitle(Context context) {
-        return context.getString(R.string.about_nav_title);
-    }
+	@Override
+	public String getTitle(Context context) {
+		return context.getString(R.string.about_nav_title);
+	}
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_about, container, false);
+	@Nullable
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_about, container, false);
 
-        TextView authorText = (TextView) view.findViewById(R.id.about_author);
-        authorText.setOnClickListener(new AuthorClickedListener());
+		TextView authorText = (TextView) view.findViewById(R.id.about_author);
+		authorText.setOnClickListener(new AuthorClickedListener());
 
-        TextView versionText = (TextView) view.findViewById(R.id.about_version);
-        versionText.setText(String.format(getString(R.string.about_version), AndroidUtils.getAppVersionName(getContext())));
+		TextView versionText = (TextView) view.findViewById(R.id.about_version);
+		versionText.setText(String.format(getString(R.string.about_version), AndroidUtils.getAppVersionName(getContext())));
 
-        return view;
-    }
+		return view;
+	}
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        AndroidUtils.hideSoftKeyboard(getContext(), getView());
-    }
+	@Override
+	public void onResume() {
+		super.onResume();
+		AndroidUtils.hideSoftKeyboard(getContext(), getView());
+	}
 
-    private static void sendEmailTo(String email, Fragment fragment) {
-        try {
-            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null));
-            fragment.startActivity(intent);
-        } catch (Exception e) {
-            Log.e(TAG, "Exception while trying to send e-mail.", e);
-        }
-    }
+	private static void sendEmailTo(String email, Fragment fragment) {
+		try {
+			Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null));
+			fragment.startActivity(intent);
+		} catch (Exception e) {
+			Log.e(TAG, "Exception while trying to send e-mail.", e);
+		}
+	}
 
-    private final class AuthorClickedListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            sendEmailTo(EMAIL, AboutFragment.this);
-        }
-    }
+	private final class AuthorClickedListener implements View.OnClickListener {
+		@Override
+		public void onClick(View v) {
+			sendEmailTo(EMAIL, AboutFragment.this);
+		}
+	}
 }

@@ -36,3 +36,4 @@ utvecklingsverktyg för Android utgivna av Google:
 
 * [Joda-Time för Android](https://github.com/dlew/joda-time-android)
 * [Material Design Icons från Google](https://github.com/google/material-design-icons)
+* [PDFjet for Java](http://pdfjet.com/os/edition.html)
