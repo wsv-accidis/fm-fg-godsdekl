@@ -352,7 +352,9 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 		@Override
 		protected Void doInBackground(Void... params) {
 			try {
+				ExportFile.cleanUpOldExports(mContext);
 				final ExportFile exportFile = ExportFile.fromDocument(mDocument, PdfGenerator.PDF_EXTENSION, mContext);
+
 				Log.i(TAG, "Exporting current document to \"" + exportFile.getFile().getPath() + "\".");
 				PdfGenerator.exportToPdf(mDocument, exportFile);
 
@@ -361,10 +363,10 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 					public void run() {
 						@SuppressWarnings("deprecation")
 						Intent intent = ShareCompat.IntentBuilder.from(mContext)
-							.setType(PdfGenerator.PDF_CONTENT_TYPE)
-							.setSubject(mContext.getString(R.string.document_export))
+							.setChooserTitle(R.string.document_export_chooser_title)
+							.setSubject(TextUtils.isEmpty(mDocument.getName()) ? mContext.getString(R.string.document_export_default_name) : mDocument.getName().trim())
 							.setStream(exportFile.getUri())
-							.setChooserTitle(R.string.document_export)
+							.setType(PdfGenerator.PDF_CONTENT_TYPE)
 							.createChooserIntent()
 							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
 							.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
