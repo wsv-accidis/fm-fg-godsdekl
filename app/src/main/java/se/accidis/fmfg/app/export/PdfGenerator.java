@@ -1,19 +1,30 @@
 package se.accidis.fmfg.app.export;
 
+import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.pdfjet.A4;
-import com.pdfjet.Box;
-import com.pdfjet.Color;
+import com.pdfjet.Cell;
+import com.pdfjet.CoreFont;
+import com.pdfjet.Font;
 import com.pdfjet.Line;
 import com.pdfjet.PDF;
 import com.pdfjet.Page;
-import com.pdfjet.Point;
+import com.pdfjet.Table;
+import com.pdfjet.TextBlock;
+import com.pdfjet.TextLine;
 
 import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
+import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
+import se.accidis.fmfg.app.model.DocumentRow;
+import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
  * Generates a PDF from a Document.
@@ -22,28 +33,43 @@ public final class PdfGenerator {
 	public static final String PDF_CONTENT_TYPE = "application/pdf";
 	public static final String PDF_EXTENSION = ".pdf";
 	private final static String TAG = PdfGenerator.class.getSimpleName();
+	private static final float mAddressBlockMinHeight = 60.0f;
+	private static final float mHorizontalMargin = 40.0f;
+	private static final float mInnerMargin = 5.0f;
+	private static final float mPageWidth = A4.PORTRAIT[0] - mHorizontalMargin * 2.0f;
+	private static final float mVanityBottomMargin = 30.0f;
+	private static final float mVerticalMargin = 50.0f;
+	private final Context mContext;
 	private final Document mDocument;
+	private final Font mLabelFont;
 	private final PDF mPdf;
+	private final Font mTextFont;
+	private final Font mVanityFont;
 
-	private PdfGenerator(Document document, PDF pdf) {
+	private PdfGenerator(Document document, PDF pdf, Context context) throws Exception {
 		mDocument = document;
 		mPdf = pdf;
+		mContext = context;
+
+		mLabelFont = new Font(mPdf, CoreFont.TIMES_ROMAN);
+		mLabelFont.setSize(6.0f);
+
+		mTextFont = new Font(mPdf, CoreFont.TIMES_ROMAN);
+		mLabelFont.setSize(10.0f);
+
+		mVanityFont = new Font(mPdf, CoreFont.TIMES_ROMAN);
+		mVanityFont.setSize(5.0f);
+		mVanityFont.setItalic(true);
 	}
 
-	public static void exportToPdf(Document document, ExportFile exportFile) throws PdfException {
-		BufferedOutputStream outputStream;
-		try {
-			outputStream = new BufferedOutputStream(new FileOutputStream(exportFile.getFile()));
-		} catch (Exception ex) {
-			Log.e(TAG, "Exception while trying to open file \"" + exportFile.getFilename() + "\".");
-			throw new PdfException(ex);
-		}
+	public static void exportToPdf(Document document, ExportFile exportFile, Context context) throws FileNotFoundException, PdfException {
+		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(exportFile.getFile()));
 
 		PDF pdf = null;
 		try {
 			pdf = new PDF(outputStream);
-			PdfGenerator generator = new PdfGenerator(document, pdf);
-			generator.writeContent();
+			PdfGenerator generator = new PdfGenerator(document, pdf, context);
+			generator.writeDocument();
 		} catch (Exception ex) {
 			Log.e(TAG, "Exception while trying to write PDF to \"" + exportFile.getFilename() + "\".");
 			throw new PdfException(ex);
@@ -61,52 +87,110 @@ public final class PdfGenerator {
 		}
 	}
 
-	private void writeContent() throws Exception {
+	private List<List<Cell>> createTableData() throws Exception {
+		List<List<Cell>> rows = new ArrayList<>();
+		createTableHeader(rows);
+
+		for (int i = 0; i < 30; i++) {
+			for (DocumentRow documentRow : mDocument.getRows()) {
+				List<Cell> row = new ArrayList<>(3);
+
+				Cell materialCell = new Cell(mTextFont, documentRow.getMaterial().getFullText());
+				materialCell.setLeftPadding(0);
+				row.add(materialCell);
+
+				Cell packagesCell = new Cell(mTextFont, documentRow.getPackagesText(mContext));
+				row.add(packagesCell);
+
+				Cell weightVolumeCell = new Cell(mTextFont, documentRow.getWeightVolumeText(mContext));
+				row.add(weightVolumeCell);
+
+				rows.add(row);
+			}
+		}
+
+		return rows;
+	}
+
+	private void createTableHeader(List<List<Cell>> rows) {
+		List<Cell> row = new ArrayList<>(3);
+
+		Cell materialHeaderCell = new Cell(mLabelFont, "Transportmärkning");
+		materialHeaderCell.setLeftPadding(0);
+		row.add(materialHeaderCell);
+
+		Cell packagesHeaderCell = new Cell(mLabelFont, "Kollin");
+		row.add(packagesHeaderCell);
+
+		Cell weightVolumeHeaderCell = new Cell(mLabelFont, "Vikt/volym");
+		row.add(weightVolumeHeaderCell);
+
+		rows.add(row);
+	}
+
+	private void writeDocument() throws Exception {
+		float centerOfPage = mHorizontalMargin + mPageWidth / 2.0f;
+
 		Page page = new Page(mPdf, A4.PORTRAIT);
+		TextLine vanityLabel = new TextLine(mVanityFont, String.format(mContext.getString(R.string.document_export_vanity_format), mContext.getString(R.string.app_name), AndroidUtils.getAppVersionName(mContext)));
+		vanityLabel.setLocation(mHorizontalMargin, A4.PORTRAIT[1] - mVanityBottomMargin);
+		vanityLabel.drawOn(page);
 
-		Box flag = new Box();
-		flag.setLocation(100f, 100f);
-		flag.setSize(190f, 100f);
-		flag.setColor(Color.white);
-		flag.drawOn(page);
+		final float headerBottom = writeDocumentHeader(page, centerOfPage);
 
-		float sw = 7.69f;   // stripe width
-		Line stripe = new Line(0.0f, sw / 2, 190.0f, sw / 2);
-		stripe.setWidth(sw);
-		stripe.setColor(Color.oldgloryred);
-		for (int row = 0; row < 7; row++) {
-			stripe.placeIn(flag, 0.0f, row * 2 * sw);
-			stripe.drawOn(page);
-		}
+		Table table = new Table();
+		table.setData(createTableData(), Table.DATA_HAS_1_HEADER_ROWS);
+		table.setLocation(mHorizontalMargin, headerBottom + mInnerMargin);
+		table.setBottomMargin(mVerticalMargin);
+		table.setNoCellBorders();
 
-		Box union = new Box();
-		union.setSize(76.0f, 53.85f);
-		union.setColor(Color.oldgloryblue);
-		union.setFillShape(true);
-		union.placeIn(flag, 0f, 0f);
-		union.drawOn(page);
+		table.setColumnWidth(0, mPageWidth * 0.7f);
+		table.setColumnWidth(1, mPageWidth * 0.15f);
+		table.setColumnWidth(2, mPageWidth * 0.15f);
+		table.wrapAroundCellText();
 
-		float h_si = 12.6f; // horizontal star interval
-		float v_si = 10.8f; // vertical star interval
-		Point star = new Point(h_si / 2, v_si / 2);
-		star.setShape(Point.STAR);
-		star.setRadius(3.0f);
-		star.setColor(Color.white);
-		star.setFillShape(true);
-
-		for (int row = 0; row < 6; row++) {
-			for (int col = 0; col < 5; col++) {
-				star.placeIn(union, row * h_si, col * v_si);
-				star.drawOn(page);
+		while (true) {
+			table.drawOn(page);
+			if (!table.hasMoreData()) {
+				break;
 			}
-		}
 
-		star.setLocation(h_si, v_si);
-		for (int row = 0; row < 5; row++) {
-			for (int col = 0; col < 4; col++) {
-				star.placeIn(union, row * h_si, col * v_si);
-				star.drawOn(page);
-			}
+			page = new Page(mPdf, A4.PORTRAIT);
+			vanityLabel.drawOn(page);
+			table.setLocation(mHorizontalMargin, mVerticalMargin);
 		}
+	}
+
+	private float writeDocumentHeader(Page page, float centerOfPage) throws Exception {
+		TextLine senderLabel = new TextLine(mLabelFont, mContext.getString(R.string.document_sender));
+		senderLabel.setLocation(mHorizontalMargin, mVerticalMargin + mLabelFont.getHeight());
+		senderLabel.drawOn(page);
+		TextLine recipientLabel = new TextLine(mLabelFont, mContext.getString(R.string.document_recipient));
+		recipientLabel.setLocation(centerOfPage + mInnerMargin, mVerticalMargin + mLabelFont.getHeight());
+		recipientLabel.drawOn(page);
+
+		final float addressBlockWidth = mPageWidth / 2.0f - mInnerMargin;
+		final float labelHeight = senderLabel.getHeight();
+
+		TextBlock senderBlock = new TextBlock(mTextFont);
+		senderBlock.setText(TextUtils.isEmpty(mDocument.getSender()) ? "" : mDocument.getSender());
+		senderBlock.setLocation(mHorizontalMargin, mVerticalMargin + labelHeight + mInnerMargin);
+		senderBlock.setWidth(addressBlockWidth);
+		senderBlock.drawOn(page);
+		TextBlock recipientBlock = new TextBlock(mTextFont);
+		recipientBlock.setText(TextUtils.isEmpty(mDocument.getRecipient()) ? "" : mDocument.getRecipient());
+		recipientBlock.setLocation(centerOfPage + mInnerMargin, mVerticalMargin + labelHeight + mInnerMargin);
+		recipientBlock.setWidth(addressBlockWidth);
+		recipientBlock.drawOn(page);
+
+		final float addressBlockHeight = Math.max(mAddressBlockMinHeight, Math.max(recipientBlock.getHeight(), senderBlock.getHeight()));
+		final float headerBottom = mVerticalMargin + labelHeight + addressBlockHeight + 2 * mInnerMargin;
+
+		Line line = new Line(centerOfPage, mVerticalMargin, centerOfPage, headerBottom);
+		line.drawOn(page);
+		line = new Line(mHorizontalMargin, headerBottom, mHorizontalMargin + mPageWidth, headerBottom);
+		line.drawOn(page);
+
+		return headerBottom;
 	}
 }

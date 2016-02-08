@@ -356,7 +356,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 				final ExportFile exportFile = ExportFile.fromDocument(mDocument, PdfGenerator.PDF_EXTENSION, mContext);
 
 				Log.i(TAG, "Exporting current document to \"" + exportFile.getFile().getPath() + "\".");
-				PdfGenerator.exportToPdf(mDocument, exportFile);
+				PdfGenerator.exportToPdf(mDocument, exportFile, mContext);
 
 				mHandler.post(new Runnable() {
 					@Override
@@ -368,17 +368,18 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 							.setStream(exportFile.getUri())
 							.setType(PdfGenerator.PDF_CONTENT_TYPE)
 							.createChooserIntent()
-							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET) // replaced with FLAG_ACTIVITY_NEW_DOCUMENT when API >= 21
 							.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
 						mContext.startActivity(intent);
 					}
 				});
 			} catch (Exception ex) {
+				Log.e(TAG, "Exception while trying export PDF.", ex);
 				mHandler.post(new Runnable() {
 					@Override
 					public void run() {
-						Toast toast = Toast.makeText(getContext(), R.string.generic_unexpected_error, Toast.LENGTH_LONG);
+						Toast toast = Toast.makeText(getContext(), R.string.document_export_error, Toast.LENGTH_LONG);
 						toast.show();
 					}
 				});
