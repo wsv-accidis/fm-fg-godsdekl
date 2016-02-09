@@ -7,12 +7,12 @@
 		android:title="@string/document_show_fbet"
 		app:showAsAction="never"/>
 	<item
-		android:id="@+id/document_menu_edit"
-		android:title="@string/document_edit"
-		app:showAsAction="never"/>
-	<item
 		android:id="@+id/document_menu_export"
 		android:title="@string/document_export"
+		app:showAsAction="never"/>
+	<item
+		android:id="@+id/document_menu_edit"
+		android:title="@string/document_edit"
 		app:showAsAction="never"/>
 	<item
 		android:id="@+id/document_menu_delete"

@@ -142,7 +142,7 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
         int size = resources.getDimensionPixelSize(R.dimen.material_label_size);
         int margin = resources.getDimensionPixelSize(R.dimen.material_label_margin);
 
-        List<Integer> labels = LabelsHelper.getLabelsByMaterial(mMaterial);
+        List<Integer> labels = LabelsHelper.getLabelsByMaterial(mMaterial, false);
 
         for (Integer label : labels) {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);

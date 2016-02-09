@@ -1,6 +1,7 @@
 package se.accidis.fmfg.app.ui.documents;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -155,7 +156,8 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 				return true;
 
 			case R.id.document_menu_export:
-				ExportPdfAsyncTask exportTask = new ExportPdfAsyncTask(getActivity());
+				ProgressDialog progressDialog = ProgressDialog.show(getContext(), getString(R.string.document_export), getString(R.string.document_export_please_wait), true, false);
+				ExportPdfAsyncTask exportTask = new ExportPdfAsyncTask(getActivity(), progressDialog);
 				exportTask.execute();
 				return true;
 
@@ -344,9 +346,11 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
 	private class ExportPdfAsyncTask extends AsyncTask<Void, Void, Void> {
 		private final Activity mContext;
+		private final ProgressDialog mProgressDialog;
 
-		public ExportPdfAsyncTask(Activity context) {
+		public ExportPdfAsyncTask(Activity context, ProgressDialog progressDialog) {
 			mContext = context;
+			mProgressDialog =progressDialog;
 		}
 
 		@Override
@@ -361,6 +365,8 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 				mHandler.post(new Runnable() {
 					@Override
 					public void run() {
+						mProgressDialog.dismiss();
+
 						@SuppressWarnings("deprecation")
 						Intent intent = ShareCompat.IntentBuilder.from(mContext)
 							.setChooserTitle(R.string.document_export_chooser_title)
@@ -379,6 +385,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 				mHandler.post(new Runnable() {
 					@Override
 					public void run() {
+						mProgressDialog.dismiss();
 						Toast toast = Toast.makeText(getContext(), R.string.document_export_error, Toast.LENGTH_LONG);
 						toast.show();
 					}
