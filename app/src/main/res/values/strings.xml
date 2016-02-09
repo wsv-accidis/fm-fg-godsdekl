@@ -29,12 +29,7 @@
     <string name="document_edit_unsaved_no">Nej, avbryt</string>
     <string name="document_edit_unsaved_yes">Ja, börja redigera</string>
     <string name="document_editing">(redigerar)</string>
-    <string name="document_empty">Godsdeklarationen är tom.</string>
-	<string name="document_export_vanity_format">Utskriven från %1$s v%2$s</string>
-	<string name="document_export">Exportera PDF</string>
-	<string name="document_export_chooser_title">Exportera PDF till…</string>
-	<string name="document_export_default_name">Godsdeklaration</string>
-	<string name="document_export_error">Ett oväntat fel uppstod när deklarationen skulle exporteras. Din enhet kan ha slut på utrymme. Vänligen kontakta utvecklaren om felet kvarstår.</string>
+	<string name="document_empty">Godsdeklarationen är tom.</string>
     <string name="document_nav_title">Godsdeklaration</string>
     <string name="document_nem_format">NEM: %1$s kg</string>
     <string name="document_no_data">Uppgift saknas.</string>
@@ -53,6 +48,16 @@
     <string name="document_unspecified_packages">kollin</string>
     <string name="document_warning_class1_line1">Varning! Godsdeklarationen innehåller ämnen som inte får samlastas (ämnen märkta med etikett 1, 1.4, 1.5 och 1.6 får som regel inte lastas på samma fordon som kollin som innehåller farligt gods från övriga klasser, undantaget etikett 1.4S). Beakta även klass 1-ämnenas samlastningsgrupper.</string>
     <string name="document_warning_class1_line2">Tänk på att om du lastar farligt gods på ett separat fordon så måste du upprätta en separat godsdeklaration för det fordonet.</string>
+
+	<string name="document_export_page_format">%1$d av %2$d</string>
+	<string name="document_export_vanity_format">Utskriven från %1$s v%2$s</string>
+	<string name="document_export">Exportera PDF</string>
+	<string name="document_export_chooser_title">Exportera PDF till…</string>
+	<string name="document_export_default_name">Godsdeklaration</string>
+	<string name="document_export_error">Ett oväntat fel uppstod när deklarationen skulle exporteras. Din enhet kan ha slut på utrymme. Vänligen kontakta utvecklaren om felet kvarstår.</string>
+	<string name="document_export_material_header">Transportmärkning</string>
+	<string name="document_export_pkgs_header">Kollin</string>
+	<string name="document_export_weight_volume_header">Vikt/volym</string>
 
     <string name="documents_list_nav_title">Sparade godsdekl.</string>
     <string name="documents_list_empty">Inga sparade godsdeklarationer.</string>
