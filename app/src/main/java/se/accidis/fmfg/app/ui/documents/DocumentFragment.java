@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +24,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.UUID;
 
 import se.accidis.fmfg.app.R;
@@ -376,6 +379,13 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 							.createChooserIntent()
 							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET) // replaced with FLAG_ACTIVITY_NEW_DOCUMENT when API >= 21
 							.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+						// This is required on older Android or certain devices for some reason
+						List<ResolveInfo> resInfoList = mContext.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+						for (ResolveInfo resolveInfo : resInfoList) {
+							String packageName = resolveInfo.activityInfo.packageName;
+							mContext.grantUriPermission(packageName, exportFile.getUri(), Intent.FLAG_GRANT_READ_URI_PERMISSION);
+						}
 
 						mContext.startActivity(intent);
 					}
