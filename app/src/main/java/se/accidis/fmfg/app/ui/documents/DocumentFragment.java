@@ -115,13 +115,12 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
 		if (DocumentAdapter.VIEW_TYPE_ADDRESS == type) {
 			Bundle args = new Bundle();
-			boolean isSender = (DocumentAdapter.SENDER_POSITION == position);
-			args.putBoolean(AddressDialogFragment.ARG_IS_SENDER, isSender);
-			args.putString(AddressDialogFragment.ARG_CURRENT_ADDRESS, (isSender ? mDocument.getSender() : mDocument.getRecipient()));
+			args.putInt(AddressDialogFragment.ARG_POSITION, position);
+			args.putString(AddressDialogFragment.ARG_CURRENT_ADDRESS, mAdapter.getAddressTextByPosition(position));
 
 			AddressDialogFragment dialog = new AddressDialogFragment();
 			dialog.setArguments(args);
-			dialog.setDialogListener(new AddressDialogListener(isSender));
+			dialog.setDialogListener(new AddressDialogListener(position));
 			dialog.show(getFragmentManager(), AddressDialogFragment.class.getSimpleName());
 
 		} else if (DocumentAdapter.VIEW_TYPE_ROW == type) {
@@ -232,6 +231,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 	private void initializeList() {
 		mAdapter = new DocumentAdapter(getContext(), mDocument, mIsCurrentDocument);
 		mAdapter.setShowFbet(mPrefs.shouldShowFbetInDocument());
+		mAdapter.setShowAuthor(mPrefs.shouldShowAuthorInDocument());
 		setListAdapter(mAdapter);
 
 		if (null != mListState) {
@@ -263,18 +263,24 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 	}
 
 	private final class AddressDialogListener implements AddressDialogFragment.AddressDialogListener {
-		private final boolean mIsSender;
+		private final int mPosition;
 
-		public AddressDialogListener(boolean isSender) {
-			mIsSender = isSender;
+		public AddressDialogListener(int position) {
+			mPosition = position;
 		}
 
 		@Override
 		public void onDismiss(String address) {
-			if (mIsSender) {
-				mDocument.setSender(address);
-			} else {
-				mDocument.setRecipient(address);
+			switch (mPosition) {
+				case DocumentAdapter.SENDER_POSITION:
+					mDocument.setSender(address);
+					break;
+				case DocumentAdapter.RECIPIENT_POSITION:
+					mDocument.setRecipient(address);
+					break;
+				case DocumentAdapter.AUTHOR_POSITION:
+					mDocument.setAuthor(address);
+					break;
 			}
 
 			mDocument.getSettings().put(DocumentSettings.Keys.UNSAVED_CHANGES, true);

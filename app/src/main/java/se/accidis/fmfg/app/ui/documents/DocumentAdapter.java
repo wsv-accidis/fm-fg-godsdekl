@@ -23,19 +23,23 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
  * Adapter for the document list view. The list contains both the document rows and additional information.
  */
 public final class DocumentAdapter extends BaseAdapter {
+	public static final int AUTHOR_POSITION = 2;
+	public static final int RECIPIENT_POSITION = 1;
 	public static final int SENDER_POSITION = 0;
 	public static final int VIEW_TYPE_ADDRESS = 1;
 	public static final int VIEW_TYPE_EMPTY = 4;
 	public static final int VIEW_TYPE_INFO = 2;
 	public static final int VIEW_TYPE_ROW = 0;
 	public static final int VIEW_TYPE_SEPARATOR = 3;
+	private static final int ROW_BASE_TOP_OFFSET = 3;
 	private static final int ROW_BOTTOM_OFFSET = 2;
-	private static final int ROW_TOP_OFFSET = 3;
 	private final Context mContext;
 	private final Document mDocument;
 	private final LayoutInflater mInflater;
 	private final List<DocumentRow> mRows;
 	private boolean mIsCurrentDocument;
+	private int mRowTopOffset = ROW_BASE_TOP_OFFSET;
+	private boolean mShowAuthor;
 	private boolean mShowFbet;
 
 	public DocumentAdapter(Context context, Document document, boolean isCurrentDocument) {
@@ -53,13 +57,13 @@ public final class DocumentAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return ROW_TOP_OFFSET + Math.max(1, mRows.size()) + ROW_BOTTOM_OFFSET;
+		return mRowTopOffset + Math.max(1, mRows.size()) + ROW_BOTTOM_OFFSET;
 	}
 
 	@Override
 	public Object getItem(int position) {
 		if (VIEW_TYPE_ROW == getItemViewType(position)) {
-			return mRows.get(position - ROW_TOP_OFFSET);
+			return mRows.get(position - mRowTopOffset);
 		} else {
 			return null;
 		}
@@ -73,13 +77,13 @@ public final class DocumentAdapter extends BaseAdapter {
 	@Override
 	public int getItemViewType(int position) {
 		int numRows = Math.max(1, mRows.size());
-		if (position == ROW_TOP_OFFSET - 1 || position == ROW_TOP_OFFSET + numRows) {
+		if (position == mRowTopOffset - 1 || position == mRowTopOffset + numRows) {
 			// There is a separator between the addresses and the list, and another between the list and the summary
 			return VIEW_TYPE_SEPARATOR;
-		} else if (position < ROW_TOP_OFFSET) {
+		} else if (position < mRowTopOffset) {
 			// Above the list are addresses
 			return VIEW_TYPE_ADDRESS;
-		} else if (position >= ROW_TOP_OFFSET + numRows) {
+		} else if (position >= mRowTopOffset + numRows) {
 			// Below the list is the summary
 			return VIEW_TYPE_INFO;
 		} else if (mRows.isEmpty()) {
@@ -101,7 +105,7 @@ public final class DocumentAdapter extends BaseAdapter {
 			case VIEW_TYPE_INFO:
 				return getInfoView(convertView, parent);
 			case VIEW_TYPE_ROW:
-				return getRowView(position - ROW_TOP_OFFSET, convertView, parent);
+				return getRowView(position - mRowTopOffset, convertView, parent);
 			case VIEW_TYPE_SEPARATOR:
 				return getSeparatorView(convertView, parent);
 		}
@@ -129,9 +133,41 @@ public final class DocumentAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+	public void setShowAuthor(boolean value) {
+		mShowAuthor = value;
+		mRowTopOffset = mShowAuthor ? ROW_BASE_TOP_OFFSET + 1 : ROW_BASE_TOP_OFFSET;
+		notifyDataSetChanged();
+	}
+
 	public void setShowFbet(boolean value) {
 		mShowFbet = value;
 		notifyDataSetChanged();
+	}
+
+	private int getAddressHeadingByPosition(int position) {
+		switch (position) {
+			case SENDER_POSITION:
+				return R.string.document_sender;
+			case RECIPIENT_POSITION:
+				return R.string.document_recipient;
+			case AUTHOR_POSITION:
+				return R.string.document_author;
+			default:
+				throw new IllegalArgumentException();
+		}
+	}
+
+	public String getAddressTextByPosition(int position) {
+		switch (position) {
+			case SENDER_POSITION:
+				return mDocument.getSender();
+			case RECIPIENT_POSITION:
+				return mDocument.getRecipient();
+			case AUTHOR_POSITION:
+				return mDocument.getAuthor();
+			default:
+				throw new IllegalArgumentException();
+		}
 	}
 
 	private View getAddressView(int position, View convertView, ViewGroup parent) {
@@ -142,18 +178,17 @@ public final class DocumentAdapter extends BaseAdapter {
 			view = convertView;
 		}
 
-		boolean isSender = (SENDER_POSITION == position);
-
 		TextView headingText = (TextView) view.findViewById(R.id.document_address_heading);
-		headingText.setText(isSender ? R.string.document_sender : R.string.document_recipient);
+		headingText.setText(getAddressHeadingByPosition(position));
 
 		TextView addressText = (TextView) view.findViewById(R.id.document_address_text);
-		String text = (isSender ? mDocument.getSender() : mDocument.getRecipient());
+		String text = getAddressTextByPosition(position);
 
 		if (TextUtils.isEmpty(text)) {
 			if (mIsCurrentDocument) {
+				boolean isAuthor = (AUTHOR_POSITION == position);
 				addressText.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, R.drawable.ic_create_small), null, null, null);
-				addressText.setText(R.string.document_tap_to_edit);
+				addressText.setText(isAuthor ? R.string.document_tap_to_edit_author : R.string.document_tap_to_edit_address);
 			} else {
 				addressText.setCompoundDrawables(null, null, null, null);
 				addressText.setText(R.string.document_no_data);

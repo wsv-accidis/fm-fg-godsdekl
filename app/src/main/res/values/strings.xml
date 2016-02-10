@@ -20,6 +20,7 @@
     <string name="coloading_nav_title">Samlastning klass 1</string>
 
 	<string name="document_amount_format">(%1$s st)</string>
+	<string name="document_author">Upprättad av</string>
     <string name="document_clear">Rensa</string>
     <string name="document_clear_everything">Rensa allt</string>
     <string name="document_clear_heading">Vill du ta bort innehållet i den här godsdeklarationen? Detta går inte att ångra.</string>
@@ -44,7 +45,8 @@
     <string name="document_summary_total_format">Totalt värde %1$s p.</string>
     <string name="document_summary_total_nem_format">Total NEM: %1$s kg.</string>
     <string name="document_summary_tpkat_format">Transportkategori %1$d: %2$s, värde %3$s p.</string>
-    <string name="document_tap_to_edit">Tryck här för att ange namn och adress.</string>
+    <string name="document_tap_to_edit_address">Tryck här för att ange namn och adress.</string>
+	<string name="document_tap_to_edit_author">Tryck här för att ange dina uppgifter.</string>
     <string name="document_unspecified_package">kolli</string>
     <string name="document_unspecified_packages">kollin</string>
     <string name="document_warning_class1_line1">Varning! Godsdeklarationen innehåller ämnen som inte får samlastas (ämnen märkta med etikett 1, 1.4, 1.5 och 1.6 får som regel inte lastas på samma fordon som kollin som innehåller farligt gods från övriga klasser, undantaget etikett 1.4S). Beakta även klass 1-ämnenas samlastningsgrupper.</string>
