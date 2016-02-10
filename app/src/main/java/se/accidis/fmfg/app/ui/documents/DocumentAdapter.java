@@ -231,17 +231,27 @@ public final class DocumentAdapter extends BaseAdapter {
 		TextView fullTextText = (TextView) view.findViewById(R.id.document_row_text);
 		fullTextText.setText(row.getMaterial().getFullText());
 
-		TextView fbenText = (TextView) view.findViewById(R.id.document_row_fben);
-		if (!TextUtils.isEmpty(row.getMaterial().getFben())) {
+		TextView materialText = (TextView) view.findViewById(R.id.document_row_fben);
+
+		StringBuilder materialBuilder = new StringBuilder();
+		Material material = row.getMaterial();
+
+		if (!TextUtils.isEmpty(material.getFben())) {
+			materialBuilder.append(material.getFben());
 			if (mShowFbet) {
-				fbenText.setText(row.getMaterial().getFbet() + ' ' + row.getMaterial().getFben());
-			} else {
-				fbenText.setText(row.getMaterial().getFben());
+				materialBuilder.insert(0, material.getFbet() + ' ');
 			}
-			fbenText.setVisibility(View.VISIBLE);
-		} else {
-			fbenText.setVisibility(View.GONE);
 		}
+
+		if (row.hasNEM()) {
+			if (materialBuilder.length() > 0) {
+				materialBuilder.append(' ');
+			}
+			materialBuilder.append(String.format(mContext.getString(R.string.document_amount_format), ValueHelper.formatValue(row.getAmount())));
+		}
+
+		materialText.setText(materialBuilder.toString());
+		materialText.setVisibility(materialBuilder.length() > 0 ? View.VISIBLE : View.GONE);
 
 		TextView nemText = (TextView) view.findViewById(R.id.document_row_nem);
 		if (row.hasNEM()) {

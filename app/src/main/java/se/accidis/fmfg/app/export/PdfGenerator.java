@@ -15,7 +15,6 @@ import com.pdfjet.ImageType;
 import com.pdfjet.Line;
 import com.pdfjet.PDF;
 import com.pdfjet.Page;
-import com.pdfjet.Point;
 import com.pdfjet.Table;
 import com.pdfjet.TextBlock;
 import com.pdfjet.TextLine;
@@ -24,13 +23,16 @@ import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Material;
+import se.accidis.fmfg.app.services.Preferences;
 import se.accidis.fmfg.app.ui.materials.LabelsHelper;
 import se.accidis.fmfg.app.ui.materials.ValueHelper;
 import se.accidis.fmfg.app.utils.AndroidUtils;
@@ -58,6 +60,7 @@ public final class PdfGenerator {
 	private final Document mDocument;
 	private final Font mLabelFont;
 	private final PDF mPdf;
+	private final Preferences mPrefs;
 	private final Font mTextFont;
 	private final Font mVanityFont;
 
@@ -65,6 +68,7 @@ public final class PdfGenerator {
 		mDocument = document;
 		mPdf = pdf;
 		mContext = context;
+		mPrefs = new Preferences(context);
 
 		mLabelFont = new Font(mPdf, CoreFont.TIMES_ROMAN);
 		mLabelFont.setSize(6.0f);
@@ -104,49 +108,81 @@ public final class PdfGenerator {
 
 	@NonNull
 	private List<Cell> createDocumentRow1(DocumentRow row) {
-		List<Cell> cells = new ArrayList<>(3);
-
 		Cell materialCell = new Cell(mTextFont, row.getMaterial().getFullText());
 		materialCell.setLeftPadding(0);
-		cells.add(materialCell);
 
 		Cell packagesCell = new Cell(mTextFont, row.getPackagesText(mContext));
-		cells.add(packagesCell);
-
 		Cell weightVolumeCell = new Cell(mTextFont, row.getWeightVolumeText(mContext));
-		cells.add(weightVolumeCell);
 
-		return cells;
+		return Arrays.asList(materialCell, packagesCell, weightVolumeCell);
 	}
 
 	@NonNull
-	private List<Cell> createDocumentRow2(DocumentRow row) {
-		List<Cell> cells = new ArrayList<>(3);
+	private List<Cell> createDocumentRow2(DocumentRow row, boolean withFbet) {
+		StringBuilder materialBuilder = new StringBuilder();
 
 		Material material = row.getMaterial();
-		Cell fbenCell = new Cell(mTextFont, TextUtils.isEmpty(material.getFben()) ? EMPTY_STR : material.getFben());
-		fbenCell.setFgColor(Color.darkgray);
-		fbenCell.setLeftPadding(0);
-		cells.add(fbenCell);
-
-		Cell emptyCell = new Cell(mTextFont, EMPTY_STR);
-		cells.add(emptyCell);
-
-		if (row.hasNEM()) {
-			Cell nemCell = new Cell(mTextFont, String.format(mContext.getString(R.string.document_nem_format), ValueHelper.formatValue(row.getNEMkg())));
-			cells.add(nemCell);
-		} else {
-			cells.add(emptyCell);
+		if (!TextUtils.isEmpty(material.getFben())) {
+			materialBuilder.append(material.getFben());
+			if (withFbet) {
+				materialBuilder.insert(0, material.getFbet() + ' ');
+			}
 		}
 
-		return cells;
+		if (row.hasNEM()) {
+			if (materialBuilder.length() > 0) {
+				materialBuilder.append(' ');
+			}
+			materialBuilder.append(String.format(mContext.getString(R.string.document_amount_format), ValueHelper.formatValue(row.getAmount())));
+		}
+
+		Cell materialCell = new Cell(mTextFont, materialBuilder.toString());
+		materialCell.setFgColor(Color.darkgray);
+		materialCell.setLeftPadding(0);
+
+		Cell emptyCell = new Cell(mTextFont, EMPTY_STR);
+		Cell nemCell;
+
+		if (row.hasNEM()) {
+			nemCell = new Cell(mTextFont, String.format(mContext.getString(R.string.document_nem_format), ValueHelper.formatValue(row.getNEMkg())));
+		} else {
+			nemCell = emptyCell;
+		}
+
+		return Arrays.asList(materialCell, emptyCell, nemCell);
 	}
 
 	private void createDocumentRows(List<List<Cell>> rows) {
+		boolean withFbet = mPrefs.shouldShowFbetInDocument();
+
 		for (DocumentRow documentRow : mDocument.getRows()) {
 			rows.add(createDocumentRow1(documentRow));
-			rows.add(createDocumentRow2(documentRow));
+			rows.add(createDocumentRow2(documentRow, withFbet));
 		}
+	}
+
+	private void createSummaryRows(List<List<Cell>> rows) {
+		Cell emptyCell = new Cell(mTextFont, EMPTY_STR);
+		rows.add(Arrays.asList(emptyCell, emptyCell, emptyCell));
+
+		BigDecimal documentNEM = mDocument.getTotalNEMkg();
+		if (0.0 != documentNEM.doubleValue()) {
+			Cell nemCell = new Cell(mTextFont, String.format(mContext.getString(R.string.document_summary_total_nem_format), ValueHelper.formatValue(documentNEM)));
+			rows.add(Arrays.asList(nemCell, emptyCell, emptyCell));
+		}
+
+		for (int tpKat = Material.TPKAT_MIN; tpKat <= Material.TPKAT_MAX; tpKat++) {
+			BigDecimal valueByTpKat = mDocument.getCalculatedValueByTpKat(tpKat);
+			if (0.0 != valueByTpKat.doubleValue()) {
+				String weightVolumeByTpKat = mDocument.getWeightVolumeStringByTpKat(tpKat, mContext);
+				Cell valueCell = new Cell(mTextFont, String.format(mContext.getString(R.string.document_summary_tpkat_format), tpKat, weightVolumeByTpKat, ValueHelper.formatValue(valueByTpKat)));
+				rows.add(Arrays.asList(valueCell, emptyCell, emptyCell));
+			}
+		}
+
+		BigDecimal totalValue = mDocument.getCalculatedTotalValue();
+		Cell totalCell = new Cell(mTextFont, String.format(mContext.getString(R.string.document_summary_total_format), ValueHelper.formatValue(totalValue)));
+		rows.add(Arrays.asList(totalCell, emptyCell, emptyCell));
 	}
 
 	@NonNull
@@ -166,26 +202,21 @@ public final class PdfGenerator {
 	}
 
 	private List<List<Cell>> createTableData() throws Exception {
-		List<List<Cell>> rows = new ArrayList<>();
+		List<List<Cell>> rows = new ArrayList<>(10 + mDocument.getRows().size() * 2); // too large, avoids reallocs
 		rows.add(createTableHeader());
 		createDocumentRows(rows);
+		createSummaryRows(rows);
 		return rows;
 	}
 
 	private List<Cell> createTableHeader() {
-		List<Cell> cells = new ArrayList<>(3);
-
 		Cell materialHeaderCell = new Cell(mLabelFont, mContext.getString(R.string.document_export_material_header));
 		materialHeaderCell.setLeftPadding(0);
-		cells.add(materialHeaderCell);
 
 		Cell packagesHeaderCell = new Cell(mLabelFont, mContext.getString(R.string.document_export_pkgs_header));
-		cells.add(packagesHeaderCell);
-
 		Cell weightVolumeHeaderCell = new Cell(mLabelFont, mContext.getString(R.string.document_export_weight_volume_header));
-		cells.add(weightVolumeHeaderCell);
 
-		return cells;
+		return Arrays.asList(materialHeaderCell, packagesHeaderCell, weightVolumeHeaderCell);
 	}
 
 	private void writeDocument() throws Exception {
@@ -205,19 +236,16 @@ public final class PdfGenerator {
 		TextLine pageLabel = new TextLine(mTextFont);
 		writePageLabel(page, pageLabel, pageNo, pageTotal);
 
-		Point tableBottom = table.drawOn(page);
+		table.drawOn(page);
 		while (table.hasMoreData()) {
+			// Keep drawing new pages until we run out of table...
 			page = new Page(mPdf, A4.PORTRAIT);
 			table.setLocation(HORIZONTAL_MARGIN, VERTICAL_MARGIN);
-			tableBottom = table.drawOn(page);
+			table.drawOn(page);
 
 			vanityLabel.drawOn(page);
 			writePageLabel(page, pageLabel, ++pageNo, pageTotal);
 		}
-
-		TextLine endLabel = new TextLine(mLabelFont, "SLUT");
-		endLabel.setLocation(HORIZONTAL_MARGIN, tableBottom.getY() + endLabel.getHeight() + INNER_MARGIN);
-		endLabel.drawOn(page);
 	}
 
 	private float writeDocumentFooter(Page page) throws Exception {

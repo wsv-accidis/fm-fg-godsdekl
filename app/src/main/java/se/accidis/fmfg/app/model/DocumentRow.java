@@ -109,7 +109,7 @@ public final class DocumentRow {
     }
 
     public String getWeightVolumeText(Context context) {
-        return String.format(context.getString(mIsVolume ? R.string.unit_liter_format : R.string.unit_kg_format), mWeightVolume.toString());
+        return String.format(context.getString(mIsVolume ? R.string.unit_liter_format : R.string.unit_kg_format), ValueHelper.formatValue(mWeightVolume));
     }
 
     public boolean hasNEM() {

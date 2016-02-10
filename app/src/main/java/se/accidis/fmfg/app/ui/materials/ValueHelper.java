@@ -4,46 +4,54 @@ import android.text.TextUtils;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 /**
- * Simple helper class for calculating the value of a shipment.
+ * Simple helper class for calculating and formatting values.
  */
 public final class ValueHelper {
-    private ValueHelper() {
-    }
+	private static final DecimalFormat mValueFormat = new DecimalFormat();
 
-    public static String formatValue(BigDecimal bigDecimal) {
-        DecimalFormat format = new DecimalFormat();
-        format.setMaximumFractionDigits(5);
-        format.setMinimumFractionDigits(0);
-        return format.format(bigDecimal);
-    }
+	private ValueHelper() {
+	}
 
-    public static int getMultiplierByTpKat(int tpKat) {
-        switch (tpKat) {
-            case 1:
-                return 50;
-            case 2:
-                return 3;
-            case 3:
-                return 1;
-            default:
-                return 0;
-        }
-    }
+	public static String formatValue(BigDecimal bigDecimal) {
+		return mValueFormat.format(bigDecimal);
+	}
 
-    public static BigDecimal parseValue(String text) {
-        if (TextUtils.isEmpty(text)) {
-            return BigDecimal.ZERO;
-        }
+	public static int getMultiplierByTpKat(int tpKat) {
+		switch (tpKat) {
+			case 1:
+				return 50;
+			case 2:
+				return 3;
+			case 3:
+				return 1;
+			default:
+				return 0;
+		}
+	}
 
-        // BigDecimal constructor accepts only period as separator
-        text = text.replace(',', '.');
+	public static void initializeLocale(Locale locale) {
+		Locale.setDefault(locale);
+		mValueFormat.setMaximumFractionDigits(5);
+		mValueFormat.setMinimumFractionDigits(0);
+		mValueFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(locale));
+	}
 
-        try {
-            return new BigDecimal(text);
-        } catch (NumberFormatException ignored) {
-            return BigDecimal.ZERO;
-        }
-    }
+	public static BigDecimal parseValue(String text) {
+		if (TextUtils.isEmpty(text)) {
+			return BigDecimal.ZERO;
+		}
+
+		// BigDecimal constructor accepts only period as separator
+		text = text.replace(',', '.');
+
+		try {
+			return new BigDecimal(text);
+		} catch (NumberFormatException ignored) {
+			return BigDecimal.ZERO;
+		}
+	}
 }
