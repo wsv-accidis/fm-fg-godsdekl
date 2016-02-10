@@ -41,10 +41,10 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
  * Generates a PDF from a Document.
  */
 public final class PdfGenerator {
-	public static final String EMPTY_STR = "";
 	public static final String PDF_CONTENT_TYPE = "application/pdf";
 	public static final String PDF_EXTENSION = ".pdf";
 	private static final float ADDRESS_BLOCK_MIN_HEIGHT = 60.0f;
+	private static final String EMPTY_STR = "";
 	private static final float FOOTER_BOTTOM_MARGIN = 35.0f;
 	private static final float HORIZONTAL_MARGIN = 40.0f;
 	private static final float INNER_MARGIN = 5.0f;
@@ -52,8 +52,8 @@ public final class PdfGenerator {
 	private static final float PAGE_HEIGHT = A4.PORTRAIT[1];
 	private static final float PAGE_WIDTH = A4.PORTRAIT[0];
 	private static final float CONTENT_WIDTH = PAGE_WIDTH - HORIZONTAL_MARGIN * 2.0f;
-	private static final float LABEL_SIZE = CONTENT_WIDTH / LABELS_PER_ROW - INNER_MARGIN;
 	private static final float CENTER_OF_PAGE = HORIZONTAL_MARGIN + CONTENT_WIDTH / 2.0f;
+	private static final float LABEL_SIZE = CONTENT_WIDTH / LABELS_PER_ROW - INNER_MARGIN;
 	private final static String TAG = PdfGenerator.class.getSimpleName();
 	private static final float VERTICAL_MARGIN = 50.0f;
 	private final Context mContext;
