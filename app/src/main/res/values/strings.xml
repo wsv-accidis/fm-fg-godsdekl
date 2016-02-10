@@ -15,6 +15,7 @@
 
     <string name="address_recipient_heading">Skriv mottagarens namn och adress:</string>
     <string name="address_sender_heading">Skriv avsändarens namn och adress:</string>
+	<string name="address_author_heading">Skriv ditt namn, befattning och kontaktuppgifter:</string>
 
     <string name="coloading_nav_title">Samlastning klass 1</string>
 
@@ -40,7 +41,6 @@
     <string name="document_save_heading">Ge godsdeklarationen ett beskrivande namn så att du hittar den senare:</string>
     <string name="document_save_already_saved">Den här godsdeklarationen är redan sparad. Om du sparar den nu så skriver du över den tidigare sparade versionen. Välj "Spara som ny" för att inte skriva över den tidigare.</string>
     <string name="document_sender">Avsändare</string>
-    <string name="document_show_fbet">Visa M-nummer</string>
     <string name="document_summary_total_format">Totalt värde %1$s p.</string>
     <string name="document_summary_total_nem_format">Total NEM: %1$s kg.</string>
     <string name="document_summary_tpkat_format">Transportkategori %1$d: %2$s, värde %3$s p.</string>
@@ -105,9 +105,13 @@
 
 	<string name="preferences_nav_title">Inställningar</string>
 	<string name="preferences_show_fbet">Visa M-nummer</string>
-	<string name="preferences_show_fbet_description">Inkludera M-nummer i godsdeklaration</string>
+	<string name="preferences_show_fbet_description">Visa M-nummer i förrådsbenämning</string>
+	<string name="preferences_show_author">Visa författare</string>
+	<string name="preferences_show_author_description">Visa uppgifter om den som upprättat godsdeklarationen</string>
+	<string name="preferences_default_author">Standardförfattare</string>
+	<string name="preferences_default_author_description">Ange dina uppgifter så fylls de i automatiskt</string>
 
-    <string name="unit_amount">styck</string>
+	<string name="unit_amount">styck</string>
     <string name="unit_kg_format">%1$s kg</string>
     <string name="unit_liter_format">%1$s liter</string>
     <string name="unit_points_format">%1$s p</string>

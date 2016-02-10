@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+				  xmlns:app="http://schemas.android.com/apk/res-auto">
 	<CheckBoxPreference
 		android:key="ShowFbetInDocument"
-		android:title="@string/preferences_show_fbet"
-		android:summary="@string/preferences_show_fbet_description"/>
+		android:summary="@string/preferences_show_fbet_description"
+		android:title="@string/preferences_show_fbet"/>
+	<CheckBoxPreference
+		android:key="ShowAuthorInDocument"
+		android:summary="@string/preferences_show_author_description"
+		android:title="@string/preferences_show_author"/>
+	<se.accidis.fmfg.app.ui.preferences.AddressDialogPreference
+		android:key="DefaultAuthor"
+		android:summary="@string/preferences_default_author_description"
+		android:title="@string/preferences_default_author"
+		app:heading="@string/address_author_heading"/>
 </PreferenceScreen>

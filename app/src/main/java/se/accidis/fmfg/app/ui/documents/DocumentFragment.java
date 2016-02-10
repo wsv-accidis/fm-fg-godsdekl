@@ -163,12 +163,6 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 				ExportPdfAsyncTask exportTask = new ExportPdfAsyncTask(getActivity(), progressDialog);
 				exportTask.execute();
 				return true;
-
-			case R.id.document_menu_show_fbet:
-				boolean value = !mPrefs.shouldShowFbetInDocument();
-				mPrefs.setShowFbetInDocument(value);
-				mAdapter.setShowFbet(value);
-				return true;
 		}
 
 		return false;
@@ -178,10 +172,6 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 
-		MenuItem showFbetItem = menu.findItem(R.id.document_menu_show_fbet);
-		if (null != showFbetItem) {
-			showFbetItem.setChecked(mPrefs.shouldShowFbetInDocument());
-		}
 		MenuItem deleteItem = menu.findItem(R.id.document_menu_delete);
 		if (null != deleteItem) {
 			boolean canDelete = (null != mDocument && !mIsCurrentDocument);
@@ -353,7 +343,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
 		public ExportPdfAsyncTask(Activity context, ProgressDialog progressDialog) {
 			mContext = context;
-			mProgressDialog =progressDialog;
+			mProgressDialog = progressDialog;
 		}
 
 		@Override

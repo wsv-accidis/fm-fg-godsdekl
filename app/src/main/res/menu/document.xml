@@ -2,11 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 	  xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
-		android:id="@+id/document_menu_show_fbet"
-		android:checkable="true"
-		android:title="@string/document_show_fbet"
-		app:showAsAction="never"/>
-	<item
 		android:id="@+id/document_menu_export"
 		android:title="@string/document_export"
 		app:showAsAction="never"/>
