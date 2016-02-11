@@ -129,8 +129,8 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 		}
 	}
 
-	public void setDialogListener(MaterialsLoadDialogListener onDismissListener) {
-		mListener = onDismissListener;
+	public void setDialogListener(MaterialsLoadDialogListener listener) {
+		mListener = listener;
 	}
 
 	private void calculate() {
@@ -181,7 +181,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 
 			int numberPkgs = parseIntOrZero(mNumberPkgsField.getText().toString());
 			row.setNumberOfPackages(numberPkgs);
-			String typePkgs = mTypePkgsField.getText().toString();
+			String typePkgs = mTypePkgsField.getText().toString().trim();
 			row.setTypeOfPackages(typePkgs);
 			row.setAmount(mAmount);
 			row.setWeightVolume(mWeightVolume);

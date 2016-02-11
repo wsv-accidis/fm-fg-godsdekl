@@ -3,7 +3,12 @@
 	  xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
 		android:id="@+id/document_menu_export"
+		android:icon="@drawable/ic_pdf_white"
 		android:title="@string/document_export"
+		app:showAsAction="ifRoom"/>
+	<item
+		android:id="@+id/document_menu_opt_fields"
+		android:title="@string/document_edit_opt_fields"
 		app:showAsAction="never"/>
 	<item
 		android:id="@+id/document_menu_edit"

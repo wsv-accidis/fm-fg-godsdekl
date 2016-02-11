@@ -28,6 +28,7 @@
     <string name="document_delete">Ta bort</string>
     <string name="document_delete_heading">Vill du ta bort den här godsdeklarationen? Detta går inte att ångra.</string>
     <string name="document_edit">Redigera</string>
+	<string name="document_edit_opt_fields">Ytterligare info</string>
     <string name="document_edit_unsaved_heading">Du har gjort ändringar i den nuvarande godsdeklarationen som inte är sparade. Om du börjar redigera den här godsdeklarationen så förlorar du de osparade ändringarna. Vill du fortsätta?</string>
     <string name="document_edit_unsaved_no">Nej, avbryt</string>
     <string name="document_edit_unsaved_yes">Ja, börja redigera</string>
@@ -37,6 +38,7 @@
     <string name="document_nem_format">NEM: %1$s kg</string>
     <string name="document_no_data">Uppgift saknas.</string>
     <string name="document_no_name">Namnlös</string>
+	<string name="document_protected_transport">Skyddad transport</string>
     <string name="document_recipient">Mottagare</string>
     <string name="document_save_as_new">Spara som ny</string>
     <string name="document_save_heading">Ge godsdeklarationen ett beskrivande namn så att du hittar den senare:</string>
@@ -49,6 +51,7 @@
 	<string name="document_tap_to_edit_author">Tryck här för att ange dina uppgifter.</string>
     <string name="document_unspecified_package">kolli</string>
     <string name="document_unspecified_packages">kollin</string>
+	<string name="document_vehicle_type">Fordonstyp</string>
     <string name="document_warning_class1_line1">Varning! Godsdeklarationen innehåller ämnen som inte får samlastas (ämnen märkta med etikett 1, 1.4, 1.5 och 1.6 får som regel inte lastas på samma fordon som kollin som innehåller farligt gods från övriga klasser, undantaget etikett 1.4S). Beakta även klass 1-ämnenas samlastningsgrupper.</string>
     <string name="document_warning_class1_line2">Tänk på att om du lastar farligt gods på ett separat fordon så måste du upprätta en separat godsdeklaration för det fordonet.</string>
 
@@ -64,10 +67,15 @@
 	<string name="document_export_weight_volume_header">Vikt/volym</string>
 	<string name="document_export_please_wait">Det här tar några sekunder…</string>
 
-    <string name="documents_list_nav_title">Sparade godsdekl.</string>
+	<string name="document_opt_field_protected_transport">Skyddad tp:</string>
+	<string name="document_opt_field_vehicle_type">Fordonstyp:</string>
+	<string name="document_opt_field_vehicle_reg">Fordonets reg.nr:</string>
+
+	<string name="documents_list_nav_title">Sparade godsdekl.</string>
     <string name="documents_list_empty">Inga sparade godsdeklarationer.</string>
 
     <string name="generic_cancel">Avbryt</string>
+	<string name="generic_close">Stäng</string>
     <string name="generic_save">Spara</string>
     <string name="generic_unexpected_error">Ett oväntat fel har uppstått. Vänligen kontakta utvecklaren.</string>
 
@@ -118,10 +126,45 @@
     <string name="unit_liter_format">%1$s liter</string>
     <string name="unit_points_format">%1$s p</string>
 
-    <string-array name="unit_weight_volume">
-        <item>kg</item>
-        <item>liter</item>
-    </string-array>
+	<string-array name="document_vehicle_types">
+		<item>Bv 206</item>
+		<item>Bv 309</item>
+		<item>Bv 410</item>
+		<item>Gruppbåt</item>
+		<item>Lastbil</item>
+		<item>Lätt lastbil</item>
+		<item>Lätt trossbåt</item>
+		<item>MB GW</item>
+		<item>MB Sprinter</item>
+		<item>Pb 5</item>
+		<item>Pb 8</item>
+		<item>Ptgb 203</item>
+		<item>Ptgb 360</item>
+		<item>Personbil</item>
+		<item>Släpkärra</item>
+		<item>Släpvagn</item>
+		<item>Stridsbåt 90E</item>
+		<item>Stridsbåt 90H</item>
+		<item>Stridsfordon 90</item>
+		<item>Stridsvagn 122</item>
+		<item>Tgb 11</item>
+		<item>Tgb 13</item>
+		<item>Tgb 14</item>
+		<item>Tgb 15</item>
+		<item>Tgb 16</item>
+		<item>Tgb 20</item>
+		<item>Tgb 30</item>
+		<item>Tgb 40</item>
+		<item>Trossbåt</item>
+		<item>Tung lastbil</item>
+		<item>Tung trossbåt</item>
+	</string-array>
+
+	<string-array name="generic_yes_no_unknown">
+		<item>-</item>
+		<item>Ja</item>
+		<item>Nej</item>
+	</string-array>
 
 	<string-array name="material_pkg_types">
 		<item>ask</item>
@@ -152,5 +195,10 @@
 		<item>tankar</item>
 		<item>tunna</item>
 		<item>tunnor</item>
+	</string-array>
+
+	<string-array name="unit_weight_volume">
+		<item>kg</item>
+		<item>liter</item>
 	</string-array>
 </resources>

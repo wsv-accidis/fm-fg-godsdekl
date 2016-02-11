@@ -161,6 +161,12 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 				ExportPdfAsyncTask exportTask = new ExportPdfAsyncTask(getActivity(), progressDialog);
 				exportTask.execute();
 				return true;
+
+			case R.id.document_menu_opt_fields:
+				DocumentOptFieldsDialogFragment optFieldsDialog = DocumentOptFieldsDialogFragment.createInstance(mDocument, !mIsCurrentDocument);
+				optFieldsDialog.setDialogListener(new DocumentOptFieldsDialogListener());
+				optFieldsDialog.show(getFragmentManager(), DocumentOptFieldsDialogFragment.class.getSimpleName());
+				return true;
 		}
 
 		return false;
@@ -334,6 +340,23 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 			} else {
 				Log.e(TAG, "Activity holding fragment is not MainActivity!");
 			}
+		}
+	}
+
+	private final class DocumentOptFieldsDialogListener implements DocumentOptFieldsDialogFragment.DocumentOptFieldsDialogListener {
+		@Override
+		public void onDismiss(Bundle outArgs) {
+			if (null == outArgs || !mIsCurrentDocument) {
+				return;
+			}
+
+			int protectedTpInt = outArgs.getInt(DocumentOptFieldsDialogFragment.ARG_PROTECTED_TRANSPORT, DocumentOptFieldsDialogFragment.PROTECTED_TRANSPORT_UNKNOWN);
+			mDocument.setIsProtectedTransport(DocumentOptFieldsDialogFragment.PROTECTED_TRANSPORT_UNKNOWN == protectedTpInt ? null : (DocumentOptFieldsDialogFragment.PROTECTED_TRANSPORT_YES == protectedTpInt));
+			mDocument.setVehicleReg(outArgs.getString(DocumentOptFieldsDialogFragment.ARG_VEHICLE_REG, ""));
+			mDocument.setVehicleType(outArgs.getString(DocumentOptFieldsDialogFragment.ARG_VEHICLE_TYPE, ""));
+
+			mDocument.setHasUnsavedChanges(true);
+			commit();
 		}
 	}
 
