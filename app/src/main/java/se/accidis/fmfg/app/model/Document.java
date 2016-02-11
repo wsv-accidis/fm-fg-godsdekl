@@ -25,11 +25,11 @@ import se.accidis.fmfg.app.utils.JSONUtils;
 public final class Document {
 	private final List<DocumentRow> mRows = new ArrayList<>();
 	private String mAuthor;
+	private boolean mHasUnsavedChanges;
 	private UUID mId;
 	private String mName;
 	private String mRecipient;
 	private String mSender;
-	private DocumentSettings mSettings;
 	private DateTime mTimestamp;
 
 	public Document() {
@@ -38,7 +38,6 @@ public final class Document {
 
 	private Document(UUID id) {
 		mId = id;
-		mSettings = new DocumentSettings(null);
 	}
 
 	public static Document fromJson(JSONObject json) throws JSONException {
@@ -49,7 +48,7 @@ public final class Document {
 		document.mRecipient = JSONUtils.getStringOrNull(json, Keys.RECIPIENT);
 		document.mTimestamp = JSONUtils.getDateTimeOrNull(json, Keys.TIMESTAMP);
 		document.mSender = JSONUtils.getStringOrNull(json, Keys.SENDER);
-		document.mSettings = new DocumentSettings(json.optJSONObject(Keys.SETTINGS));
+		document.mHasUnsavedChanges = json.optBoolean(Keys.UNSAVED_CHANGES);
 
 		JSONArray rowsArray = json.getJSONArray(Keys.ROWS);
 		for (int i = 0; i < rowsArray.length(); i++) {
@@ -148,10 +147,6 @@ public final class Document {
 		mSender = sender;
 	}
 
-	public DocumentSettings getSettings() {
-		return mSettings;
-	}
-
 	public DateTime getTimestamp() {
 		return mTimestamp;
 	}
@@ -203,6 +198,10 @@ public final class Document {
 		return builder.toString();
 	}
 
+	public boolean hasUnsavedChanges() {
+		return mHasUnsavedChanges;
+	}
+
 	public boolean isSaved() {
 		return (null != mTimestamp);
 	}
@@ -218,6 +217,10 @@ public final class Document {
 		}
 	}
 
+	public void setHasUnsavedChanges(boolean value) {
+		mHasUnsavedChanges = value;
+	}
+
 	public JSONObject toJson() throws JSONException {
 		JSONArray rowsArray = new JSONArray();
 		for (DocumentRow row : mRows) {
@@ -231,8 +234,8 @@ public final class Document {
 		json.put(Keys.SENDER, mSender);
 		json.put(Keys.RECIPIENT, mRecipient);
 		json.put(Keys.AUTHOR, mAuthor);
+		JSONUtils.putIfTrue(json, Keys.UNSAVED_CHANGES, mHasUnsavedChanges);
 		json.put(Keys.ROWS, rowsArray);
-		json.put(Keys.SETTINGS, mSettings.toJson());
 		return json;
 	}
 
@@ -243,8 +246,8 @@ public final class Document {
 		public static final String RECIPIENT = "Recipient";
 		public static final String ROWS = "Rows";
 		public static final String SENDER = "Sender";
-		public static final String SETTINGS = "Settings";
 		public static final String TIMESTAMP = "Timestamp";
+		public static final String UNSAVED_CHANGES = "UnsavedChanges";
 
 		private Keys() {
 		}

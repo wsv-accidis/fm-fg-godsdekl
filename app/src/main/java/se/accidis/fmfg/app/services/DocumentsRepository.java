@@ -17,7 +17,6 @@ import java.util.UUID;
 
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentLink;
-import se.accidis.fmfg.app.model.DocumentSettings;
 import se.accidis.fmfg.app.utils.IOUtils;
 
 /**
@@ -118,7 +117,7 @@ public final class DocumentsRepository {
         ensureCurrentDocumentLoaded();
         mCurrentDocument.setName(name);
         mCurrentDocument.setTimestamp(DateTime.now());
-        mCurrentDocument.getSettings().remove(DocumentSettings.Keys.UNSAVED_CHANGES);
+		mCurrentDocument.setHasUnsavedChanges(false);
         writeDocument(mCurrentDocument);
         invalidate();
     }

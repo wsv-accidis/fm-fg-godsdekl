@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -24,7 +23,6 @@ import java.math.BigDecimal;
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentRow;
-import se.accidis.fmfg.app.model.DocumentSettings;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 
@@ -191,7 +189,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 
 			Document document = mRepository.getCurrentDocument();
 			document.addOrUpdateRow(row);
-			document.getSettings().put(DocumentSettings.Keys.UNSAVED_CHANGES, true);
+			document.setHasUnsavedChanges(true);
 			mRepository.commitCurrentDocument();
 		}
 

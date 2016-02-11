@@ -33,7 +33,6 @@ import se.accidis.fmfg.app.export.PdfGenerator;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentLink;
 import se.accidis.fmfg.app.model.DocumentRow;
-import se.accidis.fmfg.app.model.DocumentSettings;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.Preferences;
 import se.accidis.fmfg.app.ui.MainActivity;
@@ -148,7 +147,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 				return true;
 
 			case R.id.document_menu_edit:
-				if (mRepository.getCurrentDocument().getSettings().getBoolean(DocumentSettings.Keys.UNSAVED_CHANGES)) {
+				if (mRepository.getCurrentDocument().hasUnsavedChanges()) {
 					EditUnsavedDialogFragment editDialog = new EditUnsavedDialogFragment();
 					editDialog.setDialogListener(new EditUnsavedDialogListener());
 					editDialog.show(getFragmentManager(), EditUnsavedDialogFragment.class.getSimpleName());
@@ -283,7 +282,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 					break;
 			}
 
-			mDocument.getSettings().put(DocumentSettings.Keys.UNSAVED_CHANGES, true);
+			mDocument.setHasUnsavedChanges(true);
 			commit();
 		}
 	}
@@ -312,7 +311,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 			mDocument.assignNewId();
 			mDocument.setName("");
 			mDocument.setTimestamp(null);
-			mDocument.getSettings().remove(DocumentSettings.Keys.UNSAVED_CHANGES);
+			mDocument.setHasUnsavedChanges(false);
 
 			commit();
 		}
