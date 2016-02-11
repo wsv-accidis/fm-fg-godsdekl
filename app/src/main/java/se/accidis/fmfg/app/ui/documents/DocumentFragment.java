@@ -302,6 +302,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 		@Override
 		public void onDismiss(boolean keepAddresses) {
 			mDocument.removeAllRows();
+
 			if (!keepAddresses) {
 				mDocument.setSender("");
 				mDocument.setRecipient("");

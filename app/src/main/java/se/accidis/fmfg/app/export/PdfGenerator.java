@@ -43,7 +43,7 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
 public final class PdfGenerator {
 	public static final String PDF_CONTENT_TYPE = "application/pdf";
 	public static final String PDF_EXTENSION = ".pdf";
-	private static final float ADDRESS_BLOCK_MIN_HEIGHT = 60.0f;
+	private static final float ADDRESS_BLOCK_MIN_HEIGHT = 40.0f;
 	private static final String EMPTY_STR = "";
 	private static final float FOOTER_BOTTOM_MARGIN = 35.0f;
 	private static final float HORIZONTAL_MARGIN = 40.0f;
@@ -53,7 +53,9 @@ public final class PdfGenerator {
 	private static final float PAGE_WIDTH = A4.PORTRAIT[0];
 	private static final float CONTENT_WIDTH = PAGE_WIDTH - HORIZONTAL_MARGIN * 2.0f;
 	private static final float CENTER_OF_PAGE = HORIZONTAL_MARGIN + CONTENT_WIDTH / 2.0f;
+	private static final float ADDRESS_BLOCK_WIDTH = CONTENT_WIDTH / 2.0f - INNER_MARGIN;
 	private static final float LABEL_SIZE = CONTENT_WIDTH / LABELS_PER_ROW - INNER_MARGIN;
+	private static final float TABLE_TOP_MARGIN = 8.0f;
 	private final static String TAG = PdfGenerator.class.getSimpleName();
 	private static final float VERTICAL_MARGIN = 50.0f;
 	private final Context mContext;
@@ -168,6 +170,7 @@ public final class PdfGenerator {
 		BigDecimal documentNEM = mDocument.getTotalNEMkg();
 		if (0.0 != documentNEM.doubleValue()) {
 			Cell nemCell = new Cell(mTextFont, String.format(mContext.getString(R.string.document_summary_total_nem_format), ValueHelper.formatValue(documentNEM)));
+			nemCell.setLeftPadding(0);
 			rows.add(Arrays.asList(nemCell, emptyCell, emptyCell));
 		}
 
@@ -176,12 +179,14 @@ public final class PdfGenerator {
 			if (0.0 != valueByTpKat.doubleValue()) {
 				String weightVolumeByTpKat = mDocument.getWeightVolumeStringByTpKat(tpKat, mContext);
 				Cell valueCell = new Cell(mTextFont, String.format(mContext.getString(R.string.document_summary_tpkat_format), tpKat, weightVolumeByTpKat, ValueHelper.formatValue(valueByTpKat)));
+				valueCell.setLeftPadding(0);
 				rows.add(Arrays.asList(valueCell, emptyCell, emptyCell));
 			}
 		}
 
 		BigDecimal totalValue = mDocument.getCalculatedTotalValue();
 		Cell totalCell = new Cell(mTextFont, String.format(mContext.getString(R.string.document_summary_total_format), ValueHelper.formatValue(totalValue)));
+		totalCell.setLeftPadding(0);
 		rows.add(Arrays.asList(totalCell, emptyCell, emptyCell));
 	}
 
@@ -219,10 +224,35 @@ public final class PdfGenerator {
 		return Arrays.asList(materialHeaderCell, packagesHeaderCell, weightVolumeHeaderCell);
 	}
 
+	private float writeAddressBlocks(Page page) throws Exception {
+		final float labelHeight = mLabelFont.getHeight();
+
+		TextLine senderLabel = new TextLine(mLabelFont, mContext.getString(R.string.document_sender));
+		senderLabel.setLocation(HORIZONTAL_MARGIN, VERTICAL_MARGIN + labelHeight);
+		senderLabel.drawOn(page);
+		TextLine recipientLabel = new TextLine(mLabelFont, mContext.getString(R.string.document_recipient));
+		recipientLabel.setLocation(CENTER_OF_PAGE + INNER_MARGIN, VERTICAL_MARGIN + labelHeight);
+		recipientLabel.drawOn(page);
+
+		TextBlock senderBlock = new TextBlock(mTextFont);
+		senderBlock.setText(TextUtils.isEmpty(mDocument.getSender()) ? EMPTY_STR : mDocument.getSender());
+		senderBlock.setLocation(HORIZONTAL_MARGIN, VERTICAL_MARGIN + labelHeight + INNER_MARGIN);
+		senderBlock.setWidth(ADDRESS_BLOCK_WIDTH);
+		senderBlock.drawOn(page);
+		TextBlock recipientBlock = new TextBlock(mTextFont);
+		recipientBlock.setText(TextUtils.isEmpty(mDocument.getRecipient()) ? EMPTY_STR : mDocument.getRecipient());
+		recipientBlock.setLocation(CENTER_OF_PAGE + INNER_MARGIN, VERTICAL_MARGIN + labelHeight + INNER_MARGIN);
+		recipientBlock.setWidth(ADDRESS_BLOCK_WIDTH);
+		recipientBlock.drawOn(page);
+
+		final float blockHeight = Math.max(ADDRESS_BLOCK_MIN_HEIGHT, Math.max(recipientBlock.getHeight(), senderBlock.getHeight()));
+		return VERTICAL_MARGIN + labelHeight + blockHeight + 2 * INNER_MARGIN;
+	}
+
 	private void writeDocument() throws Exception {
 		Page page = new Page(mPdf, A4.PORTRAIT);
 
-		final float headerBottom = writeDocumentHeader(page, CENTER_OF_PAGE);
+		final float headerBottom = writeDocumentHeader(page) + TABLE_TOP_MARGIN;
 		final float footerHeight = writeDocumentFooter(page);
 
 		Table table = createTable(headerBottom, footerHeight);
@@ -283,37 +313,40 @@ public final class PdfGenerator {
 		return numRows * labelBoxSize + labelsLabel.getHeight() + 2 * INNER_MARGIN;
 	}
 
-	private float writeDocumentHeader(Page page, float centerOfPage) throws Exception {
-		TextLine senderLabel = new TextLine(mLabelFont, mContext.getString(R.string.document_sender));
-		senderLabel.setLocation(HORIZONTAL_MARGIN, VERTICAL_MARGIN + mLabelFont.getHeight());
-		senderLabel.drawOn(page);
-		TextLine recipientLabel = new TextLine(mLabelFont, mContext.getString(R.string.document_recipient));
-		recipientLabel.setLocation(centerOfPage + INNER_MARGIN, VERTICAL_MARGIN + mLabelFont.getHeight());
-		recipientLabel.drawOn(page);
+	private float writeDocumentHeader(Page page) throws Exception {
+		final float addressBlocksBottom = writeAddressBlocks(page);
+		final float allBlocksBottom = writeOptionalBlocks(page, addressBlocksBottom);
 
-		final float addressBlockWidth = CONTENT_WIDTH / 2.0f - INNER_MARGIN;
-		final float labelHeight = senderLabel.getHeight();
+		//       |
+		// ------+------
+		//       |
+		// ------+------
 
-		TextBlock senderBlock = new TextBlock(mTextFont);
-		senderBlock.setText(TextUtils.isEmpty(mDocument.getSender()) ? EMPTY_STR : mDocument.getSender());
-		senderBlock.setLocation(HORIZONTAL_MARGIN, VERTICAL_MARGIN + labelHeight + INNER_MARGIN);
-		senderBlock.setWidth(addressBlockWidth);
-		senderBlock.drawOn(page);
-		TextBlock recipientBlock = new TextBlock(mTextFont);
-		recipientBlock.setText(TextUtils.isEmpty(mDocument.getRecipient()) ? EMPTY_STR : mDocument.getRecipient());
-		recipientBlock.setLocation(centerOfPage + INNER_MARGIN, VERTICAL_MARGIN + labelHeight + INNER_MARGIN);
-		recipientBlock.setWidth(addressBlockWidth);
-		recipientBlock.drawOn(page);
-
-		final float addressBlockHeight = Math.max(ADDRESS_BLOCK_MIN_HEIGHT, Math.max(recipientBlock.getHeight(), senderBlock.getHeight()));
-		final float headerBottom = VERTICAL_MARGIN + labelHeight + addressBlockHeight + 2 * INNER_MARGIN;
-
-		Line line = new Line(centerOfPage, VERTICAL_MARGIN, centerOfPage, headerBottom);
+		Line line = new Line(CENTER_OF_PAGE, VERTICAL_MARGIN, CENTER_OF_PAGE, allBlocksBottom);
 		line.drawOn(page);
-		line = new Line(HORIZONTAL_MARGIN, headerBottom, HORIZONTAL_MARGIN + CONTENT_WIDTH, headerBottom);
+		line = new Line(HORIZONTAL_MARGIN, addressBlocksBottom, HORIZONTAL_MARGIN + CONTENT_WIDTH, addressBlocksBottom);
+		line.drawOn(page);
+		line = new Line(HORIZONTAL_MARGIN, allBlocksBottom, HORIZONTAL_MARGIN + CONTENT_WIDTH, allBlocksBottom);
 		line.drawOn(page);
 
-		return headerBottom;
+		return allBlocksBottom;
+	}
+
+	private float writeOptionalBlocks(Page page, float addressBlocksBottom) throws Exception {
+		// TODO Check if we should skip these blocks completely
+
+		TextLine authorLabel = new TextLine(mLabelFont, mContext.getString(R.string.document_author));
+		authorLabel.setLocation(HORIZONTAL_MARGIN, addressBlocksBottom + authorLabel.getHeight());
+		authorLabel.drawOn(page);
+
+		TextBlock authorBlock = new TextBlock(mTextFont);
+		authorBlock.setText(TextUtils.isEmpty(mDocument.getAuthor()) ? EMPTY_STR : mDocument.getAuthor());
+		authorBlock.setLocation(HORIZONTAL_MARGIN, addressBlocksBottom + authorLabel.getHeight() + INNER_MARGIN);
+		authorBlock.setWidth(ADDRESS_BLOCK_WIDTH);
+		authorBlock.drawOn(page);
+
+		final float blockHeight = authorLabel.getHeight() + authorBlock.getHeight() + 2 * INNER_MARGIN;
+		return addressBlocksBottom + blockHeight;
 	}
 
 	private void writePageLabel(Page page, TextLine pageLabel, int pageNo, int pageTotal) throws Exception {
