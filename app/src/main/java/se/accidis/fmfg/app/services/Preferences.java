@@ -18,6 +18,10 @@ public final class Preferences {
 		mPrefs = context.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
 	}
 
+	public String getDefaultAuthor() {
+		return mPrefs.getString(Keys.DEFAULT_AUTHOR, "");
+	}
+
 	public Set<String> getFavoriteMaterials() {
 		Set<String> set = mPrefs.getStringSet(Keys.FAVORITE_MATERIALS, null);
 		return (set != null ? new HashSet<>(set) : new HashSet<String>());
@@ -36,6 +40,7 @@ public final class Preferences {
 	}
 
 	private static class Keys {
+		public static final String DEFAULT_AUTHOR = "DefaultAuthor";
 		public static final String FAVORITE_MATERIALS = "FavoriteMaterials";
 		public static final String SHOW_AUTHOR_IN_DOCUMENT = "ShowAuthorInDocument";
 		public static final String SHOW_FBET_IN_DOCUMENT = "ShowFbetInDocument";

@@ -305,6 +305,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 			if (!keepAddresses) {
 				mDocument.setSender("");
 				mDocument.setRecipient("");
+				mDocument.setAuthor(mPrefs.getDefaultAuthor());
 			}
 
 			// Ensure saving now does not overwrite an existing document
