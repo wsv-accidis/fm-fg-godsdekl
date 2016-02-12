@@ -2,6 +2,7 @@ package se.accidis.fmfg.app.export;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -224,6 +225,22 @@ public final class PdfGenerator {
 		return Arrays.asList(materialHeaderCell, packagesHeaderCell, weightVolumeHeaderCell);
 	}
 
+	private List<Pair<String, String>> formatOptionalFields() {
+		List<Pair<String, String>> result = new ArrayList<>();
+
+		if (!TextUtils.isEmpty(mDocument.getVehicleType())) {
+			result.add(Pair.create(mContext.getString(R.string.document_vehicle_type), mDocument.getVehicleType()));
+		}
+		if (!TextUtils.isEmpty(mDocument.getVehicleReg())) {
+			result.add(Pair.create(mContext.getString(R.string.document_vehicle_reg), mDocument.getVehicleReg()));
+		}
+		if (mDocument.isProtectedTransportSpecified()) {
+			result.add(Pair.create(mContext.getString(R.string.document_protected_transport), mContext.getString(mDocument.isProtectedTransport() ? R.string.generic_yes : R.string.generic_no)));
+		}
+
+		return result;
+	}
+
 	private float writeAddressBlocks(Page page) throws Exception {
 		final float labelHeight = mLabelFont.getHeight();
 
@@ -245,8 +262,24 @@ public final class PdfGenerator {
 		recipientBlock.setWidth(ADDRESS_BLOCK_WIDTH);
 		recipientBlock.drawOn(page);
 
-		final float blockHeight = Math.max(ADDRESS_BLOCK_MIN_HEIGHT, Math.max(recipientBlock.getHeight(), senderBlock.getHeight()));
-		return VERTICAL_MARGIN + labelHeight + blockHeight + 2 * INNER_MARGIN;
+		final float blockHeight = Math.max(ADDRESS_BLOCK_MIN_HEIGHT, labelHeight + Math.max(recipientBlock.getHeight(), senderBlock.getHeight()));
+		return VERTICAL_MARGIN + blockHeight + 2 * INNER_MARGIN;
+	}
+
+	private float writeAuthorBlock(Page page, float verticalLocation) throws Exception {
+		final float labelHeight = mLabelFont.getHeight();
+
+		TextLine authorLabel = new TextLine(mLabelFont, mContext.getString(R.string.document_author));
+		authorLabel.setLocation(HORIZONTAL_MARGIN, verticalLocation + labelHeight);
+		authorLabel.drawOn(page);
+
+		TextBlock authorBlock = new TextBlock(mTextFont);
+		authorBlock.setText(TextUtils.isEmpty(mDocument.getAuthor()) ? EMPTY_STR : mDocument.getAuthor());
+		authorBlock.setLocation(HORIZONTAL_MARGIN, verticalLocation + labelHeight + INNER_MARGIN);
+		authorBlock.setWidth(ADDRESS_BLOCK_WIDTH);
+		authorBlock.drawOn(page);
+
+		return labelHeight + authorBlock.getHeight();
 	}
 
 	private void writeDocument() throws Exception {
@@ -317,11 +350,6 @@ public final class PdfGenerator {
 		final float addressBlocksBottom = writeAddressBlocks(page);
 		final float allBlocksBottom = writeOptionalBlocks(page, addressBlocksBottom);
 
-		//       |
-		// ------+------
-		//       |
-		// ------+------
-
 		Line line = new Line(CENTER_OF_PAGE, VERTICAL_MARGIN, CENTER_OF_PAGE, allBlocksBottom);
 		line.drawOn(page);
 		line = new Line(HORIZONTAL_MARGIN, addressBlocksBottom, HORIZONTAL_MARGIN + CONTENT_WIDTH, addressBlocksBottom);
@@ -333,20 +361,62 @@ public final class PdfGenerator {
 	}
 
 	private float writeOptionalBlocks(Page page, float addressBlocksBottom) throws Exception {
-		// TODO Check if we should skip these blocks completely
+		if (TextUtils.isEmpty(mDocument.getAuthor()) && !mDocument.hasOptionalFields()) {
+			// Do not draw these sections if there is no data at all
+			return addressBlocksBottom;
+		}
 
-		TextLine authorLabel = new TextLine(mLabelFont, mContext.getString(R.string.document_author));
-		authorLabel.setLocation(HORIZONTAL_MARGIN, addressBlocksBottom + authorLabel.getHeight());
-		authorLabel.drawOn(page);
+		float authorBlockHeight = writeAuthorBlock(page, addressBlocksBottom);
+		float optionalFieldsHeight = 0;
 
-		TextBlock authorBlock = new TextBlock(mTextFont);
-		authorBlock.setText(TextUtils.isEmpty(mDocument.getAuthor()) ? EMPTY_STR : mDocument.getAuthor());
-		authorBlock.setLocation(HORIZONTAL_MARGIN, addressBlocksBottom + authorLabel.getHeight() + INNER_MARGIN);
-		authorBlock.setWidth(ADDRESS_BLOCK_WIDTH);
-		authorBlock.drawOn(page);
+		if (mDocument.hasOptionalFields()) {
+			List<Pair<String, String>> optionalFields = formatOptionalFields();
+			optionalFieldsHeight = writeOptionalFields(page, optionalFields, addressBlocksBottom);
+		}
 
-		final float blockHeight = authorLabel.getHeight() + authorBlock.getHeight() + 2 * INNER_MARGIN;
+		final float blockHeight = Math.max(authorBlockHeight, optionalFieldsHeight) + INNER_MARGIN;
 		return addressBlocksBottom + blockHeight;
+	}
+
+	private float writeOptionalFields(Page page, List<Pair<String, String>> optionalFields, float verticalLocation) throws Exception {
+		final float leftOffset = CENTER_OF_PAGE + INNER_MARGIN;
+		final float centerOffset = leftOffset + CONTENT_WIDTH / 4;
+		final float blockWidth = CONTENT_WIDTH / 4 - INNER_MARGIN;
+		final float labelHeight = mLabelFont.getHeight();
+
+		boolean rightColumn = false;
+		float rowHeight = 0, totalHeight = 0;
+
+		for (Pair<String, String> pair : optionalFields) {
+			float horizontalLoc = (rightColumn ? centerOffset : leftOffset);
+
+			TextLine labelLine = new TextLine(mLabelFont, pair.first);
+			labelLine.setLocation(horizontalLoc, verticalLocation + labelHeight);
+			labelLine.drawOn(page);
+
+			TextBlock valueBlock = new TextBlock(mTextFont);
+			valueBlock.setText(TextUtils.isEmpty(pair.second) ? EMPTY_STR : pair.second);
+			valueBlock.setLocation(horizontalLoc, verticalLocation + labelHeight + INNER_MARGIN);
+			valueBlock.setWidth(blockWidth);
+			valueBlock.drawOn(page);
+
+			rowHeight = Math.max(rowHeight, labelHeight + INNER_MARGIN + valueBlock.getHeight());
+			if (rightColumn) {
+				rightColumn = false;
+				verticalLocation += rowHeight;
+				totalHeight += rowHeight;
+				rowHeight = 0;
+			} else {
+				rightColumn = true;
+			}
+		}
+
+		// In case we ended on a left column we need to update totalHeight
+		if (rightColumn) {
+			totalHeight += rowHeight;
+		}
+
+		return totalHeight;
 	}
 
 	private void writePageLabel(Page page, TextLine pageLabel, int pageNo, int pageTotal) throws Exception {

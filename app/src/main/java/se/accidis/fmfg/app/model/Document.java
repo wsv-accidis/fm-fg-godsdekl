@@ -1,6 +1,7 @@
 package se.accidis.fmfg.app.model;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -218,6 +219,10 @@ public final class Document {
 			builder.append(String.format(context.getString(R.string.unit_liter_format), ValueHelper.formatValue(totalVolume)));
 		}
 		return builder.toString();
+	}
+
+	public boolean hasOptionalFields() {
+		return isProtectedTransportSpecified() || !TextUtils.isEmpty(mVehicleReg) || !TextUtils.isEmpty(mVehicleType);
 	}
 
 	public boolean hasUnsavedChanges() {
