@@ -307,20 +307,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
 		@Override
 		public void onDismiss(boolean keepAddresses) {
-			mDocument.removeAllRows();
-
-			if (!keepAddresses) {
-				mDocument.setSender("");
-				mDocument.setRecipient("");
-				mDocument.setAuthor(mPrefs.getDefaultAuthor());
-			}
-
-			// Ensure saving now does not overwrite an existing document
-			mDocument.assignNewId();
-			mDocument.setName("");
-			mDocument.setTimestamp(null);
-			mDocument.setHasUnsavedChanges(false);
-
+			mDocument.reset(keepAddresses, mPrefs.getDefaultAuthor());
 			commit();
 		}
 	}

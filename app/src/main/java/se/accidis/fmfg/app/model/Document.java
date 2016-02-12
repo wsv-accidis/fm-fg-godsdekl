@@ -252,6 +252,27 @@ public final class Document {
 		}
 	}
 
+	public void reset(boolean keepAddresses, String defaultAuthor) {
+		removeAllRows();
+
+		if (!keepAddresses) {
+			setSender("");
+			setRecipient("");
+			setAuthor(defaultAuthor);
+		}
+
+		// Ensure saving now does not overwrite an existing document
+		assignNewId();
+
+		setName("");
+		setIsProtectedTransport(null);
+		setVehicleType(null);
+		setVehicleReg(null);
+
+		setTimestamp(null);
+		setHasUnsavedChanges(false);
+	}
+
 	public void setHasUnsavedChanges(boolean value) {
 		mHasUnsavedChanges = value;
 	}

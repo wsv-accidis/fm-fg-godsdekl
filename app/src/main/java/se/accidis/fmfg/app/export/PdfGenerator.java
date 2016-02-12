@@ -279,7 +279,7 @@ public final class PdfGenerator {
 		authorBlock.setWidth(ADDRESS_BLOCK_WIDTH);
 		authorBlock.drawOn(page);
 
-		return labelHeight + authorBlock.getHeight();
+		return labelHeight + authorBlock.getHeight() + INNER_MARGIN;
 	}
 
 	private void writeDocument() throws Exception {
@@ -374,47 +374,62 @@ public final class PdfGenerator {
 			optionalFieldsHeight = writeOptionalFields(page, optionalFields, addressBlocksBottom);
 		}
 
-		final float blockHeight = Math.max(authorBlockHeight, optionalFieldsHeight) + INNER_MARGIN;
-		return addressBlocksBottom + blockHeight;
+		return addressBlocksBottom + Math.max(authorBlockHeight, optionalFieldsHeight);
 	}
 
 	private float writeOptionalFields(Page page, List<Pair<String, String>> optionalFields, float verticalLocation) throws Exception {
+		final float centerLine = CENTER_OF_PAGE + CONTENT_WIDTH / 4;
 		final float leftOffset = CENTER_OF_PAGE + INNER_MARGIN;
-		final float centerOffset = leftOffset + CONTENT_WIDTH / 4;
-		final float blockWidth = CONTENT_WIDTH / 4 - INNER_MARGIN;
+		final float centerOffset = centerLine + INNER_MARGIN;
+		final float blockWidth = CONTENT_WIDTH / 4 - (2 * INNER_MARGIN);
 		final float labelHeight = mLabelFont.getHeight();
 
 		boolean rightColumn = false;
-		float rowHeight = 0, totalHeight = 0;
+		float verticalOffset = verticalLocation;
+		float currentRowHeight = 0;
+		float totalHeight = 0;
+		int idx = 0;
 
 		for (Pair<String, String> pair : optionalFields) {
 			float horizontalLoc = (rightColumn ? centerOffset : leftOffset);
 
 			TextLine labelLine = new TextLine(mLabelFont, pair.first);
-			labelLine.setLocation(horizontalLoc, verticalLocation + labelHeight);
+			labelLine.setLocation(horizontalLoc, verticalOffset + labelHeight);
 			labelLine.drawOn(page);
 
 			TextBlock valueBlock = new TextBlock(mTextFont);
 			valueBlock.setText(TextUtils.isEmpty(pair.second) ? EMPTY_STR : pair.second);
-			valueBlock.setLocation(horizontalLoc, verticalLocation + labelHeight + INNER_MARGIN);
+			valueBlock.setLocation(horizontalLoc, verticalOffset + labelHeight + INNER_MARGIN);
 			valueBlock.setWidth(blockWidth);
 			valueBlock.drawOn(page);
 
-			rowHeight = Math.max(rowHeight, labelHeight + INNER_MARGIN + valueBlock.getHeight());
+			// Switch columns on every other row, track which of the two is the tallest so we can adjust accordingly
+			currentRowHeight = Math.max(currentRowHeight, labelHeight + valueBlock.getHeight() + 2 * INNER_MARGIN);
 			if (rightColumn) {
 				rightColumn = false;
-				verticalLocation += rowHeight;
-				totalHeight += rowHeight;
-				rowHeight = 0;
+				verticalOffset += currentRowHeight;
+				totalHeight += currentRowHeight;
+				currentRowHeight = 0;
+
+				// Draw a separator line unless this was the last field
+				if (idx != optionalFields.size() - 1) {
+					Line separatorLine = new Line(CENTER_OF_PAGE, verticalOffset, CENTER_OF_PAGE + CONTENT_WIDTH / 2, verticalOffset);
+					separatorLine.drawOn(page);
+				}
 			} else {
 				rightColumn = true;
 			}
+
+			idx++;
 		}
 
 		// In case we ended on a left column we need to update totalHeight
 		if (rightColumn) {
-			totalHeight += rowHeight;
+			totalHeight += currentRowHeight;
 		}
+
+		Line centerSeparatorLine = new Line(centerLine, verticalLocation, centerLine, verticalLocation + totalHeight);
+		centerSeparatorLine.drawOn(page);
 
 		return totalHeight;
 	}
