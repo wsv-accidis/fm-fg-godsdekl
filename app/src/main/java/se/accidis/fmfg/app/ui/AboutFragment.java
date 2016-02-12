@@ -20,6 +20,7 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
  */
 public final class AboutFragment extends Fragment implements MainActivity.HasTitle, MainActivity.HasNavigationItem {
 	private static final String EMAIL = "wilhelm.svenselius@gmail.com";
+	private static final String GITHUB_URL = "https://github.com/wsv-accidis/fm-fg-godsdekl/";
 	private static final String TAG = AboutFragment.class.getSimpleName();
 
 	@Override
@@ -40,6 +41,9 @@ public final class AboutFragment extends Fragment implements MainActivity.HasTit
 		TextView authorText = (TextView) view.findViewById(R.id.about_author);
 		authorText.setOnClickListener(new AuthorClickedListener());
 
+		TextView gitHubText = (TextView) view.findViewById(R.id.about_github);
+		gitHubText.setOnClickListener(new GitHubOnClickedListener());
+
 		TextView versionText = (TextView) view.findViewById(R.id.about_version);
 		versionText.setText(String.format(getString(R.string.about_version), AndroidUtils.getAppVersionName(getContext())));
 
@@ -52,10 +56,19 @@ public final class AboutFragment extends Fragment implements MainActivity.HasTit
 		AndroidUtils.hideSoftKeyboard(getContext(), getView());
 	}
 
-	private static void sendEmailTo(String email, Fragment fragment) {
+	private void openWebPage(String uri) {
+		try {
+			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+			startActivity(intent);
+		} catch (Exception e) {
+			Log.e(TAG, "Exception while trying to send open web page.", e);
+		}
+	}
+
+	private void sendEmailTo(String email) {
 		try {
 			Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null));
-			fragment.startActivity(intent);
+			startActivity(intent);
 		} catch (Exception e) {
 			Log.e(TAG, "Exception while trying to send e-mail.", e);
 		}
@@ -64,7 +77,14 @@ public final class AboutFragment extends Fragment implements MainActivity.HasTit
 	private final class AuthorClickedListener implements View.OnClickListener {
 		@Override
 		public void onClick(View v) {
-			sendEmailTo(EMAIL, AboutFragment.this);
+			sendEmailTo(EMAIL);
+		}
+	}
+
+	private final class GitHubOnClickedListener implements View.OnClickListener {
+		@Override
+		public void onClick(View v) {
+			openWebPage(GITHUB_URL);
 		}
 	}
 }
