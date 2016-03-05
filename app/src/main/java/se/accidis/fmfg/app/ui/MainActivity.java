@@ -105,7 +105,8 @@ public final class MainActivity extends AppCompatActivity {
 
 		mNavigationDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mNavigationDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-		mNavigationDrawer.setDrawerListener(new NavigationDrawerListener(toggle));
+		mNavigationDrawer.addDrawerListener(toggle);
+		mNavigationDrawer.addDrawerListener(new NavigationDrawerListener());
 		toggle.syncState();
 
 		mNavigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -223,25 +224,9 @@ public final class MainActivity extends AppCompatActivity {
 	}
 
 	private final class NavigationDrawerListener implements DrawerLayout.DrawerListener {
-		private final ActionBarDrawerToggle mToggle;
-		private final Random mRandom = new Random();
 		private final int[] mHeaderImages = new int[]{R.drawable.img_bv206, R.drawable.img_tgb40, R.drawable.img_pb8, R.drawable.img_sb90};
+		private final Random mRandom = new Random();
 		private int mLastImage = 0;
-
-		public NavigationDrawerListener(ActionBarDrawerToggle toggle) {
-			mToggle = toggle;
-		}
-
-		@Override
-		public void onDrawerSlide(View drawerView, float slideOffset) {
-			mToggle.onDrawerSlide(drawerView, slideOffset);
-		}
-
-		@Override
-		public void onDrawerOpened(View drawerView) {
-			AndroidUtils.hideSoftKeyboard(MainActivity.this, getCurrentFocus());
-			mToggle.onDrawerOpened(drawerView);
-		}
 
 		@Override
 		public void onDrawerClosed(View drawerView) {
@@ -254,13 +239,19 @@ public final class MainActivity extends AppCompatActivity {
 				imageView.setImageResource(mHeaderImages[index]);
 				mLastImage = index;
 			}
+		}
 
-			mToggle.onDrawerClosed(drawerView);
+		@Override
+		public void onDrawerOpened(View drawerView) {
+			AndroidUtils.hideSoftKeyboard(MainActivity.this, getCurrentFocus());
+		}
+
+		@Override
+		public void onDrawerSlide(View drawerView, float slideOffset) {
 		}
 
 		@Override
 		public void onDrawerStateChanged(int newState) {
-			mToggle.onDrawerStateChanged(newState);
 		}
 	}
 
