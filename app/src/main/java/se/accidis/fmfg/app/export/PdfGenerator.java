@@ -33,8 +33,8 @@ import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Material;
+import se.accidis.fmfg.app.services.LabelsRepository;
 import se.accidis.fmfg.app.services.Preferences;
-import se.accidis.fmfg.app.ui.materials.LabelsHelper;
 import se.accidis.fmfg.app.ui.materials.ValueHelper;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
@@ -312,7 +312,7 @@ public final class PdfGenerator {
 	}
 
 	private float writeDocumentFooter(Page page) throws Exception {
-		List<Integer> labels = LabelsHelper.getLabelsByDocument(mDocument, true);
+		List<Integer> labels = LabelsRepository.getLabelsByDocument(mDocument, true);
 		if (labels.isEmpty()) {
 			return 0.0f;
 		}

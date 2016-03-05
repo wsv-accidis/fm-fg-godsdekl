@@ -21,6 +21,7 @@ import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
+import se.accidis.fmfg.app.services.LabelsRepository;
 import se.accidis.fmfg.app.ui.MainActivity;
 
 /**
@@ -142,7 +143,7 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
         int size = resources.getDimensionPixelSize(R.dimen.material_label_size);
         int margin = resources.getDimensionPixelSize(R.dimen.material_label_margin);
 
-        List<Integer> labels = LabelsHelper.getLabelsByMaterial(mMaterial, false);
+        List<Integer> labels = LabelsRepository.getLabelsByMaterial(mMaterial, false);
 
         for (Integer label : labels) {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
