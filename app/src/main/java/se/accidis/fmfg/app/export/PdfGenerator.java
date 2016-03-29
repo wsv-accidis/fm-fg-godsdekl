@@ -56,6 +56,7 @@ public final class PdfGenerator {
 	private static final float CENTER_OF_PAGE = HORIZONTAL_MARGIN + CONTENT_WIDTH / 2.0f;
 	private static final float ADDRESS_BLOCK_WIDTH = CONTENT_WIDTH / 2.0f - INNER_MARGIN;
 	private static final float LABEL_SIZE = CONTENT_WIDTH / LABELS_PER_ROW - INNER_MARGIN;
+	private static final float SIGNATURE_BLOCK_HEIGHT = 32.0f;
 	private static final float TABLE_TOP_MARGIN = 8.0f;
 	private final static String TAG = PdfGenerator.class.getSimpleName();
 	private static final float VERTICAL_MARGIN = 50.0f;
@@ -304,6 +305,7 @@ public final class PdfGenerator {
 			// Keep drawing new pages until we run out of table...
 			page = new Page(mPdf, A4.PORTRAIT);
 			table.setLocation(HORIZONTAL_MARGIN, VERTICAL_MARGIN);
+			table.setBottomMargin(VERTICAL_MARGIN);
 			table.drawOn(page);
 
 			vanityLabel.drawOn(page);
@@ -312,6 +314,25 @@ public final class PdfGenerator {
 	}
 
 	private float writeDocumentFooter(Page page) throws Exception {
+		float labelsHeight = writeLabels(page);
+		return writeSignatureLine(page, labelsHeight);
+	}
+
+	private float writeDocumentHeader(Page page) throws Exception {
+		final float addressBlocksBottom = writeAddressBlocks(page);
+		final float allBlocksBottom = writeOptionalBlocks(page, addressBlocksBottom);
+
+		Line line = new Line(CENTER_OF_PAGE, VERTICAL_MARGIN, CENTER_OF_PAGE, allBlocksBottom);
+		line.drawOn(page);
+		line = new Line(HORIZONTAL_MARGIN, addressBlocksBottom, HORIZONTAL_MARGIN + CONTENT_WIDTH, addressBlocksBottom);
+		line.drawOn(page);
+		line = new Line(HORIZONTAL_MARGIN, allBlocksBottom, HORIZONTAL_MARGIN + CONTENT_WIDTH, allBlocksBottom);
+		line.drawOn(page);
+
+		return allBlocksBottom;
+	}
+
+	private float writeLabels(Page page) throws Exception {
 		List<Integer> labels = LabelsRepository.getLabelsByDocument(mDocument, true);
 		if (labels.isEmpty()) {
 			return 0.0f;
@@ -344,20 +365,6 @@ public final class PdfGenerator {
 		separatorLine.drawOn(page);
 
 		return numRows * labelBoxSize + labelsLabel.getHeight() + 2 * INNER_MARGIN;
-	}
-
-	private float writeDocumentHeader(Page page) throws Exception {
-		final float addressBlocksBottom = writeAddressBlocks(page);
-		final float allBlocksBottom = writeOptionalBlocks(page, addressBlocksBottom);
-
-		Line line = new Line(CENTER_OF_PAGE, VERTICAL_MARGIN, CENTER_OF_PAGE, allBlocksBottom);
-		line.drawOn(page);
-		line = new Line(HORIZONTAL_MARGIN, addressBlocksBottom, HORIZONTAL_MARGIN + CONTENT_WIDTH, addressBlocksBottom);
-		line.drawOn(page);
-		line = new Line(HORIZONTAL_MARGIN, allBlocksBottom, HORIZONTAL_MARGIN + CONTENT_WIDTH, allBlocksBottom);
-		line.drawOn(page);
-
-		return allBlocksBottom;
 	}
 
 	private float writeOptionalBlocks(Page page, float addressBlocksBottom) throws Exception {
@@ -438,5 +445,40 @@ public final class PdfGenerator {
 		pageLabel.setText(String.format(mContext.getString(R.string.document_export_page_format), pageNo, pageTotal));
 		pageLabel.setLocation(PAGE_WIDTH - HORIZONTAL_MARGIN - pageLabel.getWidth(), PAGE_HEIGHT - FOOTER_BOTTOM_MARGIN);
 		pageLabel.drawOn(page);
+	}
+
+	private float writeSignatureLine(Page page, float labelsHeight) throws Exception {
+		final float verticalLoc = PAGE_HEIGHT - VERTICAL_MARGIN - labelsHeight - SIGNATURE_BLOCK_HEIGHT;
+		final float columnWidth = CONTENT_WIDTH / 4.0f;
+		final float left1 = HORIZONTAL_MARGIN, left2 = HORIZONTAL_MARGIN + columnWidth, left3 = CENTER_OF_PAGE, left4 = CENTER_OF_PAGE + columnWidth;
+
+		TextLine senderLabel = new TextLine(mLabelFont, mContext.getString(R.string.document_export_signature_sender));
+		final float labelTop = verticalLoc + senderLabel.getHeight();
+		senderLabel.setLocation(left1, labelTop);
+		senderLabel.drawOn(page);
+
+		TextLine dateSenderLabel = new TextLine(mLabelFont, mContext.getString(R.string.document_export_signature_date));
+		dateSenderLabel.setLocation(left2 + INNER_MARGIN, labelTop);
+		dateSenderLabel.drawOn(page);
+
+		TextLine driverLabel = new TextLine(mLabelFont, mContext.getString(R.string.document_export_signature_driver));
+		driverLabel.setLocation(left3 + INNER_MARGIN, labelTop);
+		driverLabel.drawOn(page);
+
+		TextLine dateDriverLabel = new TextLine(mLabelFont, mContext.getString(R.string.document_export_signature_date));
+		dateDriverLabel.setLocation(left4 + INNER_MARGIN, labelTop);
+		dateDriverLabel.drawOn(page);
+
+		final float separatorHeight = verticalLoc + SIGNATURE_BLOCK_HEIGHT;
+		Line line = new Line(HORIZONTAL_MARGIN, verticalLoc, HORIZONTAL_MARGIN + CONTENT_WIDTH, verticalLoc);
+		line.drawOn(page);
+		line = new Line(left2, verticalLoc, left2, separatorHeight);
+		line.drawOn(page);
+		line = new Line(left3, verticalLoc, left3, separatorHeight);
+		line.drawOn(page);
+		line = new Line(left4, verticalLoc, left4, separatorHeight);
+		line.drawOn(page);
+
+		return labelsHeight + SIGNATURE_BLOCK_HEIGHT + 2 * INNER_MARGIN;
 	}
 }
