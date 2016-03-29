@@ -34,11 +34,11 @@ public final class DocumentAdapter extends BaseAdapter {
 	private static final int ROW_BASE_TOP_OFFSET = 3;
 	private static final int ROW_BOTTOM_OFFSET = 2;
 	private final Context mContext;
-	private final Document mDocument;
 	private final LayoutInflater mInflater;
-	private final List<DocumentRow> mRows;
+	private Document mDocument;
 	private boolean mIsCurrentDocument;
 	private int mRowTopOffset = ROW_BASE_TOP_OFFSET;
+	private List<DocumentRow> mRows;
 	private boolean mShowAuthor;
 	private boolean mShowFbet;
 
@@ -53,6 +53,19 @@ public final class DocumentAdapter extends BaseAdapter {
 	@Override
 	public boolean areAllItemsEnabled() {
 		return false;
+	}
+
+	public String getAddressTextByPosition(int position) {
+		switch (position) {
+			case SENDER_POSITION:
+				return mDocument.getSender();
+			case RECIPIENT_POSITION:
+				return mDocument.getRecipient();
+			case AUTHOR_POSITION:
+				return mDocument.getAuthor();
+			default:
+				throw new IllegalArgumentException();
+		}
 	}
 
 	@Override
@@ -128,6 +141,12 @@ public final class DocumentAdapter extends BaseAdapter {
 		}
 	}
 
+	public void setDocument(Document document) {
+		mDocument = document;
+		mRows = document.getRows();
+		notifyDataSetChanged();
+	}
+
 	public void setIsCurrentDocument(boolean value) {
 		mIsCurrentDocument = value;
 		notifyDataSetChanged();
@@ -152,19 +171,6 @@ public final class DocumentAdapter extends BaseAdapter {
 				return R.string.document_recipient;
 			case AUTHOR_POSITION:
 				return R.string.document_author;
-			default:
-				throw new IllegalArgumentException();
-		}
-	}
-
-	public String getAddressTextByPosition(int position) {
-		switch (position) {
-			case SENDER_POSITION:
-				return mDocument.getSender();
-			case RECIPIENT_POSITION:
-				return mDocument.getRecipient();
-			case AUTHOR_POSITION:
-				return mDocument.getAuthor();
 			default:
 				throw new IllegalArgumentException();
 		}

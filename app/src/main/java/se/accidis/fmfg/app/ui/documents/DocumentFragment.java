@@ -36,7 +36,7 @@ import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.Preferences;
 import se.accidis.fmfg.app.ui.MainActivity;
-import se.accidis.fmfg.app.ui.materials.MaterialsInfoFragment;
+import se.accidis.fmfg.app.ui.materials.MaterialsLoadDialogFragment;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
@@ -125,14 +125,10 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 		} else if (DocumentAdapter.VIEW_TYPE_ROW == type) {
 			DocumentRow row = (DocumentRow) mAdapter.getItem(position);
 			if (null != row) {
-				MaterialsInfoFragment fragment = MaterialsInfoFragment.createInstance(row.getMaterial());
-				Activity activity = getActivity();
-				if (activity instanceof MainActivity) {
-					saveInstanceState();
-					((MainActivity) activity).openFragment(fragment);
-				} else {
-					Log.e(TAG, "Activity holding fragment is not MainActivity!");
-				}
+				MaterialsLoadDialogFragment dialog = new MaterialsLoadDialogFragment();
+				dialog.setArguments(row.getMaterial().toBundle());
+				dialog.setDialogListener(new MaterialsLoadDialogListener());
+				dialog.show(getFragmentManager(), MaterialsLoadDialogFragment.class.getSimpleName());
 			}
 		}
 	}
@@ -252,10 +248,6 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 			mAdapter.setIsCurrentDocument(true);
 			mButtonBar.setVisibility(mIsCurrentDocument ? View.VISIBLE : View.GONE);
 		}
-	}
-
-	private void saveInstanceState() {
-		mListState = getListView().onSaveInstanceState();
 	}
 
 	private void updateMainView() {
@@ -410,6 +402,14 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 			}
 
 			return null;
+		}
+	}
+
+	private final class MaterialsLoadDialogListener implements MaterialsLoadDialogFragment.MaterialsLoadDialogListener {
+		@Override
+		public void onDismiss() {
+			mDocument = mRepository.getCurrentDocument();
+			mAdapter.setDocument(mDocument);
 		}
 	}
 

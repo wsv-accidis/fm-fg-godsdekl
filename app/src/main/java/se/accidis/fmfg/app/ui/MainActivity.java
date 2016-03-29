@@ -64,13 +64,11 @@ public final class MainActivity extends AppCompatActivity {
 
 	public void openFragment(Fragment fragment, boolean addToBackStack) {
 		FragmentManager fragmentManager = getSupportFragmentManager();
-		Fragment oldFragment = fragmentManager.findFragmentById(R.id.container);
-
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
 		transaction.replace(R.id.container, fragment);
 		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
-		if (addToBackStack && !isSameFragment(oldFragment, fragment)) {
+		if (addToBackStack) {
 			transaction.addToBackStack(null);
 		}
 
@@ -153,10 +151,6 @@ public final class MainActivity extends AppCompatActivity {
 		}
 
 		return null;
-	}
-
-	private boolean isSameFragment(Fragment oldFragment, Fragment newFragment) {
-		return null != oldFragment && oldFragment.getClass().getName().equals(newFragment.getClass().getName());
 	}
 
 	private void restoreActionBar() {
@@ -266,7 +260,9 @@ public final class MainActivity extends AppCompatActivity {
 			}
 
 			DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-			drawer.closeDrawer(GravityCompat.START);
+			if (null != drawer) {
+				drawer.closeDrawer(GravityCompat.START);
+			}
 			return true;
 		}
 	}
