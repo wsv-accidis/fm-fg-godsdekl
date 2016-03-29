@@ -68,8 +68,8 @@
 	<string name="document_export_material_header">Transportmärkning</string>
 	<string name="document_export_pkgs_header">Kollin</string>
 	<string name="document_export_signature_date">Ort och datum</string>
-	<string name="document_export_signature_driver">Fordonsförarens underskrift</string>
-	<string name="document_export_signature_sender">Avsändarens underskrift</string>
+	<string name="document_export_signature_driver">Förarens namn och underskrift</string>
+	<string name="document_export_signature_sender">Avsändarens namn och underskrift</string>
 	<string name="document_export_weight_volume_header">Vikt/volym</string>
 	<string name="document_export_please_wait">Det här tar några sekunder…</string>
 
