@@ -19,9 +19,10 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
  * Fragment which displays some information about the app.
  */
 public final class AboutFragment extends Fragment implements MainActivity.HasTitle, MainActivity.HasNavigationItem {
-	private static final String EMAIL = "wilhelm.svenselius@gmail.com";
+	private static final String EMAIL = "wilhelm.svenselius@accidis.se";
 	private static final String GITHUB_URL = "https://github.com/wsv-accidis/fm-fg-godsdekl/";
 	private static final String TAG = AboutFragment.class.getSimpleName();
+	private static final String WEBSITE_URL = "http://godsdeklaration.se";
 
 	@Override
 	public int getItemId() {
@@ -40,6 +41,9 @@ public final class AboutFragment extends Fragment implements MainActivity.HasTit
 
 		TextView authorText = (TextView) view.findViewById(R.id.about_author);
 		authorText.setOnClickListener(new AuthorClickedListener());
+
+		TextView webSiteText = (TextView) view.findViewById(R.id.about_website);
+		webSiteText.setOnClickListener(new WebsiteOnClickedListener());
 
 		TextView gitHubText = (TextView) view.findViewById(R.id.about_github);
 		gitHubText.setOnClickListener(new GitHubOnClickedListener());
@@ -85,6 +89,13 @@ public final class AboutFragment extends Fragment implements MainActivity.HasTit
 		@Override
 		public void onClick(View v) {
 			openWebPage(GITHUB_URL);
+		}
+	}
+
+	private final class WebsiteOnClickedListener implements View.OnClickListener {
+		@Override
+		public void onClick(View v) {
+			openWebPage(WEBSITE_URL);
 		}
 	}
 }
