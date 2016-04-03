@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import se.accidis.fmfg.app.R;
+import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
@@ -189,7 +190,10 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
     private final class RemoveButtonClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            mRepository.getCurrentDocument().removeRowByMaterial(mMaterial);
+			Document document = mRepository.getCurrentDocument();
+			document.removeRowByMaterial(mMaterial);
+			document.setHasUnsavedChanges(true);
+			mRepository.commitCurrentDocument();
             refreshDocumentState();
         }
     }

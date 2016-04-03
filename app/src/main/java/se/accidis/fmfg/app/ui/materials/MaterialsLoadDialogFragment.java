@@ -1,5 +1,6 @@
 package se.accidis.fmfg.app.ui.materials;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -8,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -55,13 +55,16 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 		mRepository = DocumentsRepository.getInstance(getContext());
 		Document document = mRepository.getCurrentDocument();
 		DocumentRow row = document.getRowByMaterial(mMaterial);
+
 		mDocumentTotalValue = document.getCalculatedTotalValue();
+		boolean hasExistingRow = false;
 		if (null != row) {
+			hasExistingRow = true;
 			mDocumentTotalValue = mDocumentTotalValue.subtract(row.getCalculatedValue());
 		}
 
-		LayoutInflater inflater = getActivity().getLayoutInflater();
-		View view = inflater.inflate(R.layout.dialog_material_load, null);
+		@SuppressLint("InflateParams")
+		View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_material_load, null);
 
 		TextView multiplierView = (TextView) view.findViewById(R.id.material_load_multiplier);
 		multiplierView.setText(String.valueOf(multiplier));
@@ -118,6 +121,11 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 			.setPositiveButton(R.string.generic_save, new SaveClickedListener())
 			.setNegativeButton(R.string.generic_cancel, null);
 
+		if (hasExistingRow) {
+			// The button to remove the material is only visible if there is prior data
+			builder.setNeutralButton(R.string.material_remove, new RemoveClickedListener());
+		}
+
 		return builder.create();
 	}
 
@@ -171,6 +179,16 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			mAmount = ValueHelper.parseValue(s.toString());
 			calculate();
+		}
+	}
+
+	private final class RemoveClickedListener implements DialogInterface.OnClickListener {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			Document document = mRepository.getCurrentDocument();
+			document.removeRowByMaterial(mMaterial);
+			document.setHasUnsavedChanges(true);
+			mRepository.commitCurrentDocument();
 		}
 	}
 
