@@ -39,7 +39,7 @@ public final class Preferences {
 		return mPrefs.getBoolean(Keys.SHOW_FBET_IN_DOCUMENT, false);
 	}
 
-	private static class Keys {
+	public static class Keys {
 		public static final String DEFAULT_AUTHOR = "DefaultAuthor";
 		public static final String FAVORITE_MATERIALS = "FavoriteMaterials";
 		public static final String SHOW_AUTHOR_IN_DOCUMENT = "ShowAuthorInDocument";

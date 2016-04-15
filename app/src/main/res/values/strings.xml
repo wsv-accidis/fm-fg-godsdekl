@@ -78,7 +78,7 @@
 	<string name="document_opt_field_vehicle_type">Fordonstyp:</string>
 	<string name="document_opt_field_vehicle_reg">Fordonets reg.nr:</string>
 
-	<string name="documents_list_nav_title">Sparade godsdekl.</string>
+	<string name="documents_list_nav_title">Sparade godsdeklarationer</string>
     <string name="documents_list_empty">Inga sparade godsdeklarationer.</string>
 
     <string name="generic_cancel">Avbryt</string>
