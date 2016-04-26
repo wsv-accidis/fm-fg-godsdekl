@@ -1892,6 +1892,62 @@
     "Miljo": false
   },
   {
+    "Fbet": "M4742-100621",
+    "Fben": "SIGNRÖKHGR 11 BLÅ",
+    "UNnr": "0197",
+    "Namn": "RÖKSIGNALER",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 86000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4742-100611",
+    "Fben": "SIGNRÖKHGR 11 GRÖN",
+    "UNnr": "0197",
+    "Namn": "RÖKSIGNALER",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 86000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4742-100631",
+    "Fben": "SIGNRÖKHGR 11 ORANGE",
+    "UNnr": "0197",
+    "Namn": "RÖKSIGNALER",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 86000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4742-100601",
+    "Fben": "SIGNRÖKHGR 11 RÖD",
+    "UNnr": "0197",
+    "Namn": "RÖKSIGNALER",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 86000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
     "Fbet": "M4744-100804",
     "Fben": "SIGNPTR 4 RÖD/GRÖN",
     "UNnr": "0312",
