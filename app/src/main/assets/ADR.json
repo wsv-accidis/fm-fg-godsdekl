@@ -1430,6 +1430,90 @@
   },
   {
     "Fbet": "",
+    "Fben": "LITIUMBATTERIER, PRIMÄRA",
+    "UNnr": "3090",
+    "Namn": "LITIUMBATTERIER, PRIMÄRA",
+    "KlassKod": [
+      "9"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "LITIUMBATTERIER, PRIMÄRA, förp med utr",
+    "UNnr": "3091",
+    "Namn": "LITIUMBATTERIER, PRIMÄRA, FÖRPACKADE MED UTRUSTNING",
+    "KlassKod": [
+      "9"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "LITIUMBATTERIER, PRIMÄRA, i utr",
+    "UNnr": "3091",
+    "Namn": "LITIUMBATTERIER, PRIMÄRA, I UTRUSTNING",
+    "KlassKod": [
+      "9"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "LITIUMJONBATTERIER",
+    "UNnr": "3480",
+    "Namn": "LITIUMJONBATTERIER",
+    "KlassKod": [
+      "9"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "LITIUMJONBATTERIER, i utr",
+    "UNnr": "3481",
+    "Namn": "LITIUMJONBATTERIER I UTRUSTNING",
+    "KlassKod": [
+      "9"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "LITIUMJONBATTERIER, förp med utr",
+    "UNnr": "3481",
+    "Namn": "LITIUMJONBATTERIER I UTRUSTNING",
+    "KlassKod": [
+      "9"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
     "Fben": "LUFT, TRYCKLUFT",
     "UNnr": "1002",
     "Namn": "LUFT, KOMPRIMERAD (tryckluft)",
