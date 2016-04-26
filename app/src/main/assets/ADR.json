@@ -1317,6 +1317,34 @@
     "Miljo": false
   },
   {
+    "Fbet": "M4745-101002",
+    "Fben": "HANDLYSSKOTT IR600M",
+    "UNnr": "0297",
+    "Namn": "LYSAMMUNITION",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 133000,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4745-101102",
+    "Fben": "HANDLYSSKOTT 1000M",
+    "UNnr": "0254",
+    "Namn": "LYSAMMUNITION",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 208000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
     "Fbet": "M4745-100901",
     "Fben": "IR-LYSPTR",
     "UNnr": "0254",
