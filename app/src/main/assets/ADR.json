@@ -966,6 +966,62 @@
     "Miljo": false
   },
   {
+    "Fbet": "",
+    "Fben": "BATTERIER, ALKALISKA",
+    "UNnr": "2795",
+    "Namn": "BATTERIER, VÅTA, FYLLDA MED ALKALISK LÖSNING",
+    "KlassKod": [
+      "8"
+    ],
+    "NEMmg": 0,
+    "TpKat": 3,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "BATTERIER, SYRAFYLLDA",
+    "UNnr": "2794",
+    "Namn": "BATTERIER, VÅTA, FYLLDA MED SYRA",
+    "KlassKod": [
+      "8"
+    ],
+    "NEMmg": 0,
+    "TpKat": 3,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "BATTERISYRA",
+    "UNnr": "2796",
+    "Namn": "BATTERISYRA, FLYTANDE",
+    "KlassKod": [
+      "8"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "",
+    "Fben": "BATTERIVÄTSKA, ALKALISK",
+    "UNnr": "2797",
+    "Namn": "BATTERIVÄTSKA, ALKALISK",
+    "KlassKod": [
+      "8"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
     "Fbet": "M4741-105502",
     "Fben": "CHOCKHGR 96 B",
     "UNnr": "0284",
