@@ -8,8 +8,8 @@ android {
 		applicationId 'se.accidis.fmfg.app'
 		minSdkVersion 16
 		targetSdkVersion 23
-		versionCode 8
-		versionName '0.8'
+		versionCode 9
+		versionName '0.9'
 	}
 	buildTypes {
 		release {
