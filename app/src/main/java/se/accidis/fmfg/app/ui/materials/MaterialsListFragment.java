@@ -179,7 +179,6 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         if (null != getView()) {
             mListState = getListView().onSaveInstanceState();
             outState.putParcelable(STATE_LIST_VIEW, mListState);
