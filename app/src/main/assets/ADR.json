@@ -1204,6 +1204,20 @@
     "Miljo": true
   },
   {
+    "Fbet": "M4731-230011",
+    "Fben": "FORDONSMINA 13",
+    "UNnr": "0137",
+    "Namn": "MINOR",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 9500000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
     "Fbet": "M4731-230021",
     "Fben": "FORDONSMINA 13 R",
     "UNnr": "0137",
