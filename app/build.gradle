@@ -8,8 +8,8 @@ android {
 		applicationId 'se.accidis.fmfg.app'
 		minSdkVersion 16
 		targetSdkVersion 25
-		versionCode 9
-		versionName '0.9'
+		versionCode 10
+		versionName '1.0'
 	}
 	buildTypes {
 		release {
@@ -24,7 +24,7 @@ dependencies {
 	compile 'com.android.support:appcompat-v7:25.1.0'
 	compile 'com.android.support:design:25.1.0'
 	compile 'com.android.support:preference-v7:25.1.0'
-	compile 'net.danlew:android.joda:2.9.5'
+	compile 'net.danlew:android.joda:2.9.5.1'
 }
 
 allprojects {
