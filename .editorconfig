@@ -1,5 +1,5 @@
 root = true
 
-[*.{java,xml,gradle}]
+[*.{java,xml,gradle,html}]
 indent_style = tab
 indent_size = 4
