@@ -19,7 +19,7 @@ import se.accidis.fmfg.app.model.Document;
 /**
  * Fragment for editing optional fields on a document.
  */
-public final class DocumentOptFieldsDialogFragment extends DialogFragment {
+public final class OptionalFieldsDialogFragment extends DialogFragment {
 	public static final String ARG_PROTECTED_TRANSPORT = "protectedTransport";
 	public static final String ARG_READONLY = "readOnly";
 	public static final String ARG_VEHICLE_REG = "vehicleReg";
@@ -34,14 +34,14 @@ public final class DocumentOptFieldsDialogFragment extends DialogFragment {
 	private boolean mIsReadOnly;
 	private Bundle mOutArgs;
 
-	public static DocumentOptFieldsDialogFragment createInstance(Document document, boolean readOnly) {
+	public static OptionalFieldsDialogFragment createInstance(Document document, boolean readOnly) {
 		Bundle args = new Bundle();
 		args.putInt(ARG_PROTECTED_TRANSPORT, !document.isProtectedTransportSpecified() ? PROTECTED_TRANSPORT_UNKNOWN : (document.isProtectedTransport() ? PROTECTED_TRANSPORT_YES : PROTECTED_TRANSPORT_NO));
 		args.putBoolean(ARG_READONLY, readOnly);
 		args.putString(ARG_VEHICLE_REG, document.getVehicleReg());
 		args.putString(ARG_VEHICLE_TYPE, document.getVehicleType());
 
-		DocumentOptFieldsDialogFragment fragment = new DocumentOptFieldsDialogFragment();
+		OptionalFieldsDialogFragment fragment = new OptionalFieldsDialogFragment();
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -61,7 +61,7 @@ public final class DocumentOptFieldsDialogFragment extends DialogFragment {
 		mIsReadOnly = args.getBoolean(ARG_READONLY, false);
 
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-		View view = inflater.inflate(R.layout.dialog_document_opt_fields, null);
+		View view = inflater.inflate(R.layout.dialog_optional_fields, null);
 
 		mVehicleTypeField = (AutoCompleteTextView) view.findViewById(R.id.document_vehicle_type);
 		if (!mIsReadOnly) {

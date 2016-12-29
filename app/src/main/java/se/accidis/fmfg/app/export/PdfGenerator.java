@@ -55,6 +55,7 @@ public final class PdfGenerator {
 	private static final float CENTER_OF_PAGE = HORIZONTAL_MARGIN + CONTENT_WIDTH / 2.0f;
 	private static final float ADDRESS_BLOCK_WIDTH = CONTENT_WIDTH / 2.0f - INNER_MARGIN;
 	private static final float LABEL_SIZE = CONTENT_WIDTH / LABELS_PER_ROW - INNER_MARGIN;
+	private static final float ROW_BOTTOM_PADDING = 8.0f;
 	private static final float SIGNATURE_BLOCK_HEIGHT = 32.0f;
 	private static final float TABLE_TOP_MARGIN = 8.0f;
 	private final static String TAG = PdfGenerator.class.getSimpleName();
@@ -113,6 +114,9 @@ public final class PdfGenerator {
 	private List<Cell> createDocumentRow1(DocumentRow row) {
 		Cell materialCell = new Cell(mTextFont, row.getMaterial().getFullText());
 		materialCell.setLeftPadding(0);
+		if (row.isFreeText()) {
+			materialCell.setBottomPadding(ROW_BOTTOM_PADDING);
+		}
 
 		Cell packagesCell = new Cell(mTextFont, row.getPackagesText(mContext));
 		Cell weightVolumeCell = new Cell(mTextFont, row.getWeightVolumeText(mContext));
@@ -141,6 +145,7 @@ public final class PdfGenerator {
 
 		Cell materialCell = new Cell(mTextFont, materialBuilder.toString());
 		materialCell.setLeftPadding(0);
+		materialCell.setBottomPadding(ROW_BOTTOM_PADDING);
 
 		Cell emptyCell = new Cell(mTextFont, EMPTY_STR);
 		Cell nemCell;
@@ -159,7 +164,9 @@ public final class PdfGenerator {
 
 		for (DocumentRow documentRow : mDocument.getRows()) {
 			rows.add(createDocumentRow1(documentRow));
-			rows.add(createDocumentRow2(documentRow, withFbet));
+			if (!documentRow.isFreeText()) {
+				rows.add(createDocumentRow2(documentRow, withFbet));
+			}
 		}
 	}
 

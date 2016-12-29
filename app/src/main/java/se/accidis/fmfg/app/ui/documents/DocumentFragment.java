@@ -33,6 +33,7 @@ import se.accidis.fmfg.app.export.PdfGenerator;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentLink;
 import se.accidis.fmfg.app.model.DocumentRow;
+import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.Preferences;
 import se.accidis.fmfg.app.ui.MainActivity;
@@ -136,15 +137,21 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 	@Override
 	public boolean onMenuItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.document_menu_add_custom_row:
+				final CustomRowDialogFragment customRowDialog = new CustomRowDialogFragment();
+				customRowDialog.setDialogListener(new CustomRowDialogListener());
+				customRowDialog.show(getFragmentManager(), CustomRowDialogFragment.class.getSimpleName());
+				return true;
+
 			case R.id.document_menu_delete:
-				DeleteDialogFragment deleteDialog = new DeleteDialogFragment();
+				final DeleteDialogFragment deleteDialog = new DeleteDialogFragment();
 				deleteDialog.setDialogListener(new DeleteDialogListener());
 				deleteDialog.show(getFragmentManager(), DeleteDialogFragment.class.getSimpleName());
 				return true;
 
 			case R.id.document_menu_edit:
 				if (mRepository.getCurrentDocument().hasUnsavedChanges()) {
-					EditUnsavedDialogFragment editDialog = new EditUnsavedDialogFragment();
+					final EditUnsavedDialogFragment editDialog = new EditUnsavedDialogFragment();
 					editDialog.setDialogListener(new EditUnsavedDialogListener());
 					editDialog.show(getFragmentManager(), EditUnsavedDialogFragment.class.getSimpleName());
 				} else {
@@ -153,15 +160,15 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 				return true;
 
 			case R.id.document_menu_export:
-				ProgressDialog progressDialog = ProgressDialog.show(getContext(), getString(R.string.document_export), getString(R.string.document_export_please_wait), true, false);
-				ExportPdfAsyncTask exportTask = new ExportPdfAsyncTask(getActivity(), progressDialog);
+				final ProgressDialog progressDialog = ProgressDialog.show(getContext(), getString(R.string.document_export), getString(R.string.document_export_please_wait), true, false);
+				final ExportPdfAsyncTask exportTask = new ExportPdfAsyncTask(getActivity(), progressDialog);
 				exportTask.execute();
 				return true;
 
 			case R.id.document_menu_opt_fields:
-				DocumentOptFieldsDialogFragment optFieldsDialog = DocumentOptFieldsDialogFragment.createInstance(mDocument, !mIsCurrentDocument);
+				final OptionalFieldsDialogFragment optFieldsDialog = OptionalFieldsDialogFragment.createInstance(mDocument, !mIsCurrentDocument);
 				optFieldsDialog.setDialogListener(new DocumentOptFieldsDialogListener());
-				optFieldsDialog.show(getFragmentManager(), DocumentOptFieldsDialogFragment.class.getSimpleName());
+				optFieldsDialog.show(getFragmentManager(), OptionalFieldsDialogFragment.class.getSimpleName());
 				return true;
 		}
 
@@ -172,6 +179,10 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 
+		MenuItem customRowItem = menu.findItem(R.id.document_menu_add_custom_row);
+		if (null != customRowItem) {
+			customRowItem.setEnabled(mIsCurrentDocument);
+		}
 		MenuItem deleteItem = menu.findItem(R.id.document_menu_delete);
 		if (null != deleteItem) {
 			boolean canDelete = (null != mDocument && !mIsCurrentDocument);
@@ -304,6 +315,19 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 		}
 	}
 
+	private final class CustomRowDialogListener implements CustomRowDialogFragment.CustomRowDialogListener {
+		@Override
+		public void onDismiss(Material material) {
+			if (!mIsCurrentDocument) {
+				return;
+			}
+
+			mDocument.addOrUpdateRow(new DocumentRow(material));
+			mDocument.setHasUnsavedChanges(true);
+			mRepository.commitCurrentDocument();
+		}
+	}
+
 	private final class DeleteDialogListener implements DeleteDialogFragment.DeleteDialogListener {
 		@Override
 		public void onDismiss() {
@@ -322,17 +346,17 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 		}
 	}
 
-	private final class DocumentOptFieldsDialogListener implements DocumentOptFieldsDialogFragment.DocumentOptFieldsDialogListener {
+	private final class DocumentOptFieldsDialogListener implements OptionalFieldsDialogFragment.DocumentOptFieldsDialogListener {
 		@Override
 		public void onDismiss(Bundle outArgs) {
 			if (null == outArgs || !mIsCurrentDocument) {
 				return;
 			}
 
-			int protectedTpInt = outArgs.getInt(DocumentOptFieldsDialogFragment.ARG_PROTECTED_TRANSPORT, DocumentOptFieldsDialogFragment.PROTECTED_TRANSPORT_UNKNOWN);
-			mDocument.setIsProtectedTransport(DocumentOptFieldsDialogFragment.PROTECTED_TRANSPORT_UNKNOWN == protectedTpInt ? null : (DocumentOptFieldsDialogFragment.PROTECTED_TRANSPORT_YES == protectedTpInt));
-			mDocument.setVehicleReg(outArgs.getString(DocumentOptFieldsDialogFragment.ARG_VEHICLE_REG, ""));
-			mDocument.setVehicleType(outArgs.getString(DocumentOptFieldsDialogFragment.ARG_VEHICLE_TYPE, ""));
+			int protectedTpInt = outArgs.getInt(OptionalFieldsDialogFragment.ARG_PROTECTED_TRANSPORT, OptionalFieldsDialogFragment.PROTECTED_TRANSPORT_UNKNOWN);
+			mDocument.setIsProtectedTransport(OptionalFieldsDialogFragment.PROTECTED_TRANSPORT_UNKNOWN == protectedTpInt ? null : (OptionalFieldsDialogFragment.PROTECTED_TRANSPORT_YES == protectedTpInt));
+			mDocument.setVehicleReg(outArgs.getString(OptionalFieldsDialogFragment.ARG_VEHICLE_REG, ""));
+			mDocument.setVehicleType(outArgs.getString(OptionalFieldsDialogFragment.ARG_VEHICLE_TYPE, ""));
 
 			mDocument.setHasUnsavedChanges(true);
 			commit();

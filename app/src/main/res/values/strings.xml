@@ -22,12 +22,15 @@
 
     <string name="coloading_nav_title">Samlastning klass 1</string>
 
+	<string name="document_add_custom_row">Lägg till fritextrad</string>
 	<string name="document_amount_format">(%1$s st)</string>
 	<string name="document_author">Upprättad av</string>
     <string name="document_clear">Rensa</string>
     <string name="document_clear_everything">Rensa allt</string>
     <string name="document_clear_heading">Vill du ta bort innehållet i den här godsdeklarationen? Detta går inte att ångra.</string>
     <string name="document_clear_keep_addresses">Behåll adresser</string>
+	<string name="document_custom_row_labels">Etiketter</string>
+	<string name="document_custom_row_text">Fritext</string>
     <string name="document_delete">Ta bort</string>
     <string name="document_delete_heading">Vill du ta bort den här godsdeklarationen? Detta går inte att ångra.</string>
     <string name="document_edit">Redigera</string>
@@ -135,14 +138,24 @@
     <string name="unit_liter_format">%1$s liter</string>
     <string name="unit_points_format">%1$s p</string>
 
+	<string-array name="document_custom_row_text_suggestions">
+		<item>FÖRPACKNING</item>
+		<item>IBC-BEHÅLLARE</item>
+		<item>KÄRL</item>
+		<item>STORFÖRPACKNING</item>
+		<item>TÖMD</item>
+	</string-array>
+
 	<string-array name="document_vehicle_types">
 		<item>Bv 206</item>
+		<item>Bv 208</item>
 		<item>Bv 309</item>
 		<item>Bv 410</item>
 		<item>Gruppbåt</item>
 		<item>Lastbil</item>
 		<item>Lätt lastbil</item>
 		<item>Lätt trossbåt</item>
+		<item>Minibuss</item>
 		<item>MB GW</item>
 		<item>MB Sprinter</item>
 		<item>Pb 5</item>

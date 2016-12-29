@@ -307,6 +307,7 @@ public final class DocumentAdapter extends BaseAdapter {
 
 		TextView weightVolumeText = (TextView) view.findViewById(R.id.document_row_weightvolume);
 		weightVolumeText.setText(row.getWeightVolumeText(mContext));
+		weightVolumeText.setVisibility(row.isFreeText() ? View.GONE : View.VISIBLE);
 
 		return view;
 	}

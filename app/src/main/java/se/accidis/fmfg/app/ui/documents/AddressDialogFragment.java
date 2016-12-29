@@ -8,11 +8,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import se.accidis.fmfg.app.R;
+import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
  * Dialog fragment for entering/editing an address.
@@ -26,26 +26,26 @@ public final class AddressDialogFragment extends DialogFragment {
 	@NonNull
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		Bundle args = getArguments();
-		int position = args.getInt(ARG_POSITION);
-		String address = args.getString(ARG_CURRENT_ADDRESS);
+		final Bundle args = getArguments();
+		final int position = args.getInt(ARG_POSITION);
+		final String address = args.getString(ARG_CURRENT_ADDRESS);
 
-		LayoutInflater inflater = getActivity().getLayoutInflater();
-		View view = inflater.inflate(R.layout.dialog_address, null);
+		final LayoutInflater inflater = getActivity().getLayoutInflater();
+		final View view = inflater.inflate(R.layout.dialog_address, null);
 
-		TextView headingText = (TextView) view.findViewById(R.id.address_heading);
+		final TextView headingText = (TextView) view.findViewById(R.id.address_heading);
 		headingText.setText(getHeadingByPosition(position));
 
 		mAddressText = (EditText) view.findViewById(R.id.address_text);
 		mAddressText.setText(address);
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setView(view)
 			.setPositiveButton(R.string.generic_save, new SaveClickedListener())
 			.setNegativeButton(R.string.generic_cancel, null);
 
-		Dialog dialog = builder.create();
-		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		final Dialog dialog = builder.create();
+		AndroidUtils.showSoftKeyboardForDialog(dialog);
 		return dialog;
 	}
 
@@ -73,7 +73,7 @@ public final class AddressDialogFragment extends DialogFragment {
 	private final class SaveClickedListener implements DialogInterface.OnClickListener {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			String address = mAddressText.getText().toString();
+			final String address = mAddressText.getText().toString();
 			if (null != mListener) {
 				mListener.onDismiss(address);
 			}

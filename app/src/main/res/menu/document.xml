@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-	  xmlns:app="http://schemas.android.com/apk/res-auto">
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
 		android:id="@+id/document_menu_export"
 		android:icon="@drawable/ic_pdf_white"
 		android:title="@string/document_export"
-		app:showAsAction="ifRoom"/>
+		app:showAsAction="ifRoom" />
 	<item
 		android:id="@+id/document_menu_opt_fields"
 		android:title="@string/document_edit_opt_fields"
-		app:showAsAction="never"/>
+		app:showAsAction="never" />
+	<item
+		android:id="@+id/document_menu_add_custom_row"
+		android:title="@string/document_add_custom_row"
+		app:showAsAction="never" />
 	<item
 		android:id="@+id/document_menu_edit"
 		android:title="@string/document_edit"
-		app:showAsAction="never"/>
+		app:showAsAction="never" />
 	<item
 		android:id="@+id/document_menu_delete"
 		android:title="@string/document_delete"
-		app:showAsAction="never"/>
+		app:showAsAction="never" />
 </menu>
