@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.pdfjet.A4;
 import com.pdfjet.Cell;
-import com.pdfjet.Color;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
 import com.pdfjet.Image;
@@ -141,7 +140,6 @@ public final class PdfGenerator {
 		}
 
 		Cell materialCell = new Cell(mTextFont, materialBuilder.toString());
-		materialCell.setFgColor(Color.darkgray);
 		materialCell.setLeftPadding(0);
 
 		Cell emptyCell = new Cell(mTextFont, EMPTY_STR);
