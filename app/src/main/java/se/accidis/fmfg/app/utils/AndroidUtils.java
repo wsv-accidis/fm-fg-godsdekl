@@ -18,6 +18,12 @@ public final class AndroidUtils {
 	private AndroidUtils() {
 	}
 
+	public static void assertIsTrue(boolean condition, String reason) {
+		if (!condition) {
+			throw new RuntimeException("Assertion failed: " + reason);
+		}
+	}
+
 	public static String getAppVersionName(Context context) {
 		return getPackageInfo(context).versionName;
 	}

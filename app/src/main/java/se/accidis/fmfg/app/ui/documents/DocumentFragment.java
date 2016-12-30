@@ -126,10 +126,17 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 		} else if (DocumentAdapter.VIEW_TYPE_ROW == type) {
 			DocumentRow row = (DocumentRow) mAdapter.getItem(position);
 			if (null != row) {
-				MaterialsLoadDialogFragment dialog = new MaterialsLoadDialogFragment();
-				dialog.setArguments(row.getMaterial().toBundle());
-				dialog.setDialogListener(new MaterialsLoadDialogListener());
-				dialog.show(getFragmentManager(), MaterialsLoadDialogFragment.class.getSimpleName());
+				if (row.isFreeText()) {
+					CustomRowDialogFragment dialog = new CustomRowDialogFragment();
+					dialog.setArguments(row.getMaterial().toBundle());
+					dialog.setDialogListener(new CustomRowDialogListener());
+					dialog.show(getFragmentManager(), CustomRowDialogFragment.class.getSimpleName());
+				} else {
+					MaterialsLoadDialogFragment dialog = new MaterialsLoadDialogFragment();
+					dialog.setArguments(row.getMaterial().toBundle());
+					dialog.setDialogListener(new MaterialsLoadDialogListener());
+					dialog.show(getFragmentManager(), MaterialsLoadDialogFragment.class.getSimpleName());
+				}
 			}
 		}
 	}

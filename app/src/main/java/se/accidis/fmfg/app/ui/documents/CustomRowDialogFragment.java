@@ -11,12 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,6 +28,7 @@ import se.accidis.fmfg.app.model.Label;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.LabelsRepository;
 import se.accidis.fmfg.app.utils.AndroidUtils;
+import se.accidis.fmfg.app.utils.SpaceTokenizer;
 
 /**
  * Dialog fragment for creating or editing a custom row.
@@ -37,15 +37,9 @@ public final class CustomRowDialogFragment extends DialogFragment {
 	private final LabelCheckedListener mLabelCheckedListener = new LabelCheckedListener();
 	private final List<String> mSelectedLabels = new ArrayList<>();
 	private CustomRowDialogListener mListener;
+	private String mOriginalUuid;
 	private TextView mSelectedLabelsText;
-	private AutoCompleteTextView mText;
-
-	public static CustomRowDialogFragment createInstance() {
-		final Bundle args = new Bundle();
-		final CustomRowDialogFragment fragment = new CustomRowDialogFragment();
-		fragment.setArguments(args);
-		return fragment;
-	}
+	private MultiAutoCompleteTextView mText;
 
 	@NonNull
 	@Override
@@ -53,11 +47,25 @@ public final class CustomRowDialogFragment extends DialogFragment {
 		final LayoutInflater inflater = getActivity().getLayoutInflater();
 		final View view = inflater.inflate(R.layout.dialog_custom_row, null);
 
-		mSelectedLabelsText = (TextView) view.findViewById(R.id.document_custom_row_labels);
-		mText = (AutoCompleteTextView) view.findViewById(R.id.document_custom_row_text);
+		mText = (MultiAutoCompleteTextView) view.findViewById(R.id.document_custom_row_text);
+		mText.setTokenizer(new SpaceTokenizer());
 		mText.setThreshold(1);
 		final ArrayAdapter<String> textSuggestionsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.document_custom_row_text_suggestions));
 		mText.setAdapter(textSuggestionsAdapter);
+
+		final Bundle args = getArguments();
+		if (null != args) {
+			final Material material = Material.fromBundle(args);
+			AndroidUtils.assertIsTrue(material.isCustom(), "Custom row dialog loaded with non-custom material.");
+			mText.setText(material.getNamn());
+			mSelectedLabels.addAll(material.getKlassKod());
+			mOriginalUuid = material.getUuid();
+		} else {
+			mOriginalUuid = null;
+		}
+
+		mSelectedLabelsText = (TextView) view.findViewById(R.id.document_custom_row_labels);
+		refreshSelectedLabelsText();
 
 		final LinearLayout labelLayout = (LinearLayout) view.findViewById(R.id.document_custom_row_labels_layout);
 		populateLabels(labelLayout, inflater);
@@ -80,6 +88,7 @@ public final class CustomRowDialogFragment extends DialogFragment {
 			final CheckBox checkBox = (CheckBox) view.findViewById(R.id.label_checkbox);
 			checkBox.setText(label.getKlassKod());
 			checkBox.setTag(label);
+			checkBox.setChecked(mSelectedLabels.contains(label.getKlassKod()));
 			checkBox.setOnCheckedChangeListener(mLabelCheckedListener);
 
 			final ImageView iconView = (ImageView) view.findViewById(R.id.label_icon);
@@ -91,6 +100,14 @@ public final class CustomRowDialogFragment extends DialogFragment {
 				}
 			});
 			labelLayout.addView(view);
+		}
+	}
+
+	public void refreshSelectedLabelsText() {
+		if (!mSelectedLabels.isEmpty()) {
+			mSelectedLabelsText.setText(TextUtils.join(", ", mSelectedLabels));
+		} else {
+			mSelectedLabelsText.setText("");
 		}
 	}
 
@@ -117,19 +134,15 @@ public final class CustomRowDialogFragment extends DialogFragment {
 				mSelectedLabels.remove(label.getKlassKod());
 			}
 
-			if (!mSelectedLabels.isEmpty()) {
-				mSelectedLabelsText.setText(TextUtils.join(", ", mSelectedLabels));
-			} else {
-				mSelectedLabelsText.setText("");
-			}
+			refreshSelectedLabelsText();
 		}
 	}
 
 	private final class SaveClickedListener implements DialogInterface.OnClickListener {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			final String text = mText.getText().toString();
-			final Material material = new Material(text, mSelectedLabels);
+			final String text = mText.getText().toString().trim();
+			final Material material = Material.createCustom(text, mSelectedLabels, mOriginalUuid);
 
 			if (null != mListener) {
 				mListener.onDismiss(material);

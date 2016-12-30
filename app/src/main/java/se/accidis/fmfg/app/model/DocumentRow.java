@@ -15,8 +15,8 @@ import se.accidis.fmfg.app.ui.materials.ValueHelper;
  * Model object for rows in a transport declaration.
  */
 public final class DocumentRow {
-	private final Material mMaterial;
-	private final BigDecimal mMultiplier;
+	private Material mMaterial;
+	private BigDecimal mMultiplier;
 	private BigDecimal mAmount; // Antal enheter för beräkning av NEM
 	private boolean mIsVolume; // Huruvida kvantitet är angiven i liter
 	private int mNumberOfPkgs; // Antal kolli
@@ -48,6 +48,9 @@ public final class DocumentRow {
 		other.mNumberOfPkgs = mNumberOfPkgs;
 		other.mTypeOfPkgs = mTypeOfPkgs;
 		other.mWeightVolume = mWeightVolume;
+		if (mMaterial.isCustom()) {
+			other.setMaterial(mMaterial);
+		}
 	}
 
 	public BigDecimal getAmount() {
@@ -70,6 +73,11 @@ public final class DocumentRow {
 
 	public Material getMaterial() {
 		return mMaterial;
+	}
+
+	public void setMaterial(Material material) {
+		mMaterial = material;
+		mMultiplier = new BigDecimal(ValueHelper.getMultiplierByTpKat(mMaterial.getTpKat()));
 	}
 
 	public BigDecimal getNEMkg() {
@@ -123,8 +131,7 @@ public final class DocumentRow {
 	}
 
 	public boolean isFreeText() {
-		// TODO: For now this is how we identify free-text rows, will need to change if/when they can count towards value
-		return Material.TPKAT_NONE == mMaterial.getTpKat();
+		return mMaterial.isCustom();
 	}
 
 	public boolean isVolume() {

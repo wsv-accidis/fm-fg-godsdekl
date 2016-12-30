@@ -115,7 +115,7 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		ViewGroup root = (ViewGroup) super.onCreateView(inflater, container, savedInstanceState);
-		assert (root != null);
+		AndroidUtils.assertIsTrue(null != root, "Root view is null.");
 
 		// Extract the internal list container from the root view
 		@SuppressWarnings("ResourceType")

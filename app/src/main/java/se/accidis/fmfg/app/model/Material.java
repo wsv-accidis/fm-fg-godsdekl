@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import se.accidis.fmfg.app.utils.AndroidUtils;
 import se.accidis.fmfg.app.utils.JSONUtils;
 
 /**
@@ -23,6 +25,10 @@ public final class Material {
 	public static final int TPKAT_MIN = 1;
 	public static final int TPKAT_NONE = 0;
 
+	private static final String UUID_PREFIX = "Uuid_";
+	private static long sUuidCounter = 0;
+
+	private final boolean mIsCustom;
 	private final String mFben; // Förrådsbenämning
 	private final String mFbet; // Förrådsbeteckning
 	private final String mFrpGrp; // Förpackningsgrupp
@@ -36,12 +42,13 @@ public final class Material {
 	private final int mTpKat; // Transportkategori
 	private final String mTunnelkod; // Tunnelkod
 	private final String mUNnr; // UN-nummer
+	private final String mUuid;
 
-	public Material(String namn, List<String> klassKod) {
-		this("", "", "", namn, klassKod, 0, TPKAT_NONE, "", "", false);
+	public static Material createCustom(String namn, List<String> klassKod, String uuid) {
+		return new Material("", "", "", namn, klassKod, 0, TPKAT_NONE, "", "", false, true, uuid);
 	}
 
-	public Material(String fbet, String fben, String unNr, String namn, List<String> klassKod, int NEMmg, int tpKat, String frpGrp, String tunnelKod, boolean miljo) {
+	private Material(String fbet, String fben, String unNr, String namn, List<String> klassKod, int NEMmg, int tpKat, String frpGrp, String tunnelKod, boolean miljo, boolean isCustom, String uuid) {
 		mFbet = fbet;
 		mFben = fben;
 		mUNnr = unNr;
@@ -52,49 +59,56 @@ public final class Material {
 		mFrpGrp = frpGrp;
 		mTunnelkod = tunnelKod;
 		mMiljo = miljo;
+		mIsCustom = isCustom;
 
 		mLabelsText = createLabels();
 		mFullText = createFullText();
 		mSearchText = createSearchText();
+
+		AndroidUtils.assertIsTrue((!isCustom && TextUtils.isEmpty(uuid)) || isCustom, "Non-custom material may not have custom UUID.");
+		mUuid = !TextUtils.isEmpty(uuid) && isCustom ? uuid : createUuid();
 	}
 
 	public static Material fromBundle(Bundle bundle) {
-		String fbet = bundle.getString(Keys.FBET);
-		String fben = bundle.getString(Keys.FBEN);
-		String unNr = bundle.getString(Keys.UNNR);
-		String namn = bundle.getString(Keys.NAMN);
-		int NEMmg = bundle.getInt(Keys.NEMMG);
-		int tpKat = bundle.getInt(Keys.TPKAT);
-		String frpGrp = bundle.getString(Keys.FRPGRP);
-		String tunnelkod = bundle.getString(Keys.TUNNELKOD);
-		boolean miljo = bundle.getBoolean(Keys.MILJO);
+		final String fbet = bundle.getString(Keys.FBET);
+		final String fben = bundle.getString(Keys.FBEN);
+		final String unNr = bundle.getString(Keys.UNNR);
+		final String namn = bundle.getString(Keys.NAMN);
+		final int NEMmg = bundle.getInt(Keys.NEMMG);
+		final int tpKat = bundle.getInt(Keys.TPKAT);
+		final String frpGrp = bundle.getString(Keys.FRPGRP);
+		final String tunnelkod = bundle.getString(Keys.TUNNELKOD);
+		final boolean miljo = bundle.getBoolean(Keys.MILJO);
+		final boolean isCustom = bundle.getBoolean(Keys.IS_CUSTOM, false);
+		final String uuid = bundle.getString(Keys.UUID, null);
 
-		String[] klassKodArray = bundle.getStringArray(Keys.KLASSKOD);
-		List<String> klassKod = (null != klassKodArray ? Arrays.asList(klassKodArray) : new ArrayList<String>(0));
+		final String[] klassKodArray = bundle.getStringArray(Keys.KLASSKOD);
+		final List<String> klassKod = (null != klassKodArray ? Arrays.asList(klassKodArray) : new ArrayList<String>(0));
 
-		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, tpKat, frpGrp, tunnelkod, miljo);
+		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, tpKat, frpGrp, tunnelkod, miljo, isCustom, uuid);
 	}
 
 	public static Material fromJSON(JSONObject json) throws JSONException {
-		String fbet = JSONUtils.getStringOrNull(json, Keys.FBET);
-		String fben = JSONUtils.getStringOrNull(json, Keys.FBEN);
-		String unNr = JSONUtils.getStringOrNull(json, Keys.UNNR);
-		String namn = json.getString(Keys.NAMN);
-		int NEMmg = json.optInt(Keys.NEMMG);
-		int tpKat = json.getInt(Keys.TPKAT);
-		String frpGrp = JSONUtils.getStringOrNull(json, Keys.FRPGRP);
-		String tunnelkod = JSONUtils.getStringOrNull(json, Keys.TUNNELKOD);
-		boolean miljo = json.optBoolean(Keys.MILJO);
+		final String fbet = JSONUtils.getStringOrNull(json, Keys.FBET);
+		final String fben = JSONUtils.getStringOrNull(json, Keys.FBEN);
+		final String unNr = JSONUtils.getStringOrNull(json, Keys.UNNR);
+		final String namn = json.getString(Keys.NAMN);
+		final int NEMmg = json.optInt(Keys.NEMMG);
+		final int tpKat = json.getInt(Keys.TPKAT);
+		final String frpGrp = JSONUtils.getStringOrNull(json, Keys.FRPGRP);
+		final String tunnelkod = JSONUtils.getStringOrNull(json, Keys.TUNNELKOD);
+		final boolean miljo = json.optBoolean(Keys.MILJO);
+		final boolean isCustom = json.optBoolean(Keys.IS_CUSTOM);
 
-		JSONArray klassKodJson = json.optJSONArray(Keys.KLASSKOD);
-		List<String> klassKod = new ArrayList<>((null == klassKodJson) ? 0 : klassKodJson.length());
+		final JSONArray klassKodJson = json.optJSONArray(Keys.KLASSKOD);
+		final List<String> klassKod = new ArrayList<>((null == klassKodJson) ? 0 : klassKodJson.length());
 		if (null != klassKodJson) {
 			for (int i = 0; i < klassKodJson.length(); i++) {
 				klassKod.add(klassKodJson.getString(i));
 			}
 		}
 
-		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, tpKat, frpGrp, tunnelkod, miljo);
+		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, tpKat, frpGrp, tunnelkod, miljo, isCustom, null);
 	}
 
 	@Override
@@ -103,8 +117,8 @@ public final class Material {
 			return false;
 		}
 
-		Material other = (Material) o;
-		return TextUtils.equals(mNamn, other.mNamn) && TextUtils.equals(mFben, other.mFben) && TextUtils.equals(mFbet, other.mFbet);
+		final Material other = (Material) o;
+		return TextUtils.equals(mUuid, other.mUuid);
 	}
 
 	public String getFben() {
@@ -136,7 +150,7 @@ public final class Material {
 	}
 
 	public BigDecimal getNEMkg() {
-		BigDecimal value = new BigDecimal(mNEMmg);
+		final BigDecimal value = new BigDecimal(mNEMmg);
 		return value.divide(new BigDecimal(1000000), 6, BigDecimal.ROUND_FLOOR);
 	}
 
@@ -160,16 +174,21 @@ public final class Material {
 		return mUNnr;
 	}
 
+	public String getUuid() {
+		return mUuid;
+	}
+
 	public boolean hasNEM() {
 		return (0 != mNEMmg);
 	}
 
+	public boolean isCustom() {
+		return mIsCustom;
+	}
+
 	@Override
 	public int hashCode() {
-		int result = mNamn.hashCode();
-		result = 31 * result + (mFbet != null ? mFbet.hashCode() : 0);
-		result = 31 * result + (mFben != null ? mFben.hashCode() : 0);
-		return result;
+		return mUuid.hashCode();
 	}
 
 	public boolean matches(CharSequence search) {
@@ -177,7 +196,7 @@ public final class Material {
 	}
 
 	public Bundle toBundle() {
-		Bundle bundle = new Bundle();
+		final Bundle bundle = new Bundle();
 		bundle.putString(Keys.FBET, mFbet);
 		bundle.putString(Keys.FBEN, mFben);
 		bundle.putString(Keys.UNNR, mUNnr);
@@ -188,11 +207,15 @@ public final class Material {
 		bundle.putString(Keys.FRPGRP, mFrpGrp);
 		bundle.putString(Keys.TUNNELKOD, mTunnelkod);
 		bundle.putBoolean(Keys.MILJO, mMiljo);
+		if (mIsCustom) {
+			bundle.putBoolean(Keys.IS_CUSTOM, true);
+			bundle.putString(Keys.UUID, mUuid);
+		}
 		return bundle;
 	}
 
 	public JSONObject toJson() throws JSONException {
-		JSONObject json = new JSONObject();
+		final JSONObject json = new JSONObject();
 		json.put(Keys.FBET, mFbet);
 		json.put(Keys.FBEN, mFben);
 		json.put(Keys.UNNR, mUNnr);
@@ -203,6 +226,8 @@ public final class Material {
 		json.put(Keys.FRPGRP, mFrpGrp);
 		json.put(Keys.TUNNELKOD, mTunnelkod);
 		json.put(Keys.MILJO, mMiljo);
+		json.put(Keys.IS_CUSTOM, mIsCustom);
+		// UUID is not persisted
 		return json;
 	}
 
@@ -216,7 +241,7 @@ public final class Material {
 	}
 
 	private String createFullText() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 
 		if (!TextUtils.isEmpty(mUNnr)) {
 			builder.append("UN ");
@@ -252,7 +277,7 @@ public final class Material {
 			return mKlassKod.get(0);
 		}
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		for (int i = 1; i < mKlassKod.size(); i++) {
 			if (0 != builder.length()) {
 				builder.append(", ");
@@ -263,7 +288,7 @@ public final class Material {
 	}
 
 	private String createSearchText() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append(mNamn.toLowerCase());
 
 		if (!TextUtils.isEmpty(mFbet)) {
@@ -279,17 +304,35 @@ public final class Material {
 		return builder.toString();
 	}
 
+	private String createUuid() {
+		/*
+		 * UUIDs identify materials but function very differently for custom (user-defined) and built-in (loaded from ADR.json) materials.
+		 * Custom materials have a UUID which is generated on instantiation and has nothing to do with the contents. This is really just an
+		 * index which helps the app keep track of the row within the document. Built-in materials have a UUID based on their contents.
+		 *
+		 * UUIDs are never persisted, they are only used to match document rows with materials while the app is running. Therefore it is safe
+		 * to change this method over time as doing so will not break saved documents.
+		 */
+		if (mIsCustom) {
+			return UUID_PREFIX + (++sUuidCounter);
+		} else {
+			return mNamn + "/" + mFbet + "/" + mFben;
+		}
+	}
+
 	public static class Keys {
 		public static final String FBEN = "Fben";
 		public static final String FBET = "Fbet";
 		public static final String FRPGRP = "FrpGrp";
 		public static final String KLASSKOD = "KlassKod";
+		public static final String IS_CUSTOM = "IsCustom";
 		public static final String MILJO = "Miljo";
 		public static final String NAMN = "Namn";
 		public static final String NEMMG = "NEMmg";
 		public static final String TPKAT = "TpKat";
 		public static final String TUNNELKOD = "TunnelKod";
 		public static final String UNNR = "UNnr";
+		public static final String UUID = "Uuid";
 
 		private Keys() {
 		}

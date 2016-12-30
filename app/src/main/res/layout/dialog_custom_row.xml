@@ -22,7 +22,7 @@
 				android:layout_row="0"
 				android:text="@string/document_custom_row_text" />
 
-			<AutoCompleteTextView
+			<MultiAutoCompleteTextView
 				android:id="@+id/document_custom_row_text"
 				android:layout_width="220dp"
 				android:layout_column="1"
