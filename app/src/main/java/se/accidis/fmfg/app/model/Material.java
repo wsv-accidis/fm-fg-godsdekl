@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,11 +27,11 @@ public final class Material {
 	private static final String UUID_PREFIX = "Uuid_";
 	private static long sUuidCounter = 0;
 
-	private final boolean mIsCustom;
 	private final String mFben; // Förrådsbenämning
 	private final String mFbet; // Förrådsbeteckning
 	private final String mFrpGrp; // Förpackningsgrupp
 	private final String mFullText;
+	private final boolean mIsCustom;
 	private final List<String> mKlassKod; // Klassificeringskod/etiketter
 	private final String mLabelsText;
 	private final boolean mMiljo; // Miljöfarligt

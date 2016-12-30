@@ -24,8 +24,11 @@ import java.util.Collections;
 import java.util.List;
 
 import se.accidis.fmfg.app.R;
+import se.accidis.fmfg.app.model.Document;
+import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Label;
 import se.accidis.fmfg.app.model.Material;
+import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.LabelsRepository;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 import se.accidis.fmfg.app.utils.SpaceTokenizer;
@@ -38,12 +41,15 @@ public final class CustomRowDialogFragment extends DialogFragment {
 	private final List<String> mSelectedLabels = new ArrayList<>();
 	private CustomRowDialogListener mListener;
 	private String mOriginalUuid;
+	private DocumentsRepository mRepository;
 	private TextView mSelectedLabelsText;
 	private MultiAutoCompleteTextView mText;
 
 	@NonNull
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		mRepository = DocumentsRepository.getInstance(getContext());
+
 		final LayoutInflater inflater = getActivity().getLayoutInflater();
 		final View view = inflater.inflate(R.layout.dialog_custom_row, null);
 
@@ -71,13 +77,30 @@ public final class CustomRowDialogFragment extends DialogFragment {
 		populateLabels(labelLayout, inflater);
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		final Dialog dialog = builder.setView(view)
+		builder.setView(view)
 			.setPositiveButton(R.string.generic_save, new SaveClickedListener())
-			.setNegativeButton(R.string.generic_cancel, null)
-			.create();
+			.setNegativeButton(R.string.generic_cancel, null);
 
+		if (null != mOriginalUuid) {
+			builder.setNeutralButton(R.string.material_remove, new RemoveClickedListener());
+		}
+
+		final Dialog dialog = builder.create();
 		AndroidUtils.showSoftKeyboardForDialog(dialog);
 		return dialog;
+	}
+
+	@Override
+	public void onDismiss(DialogInterface dialog) {
+		super.onDismiss(dialog);
+		if (null != mListener) {
+			mListener.onDismiss();
+		}
+	}
+
+	private Material getMaterial() {
+		final String text = mText.getText().toString().trim();
+		return Material.createCustom(text, mSelectedLabels, mOriginalUuid);
 	}
 
 	private void populateLabels(LinearLayout labelLayout, LayoutInflater inflater) {
@@ -116,7 +139,7 @@ public final class CustomRowDialogFragment extends DialogFragment {
 	}
 
 	public interface CustomRowDialogListener {
-		void onDismiss(Material material);
+		void onDismiss();
 	}
 
 	private final class LabelCheckedListener implements CompoundButton.OnCheckedChangeListener {
@@ -138,15 +161,23 @@ public final class CustomRowDialogFragment extends DialogFragment {
 		}
 	}
 
+	private final class RemoveClickedListener implements DialogInterface.OnClickListener {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			Document document = mRepository.getCurrentDocument();
+			document.removeRowByMaterial(getMaterial());
+			document.setHasUnsavedChanges(true);
+			mRepository.commitCurrentDocument();
+		}
+	}
+
 	private final class SaveClickedListener implements DialogInterface.OnClickListener {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			final String text = mText.getText().toString().trim();
-			final Material material = Material.createCustom(text, mSelectedLabels, mOriginalUuid);
-
-			if (null != mListener) {
-				mListener.onDismiss(material);
-			}
+			Document document = mRepository.getCurrentDocument();
+			document.addOrUpdateRow(new DocumentRow(getMaterial()));
+			document.setHasUnsavedChanges(true);
+			mRepository.commitCurrentDocument();
 		}
 	}
 }

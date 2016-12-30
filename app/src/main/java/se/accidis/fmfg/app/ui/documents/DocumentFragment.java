@@ -33,7 +33,6 @@ import se.accidis.fmfg.app.export.PdfGenerator;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentLink;
 import se.accidis.fmfg.app.model.DocumentRow;
-import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.Preferences;
 import se.accidis.fmfg.app.ui.MainActivity;
@@ -324,14 +323,9 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
 	private final class CustomRowDialogListener implements CustomRowDialogFragment.CustomRowDialogListener {
 		@Override
-		public void onDismiss(Material material) {
-			if (!mIsCurrentDocument) {
-				return;
-			}
-
-			mDocument.addOrUpdateRow(new DocumentRow(material));
-			mDocument.setHasUnsavedChanges(true);
-			mRepository.commitCurrentDocument();
+		public void onDismiss() {
+			mDocument = mRepository.getCurrentDocument();
+			mAdapter.setDocument(mDocument);
 		}
 	}
 
