@@ -308,6 +308,104 @@
     "Miljo": false
   },
   {
+    "Fbet": "M4155-002400",
+    "Fben": "155 SGR77",
+    "UNnr": "0168",
+    "Namn": "PROJEKTILER",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 8100000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4155-002500",
+    "Fben": "155 SGR 77B BFL",
+    "UNnr": "0168",
+    "Namn": "PROJEKTILER",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 10100000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4155-008120",
+    "Fben": "155 ÖVNGR54-77 Z",
+    "UNnr": "0169",
+    "Namn": "PROJEKTILER",
+    "KlassKod": [
+      "1.2D"
+    ],
+    "NEMmg": 340000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4155-312114",
+    "Fben": "155MM EXCALIBUR/MK1",
+    "UNnr": "0168",
+    "Namn": "PROJEKTILER",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 7095000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4155-314804",
+    "Fben": "155 MM BONUSGRANAT",
+    "UNnr": "0168",
+    "Namn": "PROJEKTILER",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 4200000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4155-311310",
+    "Fben": "155 LNG DM72",
+    "UNnr": "0242",
+    "Namn": "DRIVLADDNINGAR FÖR ARTILLERIPJÄSER",
+    "KlassKod": [
+      "1.3C"
+    ],
+    "NEMmg": 2740000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4155-311410",
+    "Fben": "155 LNG TILL DM72",
+    "UNnr": "0242",
+    "Namn": "DRIVLADDNINGAR FÖR ARTILLERIPJÄSER",
+    "KlassKod": [
+      "1.3C"
+    ],
+    "NEMmg": 750000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
+    "Miljo": false
+  },
+  {
     "Fbet": "M4747-120801",
     "Fben": "20 ELDMARK 64",
     "UNnr": "0338",
@@ -2130,6 +2228,20 @@
     "Miljo": false
   },
   {
+    "Fbet": "M4704-210013",
+    "Fben": "STIDR03",
+    "UNnr": "0410",
+    "Namn": "TÄNDRÖR",
+    "KlassKod": [
+      "1.4D"
+    ],
+    "NEMmg": 300,
+    "TpKat": 2,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
     "Fbet": "M4730-000301",
     "Fben": "STRVMINA 5",
     "UNnr": "0137",
@@ -2198,6 +2310,20 @@
     "TpKat": 2,
     "FrpGrp": null,
     "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4702-201001",
+    "Fben": "TPTR 77B",
+    "UNnr": "0319",
+    "Namn": "TÄNDPATRONER",
+    "KlassKod": [
+      "1.3G"
+    ],
+    "NEMmg": 1400,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "C5000D",
     "Miljo": false
   },
   {
@@ -2281,6 +2407,48 @@
       "1.1D"
     ],
     "NEMmg": 55600,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4704-101113",
+    "Fben": "ÖFZONAR75B MK",
+    "UNnr": "0409",
+    "Namn": "TÄNDRÖR",
+    "KlassKod": [
+      "1.2D"
+    ],
+    "NEMmg": 5000,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4704-101203",
+    "Fben": "ÖFZONAR94 MK",
+    "UNnr": "0409",
+    "Namn": "TÄNDRÖR",
+    "KlassKod": [
+      "1.2D"
+    ],
+    "NEMmg": 4900,
+    "TpKat": 1,
+    "FrpGrp": null,
+    "TunnelKod": "B1000C",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M4703-173101",
+    "Fben": "ÖHKSAR80",
+    "UNnr": "0409",
+    "Namn": "TÄNDRÖR",
+    "KlassKod": [
+      "1.2D"
+    ],
+    "NEMmg": 3500,
     "TpKat": 1,
     "FrpGrp": null,
     "TunnelKod": "B1000C",
