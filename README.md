@@ -7,7 +7,7 @@ contact me if you have any questions._
 Det här är en mobilapp för digital godsdeklaration av farligt gods-transporter riktad till personal
 inom [Försvarsmakten](http://www.forsvarsmakten.se/). Syftet är att enkelt kunna framställa
 godsdeklarationer som uppfyller kraven i
-[SäkI Tp FG](http://dokument.forsvarsmakten.se/SakI/saki_2013/webb/SakI_Tp/Tp_Titel/IPM_SakI_Tp.htm)
+[SäkI Tp FG](https://www.forsvarsmakten.se/siteassets/4-om-myndigheten/dokumentfiler/reglementen/saki_tp_farligt_gods_2013.pdf)
 vid transport av materiel och utrustning, exempelvis ammunition och drivmedel.
 
 Appen saknar dock anknytning till Försvarsmakten; den är utvecklad på privat initiativ.
@@ -19,7 +19,7 @@ Försvarsmakten. _This application is not developed, published, endorsed or othe
 with the Swedish Armed Forces._**
 
 ## Status
-Aktuell version är 1.1. Applikationen har publicerats på
+Aktuell version är 1.2. Applikationen har publicerats på
 [Google Play](https://play.google.com/store/apps/details?id=se.accidis.fmfg.app).
 
 ## Behörigheter
