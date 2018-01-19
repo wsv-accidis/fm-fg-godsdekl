@@ -43,7 +43,7 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 
 	@Override
 	public int getCount() {
-		return mFilteredList.size();
+		return null != mFilteredList ? mFilteredList.size() : 0;
 	}
 
 	@Override
@@ -152,6 +152,11 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 		@SuppressWarnings("unchecked")
 		protected void publishResults(CharSequence constraint, FilterResults results) {
 			mFilteredList = (List<Material>) results.values;
+			if(null == mFilteredList) {
+				// For some reason it seems we can get a null result
+				mFilteredList = new ArrayList<>();
+			}
+
 			if (results.count > 0) {
 				notifyDataSetChanged();
 			} else {
