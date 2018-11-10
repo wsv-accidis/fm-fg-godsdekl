@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdkVersion 26
+	compileSdkVersion 28
 
 	defaultConfig {
 		applicationId 'se.accidis.fmfg.app'
 		minSdkVersion 16
-		targetSdkVersion 26
+		targetSdkVersion 28
 		versionCode 14
 		versionName '1.4'
 		resConfigs 'en', 'sv'
@@ -21,10 +21,10 @@ android {
 
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	implementation 'com.android.support:appcompat-v7:26.1.0'
-	implementation 'com.android.support:design:26.1.0'
-	implementation 'com.android.support:preference-v7:26.1.0'
-	implementation 'net.danlew:android.joda:2.9.9.1'
+	implementation 'com.android.support:appcompat-v7:28.0.0'
+	implementation 'com.android.support:design:28.0.0'
+	implementation 'com.android.support:preference-v7:28.0.0'
+	implementation 'net.danlew:android.joda:2.10.1'
 }
 
 allprojects {
