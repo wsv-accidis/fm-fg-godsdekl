@@ -1,6 +1,6 @@
 package se.accidis.fmfg.app.model;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.joda.time.DateTime;
 import org.json.JSONException;

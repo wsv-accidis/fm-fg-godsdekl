@@ -1,6 +1,6 @@
 package se.accidis.fmfg.app.model;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 /**
  * Model object for a label.

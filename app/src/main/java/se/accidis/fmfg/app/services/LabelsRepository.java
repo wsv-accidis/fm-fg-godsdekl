@@ -1,6 +1,6 @@
 package se.accidis.fmfg.app.services;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 import java.util.ArrayList;
 import java.util.Collection;

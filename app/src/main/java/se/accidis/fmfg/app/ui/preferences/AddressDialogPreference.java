@@ -2,8 +2,9 @@ package se.accidis.fmfg.app.ui.preferences;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v7.preference.EditTextPreference;
 import android.util.AttributeSet;
+
+import androidx.preference.EditTextPreference;
 
 import se.accidis.fmfg.app.R;
 

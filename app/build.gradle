@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdkVersion 28
+	compileSdkVersion 33
+	namespace 'se.accidis.fmfg.app'
 
 	defaultConfig {
 		applicationId 'se.accidis.fmfg.app'
 		minSdkVersion 16
-		targetSdkVersion 28
+		targetSdkVersion 33
 		versionCode 15
 		versionName '1.5'
-		resConfigs 'en', 'sv'
+		resourceConfigurations += ['en', 'sv']
 	}
 	buildTypes {
 		release {
@@ -21,16 +22,8 @@ android {
 
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	implementation 'com.android.support:appcompat-v7:28.0.0'
-	implementation 'com.android.support:design:28.0.0'
-	implementation 'com.android.support:preference-v7:28.0.0'
+	implementation 'androidx.appcompat:appcompat:1.6.1'
+	implementation 'androidx.preference:preference:1.2.0'
+	implementation 'com.google.android.material:material:1.9.0'
 	implementation 'net.danlew:android.joda:2.10.1'
-}
-
-allprojects {
-	gradle.projectsEvaluated {
-		tasks.withType(JavaCompile) {
-			options.compilerArgs << '-Xlint:deprecation'
-		}
-	}
 }
