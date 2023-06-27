@@ -1485,6 +1485,20 @@
     "Miljo": false
   },
   {
+    "Fbet": "",
+    "Fben": "KLORKALK, PERSONSANERINGSMEDEL",
+    "UNnr": "1748",
+    "Namn": "KALCIUMHYPOKLORIT, TORR BLANDNING 10-39%",
+    "KlassKod": [
+      "5.1"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
     "Fbet": "M4747-110801",
     "Fben": "KNALLSKOTT 10",
     "UNnr": "0431",
@@ -2327,9 +2341,23 @@
     "Miljo": false
   },
   {
-    "Fbet": "M0754-735000",
+    "Fbet": "",
     "Fben": "T-SPRIT, T-RÖD",
     "UNnr": "1987",
+    "Namn": "ALKOHOLER n.o.s. (etanol)",
+    "KlassKod": [
+      "3"
+    ],
+    "NEMmg": 0,
+    "TpKat": 2,
+    "FrpGrp": "II",
+    "TunnelKod": "D/E",
+    "Miljo": false
+  },
+  {
+    "Fbet": "M0754-735000",
+    "Fben": "SPRIT 35",
+    "UNnr": "1170",
     "Namn": "ALKOHOLER n.o.s. (etanol)",
     "KlassKod": [
       "3"
