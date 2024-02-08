@@ -64,7 +64,7 @@ public final class Material {
 		mFullText = createFullText();
 		mSearchText = createSearchText();
 
-		AndroidUtils.assertIsTrue((!isCustom && TextUtils.isEmpty(uuid)) || isCustom, "Non-custom material may not have custom UUID.");
+		AndroidUtils.assertIsTrue(isCustom || TextUtils.isEmpty(uuid), "Non-custom material may not have custom UUID.");
 		mUuid = !TextUtils.isEmpty(uuid) && isCustom ? uuid : createUuid();
 	}
 
@@ -298,6 +298,11 @@ public final class Material {
 		if (!TextUtils.isEmpty(mFben)) {
 			builder.append(' ');
 			builder.append(mFben.toLowerCase());
+		}
+
+		if(!TextUtils.isEmpty(mUNnr)) {
+			builder.append(' ');
+			builder.append(mUNnr);
 		}
 
 		return builder.toString();
