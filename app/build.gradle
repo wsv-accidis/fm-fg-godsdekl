@@ -5,9 +5,9 @@ android {
 
 	defaultConfig {
 		applicationId 'se.accidis.fmfg.app'
-		compileSdk 34
+		compileSdk 35
 		minSdkVersion 26
-		targetSdkVersion 34
+		targetSdkVersion 35
 		versionCode 17
 		versionName '1.7'
 		resourceConfigurations += ['en', 'sv']
@@ -25,15 +25,21 @@ android {
 	}
 
 	compileOptions {
-		sourceCompatibility JavaVersion.VERSION_1_8
-		targetCompatibility JavaVersion.VERSION_1_8
+		sourceCompatibility JavaVersion.VERSION_17
+		targetCompatibility JavaVersion.VERSION_17
 	}
 }
 
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	implementation 'androidx.appcompat:appcompat:1.6.1'
+	implementation 'androidx.appcompat:appcompat:1.7.1'
 	implementation 'androidx.preference:preference:1.2.1'
-	implementation 'com.google.android.material:material:1.11.0'
-	implementation 'net.danlew:android.joda:2.10.1'
+	implementation 'com.google.android.material:material:1.12.0'
+	implementation 'net.danlew:android.joda:2.13.1'
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
 }
