@@ -7,7 +7,7 @@ contact me if you have any questions._
 Det här är en mobilapp för digital godsdeklaration av farligt gods-transporter riktad till personal
 inom [Försvarsmakten](http://www.forsvarsmakten.se/). Syftet är att enkelt kunna framställa
 godsdeklarationer som uppfyller kraven i
-[SäkI Tp FG](https://www.forsvarsmakten.se/siteassets/4-om-myndigheten/dokumentfiler/reglementen/saki_tp_farligt_gods_2013.pdf)
+[SäkI Tp FG](https://www.forsvarsmakten.se/siteassets/2-om-forsvarsmakten/dokument/reglementen/saki_tp_farligt_gods_2013.pdf)
 vid transport av materiel och utrustning, exempelvis ammunition och drivmedel.
 
 Appen saknar dock anknytning till Försvarsmakten; den är utvecklad på privat initiativ.
@@ -36,4 +36,4 @@ utvecklingsverktyg för Android utgivna av Google:
 
 * [Joda-Time för Android](https://github.com/dlew/joda-time-android)
 * [Material Design Icons från Google](https://github.com/google/material-design-icons)
-* [PDFjet Open Source Edition for Java](http://pdfjet.com/os/edition.html)
+* [PDFjet Open Source Edition for Java](https://pdfjet.com/java/index.html)
