@@ -714,6 +714,20 @@
     "Miljo": false
   },
   {
+    "Fbet": "M4005-206300",
+    "Fben": "5,56/5 STKPRJ",
+    "UNnr": "0012",
+    "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
+    "KlassKod": [
+      "1.4S"
+    ],
+    "NEMmg": 1500,
+    "TpKat": 4,
+    "FrpGrp": null,
+    "TunnelKod": "E",
+    "Miljo": false
+  },
+  {
     "Fbet": "M4005-206310",
     "Fben": "5,56/5B STKPRJ",
     "UNnr": "0339",
