@@ -37,6 +37,7 @@ public final class Material {
 	private final boolean mMiljo; // Miljöfarligt
 	private final boolean mMiljoDefined; // True if JSON explicitly specified value
 	private final int mNEMmg; // NEM i mg
+	private final boolean mHasPresetNEM;
 	private final String mNamn; // Namn
 	private final String mSearchText;
 	private final int mTpKat; // Transportkategori
@@ -45,16 +46,17 @@ public final class Material {
 	private final String mUuid;
 
 	public static Material createCustom(String namn, List<String> klassKod, String uuid) {
-		return new Material("", "", "", namn, klassKod, 0, TPKAT_NONE, "", "", false, false, true, uuid);
+		return new Material("", "", "", namn, klassKod, 0, false, TPKAT_NONE, "", "", false, false, true, uuid);
 	}
 
-	private Material(String fbet, String fben, String unNr, String namn, List<String> klassKod, int NEMmg, int tpKat, String frpGrp, String tunnelKod, boolean miljo, boolean miljoDefined, boolean isCustom, String uuid) {
+	private Material(String fbet, String fben, String unNr, String namn, List<String> klassKod, int NEMmg, boolean hasPresetNEM, int tpKat, String frpGrp, String tunnelKod, boolean miljo, boolean miljoDefined, boolean isCustom, String uuid) {
 		mFbet = fbet;
 		mFben = fben;
 		mUNnr = unNr;
 		mNamn = namn;
 		mKlassKod = Collections.unmodifiableList(klassKod);
 		mNEMmg = NEMmg;
+		mHasPresetNEM = hasPresetNEM;
 		mTpKat = tpKat;
 		mFrpGrp = frpGrp;
 		mTunnelkod = tunnelKod;
@@ -76,6 +78,7 @@ public final class Material {
 		final String unNr = bundle.getString(Keys.UNNR);
 		final String namn = bundle.getString(Keys.NAMN);
 		final int NEMmg = bundle.getInt(Keys.NEMMG);
+		final boolean hasPresetNEM = bundle.getBoolean(Keys.HAS_NEM, bundle.containsKey(Keys.NEMMG));
 		final int tpKat = bundle.getInt(Keys.TPKAT);
 		final String frpGrp = bundle.getString(Keys.FRPGRP);
 		final String tunnelkod = bundle.getString(Keys.TUNNELKOD);
@@ -87,7 +90,7 @@ public final class Material {
 		final String[] klassKodArray = bundle.getStringArray(Keys.KLASSKOD);
 		final List<String> klassKod = (null != klassKodArray ? Arrays.asList(klassKodArray) : new ArrayList<String>(0));
 
-		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, tpKat, frpGrp, tunnelkod, miljo, miljoDefined, isCustom, uuid);
+		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, hasPresetNEM, tpKat, frpGrp, tunnelkod, miljo, miljoDefined, isCustom, uuid);
 	}
 
 	public static Material fromJSON(JSONObject json) throws JSONException {
@@ -95,6 +98,7 @@ public final class Material {
 		final String fben = JSONUtils.getStringOrNull(json, Keys.FBEN);
 		final String unNr = JSONUtils.getStringOrNull(json, Keys.UNNR);
 		final String namn = json.getString(Keys.NAMN);
+		final boolean hasPresetNEM = json.has(Keys.HAS_NEM) ? json.optBoolean(Keys.HAS_NEM) : (json.has(Keys.NEMMG) && !json.isNull(Keys.NEMMG));
 		final int NEMmg = json.optInt(Keys.NEMMG);
 		final int tpKat = json.getInt(Keys.TPKAT);
 		final String frpGrp = JSONUtils.getStringOrNull(json, Keys.FRPGRP);
@@ -111,7 +115,7 @@ public final class Material {
 			}
 		}
 
-		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, tpKat, frpGrp, tunnelkod, miljo, miljoDefined, isCustom, null);
+		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, hasPresetNEM, tpKat, frpGrp, tunnelkod, miljo, miljoDefined, isCustom, null);
 	}
 
 	@Override
@@ -165,6 +169,10 @@ public final class Material {
 		return mNEMmg;
 	}
 
+	public boolean hasPresetNEMValue() {
+		return mHasPresetNEM;
+	}
+
 	public String getNamn() {
 		return mNamn;
 	}
@@ -210,6 +218,7 @@ public final class Material {
 		bundle.putString(Keys.NAMN, mNamn);
 		bundle.putStringArray(Keys.KLASSKOD, mKlassKod.toArray(new String[mKlassKod.size()]));
 		bundle.putInt(Keys.NEMMG, mNEMmg);
+		bundle.putBoolean(Keys.HAS_NEM, mHasPresetNEM);
 		bundle.putInt(Keys.TPKAT, mTpKat);
 		bundle.putString(Keys.FRPGRP, mFrpGrp);
 		bundle.putString(Keys.TUNNELKOD, mTunnelkod);
@@ -230,6 +239,7 @@ public final class Material {
 		json.put(Keys.NAMN, mNamn);
 		json.put(Keys.KLASSKOD, new JSONArray(mKlassKod));
 		json.put(Keys.NEMMG, mNEMmg);
+		json.put(Keys.HAS_NEM, mHasPresetNEM);
 		json.put(Keys.TPKAT, mTpKat);
 		json.put(Keys.FRPGRP, mFrpGrp);
 		json.put(Keys.TUNNELKOD, mTunnelkod);
@@ -347,6 +357,7 @@ public final class Material {
 		public static final String MILJO_DEFINED = "MiljoDefined";
 		public static final String NAMN = "Namn";
 		public static final String NEMMG = "NEMmg";
+		public static final String HAS_NEM = "HasNEM";
 		public static final String TPKAT = "TpKat";
 		public static final String TUNNELKOD = "TunnelKod";
 		public static final String UNNR = "UNnr";
