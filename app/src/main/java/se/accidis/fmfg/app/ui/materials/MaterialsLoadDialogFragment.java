@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
@@ -32,7 +32,11 @@ import se.accidis.fmfg.app.utils.AndroidUtils;
  * Fragment for creating/editing a document row (loading materials).
  */
 public final class MaterialsLoadDialogFragment extends DialogFragment {
+	private static final BigDecimal MG_PER_KG = new BigDecimal(1000000);
+
 	private BigDecimal mAmount;
+	private EditText mCustomNEMField;
+	private BigDecimal mCustomNEMkg;
 	private BigDecimal mDocumentTotalValue;
 	private MaterialsLoadDialogListener mListener;
 	private Material mMaterial;
@@ -85,22 +89,28 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 
 		mValueView = (TextView) view.findViewById(R.id.material_load_value);
 		mTotalValueView = (TextView) view.findViewById(R.id.material_load_total_value);
+		mNEMView = (TextView) view.findViewById(R.id.material_load_nem);
 
-		if (!mMaterial.hasNEM()) {
-			TextView amountHeading = (TextView) view.findViewById(R.id.material_load_amount_heading);
-			LinearLayout amountLayout = (LinearLayout) view.findViewById(R.id.material_load_amount_layout);
-			TextView nemHeading = (TextView) view.findViewById(R.id.material_load_nem_heading);
-			TextView nemView = (TextView) view.findViewById(R.id.material_load_nem);
-			amountHeading.setVisibility(View.GONE);
-			amountLayout.setVisibility(View.GONE);
-			nemHeading.setVisibility(View.GONE);
-			nemView.setVisibility(View.GONE);
+		EditText amountField = (EditText) view.findViewById(R.id.material_load_amount);
+		amountField.addTextChangedListener(new AmountChangedListener());
+		if (null != row) {
+			amountField.setText(String.valueOf(row.getAmount()));
+			mAmount = row.getAmount();
+		}
+
+		mCustomNEMField = (EditText) view.findViewById(R.id.material_load_custom_nem);
+		View customNEMHeading = view.findViewById(R.id.material_load_custom_nem_heading);
+		View customNEMLayout = view.findViewById(R.id.material_load_custom_nem_layout);
+		if (mMaterial.hasPresetNEMValue()) {
+			customNEMHeading.setVisibility(View.GONE);
+			customNEMLayout.setVisibility(View.GONE);
 		} else {
-			mNEMView = (TextView) view.findViewById(R.id.material_load_nem);
-			EditText amountField = (EditText) view.findViewById(R.id.material_load_amount);
-			amountField.addTextChangedListener(new AmountChangedListener());
-			if (null != row) {
-				amountField.setText(String.valueOf(row.getAmount()));
+			customNEMHeading.setVisibility(View.VISIBLE);
+			customNEMLayout.setVisibility(View.VISIBLE);
+			mCustomNEMField.addTextChangedListener(new CustomNEMChangedListener());
+			if (null != row && null != row.getCustomNEMmg()) {
+				mCustomNEMkg = row.getCustomNEMmg().divide(MG_PER_KG, 6, BigDecimal.ROUND_FLOOR);
+				mCustomNEMField.setText(mCustomNEMkg.stripTrailingZeros().toPlainString());
 			}
 		}
 
@@ -116,6 +126,9 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 			mNumberPkgsField.setText(String.valueOf(row.getNumberOfPackages()));
 			mTypePkgsField.setText(row.getTypeOfPackages());
 			weightVolumeField.setText(row.getWeightVolume().toString());
+			if (null == mAmount) {
+				mAmount = row.getAmount();
+			}
 		}
 
 		calculate();
@@ -154,16 +167,29 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 		}
 
 		BigDecimal value;
-		if (mMaterial.hasNEM()) {
-			value = mMaterial.getNEMkg().multiply(mAmount);
+		BigDecimal nemPerAmount = getActiveNEMPerAmountKg();
+		if (null != nemPerAmount) {
+			value = nemPerAmount.multiply(mAmount);
 			mNEMView.setText(String.format(getString(R.string.unit_kg_format), ValueHelper.formatValue(value)));
 		} else {
 			value = mWeightVolume;
+			if (null != mNEMView) {
+				mNEMView.setText(getString(R.string.material_no_data));
+			}
 		}
 
 		value = value.multiply(mMultiplier);
 		mValueView.setText(String.format(getString(R.string.unit_points_format), ValueHelper.formatValue(value)));
 		mTotalValueView.setText(String.format(getString(R.string.unit_points_format), ValueHelper.formatValue(value.add(mDocumentTotalValue))));
+	}
+
+	private BigDecimal getActiveNEMPerAmountKg() {
+		if (mMaterial.hasNEM()) {
+			return mMaterial.getNEMkg();
+		} else if (null != mCustomNEMkg) {
+			return mCustomNEMkg;
+		}
+		return null;
 	}
 
 	public interface MaterialsLoadDialogListener {
@@ -206,6 +232,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 			String typePkgs = mTypePkgsField.getText().toString().trim();
 			row.setTypeOfPackages(typePkgs);
 			row.setAmount(mAmount);
+			row.setCustomNEMmg(convertKgToMg(mCustomNEMkg));
 			row.setWeightVolume(mWeightVolume);
 			row.setIsVolume(mWeightVolumeIsVolume);
 
@@ -249,5 +276,29 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 			mWeightVolume = ValueHelper.parseValue(s.toString());
 			calculate();
 		}
+	}
+
+	private final class CustomNEMChangedListener implements TextWatcher {
+		@Override
+		public void afterTextChanged(Editable s) {
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			BigDecimal parsed = ValueHelper.parseValue(s.toString());
+			mCustomNEMkg = (parsed.compareTo(BigDecimal.ZERO) > 0) ? parsed : null;
+			calculate();
+		}
+	}
+
+	private BigDecimal convertKgToMg(BigDecimal valueKg) {
+		if (null == valueKg) {
+			return null;
+		}
+		return valueKg.multiply(MG_PER_KG).setScale(0, RoundingMode.HALF_UP);
 	}
 }
