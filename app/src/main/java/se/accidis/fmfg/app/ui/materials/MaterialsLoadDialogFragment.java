@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 	private EditText mCustomNEMField;
 	private BigDecimal mCustomNEMkg;
 	private BigDecimal mDocumentTotalValue;
+	private CheckBox mMiljoCheckbox;
 	private MaterialsLoadDialogListener mListener;
 	private Material mMaterial;
 	private BigDecimal mMultiplier;
@@ -131,6 +133,9 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 			}
 		}
 
+		mMiljoCheckbox = (CheckBox) view.findViewById(R.id.material_load_miljo);
+		initializeMiljoCheckbox(row);
+
 		calculate();
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -156,6 +161,19 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 
 	public void setDialogListener(MaterialsLoadDialogListener listener) {
 		mListener = listener;
+	}
+
+	private void initializeMiljoCheckbox(DocumentRow row) {
+		if (null == mMiljoCheckbox) {
+			return;
+		}
+		if (mMaterial.hasMiljoValue()) {
+			mMiljoCheckbox.setVisibility(View.GONE);
+			return;
+		}
+		mMiljoCheckbox.setVisibility(View.VISIBLE);
+		boolean isChecked = (null != row && row.hasMiljoOverride());
+		mMiljoCheckbox.setChecked(isChecked);
 	}
 
 	private void calculate() {
@@ -235,6 +253,11 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 			row.setCustomNEMmg(convertKgToMg(mCustomNEMkg));
 			row.setWeightVolume(mWeightVolume);
 			row.setIsVolume(mWeightVolumeIsVolume);
+			if (null != mMiljoCheckbox && mMiljoCheckbox.getVisibility() == View.VISIBLE) {
+				row.setMiljoOverride(mMiljoCheckbox.isChecked());
+			} else {
+				row.setMiljoOverride(null);
+			}
 
 			Document document = mRepository.getCurrentDocument();
 			document.addOrUpdateRow(row);

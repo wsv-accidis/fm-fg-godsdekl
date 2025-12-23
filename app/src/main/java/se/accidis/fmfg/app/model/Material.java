@@ -35,6 +35,7 @@ public final class Material {
 	private final List<String> mKlassKod; // Klassificeringskod/etiketter
 	private final String mLabelsText;
 	private final boolean mMiljo; // Miljöfarligt
+	private final boolean mMiljoDefined; // True if JSON explicitly specified value
 	private final int mNEMmg; // NEM i mg
 	private final String mNamn; // Namn
 	private final String mSearchText;
@@ -44,10 +45,10 @@ public final class Material {
 	private final String mUuid;
 
 	public static Material createCustom(String namn, List<String> klassKod, String uuid) {
-		return new Material("", "", "", namn, klassKod, 0, TPKAT_NONE, "", "", false, true, uuid);
+		return new Material("", "", "", namn, klassKod, 0, TPKAT_NONE, "", "", false, false, true, uuid);
 	}
 
-	private Material(String fbet, String fben, String unNr, String namn, List<String> klassKod, int NEMmg, int tpKat, String frpGrp, String tunnelKod, boolean miljo, boolean isCustom, String uuid) {
+	private Material(String fbet, String fben, String unNr, String namn, List<String> klassKod, int NEMmg, int tpKat, String frpGrp, String tunnelKod, boolean miljo, boolean miljoDefined, boolean isCustom, String uuid) {
 		mFbet = fbet;
 		mFben = fben;
 		mUNnr = unNr;
@@ -58,6 +59,7 @@ public final class Material {
 		mFrpGrp = frpGrp;
 		mTunnelkod = tunnelKod;
 		mMiljo = miljo;
+		mMiljoDefined = miljoDefined;
 		mIsCustom = isCustom;
 
 		mLabelsText = createLabels();
@@ -78,13 +80,14 @@ public final class Material {
 		final String frpGrp = bundle.getString(Keys.FRPGRP);
 		final String tunnelkod = bundle.getString(Keys.TUNNELKOD);
 		final boolean miljo = bundle.getBoolean(Keys.MILJO);
+		final boolean miljoDefined = bundle.getBoolean(Keys.MILJO_DEFINED, true);
 		final boolean isCustom = bundle.getBoolean(Keys.IS_CUSTOM, false);
 		final String uuid = bundle.getString(Keys.UUID, null);
 
 		final String[] klassKodArray = bundle.getStringArray(Keys.KLASSKOD);
 		final List<String> klassKod = (null != klassKodArray ? Arrays.asList(klassKodArray) : new ArrayList<String>(0));
 
-		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, tpKat, frpGrp, tunnelkod, miljo, isCustom, uuid);
+		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, tpKat, frpGrp, tunnelkod, miljo, miljoDefined, isCustom, uuid);
 	}
 
 	public static Material fromJSON(JSONObject json) throws JSONException {
@@ -96,6 +99,7 @@ public final class Material {
 		final int tpKat = json.getInt(Keys.TPKAT);
 		final String frpGrp = JSONUtils.getStringOrNull(json, Keys.FRPGRP);
 		final String tunnelkod = JSONUtils.getStringOrNull(json, Keys.TUNNELKOD);
+		final boolean miljoDefined = !json.isNull(Keys.MILJO);
 		final boolean miljo = json.optBoolean(Keys.MILJO);
 		final boolean isCustom = json.optBoolean(Keys.IS_CUSTOM);
 
@@ -107,7 +111,7 @@ public final class Material {
 			}
 		}
 
-		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, tpKat, frpGrp, tunnelkod, miljo, isCustom, null);
+		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, tpKat, frpGrp, tunnelkod, miljo, miljoDefined, isCustom, null);
 	}
 
 	@Override
@@ -146,6 +150,10 @@ public final class Material {
 
 	public boolean getMiljo() {
 		return mMiljo;
+	}
+
+	public boolean hasMiljoValue() {
+		return mMiljoDefined;
 	}
 
 	public BigDecimal getNEMkg() {
@@ -206,6 +214,7 @@ public final class Material {
 		bundle.putString(Keys.FRPGRP, mFrpGrp);
 		bundle.putString(Keys.TUNNELKOD, mTunnelkod);
 		bundle.putBoolean(Keys.MILJO, mMiljo);
+		bundle.putBoolean(Keys.MILJO_DEFINED, mMiljoDefined);
 		if (mIsCustom) {
 			bundle.putBoolean(Keys.IS_CUSTOM, true);
 			bundle.putString(Keys.UUID, mUuid);
@@ -224,7 +233,11 @@ public final class Material {
 		json.put(Keys.TPKAT, mTpKat);
 		json.put(Keys.FRPGRP, mFrpGrp);
 		json.put(Keys.TUNNELKOD, mTunnelkod);
-		json.put(Keys.MILJO, mMiljo);
+		if (mMiljoDefined) {
+			json.put(Keys.MILJO, mMiljo);
+		} else {
+			json.put(Keys.MILJO, JSONObject.NULL);
+		}
 		json.put(Keys.IS_CUSTOM, mIsCustom);
 		// UUID is not persisted
 		return json;
@@ -331,6 +344,7 @@ public final class Material {
 		public static final String KLASSKOD = "KlassKod";
 		public static final String IS_CUSTOM = "IsCustom";
 		public static final String MILJO = "Miljo";
+		public static final String MILJO_DEFINED = "MiljoDefined";
 		public static final String NAMN = "Namn";
 		public static final String NEMMG = "NEMmg";
 		public static final String TPKAT = "TpKat";

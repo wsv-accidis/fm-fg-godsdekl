@@ -21,6 +21,7 @@ public final class DocumentRow {
 	private BigDecimal mMultiplier;
 	private BigDecimal mAmount; // Antal enheter för beräkning av NEM
 	private BigDecimal mCustomNEMmg; // Användardefinierad NEM i mg
+	private Boolean mMiljoOverride; // Användardefinierad Miljo
 	private boolean mIsVolume; // Huruvida kvantitet är angiven i liter
 	private int mNumberOfPkgs; // Antal kolli
 	private String mTypeOfPkgs; // Beskrivning av kolli
@@ -29,6 +30,7 @@ public final class DocumentRow {
 	public DocumentRow(Material material) {
 		mAmount = BigDecimal.ZERO;
 		mCustomNEMmg = null;
+		mMiljoOverride = null;
 		mMaterial = material;
 		mMultiplier = new BigDecimal(ValueHelper.getMultiplierByTpKat(mMaterial.getTpKat()));
 		mTypeOfPkgs = "";
@@ -43,6 +45,9 @@ public final class DocumentRow {
 		row.mNumberOfPkgs = json.getInt(Keys.NUMBER_OF_PKGS);
 		row.mTypeOfPkgs = json.optString(Keys.TYPE_OF_PKGS, "");
 		row.mWeightVolume = new BigDecimal(json.getString(Keys.WEIGHT_VOLUME));
+		if (json.has(Keys.MILJO_OVERRIDE)) {
+			row.mMiljoOverride = (json.isNull(Keys.MILJO_OVERRIDE) ? null : json.optBoolean(Keys.MILJO_OVERRIDE));
+		}
 		if (json.has(Keys.CUSTOM_NEM_MG)) {
 			String customNem = json.optString(Keys.CUSTOM_NEM_MG, null);
 			if (!TextUtils.isEmpty(customNem)) {
@@ -60,6 +65,7 @@ public final class DocumentRow {
 	public void copyTo(DocumentRow other) {
 		other.mAmount = mAmount;
 		other.mCustomNEMmg = mCustomNEMmg;
+		other.mMiljoOverride = mMiljoOverride;
 		other.mIsVolume = mIsVolume;
 		other.mNumberOfPkgs = mNumberOfPkgs;
 		other.mTypeOfPkgs = mTypeOfPkgs;
@@ -166,6 +172,25 @@ public final class DocumentRow {
 		return mMaterial.hasNEM() || null != mCustomNEMmg;
 	}
 
+	public boolean hasMiljoOverride() {
+		return null != mMiljoOverride;
+	}
+
+	public boolean isMiljoFarligt() {
+		if (null != mMiljoOverride) {
+			return mMiljoOverride;
+		}
+		return mMaterial.getMiljo();
+	}
+
+	public void setMiljoOverride(Boolean value) {
+		if (null != value && value) {
+			mMiljoOverride = true;
+		} else {
+			mMiljoOverride = null;
+		}
+	}
+
 	public boolean isFreeText() {
 		return mMaterial.isCustom();
 	}
@@ -188,6 +213,9 @@ public final class DocumentRow {
 		if (null != mCustomNEMmg) {
 			json.put(Keys.CUSTOM_NEM_MG, mCustomNEMmg.toPlainString());
 		}
+		if (null != mMiljoOverride) {
+			json.put(Keys.MILJO_OVERRIDE, mMiljoOverride);
+		}
 		return json;
 	}
 
@@ -207,6 +235,7 @@ public final class DocumentRow {
 		public static final String NUMBER_OF_PKGS = "NumberOfPkgs";
 		public static final String TYPE_OF_PKGS = "TypeOfPkgs";
 		public static final String WEIGHT_VOLUME = "WeightVolume";
+		public static final String MILJO_OVERRIDE = "MiljoOverride";
 
 		private Keys() {
 		}

@@ -13,6 +13,7 @@ import java.util.TreeSet;
 
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
+import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Label;
 import se.accidis.fmfg.app.model.Material;
 
@@ -33,8 +34,9 @@ public final class LabelsRepository {
 	public static List<Integer> getLabelsByDocument(Document document, boolean smallImages) {
 		boolean hasMiljo = false;
 		SortedSet<String> klassKodSet = new TreeSet<>();
-		for (Material material : document.getMaterialsSet()) {
-			if (material.getMiljo()) {
+		for (DocumentRow row : document.getRows()) {
+			Material material = row.getMaterial();
+			if (row.isMiljoFarligt()) {
 				hasMiljo = true;
 			}
 			klassKodSet.addAll(material.getKlassKod());
