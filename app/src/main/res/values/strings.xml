@@ -101,7 +101,6 @@
     <string name="material_klasskod">Klassificeringskod</string>
     <string name="material_load">Lasta</string>
     <string name="material_namn">Transportbenämning</string>
-    <string name="material_nem">Netto expl.mängd</string>
     <string name="material_nem_kg_format">NEM %1$s kg</string>
     <string name="material_no_data">-</string>
     <string name="material_remove">Ta bort</string>

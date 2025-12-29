@@ -3,7 +3,10 @@ package se.accidis.fmfg.app.ui.materials;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +17,10 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.TextViewCompat;
 import androidx.fragment.app.Fragment;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +31,6 @@ import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.LabelsRepository;
 import se.accidis.fmfg.app.ui.MainActivity;
-import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
  * Fragment showing information about a material.
@@ -63,35 +67,8 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 		}
 
 		TextView fbenHeading = (TextView) view.findViewById(R.id.material_fben_heading);
-		TextView fbenView = (TextView) view.findViewById(R.id.material_fben);
-		TextView fbetView = (TextView) view.findViewById(R.id.material_fbet);
-		List<String> fbetList = new ArrayList<>();
-		List<String> fbenList = new ArrayList<>();
-		for (Material.FM entry : mMaterial.getFM()) {
-			if (!TextUtils.isEmpty(entry.getFbet())) {
-				fbetList.add(entry.getFbet());
-			}
-			if (!TextUtils.isEmpty(entry.getFben())) {
-				fbenList.add(entry.getFben());
-			}
-		}
-		boolean hasData = !fbetList.isEmpty() || !fbenList.isEmpty();
-		if (hasData) {
-			if (!fbenList.isEmpty()) {
-				fbenView.setText(TextUtils.join(AndroidUtils.LINE_SEPARATOR, fbenList));
-			} else {
-				fbenView.setVisibility(View.GONE);
-			}
-			if (!fbetList.isEmpty()) {
-				fbetView.setText(TextUtils.join(AndroidUtils.LINE_SEPARATOR, fbetList));
-			} else {
-				fbetView.setVisibility(View.GONE);
-			}
-		} else {
-			fbenHeading.setVisibility(View.GONE);
-			fbenView.setVisibility(View.GONE);
-			fbetView.setVisibility(View.GONE);
-		}
+		LinearLayout fmListLayout = (LinearLayout) view.findViewById(R.id.material_fm_list);
+		populateFmList(fbenHeading, fmListLayout);
 
 		TextView namnView = (TextView) view.findViewById(R.id.material_namn);
 		namnView.setText(mMaterial.getNamn());
@@ -133,15 +110,6 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 			tpKatView.setText(String.valueOf(mMaterial.getTpKat()));
 		} else {
 			tpKatView.setText(R.string.material_no_data);
-		}
-
-		TextView nemHeading = (TextView) view.findViewById(R.id.material_nem_heading);
-		TextView nemView = (TextView) view.findViewById(R.id.material_nem);
-		if (mMaterial.hasNEM()) {
-			nemView.setText(String.format(getString(R.string.unit_kg_format), ValueHelper.formatValue(mMaterial.getNEMkg())));
-		} else {
-			nemHeading.setVisibility(View.GONE);
-			nemView.setVisibility(View.GONE);
 		}
 
 		LinearLayout labelsLayout = (LinearLayout) view.findViewById(R.id.material_layout_labels);
@@ -190,6 +158,75 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 			mLoadButton.setText(R.string.material_load);
 			mRemoveButton.setVisibility(View.GONE);
 		}
+	}
+
+	private void populateFmList(TextView headingView, LinearLayout fmListLayout) {
+		int rowSpacing = getResources().getDimensionPixelSize(R.dimen.material_fm_row_spacing);
+		boolean hasData = false;
+
+		for (Material.FM entry : mMaterial.getFM()) {
+			CharSequence rowText = createFmRowText(entry);
+			if (TextUtils.isEmpty(rowText)) {
+				continue;
+			}
+
+			hasData = true;
+			TextView rowView = new TextView(getContext());
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+			params.setMargins(0, 0, 0, rowSpacing);
+			rowView.setLayoutParams(params);
+			TextViewCompat.setTextAppearance(rowView, R.style.DocumentRowPrimary);
+			rowView.setText(rowText);
+			fmListLayout.addView(rowView);
+		}
+
+		if (!hasData) {
+			headingView.setVisibility(View.GONE);
+			fmListLayout.setVisibility(View.GONE);
+		}
+	}
+
+	private CharSequence createFmRowText(Material.FM entry) {
+		List<String> labelParts = new ArrayList<>();
+		if (!TextUtils.isEmpty(entry.getFbet())) {
+			labelParts.add(entry.getFbet());
+		}
+		if (!TextUtils.isEmpty(entry.getFben())) {
+			labelParts.add(entry.getFben());
+		}
+
+		String nemValue = formatNemKg(entry.getNEMmg());
+		boolean hasNem = !TextUtils.isEmpty(nemValue);
+
+		if (labelParts.isEmpty() && !hasNem) {
+			return "";
+		}
+
+		SpannableStringBuilder builder = new SpannableStringBuilder();
+		if (!labelParts.isEmpty()) {
+			builder.append(TextUtils.join(" ", labelParts));
+		}
+
+		if (hasNem) {
+			if (builder.length() > 0) {
+				builder.append('\n');
+			}
+			int nemStart = builder.length();
+			builder.append("NEM ");
+			builder.append(nemValue);
+			builder.append(" kg");
+			builder.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), R.color.darkgray)), nemStart, builder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
+
+		return builder;
+	}
+
+	private String formatNemKg(Integer nemMg) {
+		if (null == nemMg) {
+			return null;
+		}
+		BigDecimal nemKg = new BigDecimal(nemMg).divide(new BigDecimal(1000000), 6, BigDecimal.ROUND_FLOOR);
+		return ValueHelper.formatValue(nemKg);
 	}
 
 	private final class LoadButtonClickListener implements View.OnClickListener {
