@@ -414,38 +414,29 @@ public final class Material {
 	private String createFullText() {
 		final StringBuilder builder = new StringBuilder();
 
+		// UN-nummer
 		if (!TextUtils.isEmpty(mUNnr)) {
 			builder.append("UN ");
 			builder.append(mUNnr);
 			builder.append(' ');
 		}
 
+		// Transportbenämning
 		builder.append(mNamn);
 
-		FM display = getDisplayFm();
-		if (null != display) {
-			String displayFbet = display.getFbet();
-			String displayFben = display.getFben();
-			if (!TextUtils.isEmpty(displayFbet)) {
-				builder.append(", ");
-				builder.append(displayFbet);
-			}
-			if (!TextUtils.isEmpty(displayFben)) {
-				builder.append(", ");
-				builder.append(displayFben);
-			}
-		}
-
+		// Etiketter
 		if (!TextUtils.isEmpty(mLabelsText)) {
 			builder.append(", ");
 			builder.append(mLabelsText);
 		}
 
+		// Förpackningsgrupp
 		if (!TextUtils.isEmpty(mFrpGrp)) {
 			builder.append(", ");
 			builder.append(mFrpGrp);
 		}
 
+		// Tunnelkod
 		if (!TextUtils.isEmpty(mTunnelkod)) {
 			builder.append(" (");
 			builder.append(mTunnelkod);
