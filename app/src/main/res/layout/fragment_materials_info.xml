@@ -105,10 +105,10 @@
                     style="@style/MaterialHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/material_klasskod"/>
+                    android:text="@string/material_etiketter"/>
 
                 <TextView
-                    android:id="@+id/material_klasskod"
+                    android:id="@+id/material_etiketter"
                     style="@style/MaterialLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

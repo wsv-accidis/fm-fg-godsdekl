@@ -80,11 +80,11 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 			unNrView.setText(R.string.material_no_data);
 		}
 
-		TextView klassKodView = (TextView) view.findViewById(R.id.material_klasskod);
-		if (!TextUtils.isEmpty(mMaterial.getKlassKodAsString())) {
-			klassKodView.setText(mMaterial.getKlassKodAsString());
+		TextView etiketterView = (TextView) view.findViewById(R.id.material_etiketter);
+		if (!TextUtils.isEmpty(mMaterial.getEtiketterAsString())) {
+			etiketterView.setText(mMaterial.getEtiketterAsString());
 		} else {
-			klassKodView.setText(R.string.material_no_data);
+			etiketterView.setText(R.string.material_no_data);
 		}
 
 		TextView frpGrpHeading = (TextView) view.findViewById(R.id.material_frpgrp_heading);
@@ -113,7 +113,7 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 		}
 
 		LinearLayout labelsLayout = (LinearLayout) view.findViewById(R.id.material_layout_labels);
-		if (!mMaterial.getKlassKod().isEmpty()) {
+		if (!mMaterial.getEtiketter().isEmpty()) {
 			populateLabelsView(labelsLayout);
 		} else {
 			labelsLayout.setVisibility(View.GONE);

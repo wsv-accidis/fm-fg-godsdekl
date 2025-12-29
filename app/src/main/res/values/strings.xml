@@ -98,7 +98,7 @@
     <string name="material_favorite_remove">Ta bort favorit</string>
     <string name="material_fben">Förrådsbenämning</string>
     <string name="material_frpgrp">Förpackningsgrupp</string>
-    <string name="material_klasskod">Klassificeringskod</string>
+    <string name="material_etiketter">Etiketter</string>
     <string name="material_load">Lasta</string>
     <string name="material_namn">Transportbenämning</string>
     <string name="material_nem_kg_format">NEM %1$s kg</string>

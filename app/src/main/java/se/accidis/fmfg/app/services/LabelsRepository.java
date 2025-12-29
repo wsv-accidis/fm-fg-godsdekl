@@ -33,18 +33,18 @@ public final class LabelsRepository {
 
 	public static List<Integer> getLabelsByDocument(Document document, boolean smallImages) {
 		boolean hasMiljo = false;
-		SortedSet<String> klassKodSet = new TreeSet<>();
+		SortedSet<String> etiketterSet = new TreeSet<>();
 		for (DocumentRow row : document.getRows()) {
 			Material material = row.getMaterial();
 			if (row.isMiljoFarligt()) {
 				hasMiljo = true;
 			}
-			klassKodSet.addAll(material.getKlassKod());
+			etiketterSet.addAll(material.getEtiketter());
 		}
 
 		List<Integer> labelDrawables = new ArrayList<>();
-		for (String klassKod : klassKodSet) {
-			Label label = getLabelByKlassKod(klassKod);
+		for (String etiketter : etiketterSet) {
+			Label label = getLabelByEtiketter(etiketter);
 			if (null != label) {
 				int drawable = smallImages ? label.getSmallDrawable() : label.getLargeDrawable();
 				if (!labelDrawables.contains(drawable)) {
@@ -62,8 +62,8 @@ public final class LabelsRepository {
 
 	public static List<Integer> getLabelsByMaterial(Material material, boolean smallImages) {
 		List<Integer> labels = new ArrayList<>();
-		for (String klassKod : material.getKlassKod()) {
-			Label label = getLabelByKlassKod(klassKod);
+		for (String etiketter : material.getEtiketter()) {
+			Label label = getLabelByEtiketter(etiketter);
 			if (null != label) {
 				int drawable = smallImages ? label.getSmallDrawable() : label.getLargeDrawable();
 				if (!labels.contains(drawable)) {
@@ -79,18 +79,18 @@ public final class LabelsRepository {
 		return labels;
 	}
 
-	private static Label getLabelByKlassKod(String klassKod) {
+	private static Label getLabelByEtiketter(String etiketter) {
 		// If code ends with a letter (e g '1.1B'), remove it.
-		if (Character.isLetter(klassKod.charAt(klassKod.length() - 1))) {
-			klassKod = klassKod.substring(0, klassKod.length() - 1);
+		if (Character.isLetter(etiketter.charAt(etiketter.length() - 1))) {
+			etiketter = etiketter.substring(0, etiketter.length() - 1);
 		}
 
-		return sLabels.get(klassKod);
+		return sLabels.get(etiketter);
 	}
 
-	private static void putLabel(String klassKod, @DrawableRes int largeDrawable, @DrawableRes int smallDrawable) {
-		Label label = new Label(klassKod, largeDrawable, smallDrawable);
-		sLabels.put(klassKod, label);
+	private static void putLabel(String etiketter, @DrawableRes int largeDrawable, @DrawableRes int smallDrawable) {
+		Label label = new Label(etiketter, largeDrawable, smallDrawable);
+		sLabels.put(etiketter, label);
 	}
 
 	static {
