@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import se.accidis.fmfg.app.R;
@@ -25,6 +26,7 @@ import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.LabelsRepository;
 import se.accidis.fmfg.app.ui.MainActivity;
+import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
  * Fragment showing information about a material.
@@ -54,14 +56,34 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 
 		Bundle args = getArguments();
 		mMaterial = Material.fromBundle(args);
+		mRepository = DocumentsRepository.getInstance(getContext());
+		DocumentRow existingRow = mRepository.getCurrentDocument().getRowByMaterial(mMaterial);
+		if (null != existingRow) {
+			mMaterial = existingRow.getMaterial();
+		}
 
 		TextView fbenHeading = (TextView) view.findViewById(R.id.material_fben_heading);
 		TextView fbenView = (TextView) view.findViewById(R.id.material_fben);
 		TextView fbetView = (TextView) view.findViewById(R.id.material_fbet);
-		if (!TextUtils.isEmpty(mMaterial.getFben()) || !TextUtils.isEmpty(mMaterial.getFbet())) {
-			fbenView.setText(mMaterial.getFben());
-			if (!TextUtils.isEmpty(mMaterial.getFbet())) {
-				fbetView.setText(mMaterial.getFbet());
+		List<String> fbetList = new ArrayList<>();
+		List<String> fbenList = new ArrayList<>();
+		for (Material.FM entry : mMaterial.getFM()) {
+			if (!TextUtils.isEmpty(entry.getFbet())) {
+				fbetList.add(entry.getFbet());
+			}
+			if (!TextUtils.isEmpty(entry.getFben())) {
+				fbenList.add(entry.getFben());
+			}
+		}
+		boolean hasData = !fbetList.isEmpty() || !fbenList.isEmpty();
+		if (hasData) {
+			if (!fbenList.isEmpty()) {
+				fbenView.setText(TextUtils.join(AndroidUtils.LINE_SEPARATOR, fbenList));
+			} else {
+				fbenView.setVisibility(View.GONE);
+			}
+			if (!fbetList.isEmpty()) {
+				fbetView.setText(TextUtils.join(AndroidUtils.LINE_SEPARATOR, fbetList));
 			} else {
 				fbetView.setVisibility(View.GONE);
 			}
@@ -129,7 +151,6 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 			labelsLayout.setVisibility(View.GONE);
 		}
 
-		mRepository = DocumentsRepository.getInstance(getContext());
 		mLoadButton = (Button) view.findViewById(R.id.material_button_load);
 		mLoadButton.setOnClickListener(new LoadButtonClickListener());
 		mRemoveButton = (Button) view.findViewById(R.id.material_button_remove);

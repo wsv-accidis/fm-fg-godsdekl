@@ -73,7 +73,8 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 		Material material = mFilteredList.get(position);
 
 		TextView fbenText = (TextView) view.findViewById(R.id.material_fben);
-		fbenText.setText(material.getFben());
+		String displayFben = TextUtils.isEmpty(material.getFben()) ? material.getNamn() : material.getFben();
+		fbenText.setText(displayFben);
 
 		boolean isFavorite = mRepository.isFavoriteMaterial(material);
 		boolean isLoaded = mLoadedMaterials.contains(material);
@@ -121,7 +122,11 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 				return 1;
 			}
 
-			return lhs.getFben().compareTo(rhs.getFben());
+			return getSortKey(lhs).compareTo(getSortKey(rhs));
+		}
+
+		private String getSortKey(Material material) {
+			return TextUtils.isEmpty(material.getFben()) ? material.getNamn() : material.getFben();
 		}
 	}
 

@@ -23,12 +23,14 @@ public final class Material {
 	public static final int TPKAT_MAX = 3;
 	public static final int TPKAT_MIN = 1;
 	public static final int TPKAT_NONE = 0;
+	private static final int NO_FM_SELECTED = -1;
 
 	private static final String UUID_PREFIX = "Uuid_";
 	private static long sUuidCounter = 0;
 
-	private final String mFben; // Förrådsbenämning
-	private final String mFbet; // Förrådsbeteckning
+	private final List<FM> mFM; // Förrådsbeteckningar, Förrådsbenämningar, NEMmg
+	private final String mPrimaryFben;
+	private final String mPrimaryFbet;
 	private final String mFrpGrp; // Förpackningsgrupp
 	private final String mFullText;
 	private final boolean mIsCustom;
@@ -40,23 +42,34 @@ public final class Material {
 	private final boolean mHasPresetNEM;
 	private final String mNamn; // Namn
 	private final String mSearchText;
+	private final int mSelectedFmIndex; // Selected FM entry, -1 if none
 	private final int mTpKat; // Transportkategori
 	private final String mTunnelkod; // Tunnelkod
 	private final String mUNnr; // UN-nummer
 	private final String mUuid;
 
 	public static Material createCustom(String namn, List<String> klassKod, String uuid) {
-		return new Material("", "", "", namn, klassKod, 0, false, TPKAT_NONE, "", "", false, false, true, uuid);
+		return new Material(Collections.<FM>emptyList(), "", namn, klassKod, NO_FM_SELECTED, false, TPKAT_NONE, "", "", false, false, true, uuid);
 	}
 
-	private Material(String fbet, String fben, String unNr, String namn, List<String> klassKod, int NEMmg, boolean hasPresetNEM, int tpKat, String frpGrp, String tunnelKod, boolean miljo, boolean miljoDefined, boolean isCustom, String uuid) {
-		mFbet = fbet;
-		mFben = fben;
+	private Material(List<FM> fm, String unNr, String namn, List<String> klassKod, int selectedFmIndex, boolean hasPresetNEM, int tpKat, String frpGrp, String tunnelKod, boolean miljo, boolean miljoDefined, boolean isCustom, String uuid) {
+		List<FM> fmList = (null != fm) ? fm : Collections.<FM>emptyList();
+		mFM = Collections.unmodifiableList(new ArrayList<>(fmList));
+		int fmIndex = sanitizeSelectedFmIndex(selectedFmIndex, mFM);
+		int selectedNEMmg = getNEMmgFromSelection(mFM, fmIndex);
+		if (NO_FM_SELECTED == fmIndex && !mFM.isEmpty()) {
+			fmIndex = 0;
+			selectedNEMmg = getNEMmgFromSelection(mFM, fmIndex);
+		}
+		mSelectedFmIndex = fmIndex;
+		FM primary = getPrimaryFbetFben(mFM);
+		mPrimaryFbet = (null != primary ? primary.getFbet() : null);
+		mPrimaryFben = (null != primary ? primary.getFben() : null);
 		mUNnr = unNr;
 		mNamn = namn;
 		mKlassKod = Collections.unmodifiableList(klassKod);
-		mNEMmg = NEMmg;
-		mHasPresetNEM = hasPresetNEM;
+		mNEMmg = selectedNEMmg;
+		mHasPresetNEM = !mFM.isEmpty();
 		mTpKat = tpKat;
 		mFrpGrp = frpGrp;
 		mTunnelkod = tunnelKod;
@@ -73,12 +86,11 @@ public final class Material {
 	}
 
 	public static Material fromBundle(Bundle bundle) {
-		final String fbet = bundle.getString(Keys.FBET);
-		final String fben = bundle.getString(Keys.FBEN);
+		final List<FM> fm = getFbetFbenFromBundle(bundle);
 		final String unNr = bundle.getString(Keys.UNNR);
 		final String namn = bundle.getString(Keys.NAMN);
-		final int NEMmg = bundle.getInt(Keys.NEMMG);
-		final boolean hasPresetNEM = bundle.getBoolean(Keys.HAS_NEM, bundle.containsKey(Keys.NEMMG));
+		final int selectedFmIndex = bundle.getInt(Keys.FM_SELECTED_INDEX, NO_FM_SELECTED);
+		final boolean hasPresetNEM = !fm.isEmpty();
 		final int tpKat = bundle.getInt(Keys.TPKAT);
 		final String frpGrp = bundle.getString(Keys.FRPGRP);
 		final String tunnelkod = bundle.getString(Keys.TUNNELKOD);
@@ -90,17 +102,16 @@ public final class Material {
 		final String[] klassKodArray = bundle.getStringArray(Keys.KLASSKOD);
 		final List<String> klassKod = (null != klassKodArray ? Arrays.asList(klassKodArray) : new ArrayList<String>(0));
 
-		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, hasPresetNEM, tpKat, frpGrp, tunnelkod, miljo, miljoDefined, isCustom, uuid);
+		return new Material(fm, unNr, namn, klassKod, selectedFmIndex, hasPresetNEM, tpKat, frpGrp, tunnelkod, miljo, miljoDefined, isCustom, uuid);
 	}
 
 	public static Material fromJSON(JSONObject json) throws JSONException {
-		final String fbet = JSONUtils.getStringOrNull(json, Keys.FBET);
-		final String fben = JSONUtils.getStringOrNull(json, Keys.FBEN);
+		final List<FM> fm = getFbetFbenFromJson(json);
 		final String unNr = JSONUtils.getStringOrNull(json, Keys.UNNR);
 		final String namn = json.getString(Keys.NAMN);
-		final boolean hasPresetNEM = json.has(Keys.HAS_NEM) ? json.optBoolean(Keys.HAS_NEM) : (json.has(Keys.NEMMG) && !json.isNull(Keys.NEMMG));
-		final int NEMmg = json.optInt(Keys.NEMMG);
-		final int tpKat = json.getInt(Keys.TPKAT);
+		final int selectedFmIndex = json.optInt(Keys.FM_SELECTED_INDEX, NO_FM_SELECTED);
+		final boolean hasPresetNEM = !fm.isEmpty();
+		final int tpKat = json.isNull(Keys.TPKAT) ? TPKAT_NONE : json.optInt(Keys.TPKAT, TPKAT_NONE);
 		final String frpGrp = JSONUtils.getStringOrNull(json, Keys.FRPGRP);
 		final String tunnelkod = JSONUtils.getStringOrNull(json, Keys.TUNNELKOD);
 		final boolean miljoDefined = !json.isNull(Keys.MILJO);
@@ -115,7 +126,47 @@ public final class Material {
 			}
 		}
 
-		return new Material(fbet, fben, unNr, namn, klassKod, NEMmg, hasPresetNEM, tpKat, frpGrp, tunnelkod, miljo, miljoDefined, isCustom, null);
+		return new Material(fm, unNr, namn, klassKod, selectedFmIndex, hasPresetNEM, tpKat, frpGrp, tunnelkod, miljo, miljoDefined, isCustom, null);
+	}
+
+	private static List<FM> getFbetFbenFromBundle(Bundle bundle) {
+		ArrayList<String> fbetList = bundle.getStringArrayList(Keys.FBET_LIST);
+		ArrayList<String> fbenList = bundle.getStringArrayList(Keys.FBEN_LIST);
+		ArrayList<Integer> nemList = bundle.getIntegerArrayList(Keys.FM_NEM_LIST);
+
+		List<FM> fm = new ArrayList<>();
+		int count = Math.max((null != fbetList ? fbetList.size() : 0), (null != fbenList ? fbenList.size() : 0));
+		count = Math.max(count, (null != nemList ? nemList.size() : 0));
+		for (int i = 0; i < count; i++) {
+			String fbet = (null != fbetList && i < fbetList.size()) ? fbetList.get(i) : null;
+			String fben = (null != fbenList && i < fbenList.size()) ? fbenList.get(i) : null;
+			Integer nemMg = (null != nemList && i < nemList.size()) ? nemList.get(i) : null;
+			if (!TextUtils.isEmpty(fbet) || !TextUtils.isEmpty(fben) || null != nemMg) {
+				fm.add(new FM(fbet, fben, nemMg));
+			}
+		}
+
+		return fm;
+	}
+
+	private static List<FM> getFbetFbenFromJson(JSONObject json) throws JSONException {
+		JSONArray fmJson = json.optJSONArray(Keys.FM);
+		List<FM> fm = new ArrayList<>((null == fmJson) ? 0 : fmJson.length());
+		if (null != fmJson) {
+			for (int i = 0; i < fmJson.length(); i++) {
+				JSONObject entry = fmJson.optJSONObject(i);
+				if (null != entry) {
+					String fbet = JSONUtils.getStringOrNull(entry, Keys.FBET);
+					String fben = JSONUtils.getStringOrNull(entry, Keys.FBEN);
+					Integer nemMg = (entry.has(Keys.NEMMG) && !entry.isNull(Keys.NEMMG)) ? entry.optInt(Keys.NEMMG) : null;
+					if (!TextUtils.isEmpty(fbet) || !TextUtils.isEmpty(fben) || null != nemMg) {
+						fm.add(new FM(fbet, fben, nemMg));
+					}
+				}
+			}
+		}
+
+		return fm;
 	}
 
 	@Override
@@ -129,11 +180,35 @@ public final class Material {
 	}
 
 	public String getFben() {
-		return mFben;
+		FM display = getDisplayFm();
+		if (null != display && !TextUtils.isEmpty(display.getFben())) {
+			return display.getFben();
+		}
+		return mPrimaryFben;
 	}
 
 	public String getFbet() {
-		return mFbet;
+		FM display = getDisplayFm();
+		if (null != display && !TextUtils.isEmpty(display.getFbet())) {
+			return display.getFbet();
+		}
+		return mPrimaryFbet;
+	}
+
+	public List<FM> getFM() {
+		return mFM;
+	}
+
+	public int getSelectedFmIndex() {
+		return mSelectedFmIndex;
+	}
+
+	public FM getSelectedFm() {
+		return isValidFmIndex(mSelectedFmIndex) ? mFM.get(mSelectedFmIndex) : null;
+	}
+
+	public boolean requiresFmSelection() {
+		return mFM.size() > 1;
 	}
 
 	public String getFrpGrp() {
@@ -141,7 +216,7 @@ public final class Material {
 	}
 
 	public String getFullText() {
-		return mFullText;
+		return createFullText();
 	}
 
 	public List<String> getKlassKod() {
@@ -177,6 +252,14 @@ public final class Material {
 		return mNamn;
 	}
 
+	public Material withSelectedFmIndex(int selectedFmIndex) {
+		int sanitizedIndex = sanitizeSelectedFmIndex(selectedFmIndex, mFM);
+		if (sanitizedIndex == mSelectedFmIndex) {
+			return this;
+		}
+		return new Material(mFM, mUNnr, mNamn, mKlassKod, sanitizedIndex, mHasPresetNEM, mTpKat, mFrpGrp, mTunnelkod, mMiljo, mMiljoDefined, mIsCustom, (mIsCustom ? mUuid : null));
+	}
+
 	public int getTpKat() {
 		return mTpKat;
 	}
@@ -207,18 +290,34 @@ public final class Material {
 	}
 
 	public boolean matches(CharSequence search) {
-		return mSearchText.contains(search);
+		if (TextUtils.isEmpty(search)) {
+			return true;
+		}
+		String normalizedSearch = search.toString().toLowerCase().trim();
+		return TextUtils.isEmpty(normalizedSearch) || mSearchText.contains(normalizedSearch);
 	}
 
 	public Bundle toBundle() {
 		final Bundle bundle = new Bundle();
-		bundle.putString(Keys.FBET, mFbet);
-		bundle.putString(Keys.FBEN, mFben);
+		ArrayList<String> fbetList = new ArrayList<>(mFM.size());
+		ArrayList<String> fbenList = new ArrayList<>(mFM.size());
+		ArrayList<Integer> nemList = new ArrayList<>(mFM.size());
+		for (FM entry : mFM) {
+			fbetList.add(entry.getFbet());
+			fbenList.add(entry.getFben());
+			nemList.add(entry.getNEMmg());
+		}
+		bundle.putStringArrayList(Keys.FBET_LIST, fbetList);
+		bundle.putStringArrayList(Keys.FBEN_LIST, fbenList);
+		bundle.putIntegerArrayList(Keys.FM_NEM_LIST, nemList);
+		bundle.putString(Keys.FBET, mPrimaryFbet);
+		bundle.putString(Keys.FBEN, mPrimaryFben);
 		bundle.putString(Keys.UNNR, mUNnr);
 		bundle.putString(Keys.NAMN, mNamn);
 		bundle.putStringArray(Keys.KLASSKOD, mKlassKod.toArray(new String[mKlassKod.size()]));
 		bundle.putInt(Keys.NEMMG, mNEMmg);
 		bundle.putBoolean(Keys.HAS_NEM, mHasPresetNEM);
+		bundle.putInt(Keys.FM_SELECTED_INDEX, mSelectedFmIndex);
 		bundle.putInt(Keys.TPKAT, mTpKat);
 		bundle.putString(Keys.FRPGRP, mFrpGrp);
 		bundle.putString(Keys.TUNNELKOD, mTunnelkod);
@@ -233,13 +332,22 @@ public final class Material {
 
 	public JSONObject toJson() throws JSONException {
 		final JSONObject json = new JSONObject();
-		json.put(Keys.FBET, mFbet);
-		json.put(Keys.FBEN, mFben);
+		JSONArray fbetFbenJson = new JSONArray();
+		for (FM entry : mFM) {
+			JSONObject fbetFbenEntry = new JSONObject();
+			fbetFbenEntry.put(Keys.FBET, entry.getFbet());
+			fbetFbenEntry.put(Keys.FBEN, entry.getFben());
+			fbetFbenEntry.put(Keys.NEMMG, entry.getNEMmg());
+			fbetFbenJson.put(fbetFbenEntry);
+		}
+		json.put(Keys.FM, fbetFbenJson);
 		json.put(Keys.UNNR, mUNnr);
 		json.put(Keys.NAMN, mNamn);
 		json.put(Keys.KLASSKOD, new JSONArray(mKlassKod));
-		json.put(Keys.NEMMG, mNEMmg);
 		json.put(Keys.HAS_NEM, mHasPresetNEM);
+		if (NO_FM_SELECTED != mSelectedFmIndex) {
+			json.put(Keys.FM_SELECTED_INDEX, mSelectedFmIndex);
+		}
 		json.put(Keys.TPKAT, mTpKat);
 		json.put(Keys.FRPGRP, mFrpGrp);
 		json.put(Keys.TUNNELKOD, mTunnelkod);
@@ -255,11 +363,52 @@ public final class Material {
 
 	@Override
 	public String toString() {
-		return (TextUtils.isEmpty(mFben) ? mNamn : mFben);
+		String fben = getFben();
+		return (TextUtils.isEmpty(fben) ? mNamn : fben);
 	}
 
 	public String toUniqueKey() {
-		return mNamn + '|' + mFben + '|' + mFbet;
+		return mNamn + '|' + mPrimaryFben + '|' + mPrimaryFbet;
+	}
+
+	private static int getNEMmgFromSelection(List<FM> list, int selectedIndex) {
+		if (selectedIndex >= 0 && selectedIndex < list.size()) {
+			return list.get(selectedIndex).getNEMmgAsInt();
+		}
+		return 0;
+	}
+
+	private static FM getPrimaryFbetFben(List<FM> list) {
+		FM primary = null;
+		for (FM entry : list) {
+			if (!TextUtils.isEmpty(entry.getFbet()) || !TextUtils.isEmpty(entry.getFben())) {
+				primary = entry;
+				break;
+			}
+		}
+		if (null == primary && !list.isEmpty()) {
+			primary = list.get(0);
+		}
+		return primary;
+	}
+
+	private static int sanitizeSelectedFmIndex(int selectedFmIndex, List<FM> list) {
+		return (selectedFmIndex >= 0 && selectedFmIndex < list.size()) ? selectedFmIndex : NO_FM_SELECTED;
+	}
+
+	private boolean isValidFmIndex(int index) {
+		return (index >= 0 && index < mFM.size());
+	}
+
+	private FM getDisplayFm() {
+		if (isValidFmIndex(mSelectedFmIndex)) {
+			return mFM.get(mSelectedFmIndex);
+		}
+		FM primary = getPrimaryFbetFben(mFM);
+		if (null != primary) {
+			return primary;
+		}
+		return (!mFM.isEmpty() ? mFM.get(0) : null);
 	}
 
 	private String createFullText() {
@@ -272,6 +421,20 @@ public final class Material {
 		}
 
 		builder.append(mNamn);
+
+		FM display = getDisplayFm();
+		if (null != display) {
+			String displayFbet = display.getFbet();
+			String displayFben = display.getFben();
+			if (!TextUtils.isEmpty(displayFbet)) {
+				builder.append(", ");
+				builder.append(displayFbet);
+			}
+			if (!TextUtils.isEmpty(displayFben)) {
+				builder.append(", ");
+				builder.append(displayFben);
+			}
+		}
 
 		if (!TextUtils.isEmpty(mLabelsText)) {
 			builder.append(", ");
@@ -313,17 +476,30 @@ public final class Material {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(mNamn.toLowerCase());
 
-		if (!TextUtils.isEmpty(mFbet)) {
-			builder.append(' ');
-			builder.append(mFbet.toLowerCase());
+		for (FM entry : mFM) {
+			if (!TextUtils.isEmpty(entry.getFbet())) {
+				builder.append(' ');
+				builder.append(entry.getFbet().toLowerCase());
+			}
+			if (!TextUtils.isEmpty(entry.getFben())) {
+				builder.append(' ');
+				builder.append(entry.getFben().toLowerCase());
+			}
 		}
 
-		if (!TextUtils.isEmpty(mFben)) {
-			builder.append(' ');
-			builder.append(mFben.toLowerCase());
+		FM display = getDisplayFm();
+		if (null != display) {
+			if (!TextUtils.isEmpty(display.getFbet())) {
+				builder.append(' ');
+				builder.append(display.getFbet().toLowerCase());
+			}
+			if (!TextUtils.isEmpty(display.getFben())) {
+				builder.append(' ');
+				builder.append(display.getFben().toLowerCase());
+			}
 		}
 
-		if(!TextUtils.isEmpty(mUNnr)) {
+		if (!TextUtils.isEmpty(mUNnr)) {
 			builder.append(' ');
 			builder.append(mUNnr);
 		}
@@ -343,24 +519,57 @@ public final class Material {
 		if (mIsCustom) {
 			return UUID_PREFIX + (++sUuidCounter);
 		} else {
-			return mNamn + "/" + mFbet + "/" + mFben;
+			return mNamn + "/" + mPrimaryFbet + "/" + mPrimaryFben;
+		}
+	}
+
+	public static final class FM {
+		private final String mFbet;
+		private final String mFben;
+		private final Integer mNEMmg;
+
+		public FM(String fbet, String fben, Integer NEMmg) {
+			mFbet = fbet;
+			mFben = fben;
+			mNEMmg = NEMmg;
+		}
+
+		public String getFbet() {
+			return mFbet;
+		}
+
+		public String getFben() {
+			return mFben;
+		}
+
+		public Integer getNEMmg() {
+			return mNEMmg;
+		}
+
+		public int getNEMmgAsInt() {
+			return (null != mNEMmg ? mNEMmg : 0);
 		}
 	}
 
 	public static class Keys {
 		public static final String FBEN = "Fben";
 		public static final String FBET = "Fbet";
+		public static final String FM = "FM";
+		public static final String FM_NEM_LIST = "FmNemList";
+		public static final String FM_SELECTED_INDEX = "FmSelectedIndex";
+		public static final String FBEN_LIST = "FbenList";
+		public static final String FBET_LIST = "FbetList";
 		public static final String FRPGRP = "FrpGrp";
-		public static final String KLASSKOD = "KlassKod";
+		public static final String KLASSKOD = "Etiketter";
 		public static final String IS_CUSTOM = "IsCustom";
 		public static final String MILJO = "Miljo";
 		public static final String MILJO_DEFINED = "MiljoDefined";
-		public static final String NAMN = "Namn";
+		public static final String NAMN = "Tpben";
 		public static final String NEMMG = "NEMmg";
 		public static final String HAS_NEM = "HasNEM";
 		public static final String TPKAT = "TpKat";
 		public static final String TUNNELKOD = "TunnelKod";
-		public static final String UNNR = "UNnr";
+		public static final String UNNR = "UN";
 		public static final String UUID = "Uuid";
 
 		private Keys() {

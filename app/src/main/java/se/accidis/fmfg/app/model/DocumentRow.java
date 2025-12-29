@@ -63,6 +63,7 @@ public final class DocumentRow {
 	}
 
 	public void copyTo(DocumentRow other) {
+		other.setMaterial(mMaterial);
 		other.mAmount = mAmount;
 		other.mCustomNEMmg = mCustomNEMmg;
 		other.mMiljoOverride = mMiljoOverride;
@@ -70,9 +71,6 @@ public final class DocumentRow {
 		other.mNumberOfPkgs = mNumberOfPkgs;
 		other.mTypeOfPkgs = mTypeOfPkgs;
 		other.mWeightVolume = mWeightVolume;
-		if (mMaterial.isCustom()) {
-			other.setMaterial(mMaterial);
-		}
 	}
 
 	public BigDecimal getAmount() {
@@ -100,7 +98,7 @@ public final class DocumentRow {
 	public void setMaterial(Material material) {
 		mMaterial = material;
 		mMultiplier = new BigDecimal(ValueHelper.getMultiplierByTpKat(mMaterial.getTpKat()));
-		if (mMaterial.hasNEM()) {
+		if (mMaterial.hasPresetNEMValue() || mMaterial.hasNEM()) {
 			mCustomNEMmg = null;
 		}
 	}

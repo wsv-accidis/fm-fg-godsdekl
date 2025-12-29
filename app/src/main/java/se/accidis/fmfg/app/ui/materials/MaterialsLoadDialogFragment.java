@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.LayoutInflater;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -21,6 +23,7 @@ import androidx.fragment.app.DialogFragment;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
@@ -39,11 +42,13 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 	private EditText mCustomNEMField;
 	private BigDecimal mCustomNEMkg;
 	private BigDecimal mDocumentTotalValue;
+	private Spinner mFmSpinner;
 	private CheckBox mMiljoCheckbox;
 	private MaterialsLoadDialogListener mListener;
 	private Material mMaterial;
 	private BigDecimal mMultiplier;
 	private TextView mNEMView;
+	private int mSelectedFmIndex = -1;
 	private EditText mNumberPkgsField;
 	private DocumentsRepository mRepository;
 	private TextView mTotalValueView;
@@ -57,10 +62,8 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		final Bundle args = getArguments();
 		mMaterial = Material.fromBundle(args);
+		mSelectedFmIndex = mMaterial.getSelectedFmIndex();
 		AndroidUtils.assertIsTrue(!mMaterial.isCustom(), "Materials load dialog loaded with custom material.");
-
-		int multiplier = ValueHelper.getMultiplierByTpKat(mMaterial.getTpKat());
-		mMultiplier = new BigDecimal(multiplier);
 
 		mRepository = DocumentsRepository.getInstance(getContext());
 		Document document = mRepository.getCurrentDocument();
@@ -70,12 +73,17 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 		boolean hasExistingRow = false;
 		if (null != row) {
 			hasExistingRow = true;
+			mMaterial = row.getMaterial();
+			mSelectedFmIndex = mMaterial.getSelectedFmIndex();
 			mDocumentTotalValue = mDocumentTotalValue.subtract(row.getCalculatedValue());
 		}
 
+		int multiplier = ValueHelper.getMultiplierByTpKat(mMaterial.getTpKat());
+		mMultiplier = new BigDecimal(multiplier);
+
 		@SuppressLint("InflateParams")
 		View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_material_load, null);
-
+		initializeFmSpinner(view);
 		TextView multiplierView = (TextView) view.findViewById(R.id.material_load_multiplier);
 		multiplierView.setText(String.valueOf(multiplier));
 
@@ -163,6 +171,67 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 		mListener = listener;
 	}
 
+	private void initializeFmSpinner(View view) {
+		mFmSpinner = (Spinner) view.findViewById(R.id.material_load_fm_spinner);
+		View fmHeading = view.findViewById(R.id.material_load_fm_heading);
+		List<Material.FM> fmEntries = mMaterial.getFM();
+
+		if (fmEntries.size() > 1) {
+			ArrayAdapter<Material.FM> adapter = new ArrayAdapter<Material.FM>(getContext(), R.layout.spinner_two_line_item, fmEntries) {
+				@NonNull
+				@Override
+				public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+					return createView(position, convertView, parent, R.layout.spinner_two_line_item);
+				}
+
+				@Override
+				public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+					return createView(position, convertView, parent, R.layout.spinner_two_line_item);
+				}
+
+				private View createView(int position, View convertView, ViewGroup parent, int layoutResource) {
+					View row = convertView;
+					if (null == row) {
+						LayoutInflater inflater = LayoutInflater.from(getContext());
+						row = inflater.inflate(layoutResource, parent, false);
+					}
+					Material.FM entry = getItem(position);
+					if (null != entry) {
+						TextView line1 = (TextView) row.findViewById(R.id.fm_spinner_line1);
+						TextView line2 = (TextView) row.findViewById(R.id.fm_spinner_line2);
+						if (null != line1) {
+							line1.setText(entry.getFbet() + " " + entry.getFben());
+						}
+						if (null != line2) {
+							BigDecimal nemKg = new BigDecimal(entry.getNEMmgAsInt()).divide(MG_PER_KG, 6, BigDecimal.ROUND_FLOOR);
+							line2.setText(getString(R.string.material_nem_kg_format, ValueHelper.formatValue(nemKg)));
+						}
+					}
+					return row;
+				}
+			};
+			mFmSpinner.setAdapter(adapter);
+			int initialSelection = (mSelectedFmIndex >= 0 && mSelectedFmIndex < fmEntries.size()) ? mSelectedFmIndex : 0;
+			mSelectedFmIndex = initialSelection;
+			mMaterial = mMaterial.withSelectedFmIndex(initialSelection);
+			mFmSpinner.setSelection(initialSelection);
+			mFmSpinner.setOnItemSelectedListener(new FmSelectedListener());
+			fmHeading.setVisibility(View.VISIBLE);
+			mFmSpinner.setVisibility(View.VISIBLE);
+		} else {
+			if (1 == fmEntries.size()) {
+				mSelectedFmIndex = 0;
+				mMaterial = mMaterial.withSelectedFmIndex(mSelectedFmIndex);
+			}
+			if (null != fmHeading) {
+				fmHeading.setVisibility(View.GONE);
+			}
+			if (null != mFmSpinner) {
+				mFmSpinner.setVisibility(View.GONE);
+			}
+		}
+	}
+
 	private void initializeMiljoCheckbox(DocumentRow row) {
 		if (null == mMiljoCheckbox) {
 			return;
@@ -212,6 +281,21 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 
 	public interface MaterialsLoadDialogListener {
 		void onDismiss();
+	}
+
+	private final class FmSelectedListener implements AdapterView.OnItemSelectedListener {
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+			if (position != mSelectedFmIndex) {
+				mSelectedFmIndex = position;
+				mMaterial = mMaterial.withSelectedFmIndex(position);
+				calculate();
+			}
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> parent) {
+		}
 	}
 
 	private final class AmountChangedListener implements TextWatcher {

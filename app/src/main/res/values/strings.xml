@@ -102,6 +102,7 @@
     <string name="material_load">Lasta</string>
     <string name="material_namn">Transportbenämning</string>
     <string name="material_nem">Netto expl.mängd</string>
+    <string name="material_nem_kg_format">NEM %1$s kg</string>
     <string name="material_no_data">-</string>
     <string name="material_remove">Ta bort</string>
     <string name="material_tunnelkod">Tunnelrestriktionskod</string>
@@ -119,6 +120,7 @@
 	<string name="material_load_weight_volume">Vikt/volym:</string>
 	<string name="material_load_nem_custom">NEM per styck:</string>
 	<string name="material_load_miljo">Miljöfarligt</string>
+	<string name="material_load_fm">FM:</string>
 
     <string name="materials_list_empty">Inget funnet.</string>
     <string name="materials_nav_title">Materiel</string>
