@@ -97,6 +97,7 @@ public final class LabelsRepository {
 		sMiljoLabel = new Label("MILJÖFARLIGT", R.drawable.label_miljo, R.drawable.label_miljo_sm);
 		sLabels = new LinkedHashMap<>();
 
+		putLabel("1", R.drawable.label_1, R.drawable.label_1_sm);
 		putLabel("1.1", R.drawable.label_1, R.drawable.label_1_sm);
 		putLabel("1.2", R.drawable.label_1, R.drawable.label_1_sm);
 		putLabel("1.3", R.drawable.label_1, R.drawable.label_1_sm);
