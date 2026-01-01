@@ -466,7 +466,7 @@ public final class Material {
 		return builder.toString();
 	}
 
-	private List<String> getDisplayEtiketter() {
+public List<String> getDisplayEtiketter() {
 		/**
 		 * Om materialet är klass 1 och det finns en klasskod,
 		 * så ska klasskoden ersätta första etiketten i etikettlistan.
@@ -474,7 +474,7 @@ public final class Material {
 		if ("1".equals(mKlass) && !TextUtils.isEmpty(mKlassKod) && !mEtiketter.isEmpty()) {
 			List<String> display = new ArrayList<>(mEtiketter);
 			display.set(0, mKlassKod);
-			return display;
+			return Collections.unmodifiableList(display);
 		}
 		return mEtiketter;
 	}
