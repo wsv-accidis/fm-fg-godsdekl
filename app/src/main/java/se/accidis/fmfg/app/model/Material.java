@@ -394,7 +394,7 @@ public final class Material {
 	}
 
 	public String toUniqueKey() {
-		return mTpben + '|' + mPrimaryFben + '|' + mPrimaryFbet;
+		return mTpben + '|' + mFrpGrp + '|' + mTunnelkod + '|' + mKlassKod + '|' + String.valueOf(mTpKat);
 	}
 
 	private static int getNEMmgFromSelection(List<FM> list, int selectedIndex) {
