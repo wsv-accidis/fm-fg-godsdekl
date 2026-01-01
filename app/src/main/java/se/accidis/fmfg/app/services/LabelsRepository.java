@@ -102,6 +102,8 @@ public final class LabelsRepository {
 		sLabels = new LinkedHashMap<>();
 
 		// Klass 1
+		putLabel("1", R.drawable.label_1_explosive, R.drawable.label_1_explosive_sm);
+
 		putLabel("1.1A", R.drawable.label_1_1a_explosive, R.drawable.label_1_1a_explosive_sm);
 		putLabel("1.1B", R.drawable.label_1_1b_explosive, R.drawable.label_1_1b_explosive_sm);
 		putLabel("1.1C", R.drawable.label_1_1c_explosive, R.drawable.label_1_1c_explosive_sm);
