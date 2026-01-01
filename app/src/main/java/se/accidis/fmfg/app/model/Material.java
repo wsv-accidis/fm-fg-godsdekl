@@ -591,7 +591,10 @@ public List<String> getDisplayEtiketter() {
 		if (mIsCustom) {
 			return UUID_PREFIX + (++sUuidCounter);
 		} else {
-			return mTpben + "/" + mPrimaryFbet + "/" + mPrimaryFben;
+			String safeFrpGrp = TextUtils.isEmpty(mFrpGrp) ? "" : mFrpGrp;
+			String safeKlassKod = TextUtils.isEmpty(mKlassKod) ? "" : mKlassKod;
+			String safeTunnelkod = TextUtils.isEmpty(mTunnelkod) ? "" : mTunnelkod;
+			return mTpben + "/" + safeFrpGrp + "/" + safeKlassKod + "/" + safeTunnelkod + "/TpKat" + mTpKat;
 		}
 	}
 
