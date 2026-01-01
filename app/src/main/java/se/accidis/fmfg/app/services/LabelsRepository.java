@@ -143,38 +143,38 @@ public final class LabelsRepository {
 		putLabel("1.6N", R.drawable.label_1_6n_explosive, R.drawable.label_1_6n_explosive_sm);
 
 		// Klass 2
-		putLabel("2.1", R.drawable.label_2_flammable_gas, R.drawable.label_2_flammable_gas_sm);
-		putLabel("2.2", R.drawable.label_2_non_flammable_gas, R.drawable.label_2_non_flammable_gas_sm);
-		putLabel("2.3", R.drawable.label_2_poison_gas, R.drawable.label_2_poison_gas_sm);
+		putLabel("2.1", R.drawable.label_2_1_flammable_gas, R.drawable.label_2_1_flammable_gas_sm);
+		putLabel("2.2", R.drawable.label_2_2_non_flammable_gas, R.drawable.label_2_2_non_flammable_gas_sm);
+		putLabel("2.3", R.drawable.label_2_3_poison_gas, R.drawable.label_2_3_poison_gas_sm);
 
 		// Klass 3
 		putLabel("3", R.drawable.label_3_flammable_liquid, R.drawable.label_3_flammable_liquid_sm);
 
 		// Klass 4
-		putLabel("4.1", R.drawable.label_4_flammable_solid, R.drawable.label_4_flammable_solid_sm);
-		putLabel("4.2", R.drawable.label_4_spontaneously_combustible, R.drawable.label_4_spontaneously_combustible_sm);
-		putLabel("4.3", R.drawable.label_4_dangerous_when_wet, R.drawable.label_4_dangerous_when_wet_sm);
+		putLabel("4.1", R.drawable.label_4_1_flammable_solid, R.drawable.label_4_1_flammable_solid_sm);
+		putLabel("4.2", R.drawable.label_4_2_spontaneously_combustible, R.drawable.label_4_2_spontaneously_combustible_sm);
+		putLabel("4.3", R.drawable.label_4_3_dangerous_when_wet, R.drawable.label_4_3_dangerous_when_wet_sm);
 
 		// Klass 5
 		putLabel("5.1", R.drawable.label_5_1_oxidizer, R.drawable.label_5_1_oxidizer_sm);
 		putLabel("5.2", R.drawable.label_5_2_organic_peroxide, R.drawable.label_5_2_organic_peroxide_sm);
 
 		// Klass 6
-		putLabel("6.1", R.drawable.label_6_poison, R.drawable.label_6_poison_sm);
-		putLabel("6.2", R.drawable.label_6_infectious_substance, R.drawable.label_6_infectious_substance_sm);
+		putLabel("6.1", R.drawable.label_6_1_poison, R.drawable.label_6_1_poison_sm);
+		putLabel("6.2", R.drawable.label_6_2_infectious_substance, R.drawable.label_6_2_infectious_substance_sm);
 
 		// Klass 7
-		putLabel("7X", R.drawable.label_7_radioactive, R.drawable.label_7_radioactive_sm); // Egentligen fordonsskylt, men JSON specificerar ej underklass
-		//putLabel("7I", R.drawable.label_7_radioactive_i, R.drawable.label_7_radioactive_i_sm); // Finns ej i JSON
-		//putLabel("7II", R.drawable.label_7_radioactive_ii, R.drawable.label_7_radioactive_ii_sm); // Finns ej i JSON
-		//putLabel("7III", R.drawable.label_7_radioactive_iii, R.drawable.label_7_radioactive_iii_sm); // Finns ej i JSON
-		putLabel("7E", R.drawable.label_7_fissile, R.drawable.label_7_fissile_sm);
+		//putLabel("7I", R.drawable.label_7_a_radioactive, R.drawable.label_7_a_radioactive_sm); // Finns ej i JSON
+		//putLabel("7II", R.drawable.label_7_b_radioactive, R.drawable.label_7_b_radioactive_sm); // Finns ej i JSON
+		//putLabel("7III", R.drawable.label_7_c_radioactive, R.drawable.label_7_c_radioactive_sm); // Finns ej i JSON
+		putLabel("7X", R.drawable.label_7_d_radioactive, R.drawable.label_7_d_radioactive_sm); // Egentligen fordonsskylt, men JSON specificerar ej underklass
+		putLabel("7E", R.drawable.label_7_e_radioactive, R.drawable.label_7_e_radioactive_sm);
 
 		// Klass 8
 		putLabel("8", R.drawable.label_8_corrosive, R.drawable.label_8_corrosive_sm);
 
 		// Klass 9
 		putLabel("9", R.drawable.label_9_other_dangerous_goods, R.drawable.label_9_other_dangerous_goods_sm);
-		putLabel("9A", R.drawable.label_9_other_dangerous_goods, R.drawable.label_9_other_dangerous_goods_sm);
+		putLabel("9A", R.drawable.label_9_a_other_dangerous_goods, R.drawable.label_9_a_other_dangerous_goods_sm);
 	}
 }
