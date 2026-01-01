@@ -66,13 +66,11 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 			mMaterial = existingRow.getMaterial();
 		}
 
-		TextView fbenHeading = (TextView) view.findViewById(R.id.material_fben_heading);
-		LinearLayout fmListLayout = (LinearLayout) view.findViewById(R.id.material_fm_list);
-		populateFmList(fbenHeading, fmListLayout);
-
+		// Transportbenämning
 		TextView namnView = (TextView) view.findViewById(R.id.material_namn);
 		namnView.setText(mMaterial.getNamn());
 
+		// UN-nummer
 		TextView unNrView = (TextView) view.findViewById(R.id.material_unnr);
 		if (!TextUtils.isEmpty(mMaterial.getUNnr())) {
 			unNrView.setText(String.format(getString(R.string.material_un_format), mMaterial.getUNnr()));
@@ -80,6 +78,7 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 			unNrView.setText(R.string.material_no_data);
 		}
 
+		// Etiketter
 		TextView etiketterView = (TextView) view.findViewById(R.id.material_etiketter);
 		if (!TextUtils.isEmpty(mMaterial.getEtiketterAsString())) {
 			etiketterView.setText(mMaterial.getEtiketterAsString());
@@ -87,6 +86,7 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 			etiketterView.setText(R.string.material_no_data);
 		}
 
+		// Förpackningsgrupp
 		TextView frpGrpHeading = (TextView) view.findViewById(R.id.material_frpgrp_heading);
 		TextView frpGrpView = (TextView) view.findViewById(R.id.material_frpgrp);
 		if (!TextUtils.isEmpty(mMaterial.getFrpGrp())) {
@@ -96,6 +96,7 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 			frpGrpView.setVisibility(View.GONE);
 		}
 
+		// Tunnelrestriktionskod
 		TextView tunnelKodHeading = (TextView) view.findViewById(R.id.material_tunnelkod_heading);
 		TextView tunnelKodView = (TextView) view.findViewById(R.id.material_tunnelkod);
 		if (!TextUtils.isEmpty(mMaterial.getTunnelkod())) {
@@ -105,6 +106,7 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 			tunnelKodView.setVisibility(View.GONE);
 		}
 
+		// Transportkategori
 		TextView tpKatView = (TextView) view.findViewById(R.id.material_tpkat);
 		if (0 != mMaterial.getTpKat()) {
 			tpKatView.setText(String.valueOf(mMaterial.getTpKat()));
@@ -112,6 +114,12 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 			tpKatView.setText(R.string.material_no_data);
 		}
 
+		// Militära Benämningar
+		TextView fbenHeading = (TextView) view.findViewById(R.id.material_fm_heading);
+		LinearLayout fmListLayout = (LinearLayout) view.findViewById(R.id.material_fm_list);
+		populateFmList(fbenHeading, fmListLayout);
+
+		// Etiketter (bilder)
 		LinearLayout labelsLayout = (LinearLayout) view.findViewById(R.id.material_layout_labels);
 		if (!mMaterial.getEtiketter().isEmpty()) {
 			populateLabelsView(labelsLayout);

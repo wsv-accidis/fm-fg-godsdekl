@@ -72,7 +72,7 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 
 		Material material = mFilteredList.get(position);
 
-		TextView materialTitle = (TextView) view.findViewById(R.id.material_fben);
+		TextView materialTitle = (TextView) view.findViewById(R.id.material_fm);
 		String materialNamn = material.getNamn();
 		materialTitle.setText(materialNamn);
 
