@@ -33,6 +33,7 @@ public final class Material {
 	private final String mPrimaryFbet;
 	private final String mFrpGrp; // Förpackningsgrupp
 	private final String mFullText;
+	private final String mDescriptionText;
 	private final boolean mIsCustom;
 	private final List<String> mEtiketter; // Etiketter
 	private final String mLabelsText;
@@ -83,6 +84,7 @@ public final class Material {
 
 		mLabelsText = createLabels();
 		mFullText = createFullText();
+		mDescriptionText = createDescriptionText();
 		mSearchText = createSearchText();
 
 		AndroidUtils.assertIsTrue(isCustom || TextUtils.isEmpty(uuid), "Non-custom material may not have custom UUID.");
@@ -225,6 +227,10 @@ public final class Material {
 
 	public String getFullText() {
 		return createFullText();
+	}
+
+	public String getDescriptionText() {
+		return createDescriptionText();
 	}
 
 	public List<String> getEtiketter() {
@@ -461,6 +467,47 @@ public final class Material {
 			builder.append(" (");
 			builder.append(mTunnelkod);
 			builder.append(')');
+		}
+
+		return builder.toString();
+	}
+
+	private String createDescriptionText() {
+		/**
+		 * UN XXXX, Etiketter, FrpGrp (TunnelKod), TpKat X
+		 * E.g. "UN 1203, 3, II (D/E), TpKat 2"
+		 */
+		final StringBuilder builder = new StringBuilder();
+
+		// UN-nummer
+		if (!TextUtils.isEmpty(mUNnr)) {
+			builder.append("UN ");
+			builder.append(mUNnr);
+		}
+
+		// Etiketter
+		if (!TextUtils.isEmpty(mLabelsText)) {
+			builder.append(", ");
+			builder.append(mLabelsText);
+		}
+
+		// Förpackningsgrupp
+		if (!TextUtils.isEmpty(mFrpGrp)) {
+			builder.append(", ");
+			builder.append(mFrpGrp);
+		}
+
+		// Tunnelkod
+		if (!TextUtils.isEmpty(mTunnelkod)) {
+			builder.append(" (");
+			builder.append(mTunnelkod);
+			builder.append(')');
+		}
+
+		// Transportkategori
+		if (mTpKat != 0) {
+			builder.append(", TpKat ");
+			builder.append(mTpKat);
 		}
 
 		return builder.toString();
