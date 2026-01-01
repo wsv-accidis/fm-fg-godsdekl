@@ -67,10 +67,10 @@
                     style="@style/MaterialHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/material_namn"/>
+                    android:text="@string/material_tpben"/>
 
                 <TextView
-                    android:id="@+id/material_namn"
+                    android:id="@+id/material_tpben"
                     style="@style/MaterialLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

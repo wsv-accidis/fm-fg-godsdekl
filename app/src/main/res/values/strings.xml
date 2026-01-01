@@ -100,7 +100,7 @@
     <string name="material_frpgrp">Förpackningsgrupp</string>
     <string name="material_etiketter">Etiketter</string>
     <string name="material_load">Lasta</string>
-    <string name="material_namn">Transportbenämning</string>
+    <string name="material_tpben">Transportbenämning</string>
     <string name="material_nem_kg_format">NEM %1$s kg</string>
     <string name="material_no_data">-</string>
     <string name="material_remove">Ta bort</string>
@@ -123,7 +123,7 @@
 
     <string name="materials_list_empty">Inget funnet.</string>
     <string name="materials_nav_title">Materiel</string>
-    <string name="materials_search_hint">Sök benämning eller M-nr</string>
+    <string name="materials_search_hint">Sök benämning, UN- eller M-nr</string>
 
     <string name="navigation_drawer_open">Öppna navigation</string>
     <string name="navigation_drawer_close">Stäng navigation</string>

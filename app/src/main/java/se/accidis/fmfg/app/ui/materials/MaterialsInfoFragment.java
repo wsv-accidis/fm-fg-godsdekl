@@ -67,8 +67,8 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 		}
 
 		// Transportbenämning
-		TextView namnView = (TextView) view.findViewById(R.id.material_namn);
-		namnView.setText(mMaterial.getNamn());
+		TextView tpbenView = (TextView) view.findViewById(R.id.material_tpben);
+		tpbenView.setText(mMaterial.getTpben());
 
 		// UN-nummer
 		TextView unNrView = (TextView) view.findViewById(R.id.material_unnr);

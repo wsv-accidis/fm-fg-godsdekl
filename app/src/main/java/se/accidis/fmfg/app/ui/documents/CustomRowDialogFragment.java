@@ -64,7 +64,7 @@ public final class CustomRowDialogFragment extends DialogFragment {
 		if (null != args) {
 			final Material material = Material.fromBundle(args);
 			AndroidUtils.assertIsTrue(material.isCustom(), "Custom row dialog loaded with non-custom material.");
-			mText.setText(material.getNamn());
+			mText.setText(material.getTpben());
 			mSelectedLabels.addAll(material.getEtiketter());
 			mOriginalUuid = material.getUuid();
 		} else {
