@@ -64,34 +64,13 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/material_fben_heading"
                     style="@style/MaterialHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:text="@string/material_fben"/>
+                    android:text="@string/material_tpben"/>
 
                 <TextView
-                    android:id="@+id/material_fben"
-                    style="@style/MaterialLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/material_fbet"
-                    style="@style/MaterialLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    style="@style/MaterialHeading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/material_namn"/>
-
-                <TextView
-                    android:id="@+id/material_namn"
+                    android:id="@+id/material_tpben"
                     style="@style/MaterialLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -112,10 +91,10 @@
                     style="@style/MaterialHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/material_klasskod"/>
+                    android:text="@string/material_etiketter"/>
 
                 <TextView
-                    android:id="@+id/material_klasskod"
+                    android:id="@+id/material_etiketter"
                     style="@style/MaterialLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -158,18 +137,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/material_nem_heading"
+				<TextView
+                    android:id="@+id/material_fm_heading"
                     style="@style/MaterialHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/material_nem"/>
+                    android:text="@string/material_fm"/>
 
-                <TextView
-                    android:id="@+id/material_nem"
-                    style="@style/MaterialLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:id="@+id/material_fm_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"/>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

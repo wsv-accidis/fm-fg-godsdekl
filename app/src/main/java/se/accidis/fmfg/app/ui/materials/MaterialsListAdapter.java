@@ -72,24 +72,25 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 
 		Material material = mFilteredList.get(position);
 
-		TextView fbenText = (TextView) view.findViewById(R.id.material_fben);
-		fbenText.setText(material.getFben());
+		TextView materialTitle = (TextView) view.findViewById(R.id.material_fm);
+		String materialTpben = material.getTpben();
+		materialTitle.setText(materialTpben);
 
 		boolean isFavorite = mRepository.isFavoriteMaterial(material);
 		boolean isLoaded = mLoadedMaterials.contains(material);
 
 		if (isFavorite && isLoaded) {
-			fbenText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star_check_circle_small, 0, 0, 0);
+			materialTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star_check_circle_small, 0, 0, 0);
 		} else if (isFavorite) {
-			fbenText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star_circle_small, 0, 0, 0);
+			materialTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star_circle_small, 0, 0, 0);
 		} else if (isLoaded) {
-			fbenText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_circle_small, 0, 0, 0);
+			materialTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_circle_small, 0, 0, 0);
 		} else {
-			fbenText.setCompoundDrawables(null, null, null, null);
+			materialTitle.setCompoundDrawables(null, null, null, null);
 		}
 
-		TextView textText = (TextView) view.findViewById(R.id.material_text);
-		textText.setText(material.getFullText());
+		TextView materialDescription = (TextView) view.findViewById(R.id.material_text);
+		materialDescription.setText(material.getDescriptionText());
 
 		return view;
 	}
@@ -121,7 +122,11 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 				return 1;
 			}
 
-			return lhs.getFben().compareTo(rhs.getFben());
+			return getSortKey(lhs).compareTo(getSortKey(rhs));
+		}
+
+		private String getSortKey(Material material) {
+			return TextUtils.isEmpty(material.getFben()) ? material.getTpben() : material.getFben();
 		}
 	}
 

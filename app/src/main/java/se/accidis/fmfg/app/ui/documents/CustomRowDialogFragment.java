@@ -64,8 +64,8 @@ public final class CustomRowDialogFragment extends DialogFragment {
 		if (null != args) {
 			final Material material = Material.fromBundle(args);
 			AndroidUtils.assertIsTrue(material.isCustom(), "Custom row dialog loaded with non-custom material.");
-			mText.setText(material.getNamn());
-			mSelectedLabels.addAll(material.getKlassKod());
+			mText.setText(material.getTpben());
+			mSelectedLabels.addAll(material.getEtiketter());
 			mOriginalUuid = material.getUuid();
 		} else {
 			mOriginalUuid = null;
@@ -110,9 +110,9 @@ public final class CustomRowDialogFragment extends DialogFragment {
 			final ViewGroup view = (ViewGroup) inflater.inflate(R.layout.layout_item_label, labelLayout, false);
 
 			final CheckBox checkBox = (CheckBox) view.findViewById(R.id.label_checkbox);
-			checkBox.setText(label.getKlassKod());
+			checkBox.setText(label.getEtiketter());
 			checkBox.setTag(label);
-			checkBox.setChecked(mSelectedLabels.contains(label.getKlassKod()));
+			checkBox.setChecked(mSelectedLabels.contains(label.getEtiketter()));
 			checkBox.setOnCheckedChangeListener(mLabelCheckedListener);
 
 			final ImageView iconView = (ImageView) view.findViewById(R.id.label_icon);
@@ -152,10 +152,10 @@ public final class CustomRowDialogFragment extends DialogFragment {
 
 			final Label label = (Label) compoundButton.getTag();
 			if (checked) {
-				mSelectedLabels.add(label.getKlassKod());
+				mSelectedLabels.add(label.getEtiketter());
 				Collections.sort(mSelectedLabels);
 			} else {
-				mSelectedLabels.remove(label.getKlassKod());
+				mSelectedLabels.remove(label.getEtiketter());
 			}
 
 			refreshSelectedLabelsText();
