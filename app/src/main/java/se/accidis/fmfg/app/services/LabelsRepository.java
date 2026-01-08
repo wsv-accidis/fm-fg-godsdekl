@@ -103,7 +103,7 @@ public final class LabelsRepository {
 		putLabel("1.5", R.drawable.label_15, R.drawable.label_15_sm);
 		putLabel("1.6", R.drawable.label_16, R.drawable.label_16_sm);
 
-		putLabel("2.1", R.drawable.label_2, R.drawable.label_2_sm);
+		putLabel("2.1", R.drawable.label_21, R.drawable.label_21_sm);
 		putLabel("2.2", R.drawable.label_22, R.drawable.label_22_sm);
 		putLabel("2.3", R.drawable.label_23, R.drawable.label_23_sm);
 
