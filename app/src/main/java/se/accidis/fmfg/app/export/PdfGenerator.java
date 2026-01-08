@@ -132,7 +132,7 @@ public final class PdfGenerator {
 		Material material = row.getMaterial();
 		if (!TextUtils.isEmpty(material.getFben())) {
 			materialBuilder.append(material.getFben());
-			if (withFbet && !TextUtils.isEmpty(material.getFbet())) {
+			if (withFbet) {
 				materialBuilder.insert(0, material.getFbet() + ' ');
 			}
 		}

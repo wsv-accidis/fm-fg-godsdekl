@@ -15,13 +15,9 @@ import se.accidis.fmfg.app.ui.materials.ValueHelper;
  * Model object for rows in a transport declaration.
  */
 public final class DocumentRow {
-	private static final BigDecimal MG_PER_KG = new BigDecimal(1000000);
-
 	private Material mMaterial;
 	private BigDecimal mMultiplier;
 	private BigDecimal mAmount; // Antal enheter för beräkning av NEM
-	private BigDecimal mCustomNEMmg; // Användardefinierad NEM i mg
-	private Boolean mMiljoOverride; // Användardefinierad Miljo
 	private boolean mIsVolume; // Huruvida kvantitet är angiven i liter
 	private int mNumberOfPkgs; // Antal kolli
 	private String mTypeOfPkgs; // Beskrivning av kolli
@@ -29,8 +25,6 @@ public final class DocumentRow {
 
 	public DocumentRow(Material material) {
 		mAmount = BigDecimal.ZERO;
-		mCustomNEMmg = null;
-		mMiljoOverride = null;
 		mMaterial = material;
 		mMultiplier = new BigDecimal(ValueHelper.getMultiplierByTpKat(mMaterial.getTpKat()));
 		mTypeOfPkgs = "";
@@ -45,32 +39,18 @@ public final class DocumentRow {
 		row.mNumberOfPkgs = json.getInt(Keys.NUMBER_OF_PKGS);
 		row.mTypeOfPkgs = json.optString(Keys.TYPE_OF_PKGS, "");
 		row.mWeightVolume = new BigDecimal(json.getString(Keys.WEIGHT_VOLUME));
-		if (json.has(Keys.MILJO_OVERRIDE)) {
-			row.mMiljoOverride = (json.isNull(Keys.MILJO_OVERRIDE) ? null : json.optBoolean(Keys.MILJO_OVERRIDE));
-		}
-		if (json.has(Keys.CUSTOM_NEM_MG)) {
-			String customNem = json.optString(Keys.CUSTOM_NEM_MG, null);
-			if (!TextUtils.isEmpty(customNem)) {
-				try {
-					BigDecimal parsed = new BigDecimal(customNem);
-					row.mCustomNEMmg = (parsed.compareTo(BigDecimal.ZERO) > 0 ? parsed : null);
-				} catch (NumberFormatException ignored) {
-					row.mCustomNEMmg = null;
-				}
-			}
-		}
 		return row;
 	}
 
 	public void copyTo(DocumentRow other) {
-		other.setMaterial(mMaterial);
 		other.mAmount = mAmount;
-		other.mCustomNEMmg = mCustomNEMmg;
-		other.mMiljoOverride = mMiljoOverride;
 		other.mIsVolume = mIsVolume;
 		other.mNumberOfPkgs = mNumberOfPkgs;
 		other.mTypeOfPkgs = mTypeOfPkgs;
 		other.mWeightVolume = mWeightVolume;
+		if (mMaterial.isCustom()) {
+			other.setMaterial(mMaterial);
+		}
 	}
 
 	public BigDecimal getAmount() {
@@ -78,12 +58,12 @@ public final class DocumentRow {
 	}
 
 	public void setAmount(BigDecimal amount) {
-		mAmount = (null != amount ? amount : BigDecimal.ZERO);
+		mAmount = amount;
 	}
 
 	public BigDecimal getCalculatedValue() {
 		BigDecimal value;
-		if (hasNEM()) {
+		if (0 != mMaterial.getNEMmg()) {
 			value = getNEMkg();
 		} else {
 			value = mWeightVolume;
@@ -98,30 +78,10 @@ public final class DocumentRow {
 	public void setMaterial(Material material) {
 		mMaterial = material;
 		mMultiplier = new BigDecimal(ValueHelper.getMultiplierByTpKat(mMaterial.getTpKat()));
-		if (mMaterial.hasPresetNEMValue() || mMaterial.hasNEM()) {
-			mCustomNEMmg = null;
-		}
 	}
 
 	public BigDecimal getNEMkg() {
-		BigDecimal nemPerAmount = getNemPerAmountKg();
-		if (null == nemPerAmount) {
-			return BigDecimal.ZERO;
-		}
-		BigDecimal amount = (null != mAmount) ? mAmount : BigDecimal.ZERO;
-		return nemPerAmount.multiply(amount);
-	}
-
-	public BigDecimal getCustomNEMmg() {
-		return mCustomNEMmg;
-	}
-
-	public void setCustomNEMmg(BigDecimal customNEMmg) {
-		if (null != customNEMmg && customNEMmg.compareTo(BigDecimal.ZERO) > 0) {
-			mCustomNEMmg = customNEMmg;
-		} else {
-			mCustomNEMmg = null;
-		}
+		return mMaterial.getNEMkg().multiply(mAmount);
 	}
 
 	public int getNumberOfPackages() {
@@ -167,26 +127,7 @@ public final class DocumentRow {
 	}
 
 	public boolean hasNEM() {
-		return mMaterial.hasNEM() || null != mCustomNEMmg;
-	}
-
-	public boolean hasMiljoOverride() {
-		return null != mMiljoOverride;
-	}
-
-	public boolean isMiljoFarligt() {
-		if (null != mMiljoOverride) {
-			return mMiljoOverride;
-		}
-		return mMaterial.getMiljo();
-	}
-
-	public void setMiljoOverride(Boolean value) {
-		if (null != value && value) {
-			mMiljoOverride = true;
-		} else {
-			mMiljoOverride = null;
-		}
+		return mMaterial.hasNEM();
 	}
 
 	public boolean isFreeText() {
@@ -208,32 +149,15 @@ public final class DocumentRow {
 		json.put(Keys.NUMBER_OF_PKGS, mNumberOfPkgs);
 		json.put(Keys.TYPE_OF_PKGS, mTypeOfPkgs);
 		json.put(Keys.WEIGHT_VOLUME, mWeightVolume.toString());
-		if (null != mCustomNEMmg) {
-			json.put(Keys.CUSTOM_NEM_MG, mCustomNEMmg.toPlainString());
-		}
-		if (null != mMiljoOverride) {
-			json.put(Keys.MILJO_OVERRIDE, mMiljoOverride);
-		}
 		return json;
-	}
-
-	private BigDecimal getNemPerAmountKg() {
-		if (mMaterial.hasNEM()) {
-			return mMaterial.getNEMkg();
-		} else if (null != mCustomNEMmg) {
-			return mCustomNEMmg.divide(MG_PER_KG, 6, BigDecimal.ROUND_FLOOR);
-		}
-		return null;
 	}
 
 	public static class Keys {
 		public static final String AMOUNT = "Amount";
-		public static final String CUSTOM_NEM_MG = "CustomNEMmg";
 		public static final String IS_VOLUME = "IsVolume";
 		public static final String NUMBER_OF_PKGS = "NumberOfPkgs";
 		public static final String TYPE_OF_PKGS = "TypeOfPkgs";
 		public static final String WEIGHT_VOLUME = "WeightVolume";
-		public static final String MILJO_OVERRIDE = "MiljoOverride";
 
 		private Keys() {
 		}

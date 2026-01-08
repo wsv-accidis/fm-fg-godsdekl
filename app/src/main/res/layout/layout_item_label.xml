@@ -12,12 +12,12 @@
 		android:id="@+id/label_icon"
 		android:layout_width="match_parent"
 		android:layout_height="80dp"
-		android:src="@drawable/label_1_4s_explosive_sm" />
+		android:src="@drawable/label_14_sm" />
 
 	<CheckBox
 		android:id="@+id/label_checkbox"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center_horizontal"
-		android:text="1.4S" />
+		android:text="1.4" />
 </LinearLayout>

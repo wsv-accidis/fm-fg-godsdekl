@@ -64,13 +64,34 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/material_fben_heading"
                     style="@style/MaterialHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/material_tpben"/>
+                    android:layout_marginTop="0dp"
+                    android:text="@string/material_fben"/>
 
                 <TextView
-                    android:id="@+id/material_tpben"
+                    android:id="@+id/material_fben"
+                    style="@style/MaterialLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/material_fbet"
+                    style="@style/MaterialLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    style="@style/MaterialHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/material_namn"/>
+
+                <TextView
+                    android:id="@+id/material_namn"
                     style="@style/MaterialLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -91,10 +112,10 @@
                     style="@style/MaterialHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/material_etiketter"/>
+                    android:text="@string/material_klasskod"/>
 
                 <TextView
-                    android:id="@+id/material_etiketter"
+                    android:id="@+id/material_klasskod"
                     style="@style/MaterialLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -137,18 +158,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-				<TextView
-                    android:id="@+id/material_fm_heading"
+                <TextView
+                    android:id="@+id/material_nem_heading"
                     style="@style/MaterialHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/material_fm"/>
+                    android:text="@string/material_nem"/>
 
-                <LinearLayout
-                    android:id="@+id/material_fm_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
+                <TextView
+                    android:id="@+id/material_nem"
+                    style="@style/MaterialLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

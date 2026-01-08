@@ -98,8 +98,8 @@ public final class ColoadingHelper {
     }
 
     private static boolean containsClass1(DocumentRow row) {
-        List<String> etiketter = row.getMaterial().getEtiketter();
-        for (String kod : etiketter) {
+        List<String> klassKod = row.getMaterial().getKlassKod();
+        for (String kod : klassKod) {
             if (kod.startsWith(LABEL_1_PREFIX) && !kod.equals(LABEL_14S)) {
                 return true;
             }
@@ -110,8 +110,8 @@ public final class ColoadingHelper {
     private static List<Character> getCohandlingGroups(List<DocumentRow> rows) {
         List<Character> result = new ArrayList<>();
         for (DocumentRow row : rows) {
-            List<String> etiketter = row.getMaterial().getEtiketter();
-            for (String kod : etiketter) {
+            List<String> klassKod = row.getMaterial().getKlassKod();
+            for (String kod : klassKod) {
                 char cohandlingGroup = kod.charAt(kod.length() - 1);
                 if (kod.startsWith(LABEL_1_PREFIX) && Character.isLetter(cohandlingGroup) && !result.contains(cohandlingGroup)) {
                     result.add(cohandlingGroup);

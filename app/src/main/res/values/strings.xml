@@ -96,12 +96,12 @@
     <string name="material_change">Ändra</string>
     <string name="material_favorite_add">Lägg till favorit</string>
     <string name="material_favorite_remove">Ta bort favorit</string>
-    <string name="material_fm">Militära Benämningar</string>
+    <string name="material_fben">Förrådsbenämning</string>
     <string name="material_frpgrp">Förpackningsgrupp</string>
-    <string name="material_etiketter">Etiketter</string>
+    <string name="material_klasskod">Klassificeringskod</string>
     <string name="material_load">Lasta</string>
-    <string name="material_tpben">Transportbenämning</string>
-    <string name="material_nem_kg_format">NEM %1$s kg</string>
+    <string name="material_namn">Transportbenämning</string>
+    <string name="material_nem">Netto expl.mängd</string>
     <string name="material_no_data">-</string>
     <string name="material_remove">Ta bort</string>
     <string name="material_tunnelkod">Tunnelrestriktionskod</string>
@@ -113,17 +113,14 @@
     <string name="material_load_multiplier">Mult.faktor:</string>
     <string name="material_load_nem">NEM:</string>
     <string name="material_load_num_pkgs">Antal kollin:</string>
-	<string name="material_load_total_value">Totalt dekl. värde:</string>
-	<string name="material_load_type_pkgs">Typ av kollin:</string>
-	<string name="material_load_value">Värde:</string>
-	<string name="material_load_weight_volume">Vikt/volym:</string>
-	<string name="material_load_nem_custom">NEM per styck:</string>
-	<string name="material_load_miljo">Miljöfarligt</string>
-	<string name="material_load_fm">FM:</string>
+    <string name="material_load_total_value">Totalt dekl. värde:</string>
+    <string name="material_load_type_pkgs">Typ av kollin:</string>
+    <string name="material_load_value">Värde:</string>
+    <string name="material_load_weight_volume">Vikt/volym:</string>
 
     <string name="materials_list_empty">Inget funnet.</string>
     <string name="materials_nav_title">Materiel</string>
-    <string name="materials_search_hint">Sök benämning, UN- eller M-nr</string>
+    <string name="materials_search_hint">Sök benämning eller M-nr</string>
 
     <string name="navigation_drawer_open">Öppna navigation</string>
     <string name="navigation_drawer_close">Stäng navigation</string>
@@ -137,10 +134,9 @@
 	<string name="preferences_default_author_description">Ange dina uppgifter så fylls de i automatiskt</string>
 
 	<string name="unit_amount">styck</string>
-	<string name="unit_kg_format">%1$s kg</string>
-	<string name="unit_liter_format">%1$s liter</string>
-	<string name="unit_points_format">%1$s p</string>
-	<string name="unit_kg">kg</string>
+    <string name="unit_kg_format">%1$s kg</string>
+    <string name="unit_liter_format">%1$s liter</string>
+    <string name="unit_points_format">%1$s p</string>
 
 	<string-array name="document_custom_row_text_suggestions">
 		<item>FÖRPACKNING</item>

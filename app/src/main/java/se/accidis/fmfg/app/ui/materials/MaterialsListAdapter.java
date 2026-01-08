@@ -72,25 +72,24 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 
 		Material material = mFilteredList.get(position);
 
-		TextView materialTitle = (TextView) view.findViewById(R.id.material_fm);
-		String materialTpben = material.getTpben();
-		materialTitle.setText(materialTpben);
+		TextView fbenText = (TextView) view.findViewById(R.id.material_fben);
+		fbenText.setText(material.getFben());
 
 		boolean isFavorite = mRepository.isFavoriteMaterial(material);
 		boolean isLoaded = mLoadedMaterials.contains(material);
 
 		if (isFavorite && isLoaded) {
-			materialTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star_check_circle_small, 0, 0, 0);
+			fbenText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star_check_circle_small, 0, 0, 0);
 		} else if (isFavorite) {
-			materialTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star_circle_small, 0, 0, 0);
+			fbenText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star_circle_small, 0, 0, 0);
 		} else if (isLoaded) {
-			materialTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_circle_small, 0, 0, 0);
+			fbenText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_circle_small, 0, 0, 0);
 		} else {
-			materialTitle.setCompoundDrawables(null, null, null, null);
+			fbenText.setCompoundDrawables(null, null, null, null);
 		}
 
-		TextView materialDescription = (TextView) view.findViewById(R.id.material_text);
-		materialDescription.setText(material.getDescriptionText());
+		TextView textText = (TextView) view.findViewById(R.id.material_text);
+		textText.setText(material.getFullText());
 
 		return view;
 	}
@@ -122,11 +121,7 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 				return 1;
 			}
 
-			return getSortKey(lhs).compareTo(getSortKey(rhs));
-		}
-
-		private String getSortKey(Material material) {
-			return TextUtils.isEmpty(material.getFben()) ? material.getTpben() : material.getFben();
+			return lhs.getFben().compareTo(rhs.getFben());
 		}
 	}
 
