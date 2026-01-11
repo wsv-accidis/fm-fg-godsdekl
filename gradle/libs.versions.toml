@@ -1,0 +1,17 @@
+[versions]
+agp = "8.13.2"
+kotlin = "2.3.0"
+androidx-appcompat = "1.7.1"
+androidx-preference = "1.2.1"
+google-material = "1.13.0"
+danlew-joda = "2.14.0"
+
+[libraries]
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "androidx-preference" }
+google-material = { group = "com.google.android.material", name = "material", version.ref = "google-material" }
+danlew-joda = { group = "net.danlew", name = "android.joda", version.ref = "danlew-joda" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

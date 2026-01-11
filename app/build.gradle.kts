@@ -40,11 +40,11 @@ android {
 }
 
 dependencies {
-	implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-	implementation("androidx.appcompat:appcompat:1.7.1")
-	implementation("androidx.preference:preference:1.2.1")
-	implementation("com.google.android.material:material:1.13.0")
-	implementation("net.danlew:android.joda:2.14.0")
+	implementation(files("libs/PDFjet.jar"))
+	implementation(libs.androidx.appcompat)
+	implementation(libs.androidx.preference)
+	implementation(libs.google.material)
+	implementation(libs.danlew.joda)
 }
 
 java {
