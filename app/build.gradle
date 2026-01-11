@@ -1,4 +1,9 @@
-apply plugin: 'com.android.application'
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+	id 'com.android.application'
+	id 'org.jetbrains.kotlin.android'
+}
 
 android {
 	namespace 'se.accidis.fmfg.app'
@@ -45,5 +50,11 @@ dependencies {
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+kotlin {
+	compilerOptions {
+		jvmTarget = JvmTarget.fromTarget("17")
 	}
 }
