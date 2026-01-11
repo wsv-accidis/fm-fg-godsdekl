@@ -15,7 +15,12 @@ android {
 		targetSdk = 35
 		versionCode = 18
 		versionName = "1.8"
-		resourceConfigurations += listOf("en", "sv")
+	}
+
+
+	androidResources {
+		ignoreAssetsPatterns += listOf("!adr-s.json", "!amkat.json")
+		localeFilters += listOf("en", "sv")
 	}
 
 	buildFeatures {
@@ -25,17 +30,13 @@ android {
 	buildTypes {
 		getByName("release") {
 			isMinifyEnabled = false
-			setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
+			setProguardFiles(
+				listOf(
+					getDefaultProguardFile("proguard-android-optimize.txt"),
+					"proguard-rules.pro"
+				)
+			)
 		}
-	}
-
-	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
-	}
-
-	aaptOptions {
-		ignoreAssetsPattern = "!adr-s.json:!amkat.json"
 	}
 }
 
@@ -50,11 +51,5 @@ dependencies {
 java {
 	toolchain {
 		languageVersion.set(JavaLanguageVersion.of(17))
-	}
-}
-
-kotlin {
-	compilerOptions {
-		jvmTarget.set(JvmTarget.fromTarget("17"))
 	}
 }
