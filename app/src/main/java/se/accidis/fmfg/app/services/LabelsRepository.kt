@@ -5,27 +5,24 @@ import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.model.Document
 import se.accidis.fmfg.app.model.Label
 import se.accidis.fmfg.app.model.Material
-import java.util.Collections
 import java.util.TreeSet
 
 /**
  * Repository for labels. Static class, holds all data in memory.
  */
 object LabelsRepository {
-    private val labels: MutableMap<String, Label> = LinkedHashMap()
+    private val labels: MutableMap<String, Label> = HashMap()
     private val miljoLabel: Label =
         Label("MILJÖFARLIGT", R.drawable.label_miljo, R.drawable.label_miljo_sm)
 
     @JvmStatic
     val allLabels: Collection<Label>
-        get() = Collections.unmodifiableCollection(
-            labels.values
-        )
+        get() = labels.values
 
     @JvmStatic
     fun getLabelsByDocument(document: Document, smallImages: Boolean): List<Int> {
         var hasMiljo = false
-        val klassKodSet = TreeSet<String>()
+        val klassKodSet = TreeSet<String>() // TreeSet ensures sorting
         for (material in document.getMaterialsSet()) {
             if (material.miljo) {
                 hasMiljo = true
@@ -37,8 +34,7 @@ object LabelsRepository {
         for (klassKod in klassKodSet) {
             val label = getLabelByKlassKod(klassKod)
             if (null != label) {
-                val drawable =
-                    if (smallImages) label.smallDrawable else label.largeDrawable
+                val drawable = if (smallImages) label.smallDrawable else label.largeDrawable
                 if (!labelDrawables.contains(drawable)) {
                     labelDrawables.add(drawable)
                 }
@@ -58,8 +54,7 @@ object LabelsRepository {
         for (klassKod in material.klassKod) {
             val label = getLabelByKlassKod(klassKod)
             if (null != label) {
-                val drawable =
-                    if (smallImages) label.smallDrawable else label.largeDrawable
+                val drawable = if (smallImages) label.smallDrawable else label.largeDrawable
                 if (!labels.contains(drawable)) {
                     labels.add(drawable)
                 }
@@ -74,14 +69,14 @@ object LabelsRepository {
     }
 
     private fun getLabelByKlassKod(klassKod: String): Label? {
-        if(labels.containsKey(klassKod)) {
+        if (labels.containsKey(klassKod)) {
             return labels[klassKod]
         }
 
         // Fallback label in case we don't have an exact match (this shouldn't happen)
         var fallback = klassKod.dropLast(1)
-        while("" != fallback) {
-            if(labels.containsKey(klassKod)) {
+        while ("" != fallback) {
+            if (labels.containsKey(klassKod)) {
                 return labels[klassKod]
             }
             fallback = klassKod.dropLast(1)
@@ -95,8 +90,7 @@ object LabelsRepository {
         @DrawableRes largeDrawable: Int,
         @DrawableRes smallDrawable: Int
     ) {
-        val label = Label(klassKod, largeDrawable, smallDrawable)
-        labels[klassKod] = label
+        labels[klassKod] = Label(klassKod, largeDrawable, smallDrawable)
     }
 
     init {
