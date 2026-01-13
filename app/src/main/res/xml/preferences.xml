@@ -9,7 +9,7 @@
 		android:key="ShowAuthorInDocument"
 		android:summary="@string/preferences_show_author_description"
 		android:title="@string/preferences_show_author"/>
-	<se.accidis.fmfg.app.ui.preferences.AddressDialogPreference
+	<se.accidis.fmfg.app.old.preferences.AddressDialogPreference
 		android:key="DefaultAuthor"
 		android:summary="@string/preferences_default_author_description"
 		android:title="@string/preferences_default_author"

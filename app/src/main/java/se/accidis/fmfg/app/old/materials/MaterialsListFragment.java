@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui.materials;
+package se.accidis.fmfg.app.old.materials;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,7 +33,7 @@ import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.MaterialsRepository;
-import se.accidis.fmfg.app.ui.MainActivity;
+import se.accidis.fmfg.app.old.MainActivity;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**

@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui.documents;
+package se.accidis.fmfg.app.old.documents;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -36,8 +36,8 @@ import se.accidis.fmfg.app.model.DocumentLink;
 import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.Preferences;
-import se.accidis.fmfg.app.ui.MainActivity;
-import se.accidis.fmfg.app.ui.materials.MaterialsLoadDialogFragment;
+import se.accidis.fmfg.app.old.MainActivity;
+import se.accidis.fmfg.app.old.materials.MaterialsLoadDialogFragment;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**

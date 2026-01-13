@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 
 import se.accidis.fmfg.app.R;
-import se.accidis.fmfg.app.ui.materials.ValueHelper;
+import se.accidis.fmfg.app.old.materials.ValueHelper;
 
 /**
  * Model object for rows in a transport declaration.

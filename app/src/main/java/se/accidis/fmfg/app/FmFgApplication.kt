@@ -3,7 +3,7 @@ package se.accidis.fmfg.app
 import android.app.Application
 import se.accidis.fmfg.app.export.ExportFile
 import se.accidis.fmfg.app.services.DocumentsRepository
-import se.accidis.fmfg.app.ui.materials.ValueHelper
+import se.accidis.fmfg.app.old.materials.ValueHelper
 import java.util.Locale
 
 /**

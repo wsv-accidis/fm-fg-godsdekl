@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui.materials;
+package se.accidis.fmfg.app.old.materials;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -24,7 +24,7 @@ import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.LabelsRepository;
-import se.accidis.fmfg.app.ui.MainActivity;
+import se.accidis.fmfg.app.old.MainActivity;
 
 /**
  * Fragment showing information about a material.

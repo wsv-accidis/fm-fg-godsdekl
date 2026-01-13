@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import se.accidis.fmfg.app.R;
-import se.accidis.fmfg.app.ui.materials.ValueHelper;
+import se.accidis.fmfg.app.old.materials.ValueHelper;
 import se.accidis.fmfg.app.utils.JSONUtils;
 
 /**

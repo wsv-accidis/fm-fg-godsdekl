@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui.preferences;
+package se.accidis.fmfg.app.old.preferences;
 
 import android.os.Bundle;
 import android.view.View;

@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui;
+package se.accidis.fmfg.app.old;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -24,12 +24,12 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.Random;
 
 import se.accidis.fmfg.app.R;
-import se.accidis.fmfg.app.ui.documents.DocumentFragment;
-import se.accidis.fmfg.app.ui.documents.DocumentsListFragment;
-import se.accidis.fmfg.app.ui.instructions.ColoadingFragment;
-import se.accidis.fmfg.app.ui.instructions.InstructionFragment;
-import se.accidis.fmfg.app.ui.materials.MaterialsListFragment;
-import se.accidis.fmfg.app.ui.preferences.PreferencesFragment;
+import se.accidis.fmfg.app.old.documents.DocumentFragment;
+import se.accidis.fmfg.app.old.documents.DocumentsListFragment;
+import se.accidis.fmfg.app.old.instructions.ColoadingFragment;
+import se.accidis.fmfg.app.old.instructions.InstructionFragment;
+import se.accidis.fmfg.app.old.materials.MaterialsListFragment;
+import se.accidis.fmfg.app.old.preferences.PreferencesFragment;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
 public final class MainActivity extends AppCompatActivity {

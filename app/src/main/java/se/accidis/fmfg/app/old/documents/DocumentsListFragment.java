@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui.documents;
+package se.accidis.fmfg.app.old.documents;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import java.util.List;
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.DocumentLink;
 import se.accidis.fmfg.app.services.DocumentsRepository;
-import se.accidis.fmfg.app.ui.MainActivity;
+import se.accidis.fmfg.app.old.MainActivity;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**

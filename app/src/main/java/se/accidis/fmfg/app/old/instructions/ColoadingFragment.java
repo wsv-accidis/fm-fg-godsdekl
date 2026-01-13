@@ -1,9 +1,9 @@
-package se.accidis.fmfg.app.ui.instructions;
+package se.accidis.fmfg.app.old.instructions;
 
 import android.content.Context;
 
 import se.accidis.fmfg.app.R;
-import se.accidis.fmfg.app.ui.MainActivity;
+import se.accidis.fmfg.app.old.MainActivity;
 
 /**
  * Fragment which displays co-loading rules.

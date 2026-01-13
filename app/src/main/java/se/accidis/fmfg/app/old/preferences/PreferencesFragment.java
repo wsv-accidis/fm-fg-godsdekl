@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui.preferences;
+package se.accidis.fmfg.app.old.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,7 +15,7 @@ import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.services.Preferences;
-import se.accidis.fmfg.app.ui.MainActivity;
+import se.accidis.fmfg.app.old.MainActivity;
 
 /**
  * Allows the user to edit app preferences.

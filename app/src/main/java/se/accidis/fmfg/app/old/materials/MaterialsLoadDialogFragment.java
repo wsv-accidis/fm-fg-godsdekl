@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui.materials;
+package se.accidis.fmfg.app.old.materials;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;

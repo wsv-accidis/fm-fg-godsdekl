@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui;
+package se.accidis.fmfg.app.old;
 
 import android.content.Context;
 import android.content.Intent;

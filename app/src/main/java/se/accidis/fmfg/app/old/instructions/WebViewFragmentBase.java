@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui.instructions;
+package se.accidis.fmfg.app.old.instructions;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

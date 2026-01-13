@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui.materials;
+package se.accidis.fmfg.app.old.materials;
 
 import android.text.TextUtils;
 

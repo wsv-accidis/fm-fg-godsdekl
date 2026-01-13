@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui.documents;
+package se.accidis.fmfg.app.old.documents;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
