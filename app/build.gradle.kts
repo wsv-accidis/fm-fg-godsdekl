@@ -1,6 +1,8 @@
 plugins {
-	id("com.android.application")
-	id("org.jetbrains.kotlin.android")
+	alias(libs.plugins.android.application)
+	alias(libs.plugins.kotlin.android)
+	alias(libs.plugins.kotlin.compose)
+	alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -8,9 +10,9 @@ android {
 
 	defaultConfig {
 		applicationId = "se.accidis.fmfg.app"
-		compileSdk = 35
+		compileSdk = 36
 		minSdk = 26
-		targetSdk = 35
+		targetSdk = 36
 		versionCode = 18
 		versionName = "1.8"
 	}
@@ -40,10 +42,17 @@ android {
 
 dependencies {
 	implementation(files("libs/PDFjet.jar"))
-	implementation(libs.androidx.appcompat)
+	implementation(libs.androidx.appcompat) // possibly legacy
+	implementation(platform(libs.androidx.compose.bom))
+	implementation(libs.androidx.compose.material3)
+	implementation(libs.androidx.compose.ui.tooling)
+	debugImplementation(libs.androidx.compose.ui.tooling.preview)
+	implementation(libs.androidx.navigation3.runtime)
+	implementation(libs.androidx.navigation3.ui)
 	implementation(libs.androidx.preference)
-	implementation(libs.google.material)
 	implementation(libs.danlew.joda)
+	implementation(libs.kotlinx.serialization.json)
+	implementation(libs.google.material) // legacy
 }
 
 java {

@@ -12,7 +12,7 @@ import java.util.Locale
 class FmFgApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        ValueHelper.initializeLocale(Locale("sv", "SE"))
+        ValueHelper.initializeLocale(Locale.forLanguageTag("sv-SE"))
         DocumentsRepository.getInstance(applicationContext).ensureCurrentDocumentLoaded()
         ExportFile.cleanUpOldExports(applicationContext)
     }

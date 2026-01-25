@@ -4,6 +4,7 @@ captures
 .idea
 *.iml
 .gradle
+.kotlin
 
 fg-godsdekl.keystore
 local.properties
