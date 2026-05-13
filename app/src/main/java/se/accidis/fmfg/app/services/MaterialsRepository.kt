@@ -1,13 +1,16 @@
 package se.accidis.fmfg.app.services
 
 import android.content.Context
-import android.os.AsyncTask
 import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import se.accidis.fmfg.app.model.Material
 import se.accidis.fmfg.app.utils.IOUtils
 import se.accidis.fmfg.app.utils.TAG
-import java.io.IOException
 
 /**
  * Repository for the materials list.
@@ -18,6 +21,7 @@ class MaterialsRepository private constructor(context: Context) {
     private val prefs: Preferences = Preferences(this@MaterialsRepository.context)
     private var materials: MutableList<Material>? = null
     private var onLoadedListener: OnLoadedListener? = null
+    private val repositoryScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     init {
         favoriteMaterials = prefs.favoriteMaterials
@@ -32,16 +36,33 @@ class MaterialsRepository private constructor(context: Context) {
     fun beginLoad() {
         if (null != materials) {
             Log.d(TAG, "Assets already loaded, nothing to do.")
-            if (null != onLoadedListener) {
-                onLoadedListener!!.onLoaded(materials!!)
-            }
-
+            onLoadedListener?.onLoaded(materials!!)
             return
         }
 
         Log.d(TAG, "Loading assets.")
-        val loadTask = LoadTask()
-        loadTask.execute()
+        repositoryScope.launch {
+            try {
+                val loadedMaterials = withContext(Dispatchers.IO) {
+                    val str = IOUtils.readToEnd(context.assets.open(ADR_JSON_ASSET))
+                    val jsonArray = JSONArray(str)
+                    val list = ArrayList<Material>(jsonArray.length())
+                    for (i in 0 until jsonArray.length()) {
+                        list.add(Material.fromJSON(jsonArray.getJSONObject(i)))
+                    }
+                    list
+                }
+
+                materials = loadedMaterials
+                Log.i(TAG, "Finished loading assets (${materials!!.size} items loaded).")
+                onLoadedListener?.onLoaded(materials!!)
+            } catch (ex: Exception) {
+                Log.e(TAG, "Failed to load assets.", ex)
+                if (null == materials) {
+                    onLoadedListener?.onException(ex)
+                }
+            }
+        }
     }
 
     fun isFavoriteMaterial(material: Material): Boolean {
@@ -63,40 +84,6 @@ class MaterialsRepository private constructor(context: Context) {
         fun onException(ex: Exception)
 
         fun onLoaded(list: MutableList<Material>)
-    }
-
-    private inner class LoadTask : AsyncTask<Void?, Void?, Void?>() {
-        override fun doInBackground(vararg params: Void?): Void? {
-            try {
-                val str = readAssetsFile()
-                val jsonArray = JSONArray(str)
-
-                val list = ArrayList<Material>(jsonArray.length())
-                for (i in 0..<jsonArray.length()) {
-                    list.add(Material.fromJSON(jsonArray.getJSONObject(i)))
-                }
-
-                materials = list
-                Log.i(TAG, "Finished loading assets (${materials!!.size} items loaded).")
-            } catch (ex: Exception) {
-                Log.e(TAG, "Failed to load assets.", ex)
-
-                if (null == materials && null != onLoadedListener) {
-                    onLoadedListener!!.onException(ex)
-                }
-            }
-
-            if (null != materials && null != onLoadedListener) {
-                onLoadedListener!!.onLoaded(materials!!)
-            }
-
-            return null
-        }
-
-        @Throws(IOException::class)
-        fun readAssetsFile(): String {
-            return IOUtils.readToEnd(context.assets.open(ADR_JSON_ASSET))
-        }
     }
 
     companion object {

@@ -1,5 +1,5 @@
 [versions]
-agp = "9.1.0"
+agp = "9.1.1"
 kotlin = "2.3.0"
 androidx-appcompat = "1.7.1"
 androidx-compose-bom = "2025.12.01"
@@ -8,6 +8,7 @@ androidx-compose-ui-tooling = "1.10.0"
 androidx-navigation3 = "1.0.0"
 androidx-preference = "1.2.1"
 danlew-joda = "2.14.0"
+kotlinx-coroutines = "1.10.1"
 kotlinx-serialization-json = "1.9.0"
 google-material = "1.13.0"
 
@@ -21,6 +22,7 @@ androidx-navigation3-runtime = { group = "androidx.navigation3", name = "navigat
 androidx-navigation3-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "androidx-navigation3" }
 androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "androidx-preference" }
 danlew-joda = { group = "net.danlew", name = "android.joda", version.ref = "danlew-joda" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 google-material = { group = "com.google.android.material", name = "material", version.ref = "google-material" }
 

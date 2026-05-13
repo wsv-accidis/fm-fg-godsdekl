@@ -51,6 +51,7 @@ dependencies {
 	implementation(libs.androidx.navigation3.ui)
 	implementation(libs.androidx.preference)
 	implementation(libs.danlew.joda)
+	implementation(libs.kotlinx.coroutines.android)
 	implementation(libs.kotlinx.serialization.json)
 	implementation(libs.google.material) // legacy
 }
