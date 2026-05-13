@@ -143,40 +143,36 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
 	@Override
 	public boolean onMenuItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.document_menu_add_custom_row:
-				final CustomRowDialogFragment customRowDialog = new CustomRowDialogFragment();
-				customRowDialog.setDialogListener(new CustomRowDialogListener());
-				customRowDialog.show(getFragmentManager(), CustomRowDialogFragment.class.getSimpleName());
-				return true;
-
-			case R.id.document_menu_delete:
-				final DeleteDialogFragment deleteDialog = new DeleteDialogFragment();
-				deleteDialog.setDialogListener(new DeleteDialogListener());
-				deleteDialog.show(getFragmentManager(), DeleteDialogFragment.class.getSimpleName());
-				return true;
-
-			case R.id.document_menu_edit:
-				if (mRepository.getCurrentDocument().hasUnsavedChanges()) {
-					final EditUnsavedDialogFragment editDialog = new EditUnsavedDialogFragment();
-					editDialog.setDialogListener(new EditUnsavedDialogListener());
-					editDialog.show(getFragmentManager(), EditUnsavedDialogFragment.class.getSimpleName());
-				} else {
-					makeCurrentDocument();
-				}
-				return true;
-
-			case R.id.document_menu_export:
-				final ProgressDialog progressDialog = ProgressDialog.show(getContext(), getString(R.string.document_export), getString(R.string.document_export_please_wait), true, false);
-				final ExportPdfAsyncTask exportTask = new ExportPdfAsyncTask(getActivity(), progressDialog);
-				exportTask.execute();
-				return true;
-
-			case R.id.document_menu_opt_fields:
-				final OptionalFieldsDialogFragment optFieldsDialog = OptionalFieldsDialogFragment.createInstance(mDocument, !mIsCurrentDocument);
-				optFieldsDialog.setDialogListener(new DocumentOptFieldsDialogListener());
-				optFieldsDialog.show(getFragmentManager(), OptionalFieldsDialogFragment.class.getSimpleName());
-				return true;
+		int itemId = item.getItemId();
+		if (itemId == R.id.document_menu_add_custom_row) {
+			final CustomRowDialogFragment customRowDialog = new CustomRowDialogFragment();
+			customRowDialog.setDialogListener(new CustomRowDialogListener());
+			customRowDialog.show(getFragmentManager(), CustomRowDialogFragment.class.getSimpleName());
+			return true;
+		} else if (itemId == R.id.document_menu_delete) {
+			final DeleteDialogFragment deleteDialog = new DeleteDialogFragment();
+			deleteDialog.setDialogListener(new DeleteDialogListener());
+			deleteDialog.show(getFragmentManager(), DeleteDialogFragment.class.getSimpleName());
+			return true;
+		} else if (itemId == R.id.document_menu_edit) {
+			if (mRepository.getCurrentDocument().hasUnsavedChanges()) {
+				final EditUnsavedDialogFragment editDialog = new EditUnsavedDialogFragment();
+				editDialog.setDialogListener(new EditUnsavedDialogListener());
+				editDialog.show(getFragmentManager(), EditUnsavedDialogFragment.class.getSimpleName());
+			} else {
+				makeCurrentDocument();
+			}
+			return true;
+		} else if (itemId == R.id.document_menu_export) {
+			final ProgressDialog progressDialog = ProgressDialog.show(getContext(), getString(R.string.document_export), getString(R.string.document_export_please_wait), true, false);
+			final ExportPdfAsyncTask exportTask = new ExportPdfAsyncTask(getActivity(), progressDialog);
+			exportTask.execute();
+			return true;
+		} else if (itemId == R.id.document_menu_opt_fields) {
+			final OptionalFieldsDialogFragment optFieldsDialog = OptionalFieldsDialogFragment.createInstance(mDocument, !mIsCurrentDocument);
+			optFieldsDialog.setDialogListener(new DocumentOptFieldsDialogListener());
+			optFieldsDialog.show(getFragmentManager(), OptionalFieldsDialogFragment.class.getSimpleName());
+			return true;
 		}
 
 		return false;

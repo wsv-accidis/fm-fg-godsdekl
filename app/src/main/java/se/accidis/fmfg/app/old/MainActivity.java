@@ -135,21 +135,20 @@ public final class MainActivity extends AppCompatActivity {
 	}
 
 	private Fragment getFragmentByNavigationItem(int navId) {
-		switch (navId) {
-			case R.id.nav_about:
-				return new AboutFragment();
-			case R.id.nav_coloading:
-				return new ColoadingFragment();
-			case R.id.nav_document:
-				return new DocumentFragment();
-			case R.id.nav_documents_list:
-				return new DocumentsListFragment();
-			case R.id.nav_instructions:
-				return new InstructionFragment();
-			case R.id.nav_materials:
-				return new MaterialsListFragment();
-			case R.id.nav_preferences:
-				return new PreferencesFragment();
+		if (navId == R.id.nav_about) {
+			return new AboutFragment();
+		} else if (navId == R.id.nav_coloading) {
+			return new ColoadingFragment();
+		} else if (navId == R.id.nav_document) {
+			return new DocumentFragment();
+		} else if (navId == R.id.nav_documents_list) {
+			return new DocumentsListFragment();
+		} else if (navId == R.id.nav_instructions) {
+			return new InstructionFragment();
+		} else if (navId == R.id.nav_materials) {
+			return new MaterialsListFragment();
+		} else if (navId == R.id.nav_preferences) {
+			return new PreferencesFragment();
 		}
 
 		return null;

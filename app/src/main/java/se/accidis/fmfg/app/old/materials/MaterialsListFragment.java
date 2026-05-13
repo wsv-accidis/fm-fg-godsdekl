@@ -82,16 +82,16 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
 		if (info.position < mListAdapter.getCount()) {
 			Material material = (Material) mListAdapter.getItem(info.position);
 
-			switch (item.getItemId()) {
-				case R.id.material_menu_favorite:
-					toggleFavorite(material);
-					return true;
-				case R.id.material_menu_load:
-					MaterialsLoadDialogFragment dialog = new MaterialsLoadDialogFragment();
-					dialog.setArguments(material.toBundle());
-					dialog.setDialogListener(new MaterialsLoadDialogListener());
-					dialog.show(getFragmentManager(), MaterialsLoadDialogFragment.class.getSimpleName());
-					return true;
+			int itemId = item.getItemId();
+			if (itemId == R.id.material_menu_favorite) {
+				toggleFavorite(material);
+				return true;
+			} else if (itemId == R.id.material_menu_load) {
+				MaterialsLoadDialogFragment dialog = new MaterialsLoadDialogFragment();
+				dialog.setArguments(material.toBundle());
+				dialog.setDialogListener(new MaterialsLoadDialogListener());
+				dialog.show(getFragmentManager(), MaterialsLoadDialogFragment.class.getSimpleName());
+				return true;
 			}
 		}
 		return false;
