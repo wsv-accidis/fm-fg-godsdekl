@@ -5,11 +5,15 @@ import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import se.accidis.fmfg.app.model.Material
 import se.accidis.fmfg.app.utils.IOUtils
+import se.accidis.fmfg.app.utils.Resource
 import se.accidis.fmfg.app.utils.TAG
 
 /**
@@ -19,8 +23,10 @@ class MaterialsRepository private constructor(context: Context) {
     private val context: Context = context.applicationContext
     private val favoriteMaterials: MutableSet<String>
     private val prefs: Preferences = Preferences(this@MaterialsRepository.context)
-    private var materials: MutableList<Material>? = null
-    private var onLoadedListener: OnLoadedListener? = null
+
+    private val _materialsResource = MutableStateFlow<Resource<List<Material>>>(Resource.Loading)
+    val materialsResource: StateFlow<Resource<List<Material>>> = _materialsResource.asStateFlow()
+
     private val repositoryScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     init {
@@ -34,13 +40,14 @@ class MaterialsRepository private constructor(context: Context) {
     }
 
     fun beginLoad() {
-        if (null != materials) {
+        val current = _materialsResource.value
+        if (current is Resource.Success && current.data.isNotEmpty()) {
             Log.d(TAG, "Assets already loaded, nothing to do.")
-            onLoadedListener?.onLoaded(materials!!)
             return
         }
 
         Log.d(TAG, "Loading assets.")
+        _materialsResource.value = Resource.Loading
         repositoryScope.launch {
             try {
                 val loadedMaterials = withContext(Dispatchers.IO) {
@@ -53,14 +60,11 @@ class MaterialsRepository private constructor(context: Context) {
                     list
                 }
 
-                materials = loadedMaterials
-                Log.i(TAG, "Finished loading assets (${materials!!.size} items loaded).")
-                onLoadedListener?.onLoaded(materials!!)
+                _materialsResource.value = Resource.Success(loadedMaterials)
+                Log.i(TAG, "Finished loading assets (${loadedMaterials.size} items loaded).")
             } catch (ex: Exception) {
                 Log.e(TAG, "Failed to load assets.", ex)
-                if (null == materials) {
-                    onLoadedListener?.onException(ex)
-                }
+                _materialsResource.value = Resource.Error(ex)
             }
         }
     }
@@ -74,16 +78,6 @@ class MaterialsRepository private constructor(context: Context) {
         val key = material.toUniqueKey()
         favoriteMaterials.remove(key)
         prefs.favoriteMaterials = favoriteMaterials
-    }
-
-    fun setOnLoadedListener(listener: OnLoadedListener?) {
-        onLoadedListener = listener
-    }
-
-    interface OnLoadedListener {
-        fun onException(ex: Exception)
-
-        fun onLoaded(list: MutableList<Material>)
     }
 
     companion object {

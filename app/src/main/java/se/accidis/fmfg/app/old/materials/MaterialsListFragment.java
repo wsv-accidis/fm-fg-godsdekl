@@ -171,7 +171,7 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
 		mClearSearchButton.setEnabled(false);
 
 		if (!mIsLoaded) {
-			mRepository.setOnLoadedListener(new MaterialsLoadedListener());
+			// mRepository.setOnLoadedListener(new MaterialsLoadedListener());
 			mRepository.beginLoad();
 		} else {
 			initializeList();
@@ -250,6 +250,7 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
 		}
 	}
 
+	/*
 	private final class MaterialsLoadedListener implements MaterialsRepository.OnLoadedListener {
 		@Override
 		public void onException(Exception ex) {
@@ -272,6 +273,7 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
 			});
 		}
 	}
+	*/
 
 	private final class SearchChangedListener implements TextWatcher {
 		@Override

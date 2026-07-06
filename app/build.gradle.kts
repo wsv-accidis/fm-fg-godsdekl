@@ -43,17 +43,19 @@ dependencies {
 	implementation(files("libs/PDFjet.jar"))
 	implementation(libs.androidx.appcompat) // possibly legacy
 	implementation(platform(libs.androidx.compose.bom))
-	implementation(libs.androidx.compose.material3)
 	implementation(libs.androidx.compose.material.icons.extended)
+	implementation(libs.androidx.compose.material3)
 	implementation(libs.androidx.compose.ui.tooling)
 	debugImplementation(libs.androidx.compose.ui.tooling.preview)
+	implementation(libs.androidx.lifecycle.runtime.compose)
+	implementation(libs.androidx.lifecycle.viewmodel.compose)
 	implementation(libs.androidx.navigation3.runtime)
 	implementation(libs.androidx.navigation3.ui)
 	implementation(libs.androidx.preference)
 	implementation(libs.danlew.joda)
+	implementation(libs.google.material) // legacy
 	implementation(libs.kotlinx.coroutines.android)
 	implementation(libs.kotlinx.serialization.json)
-	implementation(libs.google.material) // legacy
 }
 
 java {
