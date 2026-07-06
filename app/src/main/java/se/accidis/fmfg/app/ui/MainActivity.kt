@@ -3,6 +3,7 @@ package se.accidis.fmfg.app.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -57,7 +58,7 @@ fun MainView() {
 
 @Composable
 fun BoxWithPadding(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
-    androidx.compose.foundation.layout.Box(modifier = modifier) {
+    Box(modifier = modifier) {
         content()
     }
 }
