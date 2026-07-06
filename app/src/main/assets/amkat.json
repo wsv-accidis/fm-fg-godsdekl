@@ -2029,7 +2029,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 600,
+    "NEMmg": 800,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2041,7 +2041,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 600,
+    "NEMmg": 800,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2065,7 +2065,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 600,
+    "NEMmg": 800,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2089,7 +2089,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 1500,
+    "NEMmg": 1700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2101,7 +2101,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 1500,
+    "NEMmg": 1700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2137,7 +2137,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 1500,
+    "NEMmg": 1670,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2149,7 +2149,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 1500,
+    "NEMmg": 1670,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2232,7 +2232,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 1500,
+    "NEMmg": 1700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2244,7 +2244,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 1500,
+    "NEMmg": 1700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2262,25 +2262,25 @@
   },
   {
     "Fbet": "M4005-206410",
-    "Fben": "5.56/5B SLPRJ",
+    "Fben": "5,56/5B SLPRJ",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 1500,
+    "NEMmg": 1700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
   {
     "Fbet": "M4005-206310",
-    "Fben": "5.56/5B STKPRJ",
+    "Fben": "5,56/5B STKPRJ",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 1500,
+    "NEMmg": 1700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2471,7 +2471,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 3000,
+    "NEMmg": 1950,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -3035,7 +3035,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2500,
+    "NEMmg": 2900,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -3047,7 +3047,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2900,
+    "NEMmg": 2700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -3119,7 +3119,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 3800,
+    "NEMmg": 2700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -3179,7 +3179,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2800,
+    "NEMmg": 2630,
     "TpKat": 4,
     "TunnelKod": "E"
   },
