@@ -23,7 +23,8 @@ data class Material(
     val tpKat: Int,
     val frpGrp: String,
     val tunnelkod: String,
-    val miljo: Boolean
+    val miljo: Boolean,
+    val source: MaterialSource = MaterialSource.NONE
 ) {
     val klassKodAsString: String = createLabels()
     val fullText: String = createFullText()
@@ -51,6 +52,8 @@ data class Material(
         bundle.putString(Keys.FRPGRP, this.frpGrp)
         bundle.putString(Keys.TUNNELKOD, this.tunnelkod)
         bundle.putBoolean(Keys.MILJO, this.miljo)
+        bundle.putString(Keys.SOURCE, this.source.name)
+
         return bundle
     }
 
@@ -72,16 +75,18 @@ data class Material(
 
     override fun toString(): String = (if (TextUtils.isEmpty(this.fben)) this.namn else this.fben)
 
-    fun toUniqueKey(): String = this.namn + '|' + this.fben + '|' + this.fbet
+    fun toUniqueKey(): String = this.UNnr + '|' + this.namn + '|' + this.fben + '|' + this.fbet
 
     private fun createFullText(): String {
         val builder = StringBuilder()
         if (!TextUtils.isEmpty(this.UNnr)) {
             builder.append("UN ")
             builder.append(this.UNnr)
-            builder.append(' ')
         }
-        builder.append(this.namn)
+        if (source != MaterialSource.ADR_S) {
+            builder.append(' ')
+            builder.append(this.namn)
+        }
         if (!TextUtils.isEmpty(this.klassKodAsString)) {
             builder.append(", ")
             builder.append(this.klassKodAsString)
@@ -138,6 +143,7 @@ data class Material(
         const val MILJO: String = "Miljo"
         const val NAMN: String = "Namn"
         const val NEMMG: String = "NEMmg"
+        const val SOURCE: String = "Source"
         const val TPKAT: String = "TpKat"
         const val TUNNELKOD: String = "TunnelKod"
         const val UNNR: String = "UNnr"
@@ -163,6 +169,10 @@ data class Material(
             val klassKod =
                 if (null != klassKodArray) listOf(*klassKodArray) else emptyList<String>()
 
+            val sourceName = bundle.getString(Keys.SOURCE)
+            val source =
+                if (sourceName != null) MaterialSource.valueOf(sourceName) else MaterialSource.NONE
+
             return Material(
                 fbet ?: "",
                 fben ?: "",
@@ -173,13 +183,14 @@ data class Material(
                 tpKat,
                 frpGrp ?: "",
                 tunnelkod ?: "",
-                miljo
+                miljo,
+                source
             )
         }
 
         @JvmStatic
         @Throws(JSONException::class)
-        fun fromJSON(json: JSONObject): Material {
+        fun fromJSON(json: JSONObject, source: MaterialSource): Material {
             val fbet = JSONUtils.getStringOrNull(json, Keys.FBET)
             val fben = JSONUtils.getStringOrNull(json, Keys.FBEN)
             val unNr = JSONUtils.getStringOrNull(json, Keys.UNNR)
@@ -199,7 +210,7 @@ data class Material(
             }
 
             return Material(
-                fbet,
+                fbet ?: "",
                 fben ?: "",
                 unNr ?: "",
                 namn ?: "",
@@ -208,7 +219,8 @@ data class Material(
                 tpKat,
                 frpGrp ?: "",
                 tunnelkod ?: "",
-                miljo
+                miljo,
+                source
             )
         }
     }

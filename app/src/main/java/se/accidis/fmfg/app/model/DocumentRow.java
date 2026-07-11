@@ -32,7 +32,7 @@ public final class DocumentRow {
 	}
 
 	public static DocumentRow fromJson(JSONObject json) throws JSONException {
-		Material material = Material.fromJSON(json);
+		Material material = Material.fromJSON(json, MaterialSource.NONE);
 		DocumentRow row = new DocumentRow(material);
 		row.mAmount = new BigDecimal(json.getString(Keys.AMOUNT));
 		row.mIsVolume = json.getBoolean(Keys.IS_VOLUME);

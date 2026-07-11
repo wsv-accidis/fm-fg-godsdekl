@@ -107,9 +107,9 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
 		if (null != favoriteItem) {
 			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 			Material material = (Material) mListAdapter.getItem(info.position);
-			if (mRepository.isFavoriteMaterial(material)) {
-				favoriteItem.setTitle(R.string.material_favorite_remove);
-			}
+			//if (mRepository.isFavoriteMaterial(material)) {
+				//favoriteItem.setTitle(R.string.material_favorite_remove);
+			//}
 		}
 	}
 
@@ -214,6 +214,7 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
 	}
 
 	private void toggleFavorite(final Material material) {
+		/*
 		Filter.FilterListener filterListener = null;
 		if (mRepository.isFavoriteMaterial(material)) {
 			mRepository.removeFavoriteMaterial(material);
@@ -234,6 +235,7 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
 		}
 
 		mListAdapter.getFilter().filter(mSearchQuery, filterListener);
+		 */
 	}
 
 	private final class ClearSearchClickedListener implements View.OnClickListener {

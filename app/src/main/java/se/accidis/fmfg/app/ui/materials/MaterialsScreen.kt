@@ -4,6 +4,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,6 +26,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.model.Material
+import se.accidis.fmfg.app.model.MaterialSource
 import se.accidis.fmfg.app.services.MaterialsRepository
 
 @Composable
@@ -37,6 +41,7 @@ fun MaterialsScreen() {
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
+    val selectedSource by viewModel.selectedSource.collectAsStateWithLifecycle()
 
     Column(modifier = Modifier.fillMaxSize()) {
         Box(
@@ -66,7 +71,7 @@ fun MaterialsScreen() {
                     ) {
                         items(
                             items = state.items,
-                            key = { it.toUniqueKey() }
+                            key = { it.hashCode() }
                         ) { material ->
                             MaterialItem(material)
                         }
@@ -91,7 +96,15 @@ fun MaterialsScreen() {
                     autoCorrectEnabled = false,
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.None
-                )
+                ),
+                trailingIcon = {
+                    IconButton(onClick = { viewModel.toggleSource() }) {
+                        Icon(
+                            imageVector = if (selectedSource == MaterialSource.AMKAT) Icons.AutoMirrored.Filled.List else Icons.Default.GridView,
+                            contentDescription = null
+                        )
+                    }
+                }
             )
         }
     }
@@ -103,7 +116,7 @@ fun MaterialItem(material: Material) {
         ListItem(
             headlineContent = {
                 Text(
-                    text = material.fben.ifEmpty { material.namn },
+                    text = material.fben.ifBlank { material.namn },
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal

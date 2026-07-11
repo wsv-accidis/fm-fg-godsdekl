@@ -18,7 +18,7 @@ android {
 
 
 	androidResources {
-		ignoreAssetsPatterns += listOf("!adr-s.json", "!amkat.json")
+		ignoreAssetsPatterns += listOf("!ADR.json", "!adr-s.json", "!amkat.json")
 		localeFilters += listOf("en", "sv")
 	}
 

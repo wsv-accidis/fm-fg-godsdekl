@@ -75,7 +75,7 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 		TextView fbenText = (TextView) view.findViewById(R.id.material_fben);
 		fbenText.setText(material.getFben());
 
-		boolean isFavorite = mRepository.isFavoriteMaterial(material);
+		boolean isFavorite = false;//mRepository.isFavoriteMaterial(material);
 		boolean isLoaded = mLoadedMaterials.contains(material);
 
 		if (isFavorite && isLoaded) {
@@ -112,8 +112,8 @@ public final class MaterialsListAdapter extends BaseAdapter implements Filterabl
 
 		@Override
 		public int compare(Material lhs, Material rhs) {
-			boolean leftFav = mRepository.isFavoriteMaterial(lhs);
-			boolean rightFav = mRepository.isFavoriteMaterial(rhs);
+			boolean leftFav = false;//mRepository.isFavoriteMaterial(lhs);
+			boolean rightFav = false;//mRepository.isFavoriteMaterial(rhs);
 
 			if (leftFav && !rightFav) {
 				return -1;

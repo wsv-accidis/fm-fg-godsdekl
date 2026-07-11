@@ -2,16 +2,13 @@ package se.accidis.fmfg.app.services
 
 import android.content.Context
 import android.util.Log
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import se.accidis.fmfg.app.model.Material
+import se.accidis.fmfg.app.model.MaterialSource
 import se.accidis.fmfg.app.utils.IOUtils
 import se.accidis.fmfg.app.utils.Resource
 import se.accidis.fmfg.app.utils.TAG
@@ -21,23 +18,10 @@ import se.accidis.fmfg.app.utils.TAG
  */
 class MaterialsRepository private constructor(context: Context) {
     private val context: Context = context.applicationContext
-    private val favoriteMaterials: MutableSet<String>
-    private val prefs: Preferences = Preferences(this@MaterialsRepository.context)
-
     private val _materialsResource = MutableStateFlow<Resource<List<Material>>>(Resource.Loading)
     val materialsResource: StateFlow<Resource<List<Material>>> = _materialsResource.asStateFlow()
 
     private val repositoryScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-
-    init {
-        favoriteMaterials = prefs.favoriteMaterials
-    }
-
-    fun addFavoriteMaterial(material: Material) {
-        val key = material.toUniqueKey()
-        favoriteMaterials.add(key)
-        prefs.favoriteMaterials = favoriteMaterials
-    }
 
     fun beginLoad() {
         val current = _materialsResource.value
@@ -51,13 +35,9 @@ class MaterialsRepository private constructor(context: Context) {
         repositoryScope.launch {
             try {
                 val loadedMaterials = withContext(Dispatchers.IO) {
-                    val str = IOUtils.readToEnd(context.assets.open(ADR_JSON_ASSET))
-                    val jsonArray = JSONArray(str)
-                    val list = ArrayList<Material>(jsonArray.length())
-                    for (i in 0 until jsonArray.length()) {
-                        list.add(Material.fromJSON(jsonArray.getJSONObject(i)))
-                    }
-                    list
+                    val adrJob = async { loadFromAsset(ADR_S_JSON_ASSET, MaterialSource.ADR_S) }
+                    val amkatJob = async { loadFromAsset(AMKAT_JSON_ASSET, MaterialSource.AMKAT) }
+                    adrJob.await() + amkatJob.await()
                 }
 
                 _materialsResource.value = Resource.Success(loadedMaterials)
@@ -69,19 +49,19 @@ class MaterialsRepository private constructor(context: Context) {
         }
     }
 
-    fun isFavoriteMaterial(material: Material): Boolean {
-        val key = material.toUniqueKey()
-        return favoriteMaterials.contains(key)
-    }
-
-    fun removeFavoriteMaterial(material: Material) {
-        val key = material.toUniqueKey()
-        favoriteMaterials.remove(key)
-        prefs.favoriteMaterials = favoriteMaterials
+    private fun loadFromAsset(assetName: String, source: MaterialSource): List<Material> {
+        val str = IOUtils.readToEnd(context.assets.open(assetName))
+        val jsonArray = JSONArray(str)
+        val list = ArrayList<Material>(jsonArray.length())
+        for (i in 0 until jsonArray.length()) {
+            list.add(Material.fromJSON(jsonArray.getJSONObject(i), source))
+        }
+        return list
     }
 
     companion object {
-        private const val ADR_JSON_ASSET = "amkat.mini.json"
+        private const val ADR_S_JSON_ASSET = "adr-s.mini.json"
+        private const val AMKAT_JSON_ASSET = "amkat.mini.json"
         private var singleton: MaterialsRepository? = null
 
         @JvmStatic
