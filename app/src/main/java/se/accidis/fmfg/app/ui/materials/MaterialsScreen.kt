@@ -66,7 +66,7 @@ fun MaterialsScreen() {
                     ) {
                         items(
                             items = state.items,
-                            key = { it.uuid }
+                            key = { it.toUniqueKey() }
                         ) { material ->
                             MaterialItem(material)
                         }
@@ -103,7 +103,7 @@ fun MaterialItem(material: Material) {
         ListItem(
             headlineContent = {
                 Text(
-                    text = material.fben ?: material.namn ?: "",
+                    text = material.fben.ifEmpty { material.namn },
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal
@@ -114,7 +114,7 @@ fun MaterialItem(material: Material) {
             },
             supportingContent = {
                 Text(
-                    text = material.fullText ?: "",
+                    text = material.fullText,
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontSize = 14.sp
                     ),

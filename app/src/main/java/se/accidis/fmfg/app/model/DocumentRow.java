@@ -48,9 +48,7 @@ public final class DocumentRow {
 		other.mNumberOfPkgs = mNumberOfPkgs;
 		other.mTypeOfPkgs = mTypeOfPkgs;
 		other.mWeightVolume = mWeightVolume;
-		if (mMaterial.isCustom()) {
-			other.setMaterial(mMaterial);
-		}
+		other.setMaterial(mMaterial);
 	}
 
 	public BigDecimal getAmount() {
@@ -131,7 +129,7 @@ public final class DocumentRow {
 	}
 
 	public boolean isFreeText() {
-		return mMaterial.isCustom();
+		return true; // TODO
 	}
 
 	public boolean isVolume() {

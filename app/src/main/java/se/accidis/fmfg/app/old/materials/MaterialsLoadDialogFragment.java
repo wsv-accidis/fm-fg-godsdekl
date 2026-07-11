@@ -51,7 +51,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		final Bundle args = getArguments();
 		mMaterial = Material.fromBundle(args);
-		AndroidUtils.assertIsTrue(!mMaterial.isCustom(), "Materials load dialog loaded with custom material.");
+		//AndroidUtils.assertIsTrue(!mMaterial.isCustom(), "Materials load dialog loaded with custom material.");
 
 		int multiplier = ValueHelper.getMultiplierByTpKat(mMaterial.getTpKat());
 		mMultiplier = new BigDecimal(multiplier);

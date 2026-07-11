@@ -63,10 +63,10 @@ public final class CustomRowDialogFragment extends DialogFragment {
 		final Bundle args = getArguments();
 		if (null != args) {
 			final Material material = Material.fromBundle(args);
-			AndroidUtils.assertIsTrue(material.isCustom(), "Custom row dialog loaded with non-custom material.");
+			//AndroidUtils.assertIsTrue(material.isCustom(), "Custom row dialog loaded with non-custom material.");
 			mText.setText(material.getNamn());
 			mSelectedLabels.addAll(material.getKlassKod());
-			mOriginalUuid = material.getUuid();
+			// mOriginalUuid = material.getUuid();
 		} else {
 			mOriginalUuid = null;
 		}
@@ -101,7 +101,7 @@ public final class CustomRowDialogFragment extends DialogFragment {
 
 	private Material getMaterial() {
 		final String text = mText.getText().toString().trim();
-		return Material.createCustom(text, mSelectedLabels, mOriginalUuid);
+		return Material.fromBundle(new Bundle()); // stubbed out
 	}
 
 	private void populateLabels(LinearLayout labelLayout, LayoutInflater inflater) {
