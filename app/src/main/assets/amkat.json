@@ -61,7 +61,7 @@
   },
   {
     "Fbet": "M4012-117131",
-    "Fben": "12,7  IR-SLBRS BAND",
+    "Fben": "12,7 IR-SLBRS BAND",
     "UNnr": "0009",
     "Namn": "BRANDAMMUNITION, med eller utan central-, separerings- eller drivladdning",
     "KlassKod": [
@@ -73,7 +73,7 @@
   },
   {
     "Fbet": "M4012-117161",
-    "Fben": "12,7  IR-SLBRS BAND",
+    "Fben": "12,7 IR-SLBRS BAND",
     "UNnr": "0009",
     "Namn": "BRANDAMMUNITION, med eller utan central-, separerings- eller drivladdning",
     "KlassKod": [
@@ -85,7 +85,7 @@
   },
   {
     "Fbet": "M4012-117162",
-    "Fben": "12,7  IR-SLBRS BAND",
+    "Fben": "12,7 IR-SLBRS BAND",
     "UNnr": "0009",
     "Namn": "BRANDAMMUNITION, med eller utan central-, separerings- eller drivladdning",
     "KlassKod": [
@@ -15264,7 +15264,7 @@
   },
   {
     "Fbet": "M4741-110011",
-    "Fben": "TRYCKHANDGRANAT09",
+    "Fben": "TRYCKHANDGRANAT 09",
     "UNnr": "0284",
     "Namn": "GRANATER, hand- eller gevärs-, med sprängladdning",
     "KlassKod": [
@@ -15276,7 +15276,7 @@
   },
   {
     "Fbet": "M4741-110012",
-    "Fben": "TRYCKHGR 09B",
+    "Fben": "TRYCKHANDGRANAT 09B",
     "UNnr": "0284",
     "Namn": "GRANATER, hand- eller gevärs-, med sprängladdning",
     "KlassKod": [
@@ -15288,7 +15288,7 @@
   },
   {
     "Fbet": "M4741-110013",
-    "Fben": "TRYCKHGR 09D",
+    "Fben": "TRYCKHANDGRANAT 09D",
     "UNnr": "0284",
     "Namn": "GRANATER, hand- eller gevärs-, med sprängladdning",
     "KlassKod": [

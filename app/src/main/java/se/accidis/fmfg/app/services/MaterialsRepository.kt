@@ -81,7 +81,7 @@ class MaterialsRepository private constructor(context: Context) {
     }
 
     companion object {
-        private const val ADR_JSON_ASSET = "ADR.json"
+        private const val ADR_JSON_ASSET = "amkat.mini.json"
         private var singleton: MaterialsRepository? = null
 
         @JvmStatic

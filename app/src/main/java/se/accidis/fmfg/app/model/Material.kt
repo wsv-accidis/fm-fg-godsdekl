@@ -45,7 +45,7 @@ data class Material(
         bundle.putString(Keys.FBEN, this.fben)
         bundle.putString(Keys.UNNR, this.UNnr)
         bundle.putString(Keys.NAMN, this.namn)
-        bundle.putStringArray(Keys.KLASSKOD, klassKod.toTypedArray<String?>())
+        bundle.putStringArray(Keys.KLASSKOD, klassKod.toTypedArray<String>())
         bundle.putInt(Keys.NEMMG, this.NEMmg)
         bundle.putInt(Keys.TPKAT, this.tpKat)
         bundle.putString(Keys.FRPGRP, this.frpGrp)
@@ -201,13 +201,13 @@ data class Material(
             return Material(
                 fbet,
                 fben ?: "",
-                unNr,
+                unNr ?: "",
                 namn ?: "",
                 klassKod,
                 nEMmg,
                 tpKat,
-                frpGrp,
-                tunnelkod,
+                frpGrp ?: "",
+                tunnelkod ?: "",
                 miljo
             )
         }
