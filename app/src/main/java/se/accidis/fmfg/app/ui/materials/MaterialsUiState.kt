@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui
+package se.accidis.fmfg.app.ui.materials
 
 import se.accidis.fmfg.app.model.Material
 

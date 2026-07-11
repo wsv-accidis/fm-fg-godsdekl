@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui
+package se.accidis.fmfg.app.ui.materials
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import se.accidis.fmfg.app.R
@@ -73,9 +75,9 @@ fun MaterialsScreen() {
     }
 }
 
-private inline fun <reified VM : androidx.lifecycle.ViewModel> viewModelFactory(crossinline f: () -> VM) =
-    object : androidx.lifecycle.ViewModelProvider.Factory {
-        override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T = f() as T
+private inline fun <reified VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
+    object : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T = f() as T
     }
 
 @Composable

@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui
+package se.accidis.fmfg.app.ui.materials
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import se.accidis.fmfg.app.model.Material
 import se.accidis.fmfg.app.services.MaterialsRepository
 import se.accidis.fmfg.app.utils.Resource
 
