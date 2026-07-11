@@ -2,14 +2,13 @@ package se.accidis.fmfg.app.ui.materials
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import se.accidis.fmfg.app.services.MaterialsRepository
 import se.accidis.fmfg.app.utils.Resource
 
+/**
+ * View model for the Materials screen.
+ */
 class MaterialsViewModel(
     private val repository: MaterialsRepository
 ) : ViewModel() {
@@ -29,7 +28,7 @@ class MaterialsViewModel(
                     resource.data
                 } else {
                     resource.data.filter { material ->
-                        material.fben?.contains(query, ignoreCase = true) == true
+                        material.matches(query)
                     }
                 }
                 MaterialsUiState.Success(filtered)
