@@ -99,8 +99,8 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 
 		TextView tunnelKodHeading = (TextView) view.findViewById(R.id.material_tunnelkod_heading);
 		TextView tunnelKodView = (TextView) view.findViewById(R.id.material_tunnelkod);
-		if (!TextUtils.isEmpty(mMaterial.getTunnelkod())) {
-			tunnelKodView.setText(mMaterial.getTunnelkod());
+		if (!TextUtils.isEmpty(mMaterial.getTunnelKod())) {
+			tunnelKodView.setText(mMaterial.getTunnelKod());
 		} else {
 			tunnelKodHeading.setVisibility(View.GONE);
 			tunnelKodView.setVisibility(View.GONE);

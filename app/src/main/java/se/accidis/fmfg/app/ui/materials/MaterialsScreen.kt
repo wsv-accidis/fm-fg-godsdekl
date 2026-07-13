@@ -4,15 +4,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -71,7 +69,7 @@ fun MaterialsScreen() {
                     ) {
                         items(
                             items = state.items,
-                            key = { it.hashCode() }
+                            key = { it.uniqueKey }
                         ) { material ->
                             MaterialItem(material)
                         }
@@ -100,7 +98,7 @@ fun MaterialsScreen() {
                 trailingIcon = {
                     IconButton(onClick = { viewModel.toggleSource() }) {
                         Icon(
-                            imageVector = if (selectedSource == MaterialSource.AMKAT) Icons.AutoMirrored.Filled.List else Icons.Default.GridView,
+                            painter = painterResource(if (selectedSource == MaterialSource.AMKAT) R.drawable.ic_amkat else R.drawable.ic_adr),
                             contentDescription = null
                         )
                     }

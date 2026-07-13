@@ -22,7 +22,7 @@ data class Material(
     val NEMmg: Int,
     val tpKat: Int,
     val frpGrp: String,
-    val tunnelkod: String,
+    val tunnelKod: String,
     val miljo: Boolean,
     val source: MaterialSource = MaterialSource.NONE
 ) {
@@ -35,6 +35,9 @@ data class Material(
             val value = BigDecimal(this.NEMmg)
             return value.divide(BigDecimal(1000000), 6, RoundingMode.FLOOR)
         }
+
+    val uniqueKey: String
+        get() = this.UNnr + '|' + this.namn + '|' + this.fben + '|' + this.fbet
 
     fun hasNEM(): Boolean = (0 != this.NEMmg)
 
@@ -50,7 +53,7 @@ data class Material(
         bundle.putInt(Keys.NEMMG, this.NEMmg)
         bundle.putInt(Keys.TPKAT, this.tpKat)
         bundle.putString(Keys.FRPGRP, this.frpGrp)
-        bundle.putString(Keys.TUNNELKOD, this.tunnelkod)
+        bundle.putString(Keys.TUNNELKOD, this.tunnelKod)
         bundle.putBoolean(Keys.MILJO, this.miljo)
         bundle.putString(Keys.SOURCE, this.source.name)
 
@@ -68,14 +71,12 @@ data class Material(
         json.put(Keys.NEMMG, this.NEMmg)
         json.put(Keys.TPKAT, this.tpKat)
         json.put(Keys.FRPGRP, this.frpGrp)
-        json.put(Keys.TUNNELKOD, this.tunnelkod)
+        json.put(Keys.TUNNELKOD, this.tunnelKod)
         json.put(Keys.MILJO, this.miljo)
         return json
     }
 
     override fun toString(): String = (if (TextUtils.isEmpty(this.fben)) this.namn else this.fben)
-
-    fun toUniqueKey(): String = this.UNnr + '|' + this.namn + '|' + this.fben + '|' + this.fbet
 
     private fun createFullText(): String {
         val builder = StringBuilder()
@@ -95,9 +96,9 @@ data class Material(
             builder.append(", ")
             builder.append(this.frpGrp)
         }
-        if (!TextUtils.isEmpty(this.tunnelkod)) {
+        if (!TextUtils.isEmpty(this.tunnelKod)) {
             builder.append(" (")
-            builder.append(this.tunnelkod)
+            builder.append(this.tunnelKod)
             builder.append(')')
         }
         return builder.toString()
