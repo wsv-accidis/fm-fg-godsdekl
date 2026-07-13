@@ -105,7 +105,7 @@ public final class CustomRowDialogFragment extends DialogFragment {
 	}
 
 	private void populateLabels(LinearLayout labelLayout, LayoutInflater inflater) {
-		final Collection<Label> labels = LabelsRepository.getAllLabels();
+		final Collection<Label> labels = Collections.emptyList(); // stubbed
 		for (Label label : labels) {
 			final ViewGroup view = (ViewGroup) inflater.inflate(R.layout.layout_item_label, labelLayout, false);
 

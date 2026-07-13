@@ -2,6 +2,7 @@ package se.accidis.fmfg.app.model
 
 import android.os.Bundle
 import android.text.TextUtils
+import kotlinx.serialization.Serializable
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -13,6 +14,7 @@ import java.util.Locale
 /**
  * Model object for materials.
  */
+@Serializable
 data class Material(
     val fbet: String,
     val fben: String,

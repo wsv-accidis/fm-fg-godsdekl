@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import java.util.Collections;
 import java.util.List;
 
 import se.accidis.fmfg.app.R;
@@ -145,7 +146,7 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 		int size = resources.getDimensionPixelSize(R.dimen.material_label_size);
 		int margin = resources.getDimensionPixelSize(R.dimen.material_label_margin);
 
-		List<Integer> labels = LabelsRepository.getLabelsByMaterial(mMaterial, false);
+		List<Integer> labels = Collections.emptyList(); // LabelsRepository.getLabelsByMaterial(mMaterial, false);
 
 		for (Integer label : labels) {
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);

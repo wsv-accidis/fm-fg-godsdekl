@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import se.accidis.fmfg.app.ui.materials.MaterialLoadScreen
 import se.accidis.fmfg.app.ui.materials.MaterialsScreen
 import se.accidis.fmfg.app.ui.theme.AppTheme
 
@@ -40,18 +41,21 @@ fun MainView() {
 
     Scaffold(
         bottomBar = {
-            FmFgNavigationBar(
-                currentDestination = currentDestination,
-                onNavigate = { currentDestination = it }
-            )
+            if (currentDestination !is MaterialLoad) {
+                FmFgNavigationBar(
+                    currentDestination = currentDestination,
+                    onNavigate = { currentDestination = it }
+                )
+            }
         }
     ) { innerPadding ->
         BoxWithPadding(modifier = Modifier.padding(innerPadding)) {
-            when (currentDestination) {
-                is Materials -> MaterialsScreen()
+            when (val dest = currentDestination) {
+                is Materials -> MaterialsScreen(onMaterialClick = { currentDestination = MaterialLoad(it) })
                 is Documents -> DocumentsScreen()
                 is References -> ReferencesScreen()
                 is Settings -> SettingsScreen()
+                is MaterialLoad -> MaterialLoadScreen(material = dest.material, onBack = { currentDestination = Materials })
             }
         }
     }

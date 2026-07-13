@@ -15,7 +15,6 @@ object LabelsRepository {
     private val miljoLabel: Label =
         Label("MILJÖFARLIGT", R.drawable.label_miljo, R.drawable.label_miljo_sm)
 
-    @JvmStatic
     val allLabels: Collection<Label>
         get() = labels.values
 
@@ -48,7 +47,6 @@ object LabelsRepository {
         return labelDrawables
     }
 
-    @JvmStatic
     fun getLabelsByMaterial(material: Material, smallImages: Boolean): List<Int> {
         val labels = ArrayList<Int>()
         for (klassKod in material.klassKod) {
@@ -68,7 +66,7 @@ object LabelsRepository {
         return labels
     }
 
-    private fun getLabelByKlassKod(klassKod: String): Label? {
+    fun getLabelByKlassKod(klassKod: String): Label? {
         if (labels.containsKey(klassKod)) {
             return labels[klassKod]
         }
@@ -76,10 +74,10 @@ object LabelsRepository {
         // Fallback label in case we don't have an exact match (this shouldn't happen)
         var fallback = klassKod.dropLast(1)
         while ("" != fallback) {
-            if (labels.containsKey(klassKod)) {
-                return labels[klassKod]
+            if (labels.containsKey(fallback)) {
+                return labels[fallback]
             }
-            fallback = klassKod.dropLast(1)
+            fallback = fallback.dropLast(1)
         }
 
         return null

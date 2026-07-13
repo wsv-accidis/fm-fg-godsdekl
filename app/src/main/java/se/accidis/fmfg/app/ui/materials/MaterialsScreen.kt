@@ -1,5 +1,6 @@
 package se.accidis.fmfg.app.ui.materials
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,7 +29,7 @@ import se.accidis.fmfg.app.model.MaterialSource
 import se.accidis.fmfg.app.services.MaterialsRepository
 
 @Composable
-fun MaterialsScreen() {
+fun MaterialsScreen(onMaterialClick: (Material) -> Unit) {
     val context = LocalContext.current.applicationContext
     val viewModel: MaterialsViewModel = viewModel(
         factory = viewModelFactory {
@@ -71,7 +72,10 @@ fun MaterialsScreen() {
                             items = state.items,
                             key = { it.uniqueKey }
                         ) { material ->
-                            MaterialItem(material)
+                            MaterialItem(
+                                material = material,
+                                onClick = { onMaterialClick(material) }
+                            )
                         }
                     }
                 }
@@ -109,8 +113,8 @@ fun MaterialsScreen() {
 }
 
 @Composable
-fun MaterialItem(material: Material) {
-    Column {
+fun MaterialItem(material: Material, onClick: () -> Unit) {
+    Column(modifier = Modifier.clickable(onClick = onClick)) {
         ListItem(
             headlineContent = {
                 Text(

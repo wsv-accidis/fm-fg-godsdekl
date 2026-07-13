@@ -84,6 +84,7 @@
 	<string name="documents_list_nav_title">Godsdekl.</string>
     <string name="documents_list_empty">Inga sparade godsdeklarationer.</string>
 
+	<string name="generic_add">Lägg till</string>
     <string name="generic_cancel">Avbryt</string>
 	<string name="generic_close">Stäng</string>
 	<string name="generic_no">Nej</string>
@@ -97,9 +98,13 @@
     <string name="material_favorite_add">Lägg till favorit</string>
     <string name="material_favorite_remove">Ta bort favorit</string>
     <string name="material_fben">Förrådsbenämning</string>
+	<string name="material_fbet">M-nummer</string>
     <string name="material_frpgrp">Förpackningsgrupp</string>
     <string name="material_klasskod">Klassificeringskod</string>
-    <string name="material_load">Lasta</string>
+	<string name="material_klasskod_select">Välj etiketter</string>
+    <string name="material_load">Lägg till i godsdekl.</string>
+	<string name="material_material">Lasta materiel</string>
+	<string name="material_miljofarligt">Miljöfarligt</string>
     <string name="material_namn">Transportbenämning</string>
     <string name="material_nem">Netto expl.mängd</string>
     <string name="material_no_data">-</string>
