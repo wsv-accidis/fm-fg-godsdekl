@@ -1,5 +1,6 @@
 package se.accidis.fmfg.app.ui
 
+import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
@@ -7,6 +8,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import se.accidis.fmfg.app.R
 
@@ -14,36 +16,41 @@ import se.accidis.fmfg.app.R
  * Base interface for all navigation destinations in the app.
  */
 @Serializable
-sealed interface NavDestination
+sealed interface NavDestination : Parcelable
 
 /**
  * Destination for the Materials list screen.
  */
 @Serializable
+@Parcelize
 data object Materials : NavDestination
 
 /**
  * Destination for the Documents list screen.
  */
 @Serializable
+@Parcelize
 data object Documents : NavDestination
 
 /**
  * Destination for the References screen.
  */
 @Serializable
+@Parcelize
 data object References : NavDestination
 
 /**
  * Destination for the Settings screen.
  */
 @Serializable
+@Parcelize
 data object Settings : NavDestination
 
 /**
  * Destination for the Material load screen, taking a material as a parameter.
  */
 @Serializable
+@Parcelize
 data class MaterialLoad(val material: se.accidis.fmfg.app.model.Material) : NavDestination
 
 /**

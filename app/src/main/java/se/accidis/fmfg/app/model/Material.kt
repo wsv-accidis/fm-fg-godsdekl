@@ -1,7 +1,10 @@
 package se.accidis.fmfg.app.model
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.TextUtils
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import org.json.JSONArray
 import org.json.JSONException
@@ -15,6 +18,7 @@ import java.util.Locale
  * Model object for materials.
  */
 @Serializable
+@Parcelize
 data class Material(
     val fbet: String,
     val fben: String,
@@ -27,9 +31,12 @@ data class Material(
     val tunnelKod: String,
     val miljo: Boolean,
     val source: MaterialSource = MaterialSource.NONE
-) {
+) : Parcelable {
+    @IgnoredOnParcel
     val klassKodAsString: String = createLabels()
+    @IgnoredOnParcel
     val fullText: String = createFullText()
+    @IgnoredOnParcel
     private val mSearchText: String = createSearchText()
 
     val NEMkg: BigDecimal?

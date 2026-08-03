@@ -5,15 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -37,7 +33,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainView() {
-    var currentDestination: NavDestination by remember { mutableStateOf(Materials) }
+    var currentDestination: NavDestination by rememberSaveable { mutableStateOf(Materials) }
 
     Scaffold(
         bottomBar = {
@@ -51,11 +47,16 @@ fun MainView() {
     ) { innerPadding ->
         BoxWithPadding(modifier = Modifier.padding(innerPadding)) {
             when (val dest = currentDestination) {
-                is Materials -> MaterialsScreen(onMaterialClick = { currentDestination = MaterialLoad(it) })
+                is Materials -> MaterialsScreen(onMaterialClick = {
+                    currentDestination = MaterialLoad(it)
+                })
+
                 is Documents -> DocumentsScreen()
                 is References -> ReferencesScreen()
                 is Settings -> SettingsScreen()
-                is MaterialLoad -> MaterialLoadScreen(material = dest.material, onBack = { currentDestination = Materials })
+                is MaterialLoad -> MaterialLoadScreen(
+                    material = dest.material,
+                    onBack = { currentDestination = Materials })
             }
         }
     }

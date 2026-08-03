@@ -102,6 +102,7 @@
 	<string name="material_frpgrp">Förpackningsgrupp</string>
     <string name="material_frpgrp_short">Förp.grupp</string>
     <string name="material_klasskod">Klassificeringskod</string>
+	<string name="material_klasskod_add">Lägg till</string>
 	<string name="material_klasskod_select">Välj etiketter</string>
     <string name="material_load">Lägg till i godsdekl.</string>
 	<string name="material_material">Lasta materiel</string>
