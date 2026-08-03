@@ -99,7 +99,8 @@
     <string name="material_favorite_remove">Ta bort favorit</string>
     <string name="material_fben">Förrådsbenämning</string>
 	<string name="material_fbet">M-nummer</string>
-    <string name="material_frpgrp">Förpackningsgrupp</string>
+	<string name="material_frpgrp">Förpackningsgrupp</string>
+    <string name="material_frpgrp_short">Förp.grupp</string>
     <string name="material_klasskod">Klassificeringskod</string>
 	<string name="material_klasskod_select">Välj etiketter</string>
     <string name="material_load">Lägg till i godsdekl.</string>
@@ -107,10 +108,13 @@
 	<string name="material_miljofarligt">Miljöfarligt</string>
     <string name="material_namn">Transportbenämning</string>
     <string name="material_nem">Netto expl.mängd</string>
+	<string name="material_nem_per_piece">Netto expl.mängd per styck</string>
+	<string name="material_nem_unit">Enhet</string>
     <string name="material_no_data">-</string>
     <string name="material_remove">Ta bort</string>
     <string name="material_tunnelkod">Tunnelrestriktionskod</string>
     <string name="material_tpkat">Transportkategori</string>
+	<string name="material_tpkat_short">Tp.kat</string>
     <string name="material_unnr">UN-nummer</string>
     <string name="material_un_format">UN %1$s</string>
 
@@ -139,8 +143,11 @@
 	<string name="preferences_default_author_description">Ange dina uppgifter så fylls de i automatiskt</string>
 
 	<string name="unit_amount">styck</string>
+	<string name="unit_g">g</string>
+	<string name="unit_kg">kg</string>
     <string name="unit_kg_format">%1$s kg</string>
     <string name="unit_liter_format">%1$s liter</string>
+	<string name="unit_none">-</string>
     <string name="unit_points_format">%1$s p</string>
 
 	<string-array name="document_custom_row_text_suggestions">
@@ -193,6 +200,13 @@
 		<item>Nej</item>
 	</string-array>
 
+	<string-array name="material_frpgrp_options">
+		<item></item>
+		<item>I</item>
+		<item>II</item>
+		<item>III</item>
+	</string-array>
+
 	<string-array name="material_pkg_types">
 		<item>ask</item>
 		<item>askar</item>
@@ -222,6 +236,29 @@
 		<item>tankar</item>
 		<item>tunna</item>
 		<item>tunnor</item>
+	</string-array>
+
+	<string-array name="material_tpkat_options">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+	</string-array>
+
+	<string-array name="material_tunnelkod_options">
+		<item>-</item>
+		<item>B</item>
+		<item>B1000C</item>
+		<item>B/D</item>
+		<item>B/E</item>
+		<item>C</item>
+		<item>C5000D</item>
+		<item>C/D</item>
+		<item>C/E</item>
+		<item>D</item>
+		<item>D/E</item>
+		<item>E</item>
 	</string-array>
 
 	<string-array name="unit_weight_volume">
