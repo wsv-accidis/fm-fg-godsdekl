@@ -18,9 +18,26 @@ enum class NemUnit(val labelResId: Int, val factor: Long) {
 }
 
 /**
+ * Units for weight/volume input.
+ */
+enum class WeightVolumeUnit(val labelResId: Int) {
+    KILOGRAM(R.string.unit_kg),
+    LITER(R.string.unit_liter)
+}
+
+/**
  * ViewModel for the Material load screen.
  */
 class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
+    val canLoadMaterial: Boolean
+        get() {
+            val numPkgs = numberOfPkgs.toIntOrNull() ?: 0
+            val wtVol = ValueHelper.parseValue(weightVolume)
+            val hasIdentity =
+                unNr.isNotBlank() || namn.isNotBlank() || fbet.isNotBlank() || fben.isNotBlank()
+            return numPkgs > 0 && wtVol.signum() > 0 && hasIdentity
+        }
+
     // --------------------------
     // Fields for the DocumentRow
     // --------------------------
@@ -29,7 +46,7 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
     var typeOfPkgs by mutableStateOf("")
     var isTypeOfPkgsExpanded by mutableStateOf(false)
     var weightVolume by mutableStateOf("0")
-    var weightVolumeUnit by mutableStateOf("") // Will be initialized from resources in the UI
+    var weightVolumeUnit by mutableStateOf(WeightVolumeUnit.KILOGRAM)
     var isWeightVolumeUnitExpanded by mutableStateOf(false)
     var amount by mutableStateOf("0")
 
@@ -48,14 +65,23 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
     val totalPoints: BigDecimal
         get() = weightVolumePointsBasis.multiply(BigDecimal(ValueHelper.getMultiplierByTpKat(tpKat)))
 
-    val canLoadMaterial: Boolean
-        get() {
-            val numPkgs = numberOfPkgs.toIntOrNull() ?: 0
-            val wtVol = weightVolume.toIntOrNull() ?: 0
-            val hasIdentity =
-                unNr.isNotBlank() || namn.isNotBlank() || fbet.isNotBlank() || fben.isNotBlank()
-            return numPkgs > 0 && wtVol > 0 && hasIdentity
+    fun onNumberOfPkgsChanged(newValue: String) {
+        if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
+            numberOfPkgs = newValue
         }
+    }
+
+    fun onWeightVolumeChanged(newValue: String) {
+        if (newValue.isEmpty() || newValue.all { it.isDigit() || it == '.' || it == ',' }) {
+            weightVolume = newValue
+        }
+    }
+
+    fun onAmountChanged(newValue: String) {
+        if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
+            amount = newValue
+        }
+    }
 
     // -----------------------
     // Fields for the Material
@@ -110,6 +136,12 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
     var miljo by mutableStateOf(initialMaterial.miljo)
 
     var isEditPanelExpanded by mutableStateOf(false)
+
+    fun onUnNrChanged(newValue: String) {
+        if (newValue.length <= 6 && newValue.all { it.isDigit() }) {
+            unNr = newValue
+        }
+    }
 
     fun onNemInputChanged(newValue: String) {
         if (newValue.isEmpty() || newValue.all { (it.isDigit() || it == '.' || it == ',') }) {

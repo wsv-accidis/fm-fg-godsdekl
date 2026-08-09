@@ -152,6 +152,7 @@
 	<string name="unit_amount">styck</string>
 	<string name="unit_g">g</string>
 	<string name="unit_kg">kg</string>
+	<string name="unit_liter">liter</string>
     <string name="unit_kg_format">%1$s kg</string>
     <string name="unit_liter_format">%1$s liter</string>
 	<string name="unit_none">-</string>

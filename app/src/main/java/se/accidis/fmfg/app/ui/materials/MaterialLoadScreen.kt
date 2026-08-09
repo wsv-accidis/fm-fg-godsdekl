@@ -15,7 +15,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -108,13 +107,6 @@ fun MaterialLoadScreen(
         }
     }
 
-    val units = stringArrayResource(R.array.unit_weight_volume)
-    LaunchedEffect(units) {
-        if (viewModel.weightVolumeUnit.isEmpty() && units.isNotEmpty()) {
-            viewModel.weightVolumeUnit = units[0]
-        }
-    }
-
     if (viewModel.isKlassKodListVisible) {
         MaterialEditKlassKodBottomSheet(viewModel)
     }
@@ -150,17 +142,10 @@ private fun DocumentRowFields(
     onLoad: () -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        InputRow {
             TextField(
                 value = viewModel.numberOfPkgs,
-                onValueChange = {
-                    if (it.isEmpty() || it.all { char -> char.isDigit() }) viewModel.numberOfPkgs =
-                        it
-                },
+                onValueChange = { viewModel.onNumberOfPkgsChanged(it) },
                 label = { FieldLabel(R.string.material_load_num_pkgs) },
                 modifier = Modifier.width(100.dp),
                 keyboardOptions = KeyboardOptions(
@@ -213,17 +198,10 @@ private fun DocumentRowFields(
             }
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        InputRow {
             TextField(
                 value = viewModel.weightVolume,
-                onValueChange = {
-                    if (it.isEmpty() || it.all { char -> char.isDigit() }) viewModel.weightVolume =
-                        it
-                },
+                onValueChange = { viewModel.onWeightVolumeChanged(it) },
                 label = { FieldLabel(R.string.material_load_weight_volume) },
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(
@@ -234,43 +212,26 @@ private fun DocumentRowFields(
                 singleLine = true
             )
 
-            ExposedDropdownMenuBox(
+            val unitOptions = WeightVolumeUnit.entries.toList()
+            val unitLabels = unitOptions.map { stringResource(it.labelResId) }
+
+            ReadOnlyDropdown(
+                labelResId = R.string.material_load_weight_volume_unit,
+                value = stringResource(viewModel.weightVolumeUnit.labelResId),
+                options = unitLabels.toTypedArray(),
                 expanded = viewModel.isWeightVolumeUnitExpanded,
                 onExpandedChange = { viewModel.isWeightVolumeUnitExpanded = it },
-                modifier = Modifier.width(120.dp)
-            ) {
-                val units = stringArrayResource(R.array.unit_weight_volume)
-                TextField(
-                    value = viewModel.weightVolumeUnit,
-                    onValueChange = {},
-                    readOnly = true,
-                    label = { FieldLabel(R.string.material_load_weight_volume_unit) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.isWeightVolumeUnitExpanded) },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                    modifier = Modifier.menuAnchor(
-                        ExposedDropdownMenuAnchorType.PrimaryNotEditable,
-                        true
-                    )
-                )
-                ExposedDropdownMenu(
-                    expanded = viewModel.isWeightVolumeUnitExpanded,
-                    onDismissRequest = { viewModel.isWeightVolumeUnitExpanded = false }
-                ) {
-                    units.forEach { unit ->
-                        DropdownMenuItem(
-                            text = { Text(unit) },
-                            onClick = {
-                                viewModel.weightVolumeUnit = unit
-                                viewModel.isWeightVolumeUnitExpanded = false
-                            }
-                        )
+                onOptionSelected = { label ->
+                    val index = unitLabels.indexOf(label)
+                    if (index >= 0) {
+                        viewModel.weightVolumeUnit = unitOptions[index]
                     }
-                }
-            }
+                },
+                modifier = Modifier.width(120.dp)
+            )
         }
 
         NemCalculationPanel(viewModel, onLoad)
-
         CalculationSummary(viewModel)
     }
 }
@@ -331,133 +292,80 @@ private fun CalculationSummary(viewModel: MaterialLoadViewModel) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun NemCalculationPanel(
     viewModel: MaterialLoadViewModel,
     onLoad: () -> Unit
 ) {
-    ElevatedCard(
-        onClick = { viewModel.isNemPanelExpanded = !viewModel.isNemPanelExpanded },
-        modifier = Modifier.fillMaxWidth()
+    ExpandableCard(
+        titleResId = R.string.material_load_nem_calculation,
+        isExpanded = viewModel.isNemPanelExpanded,
+        onExpandedChange = { viewModel.isNemPanelExpanded = it }
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.material_load_nem_calculation),
-                    style = MaterialTheme.typography.titleMedium
-                )
+        if (viewModel.nemMgValue == 0L) {
+            InputRow {
                 Icon(
-                    imageVector = if (viewModel.isNemPanelExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                    contentDescription = null
+                    imageVector = Icons.Default.Warning,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp),
+                    tint = MaterialTheme.colorScheme.error
                 )
-            }
-
-            AnimatedVisibility(visible = viewModel.isNemPanelExpanded) {
-                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                    if (viewModel.nemMgValue == 0L) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Warning,
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp),
-                                tint = MaterialTheme.colorScheme.error
-                            )
-                            Text(
-                                text = stringResource(R.string.material_load_nem_warning),
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.error
-                            )
-                        }
-                    }
-
-                    TextField(
-                        value = viewModel.amount,
-                        onValueChange = {
-                            if (it.isEmpty() || it.all { char -> char.isDigit() }) viewModel.amount =
-                                it
-                        },
-                        label = { FieldLabel(R.string.material_load_amount) },
-                        modifier = Modifier.fillMaxWidth(),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Number,
-                            imeAction = ImeAction.Done
-                        ),
-                        keyboardActions = KeyboardActions(onDone = { onLoad() }),
-                        singleLine = true
-                    )
-
-                    val totalNemMgBd = viewModel.totalNemMg
-                    val displayUnit =
-                        if (totalNemMgBd < BigDecimal(100_000L)) NemUnit.GRAM else NemUnit.KILOGRAM
-
-                    val totalNemDisplayValue = ValueHelper.formatValue(
-                        totalNemMgBd.divide(
-                            BigDecimal(displayUnit.factor),
-                            6,
-                            RoundingMode.FLOOR
-                        )
-                    )
-
-                    Text(
-                        text = stringResource(
-                            R.string.material_load_nem_total,
-                            totalNemDisplayValue,
-                            stringResource(displayUnit.labelResId)
-                        ),
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+                Text(
+                    text = stringResource(R.string.material_load_nem_warning),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.error
+                )
             }
         }
+
+        TextField(
+            value = viewModel.amount,
+            onValueChange = { viewModel.onAmountChanged(it) },
+            label = { FieldLabel(R.string.material_load_amount) },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(onDone = { onLoad() }),
+            singleLine = true
+        )
+
+        val totalNemMgBd = viewModel.totalNemMg
+        val displayUnit =
+            if (totalNemMgBd < BigDecimal(100_000L)) NemUnit.GRAM else NemUnit.KILOGRAM
+
+        val totalNemDisplayValue = ValueHelper.formatValue(
+            totalNemMgBd.divide(
+                BigDecimal(displayUnit.factor),
+                6,
+                RoundingMode.FLOOR
+            )
+        )
+
+        Text(
+            text = stringResource(
+                R.string.material_load_nem_total,
+                totalNemDisplayValue,
+                stringResource(displayUnit.labelResId)
+            ),
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MaterialEditPanel(
     viewModel: MaterialLoadViewModel,
     onLoad: () -> Unit
 ) {
-    ElevatedCard(
-        onClick = { viewModel.isEditPanelExpanded = !viewModel.isEditPanelExpanded },
-        modifier = Modifier.fillMaxWidth()
+    ExpandableCard(
+        titleResId = R.string.material_edit_material,
+        isExpanded = viewModel.isEditPanelExpanded,
+        onExpandedChange = { viewModel.isEditPanelExpanded = it }
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.material_edit_material),
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Icon(
-                    imageVector = if (viewModel.isEditPanelExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                    contentDescription = null
-                )
-            }
-
-            AnimatedVisibility(visible = viewModel.isEditPanelExpanded) {
-                MaterialEditFields(viewModel, onLoad)
-            }
-        }
+        MaterialEditFields(viewModel, onLoad)
     }
 }
 
@@ -468,10 +376,7 @@ private fun MaterialEditFields(
     onLoad: () -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
+        InputRow {
             TextField(
                 value = viewModel.fbet,
                 onValueChange = { viewModel.fbet = it },
@@ -490,17 +395,10 @@ private fun MaterialEditFields(
             )
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
+        InputRow {
             TextField(
                 value = viewModel.unNr,
-                onValueChange = { newValue ->
-                    if (newValue.length <= 6 && newValue.all { it.isDigit() }) {
-                        viewModel.unNr = newValue
-                    }
-                },
+                onValueChange = { viewModel.onUnNrChanged(it) },
                 label = { FieldLabel(R.string.material_unnr) },
                 modifier = Modifier.width(100.dp),
                 keyboardOptions = KeyboardOptions(
@@ -521,11 +419,7 @@ private fun MaterialEditFields(
 
         KlassKodChips(viewModel)
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        InputRow {
             TextField(
                 value = viewModel.nemInputText,
                 onValueChange = { viewModel.onNemInputChanged(it) },
@@ -540,145 +434,57 @@ private fun MaterialEditFields(
                 singleLine = true
             )
 
-            ExposedDropdownMenuBox(
+            val nemOptions = NemUnit.entries.toList()
+            val nemLabels = nemOptions.map { stringResource(it.labelResId) }
+
+            ReadOnlyDropdown(
+                labelResId = R.string.material_nem_unit,
+                value = stringResource(viewModel.nemUnitSelected.labelResId),
+                options = nemLabels.toTypedArray(),
                 expanded = viewModel.nemUnitExpanded,
                 onExpandedChange = { viewModel.nemUnitExpanded = it },
-                modifier = Modifier.width(100.dp)
-            ) {
-                TextField(
-                    value = stringResource(viewModel.nemUnitSelected.labelResId),
-                    onValueChange = {},
-                    readOnly = true,
-                    label = { FieldLabel(R.string.material_nem_unit) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.nemUnitExpanded) },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                    modifier = Modifier.menuAnchor(
-                        ExposedDropdownMenuAnchorType.PrimaryNotEditable,
-                        true
-                    )
-                )
-                ExposedDropdownMenu(
-                    expanded = viewModel.nemUnitExpanded,
-                    onDismissRequest = { viewModel.nemUnitExpanded = false }
-                ) {
-                    NemUnit.entries.forEach { unit ->
-                        DropdownMenuItem(
-                            text = { Text(stringResource(unit.labelResId)) },
-                            onClick = { viewModel.onNemUnitSelected(unit) }
-                        )
+                onOptionSelected = { label ->
+                    val index = nemLabels.indexOf(label)
+                    if (index >= 0) {
+                        viewModel.onNemUnitSelected(nemOptions[index])
                     }
-                }
-            }
+                },
+                modifier = Modifier.width(100.dp)
+            )
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            ExposedDropdownMenuBox(
+        InputRow {
+            ReadOnlyDropdown(
+                labelResId = R.string.material_tpkat,
+                value = viewModel.tpKat.toString(),
+                options = stringArrayResource(R.array.material_tpkat_options),
                 expanded = viewModel.isTpKatExpanded,
                 onExpandedChange = { viewModel.isTpKatExpanded = it },
+                onOptionSelected = { viewModel.tpKat = it.toInt() },
                 modifier = Modifier.weight(1f)
-            ) {
-                TextField(
-                    value = viewModel.tpKat.toString(),
-                    onValueChange = {},
-                    readOnly = true,
-                    label = { FieldLabel(R.string.material_tpkat) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.isTpKatExpanded) },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                    modifier = Modifier.menuAnchor(
-                        ExposedDropdownMenuAnchorType.PrimaryNotEditable,
-                        true
-                    )
-                )
-                ExposedDropdownMenu(
-                    expanded = viewModel.isTpKatExpanded,
-                    onDismissRequest = { viewModel.isTpKatExpanded = false }
-                ) {
-                    stringArrayResource(R.array.material_tpkat_options).forEach { option ->
-                        DropdownMenuItem(
-                            text = { Text(option) },
-                            onClick = {
-                                viewModel.tpKat = option.toInt()
-                                viewModel.isTpKatExpanded = false
-                            }
-                        )
-                    }
-                }
-            }
+            )
 
-            ExposedDropdownMenuBox(
+            ReadOnlyDropdown(
+                labelResId = R.string.material_frpgrp_short,
+                value = viewModel.frpGrp.ifEmpty { "-" },
+                options = stringArrayResource(R.array.material_frpgrp_options),
                 expanded = viewModel.isFrpGrpExpanded,
                 onExpandedChange = { viewModel.isFrpGrpExpanded = it },
+                onOptionSelected = { viewModel.frpGrp = if (it == "-") "" else it },
                 modifier = Modifier.weight(1f)
-            ) {
-                TextField(
-                    value = viewModel.frpGrp.ifEmpty { "-" },
-                    onValueChange = {},
-                    readOnly = true,
-                    label = { FieldLabel(R.string.material_frpgrp_short) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.isFrpGrpExpanded) },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                    modifier = Modifier.menuAnchor(
-                        ExposedDropdownMenuAnchorType.PrimaryNotEditable,
-                        true
-                    )
-                )
-                ExposedDropdownMenu(
-                    expanded = viewModel.isFrpGrpExpanded,
-                    onDismissRequest = { viewModel.isFrpGrpExpanded = false }
-                ) {
-                    stringArrayResource(R.array.material_frpgrp_options).forEach { option ->
-                        DropdownMenuItem(
-                            text = { Text(option.ifEmpty { "-" }) },
-                            onClick = {
-                                viewModel.frpGrp = if (option == "-") "" else option
-                                viewModel.isFrpGrpExpanded = false
-                            }
-                        )
-                    }
-                }
-            }
+            )
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            ExposedDropdownMenuBox(
+        InputRow {
+            ReadOnlyDropdown(
+                labelResId = R.string.material_tunnelkod,
+                value = viewModel.tunnelKod.ifEmpty { "-" },
+                options = stringArrayResource(R.array.material_tunnelkod_options),
                 expanded = viewModel.isTunnelKodExpanded,
                 onExpandedChange = { viewModel.isTunnelKodExpanded = it },
+                onOptionSelected = { viewModel.tunnelKod = if (it == "-") "" else it },
                 modifier = Modifier.weight(1f)
-            ) {
-                TextField(
-                    value = viewModel.tunnelKod.ifEmpty { "-" },
-                    onValueChange = {},
-                    readOnly = true,
-                    label = { FieldLabel(R.string.material_tunnelkod) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.isTunnelKodExpanded) },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                    modifier = Modifier.menuAnchor(
-                        ExposedDropdownMenuAnchorType.PrimaryNotEditable,
-                        true
-                    )
-                )
-                ExposedDropdownMenu(
-                    expanded = viewModel.isTunnelKodExpanded,
-                    onDismissRequest = { viewModel.isTunnelKodExpanded = false }
-                ) {
-                    stringArrayResource(R.array.material_tunnelkod_options).forEach { option ->
-                        DropdownMenuItem(
-                            text = { Text(option) },
-                            onClick = {
-                                viewModel.tunnelKod = if (option == "-") "" else option
-                                viewModel.isTunnelKodExpanded = false
-                            }
-                        )
-                    }
-                }
-            }
+            )
 
             Row(
                 modifier = Modifier.weight(1f),
@@ -817,6 +623,47 @@ fun MaterialEditKlassKodBottomSheet(viewModel: MaterialLoadViewModel) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ExpandableCard(
+    @StringRes titleResId: Int,
+    isExpanded: Boolean,
+    onExpandedChange: (Boolean) -> Unit,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    ElevatedCard(
+        onClick = { onExpandedChange(!isExpanded) },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(titleResId),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Icon(
+                    imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = null
+                )
+            }
+
+            AnimatedVisibility(visible = isExpanded) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    content = content
+                )
+            }
+        }
+    }
+}
+
 @Composable
 private fun FieldLabel(@StringRes stringResId: Int) {
     Text(
@@ -824,4 +671,59 @@ private fun FieldLabel(@StringRes stringResId: Int) {
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
     )
+}
+
+@Composable
+private fun InputRow(
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        content = content
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ReadOnlyDropdown(
+    @StringRes labelResId: Int,
+    value: String,
+    options: Array<String>,
+    expanded: Boolean,
+    onExpandedChange: (Boolean) -> Unit,
+    onOptionSelected: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = onExpandedChange,
+        modifier = modifier
+    ) {
+        TextField(
+            value = value,
+            onValueChange = {},
+            readOnly = true,
+            label = { FieldLabel(labelResId) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            colors = ExposedDropdownMenuDefaults.textFieldColors(),
+            modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true)
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { onExpandedChange(false) }
+        ) {
+            options.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(option.ifEmpty { "-" }) },
+                    onClick = {
+                        onOptionSelected(option)
+                        onExpandedChange(false)
+                    }
+                )
+            }
+        }
+    }
 }
