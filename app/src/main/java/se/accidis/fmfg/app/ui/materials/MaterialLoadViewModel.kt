@@ -1,10 +1,6 @@
 package se.accidis.fmfg.app.ui.materials
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.model.Material
@@ -25,16 +21,36 @@ enum class NemUnit(val labelResId: Int, val factor: Long) {
  * ViewModel for the Material load screen.
  */
 class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
+
+    // --------------------------
+    // Fields for the DocumentRow
+    // --------------------------
+
+    var numberOfPkgs by mutableStateOf("0")
+    var typeOfPkgs by mutableStateOf("")
+    var weightVolume by mutableStateOf("0")
+    var weightVolumeUnit by mutableStateOf("") // Will be initialized from resources in the UI
+    var isWeightVolumeUnitExpanded by mutableStateOf(false)
+    var amount by mutableStateOf("0")
+
+    var isNemPanelExpanded by mutableStateOf(initialMaterial.NEMmg > 0)
+
+    // -----------------------
+    // Fields for the Material
+    // -----------------------
+
     var fbet by mutableStateOf(initialMaterial.fbet)
     var fben by mutableStateOf(initialMaterial.fben)
     var unNr by mutableStateOf(initialMaterial.UNnr)
     var namn by mutableStateOf(initialMaterial.namn)
 
     var klassKodList by mutableStateOf(initialMaterial.klassKod)
-    var klassKodListVisible by mutableStateOf(false)
+    var isKlassKodListVisible by mutableStateOf(false)
 
     // Internal value always in mg
-    private var nemMgValue by mutableLongStateOf(initialMaterial.NEMmg.toLong())
+    var nemMgValue by mutableLongStateOf(initialMaterial.NEMmg.toLong())
+        private set
+
     var isNemEnabled by mutableStateOf(initialMaterial.NEMmg != 0)
 
     val nemUnitSelected: NemUnit
@@ -61,15 +77,17 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
     var nemUnitExpanded by mutableStateOf(false)
 
     var tpKat by mutableIntStateOf(initialMaterial.tpKat)
-    var tpKatExpanded by mutableStateOf(false)
+    var itTpKatExpanded by mutableStateOf(false)
 
     var frpGrp by mutableStateOf(initialMaterial.frpGrp)
-    var frpGrpExpanded by mutableStateOf(false)
+    var isFrpGrpExpanded by mutableStateOf(false)
 
     var tunnelKod by mutableStateOf(initialMaterial.tunnelKod)
-    var tunnelKodExpanded by mutableStateOf(false)
+    var isTunnelKodExpanded by mutableStateOf(false)
 
     var miljo by mutableStateOf(initialMaterial.miljo)
+
+    var isEditPanelExpanded by mutableStateOf(false)
 
     fun onNemInputChanged(newValue: String) {
         if (newValue.isEmpty() || newValue.all { (it.isDigit() || it == '.' || it == ',') }) {
@@ -89,9 +107,10 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
             isNemEnabled = true
             // If we're enabling it for the first time and value is 0, maybe set a default?
             // But the requirement says "restore previous value", so if it was 0, it stays 0.
-            
+
             // Recalculate text based on the new unit
-            val value = BigDecimal(nemMgValue).divide(BigDecimal(unit.factor), 6, RoundingMode.FLOOR)
+            val value =
+                BigDecimal(nemMgValue).divide(BigDecimal(unit.factor), 6, RoundingMode.FLOOR)
             nemInputText = ValueHelper.formatValue(value)
         }
         nemUnitExpanded = false

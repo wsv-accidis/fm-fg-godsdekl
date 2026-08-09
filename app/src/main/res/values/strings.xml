@@ -105,6 +105,8 @@
 	<string name="material_klasskod_add">Lägg till</string>
 	<string name="material_klasskod_select">Välj etiketter</string>
     <string name="material_load">Lägg till i godsdekl.</string>
+	<string name="material_edit_material">Redigera materiel</string>
+	<string name="material_load_nem_calculation">Beräkning av NEM</string>
 	<string name="material_material">Lasta materiel</string>
 	<string name="material_miljofarligt">Miljöfarligt</string>
     <string name="material_namn">Transportbenämning</string>
@@ -113,20 +115,22 @@
 	<string name="material_nem_unit">Enhet</string>
     <string name="material_no_data">-</string>
     <string name="material_remove">Ta bort</string>
-    <string name="material_tunnelkod">Tunnelrestriktionskod</string>
-    <string name="material_tpkat">Transportkategori</string>
+    <string name="material_tunnelkod">Tunnelrest.kod</string>
+    <string name="material_tpkat">Transportkat.</string>
 	<string name="material_tpkat_short">Tp.kat</string>
     <string name="material_unnr">UN-nummer</string>
     <string name="material_un_format">UN %1$s</string>
 
-    <string name="material_load_amount">Mängd:</string>
+    <string name="material_load_amount">Mängd (styck)</string>
+	<string name="material_load_nem_total">Total NEM: %1$s %2$s</string>
+	<string name="material_load_nem_warning">NEM per styck för materielen måste anges för att total NEM ska kunna beräknas.</string>
     <string name="material_load_multiplier">Mult.faktor:</string>
     <string name="material_load_nem">NEM:</string>
-    <string name="material_load_num_pkgs">Antal kollin:</string>
+    <string name="material_load_num_pkgs">Antal kollin</string>
     <string name="material_load_total_value">Totalt dekl. värde:</string>
-    <string name="material_load_type_pkgs">Typ av kollin:</string>
+    <string name="material_load_type_pkgs">Typ av kollin</string>
     <string name="material_load_value">Värde:</string>
-    <string name="material_load_weight_volume">Vikt/volym:</string>
+    <string name="material_load_weight_volume">Vikt/volym</string>
 
     <string name="materials_list_empty">Inget funnet.</string>
     <string name="materials_nav_title">Materiel</string>
