@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -16,10 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -50,6 +53,14 @@ fun MaterialLoadScreen(
         }
     )
 
+    val focusManager = LocalFocusManager.current
+    val onLoad = {
+        if (viewModel.isLoadEnabled) {
+            focusManager.clearFocus()
+            /* TODO: Implement load logic */
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -59,16 +70,26 @@ fun MaterialLoadScreen(
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
                     }
                 },
-                actions = {
-                    Button(
-                        onClick = { /* TODO: Implement load logic */ },
-                        modifier = Modifier.padding(end = 8.dp)
-                    ) {
-                        Text(stringResource(R.string.material_load))
-                    }
-                }
+                windowInsets = WindowInsets(0, 0, 0, 0)
             )
-        }
+        },
+        bottomBar = {
+            Surface(
+                tonalElevation = 2.dp,
+                shadowElevation = 8.dp
+            ) {
+                Button(
+                    onClick = onLoad,
+                    enabled = viewModel.isLoadEnabled,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Text(stringResource(R.string.material_load))
+                }
+            }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -79,8 +100,8 @@ fun MaterialLoadScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             MaterialSummaryLabels(viewModel)
-            DocumentRowFields(viewModel)
-            MaterialEditPanel(viewModel)
+            DocumentRowFields(viewModel, onLoad)
+            MaterialEditPanel(viewModel, onLoad)
         }
     }
 
@@ -112,7 +133,10 @@ private fun MaterialSummaryLabels(viewModel: MaterialLoadViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DocumentRowFields(viewModel: MaterialLoadViewModel) {
+private fun DocumentRowFields(
+    viewModel: MaterialLoadViewModel,
+    onLoad: () -> Unit
+) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -127,7 +151,10 @@ private fun DocumentRowFields(viewModel: MaterialLoadViewModel) {
                 },
                 label = { Text(stringResource(R.string.material_load_num_pkgs)) },
                 modifier = Modifier.width(100.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
                 singleLine = true
             )
 
@@ -136,6 +163,7 @@ private fun DocumentRowFields(viewModel: MaterialLoadViewModel) {
                 onValueChange = { viewModel.typeOfPkgs = it },
                 label = { Text(stringResource(R.string.material_load_type_pkgs)) },
                 modifier = Modifier.weight(1f),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 singleLine = true
             )
         }
@@ -153,7 +181,11 @@ private fun DocumentRowFields(viewModel: MaterialLoadViewModel) {
                 },
                 label = { Text(stringResource(R.string.material_load_weight_volume)) },
                 modifier = Modifier.weight(1f),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = if (viewModel.nemMgValue > 0) ImeAction.Next else ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(onDone = { onLoad() }),
                 singleLine = true
             )
 
@@ -196,13 +228,83 @@ private fun DocumentRowFields(viewModel: MaterialLoadViewModel) {
             }
         }
 
-        NemCalculationPanel(viewModel)
+        NemCalculationPanel(viewModel, onLoad)
+
+        CalculationSummary(viewModel)
+    }
+}
+
+@Composable
+private fun CalculationSummary(viewModel: MaterialLoadViewModel) {
+    val multiplier = ValueHelper.getMultiplierByTpKat(viewModel.tpKat)
+    val amountBd = ValueHelper.parseValue(viewModel.amount)
+    val weightVolumeBd = ValueHelper.parseValue(viewModel.weightVolume)
+
+    val calculatedMassBd = if (viewModel.nemMgValue > 0) {
+        amountBd.multiply(BigDecimal(viewModel.nemMgValue))
+            .divide(BigDecimal(1000000), 6, RoundingMode.FLOOR)
+    } else {
+        weightVolumeBd
+    }
+
+    val pointsBd = calculatedMassBd.multiply(BigDecimal(multiplier))
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(
+                text = stringResource(R.string.material_load_multiplier),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = stringResource(R.string.material_load_value_basis),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = stringResource(R.string.material_load_value),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+
+        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(
+                text = multiplier.toString(),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = ValueHelper.formatValue(calculatedMassBd),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = stringResource(
+                    R.string.unit_points_format,
+                    ValueHelper.formatValue(pointsBd)
+                ),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun NemCalculationPanel(viewModel: MaterialLoadViewModel) {
+private fun NemCalculationPanel(
+    viewModel: MaterialLoadViewModel,
+    onLoad: () -> Unit
+) {
     ElevatedCard(
         onClick = { viewModel.isNemPanelExpanded = !viewModel.isNemPanelExpanded },
         modifier = Modifier.fillMaxWidth()
@@ -256,7 +358,11 @@ private fun NemCalculationPanel(viewModel: MaterialLoadViewModel) {
                         },
                         label = { Text(stringResource(R.string.material_load_amount)) },
                         modifier = Modifier.fillMaxWidth(),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions(onDone = { onLoad() }),
                         singleLine = true
                     )
 
@@ -290,7 +396,10 @@ private fun NemCalculationPanel(viewModel: MaterialLoadViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MaterialEditPanel(viewModel: MaterialLoadViewModel) {
+private fun MaterialEditPanel(
+    viewModel: MaterialLoadViewModel,
+    onLoad: () -> Unit
+) {
     ElevatedCard(
         onClick = { viewModel.isEditPanelExpanded = !viewModel.isEditPanelExpanded },
         modifier = Modifier.fillMaxWidth()
@@ -315,7 +424,7 @@ private fun MaterialEditPanel(viewModel: MaterialLoadViewModel) {
             }
 
             AnimatedVisibility(visible = viewModel.isEditPanelExpanded) {
-                MaterialEditFields(viewModel)
+                MaterialEditFields(viewModel, onLoad)
             }
         }
     }
@@ -323,7 +432,10 @@ private fun MaterialEditPanel(viewModel: MaterialLoadViewModel) {
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
-private fun MaterialEditFields(viewModel: MaterialLoadViewModel) {
+private fun MaterialEditFields(
+    viewModel: MaterialLoadViewModel,
+    onLoad: () -> Unit
+) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -334,6 +446,7 @@ private fun MaterialEditFields(viewModel: MaterialLoadViewModel) {
                 onValueChange = { viewModel.fbet = it },
                 label = { Text(stringResource(R.string.material_fbet)) },
                 modifier = Modifier.width(150.dp),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 singleLine = true
             )
             TextField(
@@ -341,6 +454,7 @@ private fun MaterialEditFields(viewModel: MaterialLoadViewModel) {
                 onValueChange = { viewModel.fben = it },
                 label = { Text(stringResource(R.string.material_fben)) },
                 modifier = Modifier.weight(1f),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 singleLine = true
             )
         }
@@ -358,7 +472,10 @@ private fun MaterialEditFields(viewModel: MaterialLoadViewModel) {
                 },
                 label = { Text(stringResource(R.string.material_unnr)) },
                 modifier = Modifier.width(100.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
                 singleLine = true
             )
             TextField(
@@ -366,58 +483,12 @@ private fun MaterialEditFields(viewModel: MaterialLoadViewModel) {
                 onValueChange = { viewModel.namn = it },
                 label = { Text(stringResource(R.string.material_namn)) },
                 modifier = Modifier.weight(1f),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 singleLine = true
             )
         }
 
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text(
-                stringResource(R.string.material_klasskod),
-                style = MaterialTheme.typography.labelMedium
-            )
-            FlowRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                viewModel.klassKodList.sortedBy { it }.forEach { kod ->
-                    val label = LabelsRepository.getLabelByKlassKod(kod)
-                    InputChip(
-                        selected = true,
-                        onClick = { viewModel.klassKodList -= kod },
-                        label = { Text(kod) },
-                        modifier = Modifier.height(48.dp),
-                        leadingIcon = {
-                            if (label != null) {
-                                Icon(
-                                    painter = painterResource(label.smallDrawable),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(32.dp),
-                                    tint = Color.Unspecified
-                                )
-                            }
-                        },
-                        trailingIcon = {
-                            Icon(
-                                Icons.Default.Close,
-                                contentDescription = null,
-                                modifier = Modifier.size(18.dp)
-                            )
-                        }
-                    )
-                }
-                AssistChip(
-                    onClick = { viewModel.isKlassKodListVisible = true },
-                    label = { Text(stringResource(R.string.material_klasskod_add)) },
-                    leadingIcon = {
-                        Icon(
-                            Icons.Default.Add,
-                            contentDescription = null
-                        )
-                    }
-                )
-            }
-        }
+        KlassKodChips(viewModel)
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -430,7 +501,11 @@ private fun MaterialEditFields(viewModel: MaterialLoadViewModel) {
                 enabled = viewModel.isNemEnabled,
                 label = { Text(stringResource(R.string.material_nem_per_piece)) },
                 modifier = Modifier.weight(1f),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(onDone = { onLoad() }),
                 singleLine = true
             )
 
@@ -596,6 +671,59 @@ private fun MaterialEditFields(viewModel: MaterialLoadViewModel) {
                 }
                 Switch(checked = viewModel.miljo, onCheckedChange = { viewModel.miljo = it })
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@Composable
+private fun KlassKodChips(viewModel: MaterialLoadViewModel) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            stringResource(R.string.material_klasskod),
+            style = MaterialTheme.typography.labelMedium
+        )
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            viewModel.klassKodList.sortedBy { it }.forEach { kod ->
+                val label = LabelsRepository.getLabelByKlassKod(kod)
+                InputChip(
+                    selected = true,
+                    onClick = { viewModel.klassKodList -= kod },
+                    label = { Text(kod) },
+                    modifier = Modifier.height(48.dp),
+                    leadingIcon = {
+                        if (label != null) {
+                            Icon(
+                                painter = painterResource(label.smallDrawable),
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp),
+                                tint = Color.Unspecified
+                            )
+                        }
+                    },
+                    trailingIcon = {
+                        Icon(
+                            Icons.Default.Close,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+                )
+            }
+            AssistChip(
+                onClick = { viewModel.isKlassKodListVisible = true },
+                label = { Text(stringResource(R.string.material_klasskod_add)) },
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.Add,
+                        contentDescription = null
+                    )
+                }
+            )
         }
     }
 }

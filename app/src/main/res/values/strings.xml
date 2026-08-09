@@ -104,7 +104,7 @@
     <string name="material_klasskod">Klassificeringskod</string>
 	<string name="material_klasskod_add">Lägg till</string>
 	<string name="material_klasskod_select">Välj etiketter</string>
-    <string name="material_load">Lägg till i godsdekl.</string>
+    <string name="material_load">Lägg till i godsdeklaration</string>
 	<string name="material_edit_material">Redigera materiel</string>
 	<string name="material_load_nem_calculation">Beräkning av NEM</string>
 	<string name="material_material">Lasta materiel</string>
@@ -130,6 +130,7 @@
     <string name="material_load_total_value">Totalt dekl. värde:</string>
     <string name="material_load_type_pkgs">Typ av kollin</string>
     <string name="material_load_value">Värde:</string>
+	<string name="material_load_value_basis">Antal kg/liter:</string>
     <string name="material_load_weight_volume">Vikt/volym</string>
 
     <string name="materials_list_empty">Inget funnet.</string>

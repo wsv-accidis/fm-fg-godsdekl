@@ -89,6 +89,15 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
 
     var isEditPanelExpanded by mutableStateOf(false)
 
+    val isLoadEnabled: Boolean
+        get() {
+            val numPkgs = numberOfPkgs.toIntOrNull() ?: 0
+            val wtVol = weightVolume.toIntOrNull() ?: 0
+            val hasIdentity =
+                unNr.isNotBlank() || namn.isNotBlank() || fbet.isNotBlank() || fben.isNotBlank()
+            return numPkgs > 0 && wtVol > 0 && hasIdentity
+        }
+
     fun onNemInputChanged(newValue: String) {
         if (newValue.isEmpty() || newValue.all { (it.isDigit() || it == '.' || it == ',') }) {
             nemInputText = newValue
