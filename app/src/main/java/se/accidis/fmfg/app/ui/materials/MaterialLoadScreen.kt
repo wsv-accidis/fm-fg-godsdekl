@@ -1,5 +1,6 @@
 package se.accidis.fmfg.app.ui.materials
 
+import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -14,6 +15,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
@@ -55,7 +58,7 @@ fun MaterialLoadScreen(
 
     val focusManager = LocalFocusManager.current
     val onLoad = {
-        if (viewModel.isLoadEnabled) {
+        if (viewModel.canLoadMaterial) {
             focusManager.clearFocus()
             /* TODO: Implement load logic */
         }
@@ -80,7 +83,7 @@ fun MaterialLoadScreen(
             ) {
                 Button(
                     onClick = onLoad,
-                    enabled = viewModel.isLoadEnabled,
+                    enabled = viewModel.canLoadMaterial,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -105,6 +108,13 @@ fun MaterialLoadScreen(
         }
     }
 
+    val units = stringArrayResource(R.array.unit_weight_volume)
+    LaunchedEffect(units) {
+        if (viewModel.weightVolumeUnit.isEmpty() && units.isNotEmpty()) {
+            viewModel.weightVolumeUnit = units[0]
+        }
+    }
+
     if (viewModel.isKlassKodListVisible) {
         MaterialEditKlassKodBottomSheet(viewModel)
     }
@@ -112,21 +122,23 @@ fun MaterialLoadScreen(
 
 @Composable
 private fun MaterialSummaryLabels(viewModel: MaterialLoadViewModel) {
-    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        val fbetFben = "${viewModel.fbet} ${viewModel.fben}".trim()
-        if (fbetFben.isNotBlank()) {
-            Text(
-                text = fbetFben,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-        if (viewModel.unNr.isNotBlank()) {
-            Text(
-                text = "UN ${viewModel.unNr} ${viewModel.namn}".trim(),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+    val labels = listOfNotNull(
+        "${viewModel.fbet} ${viewModel.fben}".trim().takeIf { it.isNotBlank() },
+        listOfNotNull(
+            viewModel.unNr.takeIf { it.isNotBlank() }?.let { "UN $it" },
+            viewModel.namn.takeIf { it.isNotBlank() }
+        ).joinToString(" ").takeIf { it.isNotBlank() }
+    )
+
+    if (labels.isNotEmpty()) {
+        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            labels.forEach { label ->
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }
@@ -149,7 +161,7 @@ private fun DocumentRowFields(
                     if (it.isEmpty() || it.all { char -> char.isDigit() }) viewModel.numberOfPkgs =
                         it
                 },
-                label = { Text(stringResource(R.string.material_load_num_pkgs)) },
+                label = { FieldLabel(R.string.material_load_num_pkgs) },
                 modifier = Modifier.width(100.dp),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
@@ -158,14 +170,47 @@ private fun DocumentRowFields(
                 singleLine = true
             )
 
-            TextField(
-                value = viewModel.typeOfPkgs,
-                onValueChange = { viewModel.typeOfPkgs = it },
-                label = { Text(stringResource(R.string.material_load_type_pkgs)) },
-                modifier = Modifier.weight(1f),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                singleLine = true
-            )
+            ExposedDropdownMenuBox(
+                expanded = viewModel.isTypeOfPkgsExpanded,
+                onExpandedChange = { viewModel.isTypeOfPkgsExpanded = it },
+                modifier = Modifier.weight(1f)
+            ) {
+                val suggestions = stringArrayResource(R.array.material_pkg_types)
+                val filteredSuggestions = suggestions.filter {
+                    it.contains(viewModel.typeOfPkgs, ignoreCase = true)
+                }
+
+                TextField(
+                    value = viewModel.typeOfPkgs,
+                    onValueChange = {
+                        viewModel.typeOfPkgs = it
+                        viewModel.isTypeOfPkgsExpanded = true
+                    },
+                    label = { FieldLabel(R.string.material_load_type_pkgs) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable, true),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                    singleLine = true
+                )
+
+                if (filteredSuggestions.isNotEmpty()) {
+                    ExposedDropdownMenu(
+                        expanded = viewModel.isTypeOfPkgsExpanded,
+                        onDismissRequest = { viewModel.isTypeOfPkgsExpanded = false }
+                    ) {
+                        filteredSuggestions.forEach { suggestion ->
+                            DropdownMenuItem(
+                                text = { Text(suggestion) },
+                                onClick = {
+                                    viewModel.typeOfPkgs = suggestion
+                                    viewModel.isTypeOfPkgsExpanded = false
+                                }
+                            )
+                        }
+                    }
+                }
+            }
         }
 
         Row(
@@ -179,7 +224,7 @@ private fun DocumentRowFields(
                     if (it.isEmpty() || it.all { char -> char.isDigit() }) viewModel.weightVolume =
                         it
                 },
-                label = { Text(stringResource(R.string.material_load_weight_volume)) },
+                label = { FieldLabel(R.string.material_load_weight_volume) },
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
@@ -189,21 +234,17 @@ private fun DocumentRowFields(
                 singleLine = true
             )
 
-            val units = stringArrayResource(R.array.unit_weight_volume)
-            if (viewModel.weightVolumeUnit.isEmpty() && units.isNotEmpty()) {
-                viewModel.weightVolumeUnit = units[0]
-            }
-
             ExposedDropdownMenuBox(
                 expanded = viewModel.isWeightVolumeUnitExpanded,
                 onExpandedChange = { viewModel.isWeightVolumeUnitExpanded = it },
                 modifier = Modifier.width(120.dp)
             ) {
+                val units = stringArrayResource(R.array.unit_weight_volume)
                 TextField(
                     value = viewModel.weightVolumeUnit,
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text("Enhet") },
+                    label = { FieldLabel(R.string.material_load_weight_volume_unit) },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.isWeightVolumeUnitExpanded) },
                     colors = ExposedDropdownMenuDefaults.textFieldColors(),
                     modifier = Modifier.menuAnchor(
@@ -237,17 +278,8 @@ private fun DocumentRowFields(
 @Composable
 private fun CalculationSummary(viewModel: MaterialLoadViewModel) {
     val multiplier = ValueHelper.getMultiplierByTpKat(viewModel.tpKat)
-    val amountBd = ValueHelper.parseValue(viewModel.amount)
-    val weightVolumeBd = ValueHelper.parseValue(viewModel.weightVolume)
-
-    val calculatedMassBd = if (viewModel.nemMgValue > 0) {
-        amountBd.multiply(BigDecimal(viewModel.nemMgValue))
-            .divide(BigDecimal(1000000), 6, RoundingMode.FLOOR)
-    } else {
-        weightVolumeBd
-    }
-
-    val pointsBd = calculatedMassBd.multiply(BigDecimal(multiplier))
+    val calculatedMassBd = viewModel.weightVolumePointsBasis
+    val pointsBd = viewModel.totalPoints
 
     Row(
         modifier = Modifier
@@ -356,7 +388,7 @@ private fun NemCalculationPanel(
                             if (it.isEmpty() || it.all { char -> char.isDigit() }) viewModel.amount =
                                 it
                         },
-                        label = { Text(stringResource(R.string.material_load_amount)) },
+                        label = { FieldLabel(R.string.material_load_amount) },
                         modifier = Modifier.fillMaxWidth(),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number,
@@ -366,8 +398,7 @@ private fun NemCalculationPanel(
                         singleLine = true
                     )
 
-                    val amountBd = ValueHelper.parseValue(viewModel.amount)
-                    val totalNemMgBd = amountBd.multiply(BigDecimal(viewModel.nemMgValue))
+                    val totalNemMgBd = viewModel.totalNemMg
                     val displayUnit =
                         if (totalNemMgBd < BigDecimal(100_000L)) NemUnit.GRAM else NemUnit.KILOGRAM
 
@@ -444,7 +475,7 @@ private fun MaterialEditFields(
             TextField(
                 value = viewModel.fbet,
                 onValueChange = { viewModel.fbet = it },
-                label = { Text(stringResource(R.string.material_fbet)) },
+                label = { FieldLabel(R.string.material_fbet) },
                 modifier = Modifier.width(150.dp),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 singleLine = true
@@ -452,7 +483,7 @@ private fun MaterialEditFields(
             TextField(
                 value = viewModel.fben,
                 onValueChange = { viewModel.fben = it },
-                label = { Text(stringResource(R.string.material_fben)) },
+                label = { FieldLabel(R.string.material_fben) },
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 singleLine = true
@@ -470,7 +501,7 @@ private fun MaterialEditFields(
                         viewModel.unNr = newValue
                     }
                 },
-                label = { Text(stringResource(R.string.material_unnr)) },
+                label = { FieldLabel(R.string.material_unnr) },
                 modifier = Modifier.width(100.dp),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
@@ -481,7 +512,7 @@ private fun MaterialEditFields(
             TextField(
                 value = viewModel.namn,
                 onValueChange = { viewModel.namn = it },
-                label = { Text(stringResource(R.string.material_namn)) },
+                label = { FieldLabel(R.string.material_namn) },
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 singleLine = true
@@ -499,7 +530,7 @@ private fun MaterialEditFields(
                 value = viewModel.nemInputText,
                 onValueChange = { viewModel.onNemInputChanged(it) },
                 enabled = viewModel.isNemEnabled,
-                label = { Text(stringResource(R.string.material_nem_per_piece)) },
+                label = { FieldLabel(R.string.material_nem_per_piece) },
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
@@ -518,7 +549,7 @@ private fun MaterialEditFields(
                     value = stringResource(viewModel.nemUnitSelected.labelResId),
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text(stringResource(R.string.material_nem_unit)) },
+                    label = { FieldLabel(R.string.material_nem_unit) },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.nemUnitExpanded) },
                     colors = ExposedDropdownMenuDefaults.textFieldColors(),
                     modifier = Modifier.menuAnchor(
@@ -545,16 +576,16 @@ private fun MaterialEditFields(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             ExposedDropdownMenuBox(
-                expanded = viewModel.itTpKatExpanded,
-                onExpandedChange = { viewModel.itTpKatExpanded = it },
+                expanded = viewModel.isTpKatExpanded,
+                onExpandedChange = { viewModel.isTpKatExpanded = it },
                 modifier = Modifier.weight(1f)
             ) {
                 TextField(
                     value = viewModel.tpKat.toString(),
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text(stringResource(R.string.material_tpkat)) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.itTpKatExpanded) },
+                    label = { FieldLabel(R.string.material_tpkat) },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.isTpKatExpanded) },
                     colors = ExposedDropdownMenuDefaults.textFieldColors(),
                     modifier = Modifier.menuAnchor(
                         ExposedDropdownMenuAnchorType.PrimaryNotEditable,
@@ -562,15 +593,15 @@ private fun MaterialEditFields(
                     )
                 )
                 ExposedDropdownMenu(
-                    expanded = viewModel.itTpKatExpanded,
-                    onDismissRequest = { viewModel.itTpKatExpanded = false }
+                    expanded = viewModel.isTpKatExpanded,
+                    onDismissRequest = { viewModel.isTpKatExpanded = false }
                 ) {
                     stringArrayResource(R.array.material_tpkat_options).forEach { option ->
                         DropdownMenuItem(
                             text = { Text(option) },
                             onClick = {
                                 viewModel.tpKat = option.toInt()
-                                viewModel.itTpKatExpanded = false
+                                viewModel.isTpKatExpanded = false
                             }
                         )
                     }
@@ -586,7 +617,7 @@ private fun MaterialEditFields(
                     value = viewModel.frpGrp.ifEmpty { "-" },
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text(stringResource(R.string.material_frpgrp_short)) },
+                    label = { FieldLabel(R.string.material_frpgrp_short) },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.isFrpGrpExpanded) },
                     colors = ExposedDropdownMenuDefaults.textFieldColors(),
                     modifier = Modifier.menuAnchor(
@@ -625,7 +656,7 @@ private fun MaterialEditFields(
                     value = viewModel.tunnelKod.ifEmpty { "-" },
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text(stringResource(R.string.material_tunnelkod)) },
+                    label = { FieldLabel(R.string.material_tunnelkod) },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.isTunnelKodExpanded) },
                     colors = ExposedDropdownMenuDefaults.textFieldColors(),
                     modifier = Modifier.menuAnchor(
@@ -696,9 +727,9 @@ private fun KlassKodChips(viewModel: MaterialLoadViewModel) {
                     label = { Text(kod) },
                     modifier = Modifier.height(48.dp),
                     leadingIcon = {
-                        if (label != null) {
+                        label?.let {
                             Icon(
-                                painter = painterResource(label.smallDrawable),
+                                painter = painterResource(it.smallDrawable),
                                 contentDescription = null,
                                 modifier = Modifier.size(32.dp),
                                 tint = Color.Unspecified
@@ -784,4 +815,13 @@ fun MaterialEditKlassKodBottomSheet(viewModel: MaterialLoadViewModel) {
             }
         }
     }
+}
+
+@Composable
+private fun FieldLabel(@StringRes stringResId: Int) {
+    Text(
+        text = stringResource(stringResId),
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
 }

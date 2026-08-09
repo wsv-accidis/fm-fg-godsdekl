@@ -132,6 +132,7 @@
     <string name="material_load_value">Värde:</string>
 	<string name="material_load_value_basis">Antal kg/liter:</string>
     <string name="material_load_weight_volume">Vikt/volym</string>
+	<string name="material_load_weight_volume_unit">Enhet</string>
 
     <string name="materials_list_empty">Inget funnet.</string>
     <string name="materials_nav_title">Materiel</string>

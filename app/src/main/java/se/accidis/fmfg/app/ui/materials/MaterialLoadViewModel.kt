@@ -21,19 +21,41 @@ enum class NemUnit(val labelResId: Int, val factor: Long) {
  * ViewModel for the Material load screen.
  */
 class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
-
     // --------------------------
     // Fields for the DocumentRow
     // --------------------------
 
     var numberOfPkgs by mutableStateOf("0")
     var typeOfPkgs by mutableStateOf("")
+    var isTypeOfPkgsExpanded by mutableStateOf(false)
     var weightVolume by mutableStateOf("0")
     var weightVolumeUnit by mutableStateOf("") // Will be initialized from resources in the UI
     var isWeightVolumeUnitExpanded by mutableStateOf(false)
     var amount by mutableStateOf("0")
 
     var isNemPanelExpanded by mutableStateOf(initialMaterial.NEMmg > 0)
+
+    val totalNemMg: BigDecimal
+        get() = ValueHelper.parseValue(amount).multiply(BigDecimal(nemMgValue))
+
+    val weightVolumePointsBasis: BigDecimal
+        get() = if (nemMgValue > 0) {
+            totalNemMg.divide(BigDecimal(NemUnit.KILOGRAM.factor), 6, RoundingMode.FLOOR)
+        } else {
+            ValueHelper.parseValue(weightVolume)
+        }
+
+    val totalPoints: BigDecimal
+        get() = weightVolumePointsBasis.multiply(BigDecimal(ValueHelper.getMultiplierByTpKat(tpKat)))
+
+    val canLoadMaterial: Boolean
+        get() {
+            val numPkgs = numberOfPkgs.toIntOrNull() ?: 0
+            val wtVol = weightVolume.toIntOrNull() ?: 0
+            val hasIdentity =
+                unNr.isNotBlank() || namn.isNotBlank() || fbet.isNotBlank() || fben.isNotBlank()
+            return numPkgs > 0 && wtVol > 0 && hasIdentity
+        }
 
     // -----------------------
     // Fields for the Material
@@ -77,7 +99,7 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
     var nemUnitExpanded by mutableStateOf(false)
 
     var tpKat by mutableIntStateOf(initialMaterial.tpKat)
-    var itTpKatExpanded by mutableStateOf(false)
+    var isTpKatExpanded by mutableStateOf(false)
 
     var frpGrp by mutableStateOf(initialMaterial.frpGrp)
     var isFrpGrpExpanded by mutableStateOf(false)
@@ -88,15 +110,6 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
     var miljo by mutableStateOf(initialMaterial.miljo)
 
     var isEditPanelExpanded by mutableStateOf(false)
-
-    val isLoadEnabled: Boolean
-        get() {
-            val numPkgs = numberOfPkgs.toIntOrNull() ?: 0
-            val wtVol = weightVolume.toIntOrNull() ?: 0
-            val hasIdentity =
-                unNr.isNotBlank() || namn.isNotBlank() || fbet.isNotBlank() || fben.isNotBlank()
-            return numPkgs > 0 && wtVol > 0 && hasIdentity
-        }
 
     fun onNemInputChanged(newValue: String) {
         if (newValue.isEmpty() || newValue.all { (it.isDigit() || it == '.' || it == ',') }) {
@@ -114,9 +127,6 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
             nemInputText = ""
         } else {
             isNemEnabled = true
-            // If we're enabling it for the first time and value is 0, maybe set a default?
-            // But the requirement says "restore previous value", so if it was 0, it stays 0.
-
             // Recalculate text based on the new unit
             val value =
                 BigDecimal(nemMgValue).divide(BigDecimal(unit.factor), 6, RoundingMode.FLOOR)
@@ -124,9 +134,4 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
         }
         nemUnitExpanded = false
     }
-
-    /**
-     * Returns the final NEM in mg, or 0 if disabled.
-     */
-    fun getFinalNemMg(): Int = if (isNemEnabled) nemMgValue.toInt() else 0
 }
