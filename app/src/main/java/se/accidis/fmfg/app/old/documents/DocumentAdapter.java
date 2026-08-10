@@ -304,10 +304,10 @@ public final class DocumentAdapter extends BaseAdapter {
 		}
 
 		TextView packagesText = (TextView) view.findViewById(R.id.document_row_packages);
-		packagesText.setText(row.getPackagesText(mContext));
+		packagesText.setText(row.packagesText(mContext));
 
 		TextView weightVolumeText = (TextView) view.findViewById(R.id.document_row_weightvolume);
-		weightVolumeText.setText(row.getWeightVolumeText(mContext));
+		weightVolumeText.setText(row.weightVolumeText(mContext));
 		weightVolumeText.setVisibility(row.isFreeText() ? View.GONE : View.VISIBLE);
 
 		return view;

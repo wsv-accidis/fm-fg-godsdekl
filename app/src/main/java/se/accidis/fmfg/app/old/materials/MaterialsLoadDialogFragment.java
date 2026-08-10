@@ -199,6 +199,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 	private final class SaveClickedListener implements DialogInterface.OnClickListener {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
+			/*
 			DocumentRow row = new DocumentRow(mMaterial);
 
 			int numberPkgs = parseIntOrZero(mNumberPkgsField.getText().toString());
@@ -213,6 +214,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 			document.addOrUpdateRow(row);
 			document.setHasUnsavedChanges(true);
 			mRepository.commitCurrentDocument();
+			*/
 		}
 
 		private int parseIntOrZero(String str) {

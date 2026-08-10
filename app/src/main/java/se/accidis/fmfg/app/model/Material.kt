@@ -39,7 +39,7 @@ data class Material(
     @IgnoredOnParcel
     private val mSearchText: String = createSearchText()
 
-    val NEMkg: BigDecimal?
+    val NEMkg: BigDecimal
         get() {
             val value = BigDecimal(this.NEMmg)
             return value.divide(BigDecimal(1000000), 6, RoundingMode.FLOOR)

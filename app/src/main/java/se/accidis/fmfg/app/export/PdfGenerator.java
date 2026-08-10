@@ -119,8 +119,8 @@ public final class PdfGenerator {
 			materialCell.setBottomPadding(ROW_BOTTOM_PADDING);
 		}
 
-		Cell packagesCell = new Cell(mTextFont, row.getPackagesText(mContext));
-		Cell weightVolumeCell = new Cell(mTextFont, row.getWeightVolumeText(mContext));
+		Cell packagesCell = new Cell(mTextFont, row.packagesText(mContext));
+		Cell weightVolumeCell = new Cell(mTextFont, row.weightVolumeText(mContext));
 
 		return Arrays.asList(materialCell, packagesCell, weightVolumeCell);
 	}
