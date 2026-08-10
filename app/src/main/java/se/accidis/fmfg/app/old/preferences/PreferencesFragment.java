@@ -81,7 +81,7 @@ public final class PreferencesFragment extends PreferenceFragmentCompat implemen
 				DocumentsRepository repository = DocumentsRepository.getInstance(getContext());
 				Document document = repository.getCurrentDocument();
 				if (TextUtils.isEmpty(document.getAuthor())) {
-					document.setAuthor(sharedPreferences.getString(Preferences.Keys.DEFAULT_AUTHOR, ""));
+					//document.setAuthor(sharedPreferences.getString(Preferences.Keys.DEFAULT_AUTHOR, ""));
 				}
 			}
 		}

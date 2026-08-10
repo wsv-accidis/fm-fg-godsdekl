@@ -98,8 +98,9 @@ class DocumentsRepository private constructor(context: Context) {
             }
 
             if (null == openDocument) {
-                openDocument = createNewDocument()
-                Log.d(TAG, "Created a document with ID: ${openDocument!!.id}")
+                // TODO
+                //openDocument = createNewDocument()
+                //Log.d(TAG, "Created a document with ID: ${openDocument!!.id}")
             } else {
                 Log.d(TAG, "Loaded current document with ID: ${openDocument!!.id}")
             }
@@ -129,9 +130,9 @@ class DocumentsRepository private constructor(context: Context) {
             "Saving current document with ID: ${openDocument!!.id}, name = ${openDocument!!.name}"
         )
         ensureCurrentDocumentLoaded()
-        openDocument!!.name = name
-        openDocument!!.timestamp = DateTime.now()
-        openDocument!!.setHasUnsavedChanges(false)
+        //openDocument!!.name = name
+        //openDocument!!.timestamp = DateTime.now()
+        //openDocument!!.setHasUnsavedChanges(false)
         writeDocument(openDocument!!)
         invalidate()
     }
@@ -140,11 +141,13 @@ class DocumentsRepository private constructor(context: Context) {
         onLoadedListener = listener
     }
 
+    /*
     private fun createNewDocument(): Document {
         val document = Document()
         document.author = prefs.defaultAuthor
-        return document
+        return null
     }
+     */
 
     private fun invalidate() {
         documents = null

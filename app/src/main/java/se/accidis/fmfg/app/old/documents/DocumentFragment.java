@@ -155,7 +155,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 			deleteDialog.show(getFragmentManager(), DeleteDialogFragment.class.getSimpleName());
 			return true;
 		} else if (itemId == R.id.document_menu_edit) {
-			if (mRepository.getCurrentDocument().hasUnsavedChanges()) {
+			if (mRepository.getCurrentDocument().getHasUnsavedChanges()) {
 				final EditUnsavedDialogFragment editDialog = new EditUnsavedDialogFragment();
 				editDialog.setDialogListener(new EditUnsavedDialogListener());
 				editDialog.show(getFragmentManager(), EditUnsavedDialogFragment.class.getSimpleName());
@@ -284,17 +284,17 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 		public void onDismiss(String address) {
 			switch (mPosition) {
 				case DocumentAdapter.SENDER_POSITION:
-					mDocument.setSender(address);
+					//mDocument.setSender(address);
 					break;
 				case DocumentAdapter.RECIPIENT_POSITION:
-					mDocument.setRecipient(address);
+					//mDocument.setRecipient(address);
 					break;
 				case DocumentAdapter.AUTHOR_POSITION:
-					mDocument.setAuthor(address);
+					//mDocument.setAuthor(address);
 					break;
 			}
 
-			mDocument.setHasUnsavedChanges(true);
+			//mDocument.setHasUnsavedChanges(true);
 			commit();
 		}
 	}
@@ -313,7 +313,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
 		@Override
 		public void onDismiss(boolean keepAddresses) {
-			mDocument.reset(keepAddresses, mPrefs.getDefaultAuthor());
+			//mDocument.reset(keepAddresses, mPrefs.getDefaultAuthor());
 			commit();
 		}
 	}
@@ -351,12 +351,14 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 				return;
 			}
 
+			/*
 			int protectedTpInt = outArgs.getInt(OptionalFieldsDialogFragment.ARG_PROTECTED_TRANSPORT, OptionalFieldsDialogFragment.PROTECTED_TRANSPORT_UNKNOWN);
 			mDocument.setIsProtectedTransport(OptionalFieldsDialogFragment.PROTECTED_TRANSPORT_UNKNOWN == protectedTpInt ? null : (OptionalFieldsDialogFragment.PROTECTED_TRANSPORT_YES == protectedTpInt));
 			mDocument.setVehicleReg(outArgs.getString(OptionalFieldsDialogFragment.ARG_VEHICLE_REG, ""));
 			mDocument.setVehicleType(outArgs.getString(OptionalFieldsDialogFragment.ARG_VEHICLE_TYPE, ""));
 
 			mDocument.setHasUnsavedChanges(true);
+			 */
 			commit();
 		}
 	}
@@ -455,7 +457,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 		@Override
 		public void onDismiss(String name, boolean asCopy) {
 			if (asCopy) {
-				mDocument.assignNewId();
+				//mDocument.assignNewId();
 			}
 			try {
 				name = name.trim();

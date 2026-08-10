@@ -162,7 +162,7 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 	}
 
 	private void refreshDocumentState() {
-		DocumentRow row = mRepository.getCurrentDocument().getRowByMaterial(mMaterial);
+		DocumentRow row = null; // mRepository.getCurrentDocument().getRowByMaterial(mMaterial);
 		if (null != row) {
 			mLoadButton.setText(R.string.material_change);
 			mRemoveButton.setVisibility(View.VISIBLE);
@@ -193,8 +193,8 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 		@Override
 		public void onClick(View v) {
 			Document document = mRepository.getCurrentDocument();
-			document.removeRowByMaterial(mMaterial);
-			document.setHasUnsavedChanges(true);
+			//document.removeRowByMaterial(mMaterial);
+			//document.setHasUnsavedChanges(true);
 			mRepository.commitCurrentDocument();
 			refreshDocumentState();
 		}

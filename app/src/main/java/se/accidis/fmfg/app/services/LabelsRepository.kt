@@ -22,7 +22,7 @@ object LabelsRepository {
     fun getLabelsByDocument(document: Document, smallImages: Boolean): List<Int> {
         var hasMiljo = false
         val klassKodSet = TreeSet<String>() // TreeSet ensures sorting
-        for (material in document.getMaterialsSet()) {
+        for (material in document.materialsSet) {
             if (material.miljo) {
                 hasMiljo = true
             }

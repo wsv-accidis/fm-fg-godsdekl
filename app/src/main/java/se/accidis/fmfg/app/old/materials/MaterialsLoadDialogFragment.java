@@ -58,7 +58,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 
 		mRepository = DocumentsRepository.getInstance(getContext());
 		Document document = mRepository.getCurrentDocument();
-		DocumentRow row = document.getRowByMaterial(mMaterial);
+		DocumentRow row = null; // document.getRowByMaterial(mMaterial);
 
 		mDocumentTotalValue = document.getCalculatedTotalValue();
 		boolean hasExistingRow = false;
@@ -190,8 +190,8 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 			Document document = mRepository.getCurrentDocument();
-			document.removeRowByMaterial(mMaterial);
-			document.setHasUnsavedChanges(true);
+			//document.removeRowByMaterial(mMaterial);
+			//document.setHasUnsavedChanges(true);
 			mRepository.commitCurrentDocument();
 		}
 	}

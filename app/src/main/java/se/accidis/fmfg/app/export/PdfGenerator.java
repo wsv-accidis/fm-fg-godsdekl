@@ -7,18 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 
-import com.pdfjet.A4;
-import com.pdfjet.Cell;
-import com.pdfjet.CoreFont;
-import com.pdfjet.Font;
-import com.pdfjet.Image;
-import com.pdfjet.ImageType;
-import com.pdfjet.Line;
-import com.pdfjet.PDF;
-import com.pdfjet.Page;
-import com.pdfjet.Table;
-import com.pdfjet.TextBlock;
-import com.pdfjet.TextLine;
+import com.pdfjet.*;
 
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
@@ -33,9 +22,9 @@ import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Material;
+import se.accidis.fmfg.app.old.materials.ValueHelper;
 import se.accidis.fmfg.app.services.LabelsRepository;
 import se.accidis.fmfg.app.services.Preferences;
-import se.accidis.fmfg.app.old.materials.ValueHelper;
 import se.accidis.fmfg.app.utils.AndroidUtils;
 
 /**
@@ -183,9 +172,9 @@ public final class PdfGenerator {
 		}
 
 		for (int tpKat = Material.TPKAT_MIN; tpKat <= Material.TPKAT_MAX; tpKat++) {
-			BigDecimal valueByTpKat = mDocument.getCalculatedValueByTpKat(tpKat);
+			BigDecimal valueByTpKat = mDocument.calculatedValueByTpKat(tpKat);
 			if (0.0 != valueByTpKat.doubleValue()) {
-				String weightVolumeByTpKat = mDocument.getWeightVolumeStringByTpKat(tpKat, mContext);
+				String weightVolumeByTpKat = mDocument.weightVolumeStringByTpKat(tpKat, mContext);
 				Cell valueCell = new Cell(mTextFont, String.format(mContext.getString(R.string.document_summary_tpkat_format), tpKat, weightVolumeByTpKat, ValueHelper.formatValue(valueByTpKat)));
 				valueCell.setLeftPadding(0);
 				rows.add(Arrays.asList(valueCell, emptyCell, emptyCell));
@@ -241,7 +230,7 @@ public final class PdfGenerator {
 		if (!TextUtils.isEmpty(mDocument.getVehicleReg())) {
 			result.add(Pair.create(mContext.getString(R.string.document_vehicle_reg), mDocument.getVehicleReg()));
 		}
-		if (mDocument.isProtectedTransportSpecified()) {
+		if (null != mDocument.isProtectedTransport()) {
 			result.add(Pair.create(mContext.getString(R.string.document_protected_transport), mContext.getString(mDocument.isProtectedTransport() ? R.string.generic_yes : R.string.generic_no)));
 		}
 
@@ -374,7 +363,7 @@ public final class PdfGenerator {
 	}
 
 	private float writeOptionalBlocks(Page page, float addressBlocksBottom) throws Exception {
-		if (TextUtils.isEmpty(mDocument.getAuthor()) && !mDocument.hasOptionalFields()) {
+		if (TextUtils.isEmpty(mDocument.getAuthor()) && !mDocument.getHasOptionalFields()) {
 			// Do not draw these sections if there is no data at all
 			return addressBlocksBottom;
 		}
@@ -382,7 +371,7 @@ public final class PdfGenerator {
 		float authorBlockHeight = writeAuthorBlock(page, addressBlocksBottom);
 		float optionalFieldsHeight = 0;
 
-		if (mDocument.hasOptionalFields()) {
+		if (mDocument.getHasOptionalFields()) {
 			List<Pair<String, String>> optionalFields = formatOptionalFields();
 			optionalFieldsHeight = writeOptionalFields(page, optionalFields, addressBlocksBottom);
 		}

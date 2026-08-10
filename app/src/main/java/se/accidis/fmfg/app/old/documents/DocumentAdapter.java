@@ -231,12 +231,12 @@ public final class DocumentAdapter extends BaseAdapter {
 
 		StringBuilder valueBuilder = new StringBuilder();
 		for (int tpKat = Material.TPKAT_MIN; tpKat <= Material.TPKAT_MAX; tpKat++) {
-			BigDecimal valueByTpKat = mDocument.getCalculatedValueByTpKat(tpKat);
+			BigDecimal valueByTpKat = mDocument.calculatedValueByTpKat(tpKat);
 			if (0.0 != valueByTpKat.doubleValue()) {
 				if (0 != valueBuilder.length()) {
 					valueBuilder.append(AndroidUtils.LINE_SEPARATOR);
 				}
-				String weightVolumeByTpKat = mDocument.getWeightVolumeStringByTpKat(tpKat, mContext);
+				String weightVolumeByTpKat = mDocument.weightVolumeStringByTpKat(tpKat, mContext);
 				valueBuilder.append(String.format(mContext.getString(R.string.document_summary_tpkat_format), tpKat, weightVolumeByTpKat, ValueHelper.formatValue(valueByTpKat)));
 			}
 		}

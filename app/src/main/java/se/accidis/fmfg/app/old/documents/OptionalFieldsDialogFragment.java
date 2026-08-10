@@ -37,7 +37,7 @@ public final class OptionalFieldsDialogFragment extends DialogFragment {
 
 	public static OptionalFieldsDialogFragment createInstance(Document document, boolean readOnly) {
 		Bundle args = new Bundle();
-		args.putInt(ARG_PROTECTED_TRANSPORT, !document.isProtectedTransportSpecified() ? PROTECTED_TRANSPORT_UNKNOWN : (document.isProtectedTransport() ? PROTECTED_TRANSPORT_YES : PROTECTED_TRANSPORT_NO));
+		args.putInt(ARG_PROTECTED_TRANSPORT, null == document.isProtectedTransport() ? PROTECTED_TRANSPORT_UNKNOWN : (document.isProtectedTransport() ? PROTECTED_TRANSPORT_YES : PROTECTED_TRANSPORT_NO));
 		args.putBoolean(ARG_READONLY, readOnly);
 		args.putString(ARG_VEHICLE_REG, document.getVehicleReg());
 		args.putString(ARG_VEHICLE_TYPE, document.getVehicleType());
