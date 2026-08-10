@@ -7,11 +7,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.joda.time.DateTime
 import org.json.JSONException
 import org.json.JSONObject
 import se.accidis.fmfg.app.model.Document
+import se.accidis.fmfg.app.model.DocumentBuilder
 import se.accidis.fmfg.app.model.DocumentLink
+import se.accidis.fmfg.app.model.mutate
+import se.accidis.fmfg.app.model.save
 import se.accidis.fmfg.app.utils.IOUtils
 import se.accidis.fmfg.app.utils.TAG
 import java.io.FileNotFoundException
@@ -30,7 +32,7 @@ class DocumentsRepository private constructor(context: Context) {
     private val repositoryScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     fun beginLoad() {
-        if (this.isLoaded) {
+        if (isLoaded) {
             Log.d(TAG, "Documents already loaded, nothing to do.")
             onLoadedListener?.onLoaded(documents!!)
             return
@@ -51,8 +53,8 @@ class DocumentsRepository private constructor(context: Context) {
                 }
 
                 documents = list
-                Log.i(TAG, "Finished loading documents (${documents!!.size} documents loaded).")
-                onLoadedListener?.onLoaded(documents!!)
+                Log.i(TAG, "Finished loading documents (${list.size} documents loaded).")
+                onLoadedListener?.onLoaded(list)
             } catch (ex: Exception) {
                 Log.e(TAG, "Failed to load documents.", ex)
                 if (null == documents) {
@@ -84,34 +86,11 @@ class DocumentsRepository private constructor(context: Context) {
         Log.d(TAG, "Deleting document with ID: $id")
         val filename: String = getFilenameByDocumentId(id)
         context.deleteFile(filename)
-        invalidate()
+        invalidateListOfDocuments()
     }
 
-    fun ensureCurrentDocumentLoaded() {
-        if (null == openDocument) {
-            try {
-                openDocument = readDocument(CURRENT_DOCUMENT)
-            } catch (_: FileNotFoundException) {
-                Log.w(TAG, "Current document not found, might be first startup.")
-            } catch (ex: Exception) {
-                Log.e(TAG, "Exception while reading current document.", ex)
-            }
-
-            if (null == openDocument) {
-                // TODO
-                //openDocument = createNewDocument()
-                //Log.d(TAG, "Created a document with ID: ${openDocument!!.id}")
-            } else {
-                Log.d(TAG, "Loaded current document with ID: ${openDocument!!.id}")
-            }
-        }
-    }
-
-    val currentDocument: Document?
-        get() {
-            ensureCurrentDocumentLoaded()
-            return openDocument
-        }
+    val currentDocument: Document
+        get() = ensureDocument()
 
     val isLoaded: Boolean
         get() = (null != documents)
@@ -124,32 +103,42 @@ class DocumentsRepository private constructor(context: Context) {
     }
 
     @Throws(IOException::class, JSONException::class)
-    fun saveCurrentDocument(name: String?) {
-        Log.d(
-            TAG,
-            "Saving current document with ID: ${openDocument!!.id}, name = ${openDocument!!.name}"
-        )
-        ensureCurrentDocumentLoaded()
-        //openDocument!!.name = name
-        //openDocument!!.timestamp = DateTime.now()
-        //openDocument!!.setHasUnsavedChanges(false)
-        writeDocument(openDocument!!)
-        invalidate()
+    fun saveCurrentDocument(name: String) {
+        val document = ensureDocument()
+        Log.d(TAG, "Saving current document with ID: ${document.id}, name = ${document.name}")
+        writeDocument(document.mutate { this.name = name }.save())
+        invalidateListOfDocuments()
     }
 
     fun setOnLoadedListener(listener: OnLoadedListener?) {
         onLoadedListener = listener
     }
 
-    /*
-    private fun createNewDocument(): Document {
-        val document = Document()
-        document.author = prefs.defaultAuthor
-        return null
-    }
-     */
+    private fun ensureDocument(): Document {
+        var document: Document? = openDocument
 
-    private fun invalidate() {
+        if (null == document) {
+            try {
+                document = readDocument(CURRENT_DOCUMENT)
+            } catch (_: FileNotFoundException) {
+                Log.w(TAG, "Current document not found, might be first startup.")
+            } catch (ex: Exception) {
+                Log.e(TAG, "Exception while reading current document.", ex)
+            }
+
+            if (null == document) {
+                document = DocumentBuilder.createNew(prefs.defaultAuthor)
+                Log.d(TAG, "Created a document with ID: ${openDocument!!.id}")
+            } else {
+                Log.d(TAG, "Loaded current document with ID: ${openDocument!!.id}")
+            }
+        }
+
+        openDocument = document
+        return document
+    }
+
+    private fun invalidateListOfDocuments() {
         documents = null
     }
 

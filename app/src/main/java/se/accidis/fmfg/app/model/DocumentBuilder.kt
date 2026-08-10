@@ -34,12 +34,12 @@ class DocumentBuilder(document: Document) {
     )
 
     companion object {
-        fun createNew(): Document = Document(
+        fun createNew(author: String = ""): Document = Document(
             id = UUID.randomUUID(),
             rows = emptyList(),
             hasUnsavedChanges = true,
             timestamp = null,
-            author = "",
+            author = author,
             name = "",
             sender = "",
             recipient = "",
