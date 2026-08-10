@@ -28,123 +28,71 @@ data class Document(
     val vehicleType: String
 ) {
     val calculatedTotalValue: BigDecimal
-        get() {
-            var result = BigDecimal.ZERO
-            for (row in rows) {
-                result = result.add(row.calculatedValue)
-            }
-            return result
-        }
+        get() = rows.fold(BigDecimal.ZERO) { acc, row -> acc.add(row.calculatedValue) }
 
-    fun calculatedValueByTpKat(tpKat: Int): BigDecimal {
-        var result = BigDecimal.ZERO
-        for (row in rows) {
-            if (tpKat == row.material.tpKat) {
-                result = result.add(row.calculatedValue)
-            }
-        }
-        return result
-    }
+    fun calculatedValueByTpKat(tpKat: Int): BigDecimal = rows
+        .filter { it.material.tpKat == tpKat }
+        .fold(BigDecimal.ZERO) { acc, row -> acc.add(row.calculatedValue) }
 
-    val hasOptionalFields: Boolean =
-        null != isProtectedTransport || vehicleReg.isNotBlank() || vehicleType.isNotBlank()
+    val hasOptionalFields: Boolean
+        get() = isProtectedTransport != null || vehicleReg.isNotBlank() || vehicleType.isNotBlank()
 
     val isSaved: Boolean
-        get() = (null != this.timestamp)
+        get() = timestamp != null
 
     val materialsSet: Set<Material>
-        get() {
-            val materials = HashSet<Material>()
-            for (row in rows) {
-                materials.add(row.material)
-            }
-            return materials
-        }
+        get() = rows.map { it.material }.toSet()
 
     val totalNEMkg: BigDecimal
-        get() {
-            var totalNEM = BigDecimal.ZERO
-            for (row in rows) {
-                if (row.hasNEM()) {
-                    totalNEM = totalNEM.add(row.NEMkg)
-                }
-            }
-            return totalNEM
-        }
+        get() = rows
+            .filter { it.hasNEM() }
+            .fold(BigDecimal.ZERO) { acc, row -> acc.add(row.NEMkg) }
 
     fun weightVolumeStringByTpKat(tpKat: Int, context: Context): String {
         var totalWeight = BigDecimal.ZERO
         var totalVolume = BigDecimal.ZERO
-        for (row in rows) {
-            if (tpKat == row.material.tpKat) {
-                if (row.hasNEM()) {
-                    totalWeight = totalWeight.add(row.NEMkg)
-                } else if (row.isVolume) {
-                    totalVolume = totalVolume.add(row.weightVolume)
-                } else {
-                    totalWeight = totalWeight.add(row.weightVolume)
-                }
+
+        rows.filter { it.material.tpKat == tpKat }.forEach { row ->
+            when {
+                row.hasNEM() -> totalWeight = totalWeight.add(row.NEMkg)
+                row.isVolume -> totalVolume = totalVolume.add(row.weightVolume)
+                else -> totalWeight = totalWeight.add(row.weightVolume)
             }
         }
 
-        val hasWeight = (0.0 != totalWeight.toDouble())
-        val hasVolume = (0.0 != totalVolume.toDouble())
+        val hasWeight = totalWeight.signum() != 0
+        val hasVolume = totalVolume.signum() != 0
         if (!hasWeight && !hasVolume) {
             return ""
         }
 
-        // String will be of the format "1 kg, 2 liter" or either of the two if the other is zero
-        val builder = StringBuilder()
-        if (hasWeight) {
-            builder.append(
-                String.format(
-                    context.getString(R.string.unit_kg_format),
-                    formatValue(totalWeight)
-                )
-            )
+        return buildString {
+            if (hasWeight) {
+                append(context.getString(R.string.unit_kg_format, formatValue(totalWeight)))
+                if (hasVolume) {
+                    append(", ")
+                }
+            }
             if (hasVolume) {
-                builder.append(", ")
+                append(context.getString(R.string.unit_liter_format, formatValue(totalVolume)))
             }
         }
-        if (hasVolume) {
-            builder.append(
-                String.format(
-                    context.getString(R.string.unit_liter_format),
-                    formatValue(totalVolume)
-                )
-            )
-        }
-        return builder.toString()
     }
 
     @Throws(JSONException::class)
     fun toJson(): JSONObject {
-        val rowsArray = JSONArray()
-        for (row in rows) {
-            rowsArray.put(row.toJson())
-        }
-
         val json = JSONObject()
         json.put(Keys.ID, id.toString())
-        JSONUtils.putDateTime(
-            json, Keys.TIMESTAMP,
-            timestamp
-        )
+        JSONUtils.putDateTime(json, Keys.TIMESTAMP, timestamp)
         json.put(Keys.NAME, name)
         json.put(Keys.SENDER, sender)
         json.put(Keys.RECIPIENT, recipient)
         json.put(Keys.AUTHOR, author)
         JSONUtils.putIfTrue(json, Keys.UNSAVED_CHANGES, hasUnsavedChanges)
         JSONUtils.putBooleanOrNull(json, Keys.PROTECTED_TRANSPORT, isProtectedTransport)
-        JSONUtils.putIfNotEmpty(
-            json, Keys.VEHICLE_REG,
-            this.vehicleReg
-        )
-        JSONUtils.putIfNotEmpty(
-            json, Keys.VEHICLE_TYPE,
-            this.vehicleType
-        )
-        json.put(Keys.ROWS, rowsArray)
+        JSONUtils.putIfNotEmpty(json, Keys.VEHICLE_REG, vehicleReg)
+        JSONUtils.putIfNotEmpty(json, Keys.VEHICLE_TYPE, vehicleType)
+        json.put(Keys.ROWS, JSONArray().apply { rows.forEach { put(it.toJson()) } })
         return json
     }
 
@@ -165,14 +113,12 @@ data class Document(
     companion object {
         @Throws(JSONException::class)
         fun fromJson(json: JSONObject): Document {
-            val rows = ArrayList<DocumentRow>()
             val rowsArray = json.getJSONArray(Keys.ROWS)
-            for (i in 0..<rowsArray.length()) {
-                val row = DocumentRow.fromJson(rowsArray.getJSONObject(i))
-                rows.add(row)
+            val rows = (0 until rowsArray.length()).map { i ->
+                DocumentRow.fromJson(rowsArray.getJSONObject(i))
             }
 
-            val document = Document(
+            return Document(
                 id = UUID.fromString(json.getString(Keys.ID)),
                 author = JSONUtils.getStringOrNull(json, Keys.AUTHOR),
                 hasUnsavedChanges = JSONUtils.optBooleanOrNull(json, Keys.UNSAVED_CHANGES),
@@ -185,8 +131,6 @@ data class Document(
                 vehicleReg = json.optString(Keys.VEHICLE_REG),
                 vehicleType = json.optString(Keys.VEHICLE_TYPE)
             )
-
-            return document
         }
     }
 }

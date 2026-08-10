@@ -2,7 +2,6 @@ package se.accidis.fmfg.app.model
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.text.TextUtils
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
@@ -12,7 +11,6 @@ import org.json.JSONObject
 import se.accidis.fmfg.app.utils.JSONUtils
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.util.Locale
 
 /**
  * Model object for materials.
@@ -34,112 +32,96 @@ data class Material(
 ) : Parcelable {
     @IgnoredOnParcel
     val klassKodAsString: String = createLabels()
+
     @IgnoredOnParcel
     val fullText: String = createFullText()
+
     @IgnoredOnParcel
     private val mSearchText: String = createSearchText()
 
     val NEMkg: BigDecimal
-        get() {
-            val value = BigDecimal(this.NEMmg)
-            return value.divide(BigDecimal(1000000), 6, RoundingMode.FLOOR)
-        }
+        get() = BigDecimal(NEMmg).divide(BigDecimal(1_000_000), 6, RoundingMode.FLOOR)
 
     val uniqueKey: String
-        get() = this.UNnr + '|' + this.namn + '|' + this.fben + '|' + this.fbet
+        get() = "$UNnr|$namn|$fben|$fbet"
 
-    fun hasNEM(): Boolean = (0 != this.NEMmg)
+    fun hasNEM(): Boolean = NEMmg != 0
 
     fun matches(search: CharSequence): Boolean = mSearchText.contains(search, ignoreCase = true)
 
-    fun toBundle(): Bundle {
-        val bundle = Bundle()
-        bundle.putString(Keys.FBET, this.fbet)
-        bundle.putString(Keys.FBEN, this.fben)
-        bundle.putString(Keys.UNNR, this.UNnr)
-        bundle.putString(Keys.NAMN, this.namn)
-        bundle.putStringArray(Keys.KLASSKOD, klassKod.toTypedArray<String>())
-        bundle.putInt(Keys.NEMMG, this.NEMmg)
-        bundle.putInt(Keys.TPKAT, this.tpKat)
-        bundle.putString(Keys.FRPGRP, this.frpGrp)
-        bundle.putString(Keys.TUNNELKOD, this.tunnelKod)
-        bundle.putBoolean(Keys.MILJO, this.miljo)
-        bundle.putString(Keys.SOURCE, this.source.name)
-
-        return bundle
+    fun toBundle(): Bundle = Bundle().apply {
+        putString(Keys.FBET, fbet)
+        putString(Keys.FBEN, fben)
+        putString(Keys.UNNR, UNnr)
+        putString(Keys.NAMN, namn)
+        putStringArray(Keys.KLASSKOD, klassKod.toTypedArray())
+        putInt(Keys.NEMMG, NEMmg)
+        putInt(Keys.TPKAT, tpKat)
+        putString(Keys.FRPGRP, frpGrp)
+        putString(Keys.TUNNELKOD, tunnelKod)
+        putBoolean(Keys.MILJO, miljo)
+        putString(Keys.SOURCE, source.name)
     }
 
     @Throws(JSONException::class)
-    fun toJson(): JSONObject {
-        val json = JSONObject()
-        json.put(Keys.FBET, this.fbet)
-        json.put(Keys.FBEN, this.fben)
-        json.put(Keys.UNNR, this.UNnr)
-        json.put(Keys.NAMN, this.namn)
-        json.put(Keys.KLASSKOD, JSONArray(this.klassKod))
-        json.put(Keys.NEMMG, this.NEMmg)
-        json.put(Keys.TPKAT, this.tpKat)
-        json.put(Keys.FRPGRP, this.frpGrp)
-        json.put(Keys.TUNNELKOD, this.tunnelKod)
-        json.put(Keys.MILJO, this.miljo)
-        return json
+    fun toJson(): JSONObject = JSONObject().apply {
+        put(Keys.FBET, fbet)
+        put(Keys.FBEN, fben)
+        put(Keys.UNNR, UNnr)
+        put(Keys.NAMN, namn)
+        put(Keys.KLASSKOD, JSONArray(klassKod))
+        put(Keys.NEMMG, NEMmg)
+        put(Keys.TPKAT, tpKat)
+        put(Keys.FRPGRP, frpGrp)
+        put(Keys.TUNNELKOD, tunnelKod)
+        put(Keys.MILJO, miljo)
     }
 
-    override fun toString(): String = (if (TextUtils.isEmpty(this.fben)) this.namn else this.fben)
+    override fun toString(): String = fben.ifBlank { namn }
 
-    private fun createFullText(): String {
-        val builder = StringBuilder()
-        if (!TextUtils.isEmpty(this.UNnr)) {
-            builder.append("UN ")
-            builder.append(this.UNnr)
+    private fun createFullText(): String = buildString {
+        if (UNnr.isNotBlank()) {
+            append("UN $UNnr")
         }
         if (source != MaterialSource.ADR_S) {
-            builder.append(' ')
-            builder.append(this.namn)
+            if (isNotEmpty()) append(' ')
+            append(namn)
         }
-        if (!TextUtils.isEmpty(this.klassKodAsString)) {
-            builder.append(", ")
-            builder.append(this.klassKodAsString)
+        if (klassKodAsString.isNotBlank()) {
+            if (isNotEmpty()) append(", ")
+            append(klassKodAsString)
         }
-        if (!TextUtils.isEmpty(this.frpGrp)) {
-            builder.append(", ")
-            builder.append(this.frpGrp)
+        if (frpGrp.isNotBlank()) {
+            if (isNotEmpty()) append(", ")
+            append(frpGrp)
         }
-        if (!TextUtils.isEmpty(this.tunnelKod)) {
-            builder.append(" (")
-            builder.append(this.tunnelKod)
-            builder.append(')')
+        if (tunnelKod.isNotBlank()) {
+            if (isNotEmpty()) append(' ')
+            append("($tunnelKod)")
         }
-        return builder.toString()
     }
 
     private fun createLabels(): String {
         if (klassKod.isEmpty()) return ""
-        if (1 == klassKod.size) return klassKod[0]
-        val builder = StringBuilder()
-        for (i in 1 until klassKod.size) {
-            if (builder.isNotEmpty()) builder.append(", ")
-            builder.append(klassKod[i])
-        }
-        return String.format("%s (%s)", klassKod[0], builder.toString())
+        if (klassKod.size == 1) return klassKod[0]
+        val rest = klassKod.drop(1).joinToString(", ")
+        return "${klassKod[0]} ($rest)"
     }
 
-    private fun createSearchText(): String {
-        val builder = StringBuilder()
-        builder.append(namn.lowercase(Locale.getDefault()))
-        if (!TextUtils.isEmpty(this.fbet)) {
-            builder.append(' ')
-            builder.append(fbet.lowercase(Locale.getDefault()))
+    private fun createSearchText(): String = buildString {
+        append(namn.lowercase())
+        if (fbet.isNotBlank()) {
+            append(' ')
+            append(fbet.lowercase())
         }
-        if (!TextUtils.isEmpty(this.fben)) {
-            builder.append(' ')
-            builder.append(fben.lowercase(Locale.getDefault()))
+        if (fben.isNotBlank()) {
+            append(' ')
+            append(fben.lowercase())
         }
-        if (!TextUtils.isEmpty(this.UNnr)) {
-            builder.append(' ')
-            builder.append(this.UNnr)
+        if (UNnr.isNotBlank()) {
+            append(' ')
+            append(UNnr)
         }
-        return builder.toString()
     }
 
     /**
@@ -164,73 +146,41 @@ data class Material(
         const val TPKAT_MIN: Int = 1
 
         @JvmStatic
-        fun fromBundle(bundle: Bundle): Material {
-            val fbet = bundle.getString(Keys.FBET)
-            val fben = bundle.getString(Keys.FBEN)
-            val unNr = bundle.getString(Keys.UNNR)
-            val namn = bundle.getString(Keys.NAMN)
-            val nEMmg = bundle.getInt(Keys.NEMMG)
-            val tpKat = bundle.getInt(Keys.TPKAT)
-            val frpGrp = bundle.getString(Keys.FRPGRP)
-            val tunnelkod = bundle.getString(Keys.TUNNELKOD)
-            val miljo = bundle.getBoolean(Keys.MILJO)
-
-            val klassKodArray = bundle.getStringArray(Keys.KLASSKOD)
-            val klassKod =
-                if (null != klassKodArray) listOf(*klassKodArray) else emptyList<String>()
-
-            val sourceName = bundle.getString(Keys.SOURCE)
-            val source =
-                if (sourceName != null) MaterialSource.valueOf(sourceName) else MaterialSource.NONE
-
-            return Material(
-                fbet ?: "",
-                fben ?: "",
-                unNr ?: "",
-                namn ?: "",
-                klassKod,
-                nEMmg,
-                tpKat,
-                frpGrp ?: "",
-                tunnelkod ?: "",
-                miljo,
-                source
-            )
-        }
+        fun fromBundle(bundle: Bundle): Material = Material(
+            fbet = bundle.getString(Keys.FBET).orEmpty(),
+            fben = bundle.getString(Keys.FBEN).orEmpty(),
+            UNnr = bundle.getString(Keys.UNNR).orEmpty(),
+            namn = bundle.getString(Keys.NAMN).orEmpty(),
+            klassKod = bundle.getStringArray(Keys.KLASSKOD)?.toList().orEmpty(),
+            NEMmg = bundle.getInt(Keys.NEMMG),
+            tpKat = bundle.getInt(Keys.TPKAT),
+            frpGrp = bundle.getString(Keys.FRPGRP).orEmpty(),
+            tunnelKod = bundle.getString(Keys.TUNNELKOD).orEmpty(),
+            miljo = bundle.getBoolean(Keys.MILJO),
+            source = bundle.getString(Keys.SOURCE)?.let { MaterialSource.valueOf(it) }
+                ?: MaterialSource.NONE
+        )
 
         @JvmStatic
         @Throws(JSONException::class)
         fun fromJSON(json: JSONObject, source: MaterialSource): Material {
-            val fbet = JSONUtils.getStringOrNull(json, Keys.FBET)
-            val fben = JSONUtils.getStringOrNull(json, Keys.FBEN)
-            val unNr = JSONUtils.getStringOrNull(json, Keys.UNNR)
-            val namn = json.getString(Keys.NAMN)
-            val nEMmg = json.optInt(Keys.NEMMG)
-            val tpKat = json.getInt(Keys.TPKAT)
-            val frpGrp = JSONUtils.getStringOrNull(json, Keys.FRPGRP)
-            val tunnelkod = JSONUtils.getStringOrNull(json, Keys.TUNNELKOD)
-            val miljo = json.optBoolean(Keys.MILJO)
-
             val klassKodJson = json.optJSONArray(Keys.KLASSKOD)
-            val klassKod = mutableListOf<String>()
-            if (null != klassKodJson) {
-                for (i in 0 until klassKodJson.length()) {
-                    klassKod.add(klassKodJson.getString(i))
-                }
-            }
+            val klassKod =
+                if (null == klassKodJson) emptyList() else (0 until klassKodJson.length())
+                    .map { i -> klassKodJson.getString(i) }
 
             return Material(
-                fbet ?: "",
-                fben ?: "",
-                unNr ?: "",
-                namn ?: "",
-                klassKod,
-                nEMmg,
-                tpKat,
-                frpGrp ?: "",
-                tunnelkod ?: "",
-                miljo,
-                source
+                fbet = JSONUtils.getStringOrNull(json, Keys.FBET).orEmpty(),
+                fben = JSONUtils.getStringOrNull(json, Keys.FBEN).orEmpty(),
+                UNnr = JSONUtils.getStringOrNull(json, Keys.UNNR).orEmpty(),
+                namn = json.getString(Keys.NAMN),
+                klassKod = klassKod,
+                NEMmg = json.optInt(Keys.NEMMG),
+                tpKat = json.getInt(Keys.TPKAT),
+                frpGrp = JSONUtils.getStringOrNull(json, Keys.FRPGRP).orEmpty(),
+                tunnelKod = JSONUtils.getStringOrNull(json, Keys.TUNNELKOD).orEmpty(),
+                miljo = json.optBoolean(Keys.MILJO),
+                source = source
             )
         }
     }
