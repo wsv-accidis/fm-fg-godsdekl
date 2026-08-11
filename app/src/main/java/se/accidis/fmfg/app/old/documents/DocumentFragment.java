@@ -209,7 +209,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 		if (null != args && args.containsKey(ARG_ID)) {
 			try {
 				UUID id = UUID.fromString(args.getString(ARG_ID, ""));
-				mDocument = mRepository.loadDocument(id);
+				// mDocument = mRepository.loadDocument(id);
 				mIsCurrentDocument = false;
 			} catch (Exception ex) {
 				Log.e(TAG, "Exception while loading document.", ex);

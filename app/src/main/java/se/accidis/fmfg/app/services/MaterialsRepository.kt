@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import org.json.JSONArray
 import se.accidis.fmfg.app.model.Material
 import se.accidis.fmfg.app.model.MaterialSource
-import se.accidis.fmfg.app.utils.IOUtils
 import se.accidis.fmfg.app.utils.Resource
 import se.accidis.fmfg.app.utils.TAG
 
@@ -50,7 +49,7 @@ class MaterialsRepository private constructor(context: Context) {
     }
 
     private fun loadFromAsset(assetName: String, source: MaterialSource): List<Material> {
-        val str = IOUtils.readToEnd(context.assets.open(assetName))
+        val str = context.assets.open(assetName).bufferedReader().use { it.readText() }
         val jsonArray = JSONArray(str)
         val list = ArrayList<Material>(jsonArray.length())
         for (i in 0 until jsonArray.length()) {
@@ -65,13 +64,9 @@ class MaterialsRepository private constructor(context: Context) {
         private var singleton: MaterialsRepository? = null
 
         @JvmStatic
-        fun getInstance(context: Context): MaterialsRepository {
-            return (
-                    if (null == singleton)
-                        (MaterialsRepository(context).also { singleton = it })
-                    else
-                        singleton
-                    )!!
-        }
+        fun getInstance(context: Context): MaterialsRepository =
+            singleton ?: synchronized(this) {
+                singleton ?: MaterialsRepository(context).also { singleton = it }
+            }
     }
 }

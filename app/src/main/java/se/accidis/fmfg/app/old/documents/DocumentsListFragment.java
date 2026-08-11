@@ -53,7 +53,7 @@ public final class DocumentsListFragment extends ListFragment implements MainAct
 
         DocumentsRepository repository = DocumentsRepository.getInstance(getContext());
         if (!mIsLoaded || !repository.isLoaded()) {
-            repository.setOnLoadedListener(new DocumentsLoadedListener());
+            // repository.setOnLoadedListener(new DocumentsLoadedListener());
             repository.beginLoad();
         } else {
             initializeList();
@@ -100,6 +100,7 @@ public final class DocumentsListFragment extends ListFragment implements MainAct
         mListState = getListView().onSaveInstanceState();
     }
 
+    /*
     private final class DocumentsLoadedListener implements DocumentsRepository.OnLoadedListener {
         @Override
         public void onException(Exception ex) {
@@ -122,4 +123,5 @@ public final class DocumentsListFragment extends ListFragment implements MainAct
             });
         }
     }
+    */
 }

@@ -2,19 +2,14 @@ package se.accidis.fmfg.app.services
 
 import android.content.Context
 import android.util.Log
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import org.json.JSONException
 import org.json.JSONObject
-import se.accidis.fmfg.app.model.Document
-import se.accidis.fmfg.app.model.DocumentBuilder
-import se.accidis.fmfg.app.model.DocumentLink
-import se.accidis.fmfg.app.model.mutate
-import se.accidis.fmfg.app.model.save
-import se.accidis.fmfg.app.utils.IOUtils
+import se.accidis.fmfg.app.model.*
+import se.accidis.fmfg.app.utils.Resource
 import se.accidis.fmfg.app.utils.TAG
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -23,60 +18,69 @@ import java.util.UUID
 /**
  * Repository for documents.
  */
-class DocumentsRepository private constructor(context: Context) {
-    private val context: Context = context.applicationContext
-    private val prefs: Preferences = Preferences(this@DocumentsRepository.context)
-    private var openDocument: Document? = null
-    private var documents: MutableList<DocumentLink>? = null
-    private var onLoadedListener: OnLoadedListener? = null
+class DocumentsRepository private constructor(private val context: Context) {
+    private val prefs = Preferences(context)
+    
+    private val _currentDocument = MutableStateFlow<Document?>(null)
+    //val currentDocumentFlow: StateFlow<Document?> = _currentDocument.asStateFlow()
+
+    val currentDocument: Document
+        get() = ensureDocument()
+
+    private val _documents = MutableStateFlow<Resource<List<DocumentLink>>>(Resource.Loading)
+    val documents: StateFlow<Resource<List<DocumentLink>>> = _documents.asStateFlow()
+
     private val repositoryScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     fun beginLoad() {
-        if (isLoaded) {
+        val current = _documents.value
+        if (current is Resource.Success && current.data.isNotEmpty()) {
             Log.d(TAG, "Documents already loaded, nothing to do.")
-            onLoadedListener?.onLoaded(documents!!)
             return
         }
 
         Log.d(TAG, "Loading documents.")
+        _documents.value = Resource.Loading
         repositoryScope.launch {
             try {
                 val list = withContext(Dispatchers.IO) {
-                    val fileList = filterDocuments(context.fileList())
-                    val loadedList = ArrayList<DocumentLink>()
-                    for (file in fileList) {
-                        val docLink = readDocumentLink(file)
-                        loadedList.add(docLink)
-                    }
-                    loadedList.sort()
-                    loadedList
+                    context.fileList()
+                        .filter { it.startsWith(SAVED_DOCUMENT_PREFIX) }
+                        .map { readDocumentLink(it) }
+                        .sorted()
                 }
 
-                documents = list
+                _documents.value = Resource.Success(list)
                 Log.i(TAG, "Finished loading documents (${list.size} documents loaded).")
-                onLoadedListener?.onLoaded(list)
             } catch (ex: Exception) {
                 Log.e(TAG, "Failed to load documents.", ex)
-                if (null == documents) {
-                    onLoadedListener?.onException(ex)
-                }
+                _documents.value = Resource.Error(ex)
             }
         }
     }
 
     fun changeCurrentDocument(document: Document) {
         Log.d(TAG, "Replacing current document with ID: ${document.id}")
-        openDocument = document
-        commitCurrentDocument()
+        _currentDocument.value = document
+        repositoryScope.launch(Dispatchers.IO) {
+            commitDocumentInternal(document)
+        }
     }
 
     fun commitCurrentDocument() {
+        _currentDocument.value?.let { doc ->
+            repositoryScope.launch(Dispatchers.IO) {
+                commitDocumentInternal(doc)
+            }
+        }
+    }
+
+    private fun commitDocumentInternal(document: Document) {
         try {
-            val json = openDocument!!.toJson().toString()
-            IOUtils.writeToStream(
-                context.openFileOutput(CURRENT_DOCUMENT, Context.MODE_PRIVATE),
-                json
-            )
+            val json = document.toJson().toString()
+            context.openFileOutput(CURRENT_DOCUMENT, Context.MODE_PRIVATE).bufferedWriter().use {
+                it.write(json)
+            }
         } catch (ex: Exception) {
             Log.e(TAG, "Exception while writing current document.", ex)
         }
@@ -84,119 +88,99 @@ class DocumentsRepository private constructor(context: Context) {
 
     fun deleteDocument(id: UUID) {
         Log.d(TAG, "Deleting document with ID: $id")
-        val filename: String = getFilenameByDocumentId(id)
-        context.deleteFile(filename)
-        invalidateListOfDocuments()
+        repositoryScope.launch(Dispatchers.IO) {
+            val filename = getFilenameByDocumentId(id)
+            context.deleteFile(filename)
+            invalidateListOfDocuments()
+        }
     }
 
-    val currentDocument: Document
-        get() = ensureDocument()
+    /**
+     * Gets the current document, initializing it if necessary.
+     */
+    private fun ensureDocument(): Document {
+        val current = _currentDocument.value
+        if (current != null) return current
+
+        val document = try {
+            // Using runBlocking here for synchronous initialization when called from property getter
+            runBlocking(Dispatchers.IO) {
+                readDocument(CURRENT_DOCUMENT)
+            }
+        } catch (_: FileNotFoundException) {
+            Log.w(TAG, "Current document not found, might be first startup.")
+            null
+        } catch (ex: Exception) {
+            Log.e(TAG, "Exception while reading current document.", ex)
+            null
+        } ?: DocumentBuilder.createNew().mutate { author = prefs.defaultAuthor }
+
+        _currentDocument.value = document
+        Log.d(TAG, "Current document initialized with ID: ${document.id}")
+        return document
+    }
 
     val isLoaded: Boolean
-        get() = (null != documents)
+        get() = _documents.value is Resource.Success
 
     @Throws(IOException::class, JSONException::class)
-    fun loadDocument(id: UUID): Document {
+    suspend fun loadDocument(id: UUID): Document = withContext(Dispatchers.IO) {
         Log.d(TAG, "Loading document with ID: $id")
-        val filename: String = getFilenameByDocumentId(id)
-        return readDocument(filename)
+        val filename = getFilenameByDocumentId(id)
+        readDocument(filename)
     }
 
     @Throws(IOException::class, JSONException::class)
     fun saveCurrentDocument(name: String) {
         val document = ensureDocument()
-        Log.d(TAG, "Saving current document with ID: ${document.id}, name = ${document.name}")
-        writeDocument(document.mutate { this.name = name }.save())
-        invalidateListOfDocuments()
-    }
-
-    fun setOnLoadedListener(listener: OnLoadedListener?) {
-        onLoadedListener = listener
-    }
-
-    private fun ensureDocument(): Document {
-        var document: Document? = openDocument
-
-        if (null == document) {
-            try {
-                document = readDocument(CURRENT_DOCUMENT)
-            } catch (_: FileNotFoundException) {
-                Log.w(TAG, "Current document not found, might be first startup.")
-            } catch (ex: Exception) {
-                Log.e(TAG, "Exception while reading current document.", ex)
-            }
-
-            if (null == document) {
-                document = DocumentBuilder.createNew(prefs.defaultAuthor)
-                Log.d(TAG, "Created a document with ID: ${openDocument!!.id}")
-            } else {
-                Log.d(TAG, "Loaded current document with ID: ${openDocument!!.id}")
-            }
+        Log.d(TAG, "Saving current document with ID: ${document.id}, name = $name")
+        val savedDoc = document.mutate { this.name = name }.save()
+        repositoryScope.launch(Dispatchers.IO) {
+            writeDocument(savedDoc)
+            invalidateListOfDocuments()
         }
-
-        openDocument = document
-        return document
     }
 
     private fun invalidateListOfDocuments() {
-        documents = null
+        _documents.value = Resource.Loading
+        beginLoad()
     }
 
     @Throws(IOException::class, JSONException::class)
-    private fun readDocument(fileName: String?): Document {
-        val str = IOUtils.readToEnd(context.openFileInput(fileName))
-        val json = JSONObject(str)
-        return Document.fromJson(json)
+    private fun readDocument(fileName: String): Document {
+        val str = context.openFileInput(fileName).bufferedReader().use { it.readText() }
+        return Document.fromJson(JSONObject(str))
     }
 
     @Throws(IOException::class, JSONException::class)
     private fun writeDocument(document: Document) {
-        val fileName: String = getFilenameByDocumentId(document.id)
+        val fileName = getFilenameByDocumentId(document.id)
         val json = document.toJson().toString()
-        IOUtils.writeToStream(context.openFileOutput(fileName, Context.MODE_PRIVATE), json)
-    }
-
-    private fun filterDocuments(files: Array<String>): List<String> {
-        val filtered = ArrayList<String>()
-        for (fileName in files) {
-            if (fileName.startsWith(SAVED_DOCUMENT_PREFIX)) {
-                filtered.add(fileName)
-            }
+        context.openFileOutput(fileName, Context.MODE_PRIVATE).bufferedWriter().use {
+            it.write(json)
         }
-        return filtered
     }
 
     @Throws(IOException::class, JSONException::class)
     private fun readDocumentLink(fileName: String): DocumentLink {
-        val str = IOUtils.readToEnd(context.openFileInput(fileName))
-        val json = JSONObject(str)
-        return DocumentLink.fromJson(json)
-    }
-
-    interface OnLoadedListener {
-        fun onException(ex: Exception)
-
-        fun onLoaded(list: List<DocumentLink>)
+        val str = context.openFileInput(fileName).bufferedReader().use { it.readText() }
+        return DocumentLink.fromJson(JSONObject(str))
     }
 
     companion object {
         private const val CURRENT_DOCUMENT = "CurrentDocument.json"
-        private const val SAVED_DOCUMENT_FORMAT = "Saved_%s.json"
         private const val SAVED_DOCUMENT_PREFIX = "Saved_"
+
+        @Volatile
         private var singleton: DocumentsRepository? = null
 
         @JvmStatic
-        fun getInstance(context: Context): DocumentsRepository {
-            return (
-                    if (null == singleton)
-                        (DocumentsRepository(context).also { singleton = it })
-                    else
-                        singleton
-                    )!!
-        }
+        fun getInstance(context: Context): DocumentsRepository =
+            singleton ?: synchronized(this) {
+                singleton ?: DocumentsRepository(context).also { singleton = it }
+            }
 
-        private fun getFilenameByDocumentId(documentId: UUID): String {
-            return String.format(SAVED_DOCUMENT_FORMAT, documentId.toString())
-        }
+        private fun getFilenameByDocumentId(documentId: UUID): String =
+            "Saved_$documentId.json"
     }
 }
