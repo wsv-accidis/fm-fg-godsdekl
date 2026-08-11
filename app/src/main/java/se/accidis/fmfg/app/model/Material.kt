@@ -6,7 +6,6 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
 import se.accidis.fmfg.app.utils.JSONUtils
 import java.math.BigDecimal
@@ -63,7 +62,6 @@ data class Material(
         putString(Keys.SOURCE, source.name)
     }
 
-    @Throws(JSONException::class)
     fun toJson(): JSONObject = JSONObject().apply {
         put(Keys.FBET, fbet)
         put(Keys.FBEN, fben)
@@ -162,7 +160,6 @@ data class Material(
         )
 
         @JvmStatic
-        @Throws(JSONException::class)
         fun fromJSON(json: JSONObject, source: MaterialSource): Material {
             val klassKodJson = json.optJSONArray(Keys.KLASSKOD)
             val klassKod =

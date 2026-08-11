@@ -1,7 +1,6 @@
 package se.accidis.fmfg.app.model
 
 import org.joda.time.DateTime
-import org.json.JSONException
 import org.json.JSONObject
 import se.accidis.fmfg.app.utils.JSONUtils
 import java.util.UUID
@@ -17,7 +16,6 @@ data class DocumentLink(val id: UUID?, val name: String, val timestamp: DateTime
     }
 
     companion object {
-        @Throws(JSONException::class)
         fun fromJson(json: JSONObject): DocumentLink {
             return DocumentLink(
                 id = UUID.fromString(json.getString(Document.Keys.ID)),

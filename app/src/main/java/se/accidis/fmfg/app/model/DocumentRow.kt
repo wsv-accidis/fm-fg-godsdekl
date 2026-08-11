@@ -1,7 +1,6 @@
 package se.accidis.fmfg.app.model
 
 import android.content.Context
-import org.json.JSONException
 import org.json.JSONObject
 import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.old.materials.ValueHelper
@@ -50,7 +49,6 @@ data class DocumentRow(
 
     val isFreeText: Boolean = true
 
-    @Throws(JSONException::class)
     fun toJson(): JSONObject = material.toJson().apply {
         put(Keys.AMOUNT, amount.toString())
         put(Keys.IS_VOLUME, isVolume)
@@ -69,7 +67,6 @@ data class DocumentRow(
 
     companion object {
         @JvmStatic
-        @Throws(JSONException::class)
         fun fromJson(json: JSONObject): DocumentRow = DocumentRow(
             material = Material.fromJSON(json, MaterialSource.NONE),
             amount = BigDecimal(json.getString(Keys.AMOUNT)),

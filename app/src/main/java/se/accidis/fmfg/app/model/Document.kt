@@ -3,7 +3,6 @@ package se.accidis.fmfg.app.model
 import android.content.Context
 import org.joda.time.DateTime
 import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
 import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.old.materials.ValueHelper.formatValue
@@ -79,7 +78,6 @@ data class Document(
         }
     }
 
-    @Throws(JSONException::class)
     fun toJson(): JSONObject {
         val json = JSONObject()
         json.put(Keys.ID, id.toString())
@@ -111,7 +109,6 @@ data class Document(
     }
 
     companion object {
-        @Throws(JSONException::class)
         fun fromJson(json: JSONObject): Document {
             val rowsArray = json.getJSONArray(Keys.ROWS)
             val rows = (0 until rowsArray.length()).map { i ->

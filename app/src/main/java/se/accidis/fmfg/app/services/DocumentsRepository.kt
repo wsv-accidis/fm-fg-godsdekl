@@ -6,13 +6,11 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.json.JSONException
 import org.json.JSONObject
 import se.accidis.fmfg.app.model.*
 import se.accidis.fmfg.app.utils.Resource
 import se.accidis.fmfg.app.utils.TAG
 import java.io.FileNotFoundException
-import java.io.IOException
 import java.util.UUID
 
 /**
@@ -123,14 +121,12 @@ class DocumentsRepository private constructor(private val context: Context) {
     val isLoaded: Boolean
         get() = _documents.value is Resource.Success
 
-    @Throws(IOException::class, JSONException::class)
     suspend fun loadDocument(id: UUID): Document = withContext(Dispatchers.IO) {
         Log.d(TAG, "Loading document with ID: $id")
         val filename = getFilenameByDocumentId(id)
         readDocument(filename)
     }
 
-    @Throws(IOException::class, JSONException::class)
     fun saveCurrentDocument(name: String) {
         val document = ensureDocument()
         Log.d(TAG, "Saving current document with ID: ${document.id}, name = $name")
@@ -146,13 +142,11 @@ class DocumentsRepository private constructor(private val context: Context) {
         beginLoad()
     }
 
-    @Throws(IOException::class, JSONException::class)
     private fun readDocument(fileName: String): Document {
         val str = context.openFileInput(fileName).bufferedReader().use { it.readText() }
         return Document.fromJson(JSONObject(str))
     }
 
-    @Throws(IOException::class, JSONException::class)
     private fun writeDocument(document: Document) {
         val fileName = getFilenameByDocumentId(document.id)
         val json = document.toJson().toString()
@@ -161,7 +155,6 @@ class DocumentsRepository private constructor(private val context: Context) {
         }
     }
 
-    @Throws(IOException::class, JSONException::class)
     private fun readDocumentLink(fileName: String): DocumentLink {
         val str = context.openFileInput(fileName).bufferedReader().use { it.readText() }
         return DocumentLink.fromJson(JSONObject(str))
