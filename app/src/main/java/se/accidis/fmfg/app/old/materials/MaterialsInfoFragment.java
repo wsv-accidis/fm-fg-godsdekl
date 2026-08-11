@@ -195,7 +195,7 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 			Document document = mRepository.getCurrentDocument();
 			//document.removeRowByMaterial(mMaterial);
 			//document.setHasUnsavedChanges(true);
-			mRepository.commitCurrentDocument();
+			//mRepository.commitCurrentDocument();
 			refreshDocumentState();
 		}
 	}

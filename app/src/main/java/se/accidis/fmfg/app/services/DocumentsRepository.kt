@@ -1,6 +1,7 @@
 package se.accidis.fmfg.app.services
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,7 @@ import java.util.UUID
  */
 class DocumentsRepository private constructor(private val context: Context) {
     private val prefs = Preferences(context)
-    
+
     private val _currentDocument = MutableStateFlow<Document?>(null)
     //val currentDocumentFlow: StateFlow<Document?> = _currentDocument.asStateFlow()
 
@@ -57,31 +58,38 @@ class DocumentsRepository private constructor(private val context: Context) {
         }
     }
 
-    fun changeCurrentDocument(document: Document) {
-        Log.d(TAG, "Replacing current document with ID: ${document.id}")
+    val isLoaded: Boolean
+        get() = _documents.value is Resource.Success
+
+    fun updateCurrentDocument(document: Document) {
+        Log.d(TAG, "Updating current document with ID: ${document.id}")
         _currentDocument.value = document
         repositoryScope.launch(Dispatchers.IO) {
-            commitDocumentInternal(document)
-        }
-    }
-
-    fun commitCurrentDocument() {
-        _currentDocument.value?.let { doc ->
-            repositoryScope.launch(Dispatchers.IO) {
-                commitDocumentInternal(doc)
+            try {
+                val json = document.toJson().toString()
+                context.openFileOutput(CURRENT_DOCUMENT, MODE_PRIVATE).bufferedWriter().use {
+                    it.write(json)
+                }
+            } catch (ex: Exception) {
+                Log.e(TAG, "Exception while writing current document.", ex)
             }
         }
     }
 
-    private fun commitDocumentInternal(document: Document) {
-        try {
-            val json = document.toJson().toString()
-            context.openFileOutput(CURRENT_DOCUMENT, Context.MODE_PRIVATE).bufferedWriter().use {
-                it.write(json)
-            }
-        } catch (ex: Exception) {
-            Log.e(TAG, "Exception while writing current document.", ex)
+    fun saveCurrentDocument(name: String) {
+        val document = ensureDocument()
+        Log.d(TAG, "Saving current document with ID: ${document.id}, name = $name")
+        val savedDoc = document.mutate { this.name = name }.save()
+        repositoryScope.launch(Dispatchers.IO) {
+            writeDocument(savedDoc)
+            invalidateListOfDocuments()
         }
+    }
+
+    suspend fun loadDocument(id: UUID): Document = withContext(Dispatchers.IO) {
+        Log.d(TAG, "Loading document with ID: $id")
+        val filename = getFilenameByDocumentId(id)
+        readDocument(filename)
     }
 
     fun deleteDocument(id: UUID) {
@@ -93,9 +101,6 @@ class DocumentsRepository private constructor(private val context: Context) {
         }
     }
 
-    /**
-     * Gets the current document, initializing it if necessary.
-     */
     private fun ensureDocument(): Document {
         val current = _currentDocument.value
         if (current != null) return current
@@ -116,25 +121,6 @@ class DocumentsRepository private constructor(private val context: Context) {
         _currentDocument.value = document
         Log.d(TAG, "Current document initialized with ID: ${document.id}")
         return document
-    }
-
-    val isLoaded: Boolean
-        get() = _documents.value is Resource.Success
-
-    suspend fun loadDocument(id: UUID): Document = withContext(Dispatchers.IO) {
-        Log.d(TAG, "Loading document with ID: $id")
-        val filename = getFilenameByDocumentId(id)
-        readDocument(filename)
-    }
-
-    fun saveCurrentDocument(name: String) {
-        val document = ensureDocument()
-        Log.d(TAG, "Saving current document with ID: ${document.id}, name = $name")
-        val savedDoc = document.mutate { this.name = name }.save()
-        repositoryScope.launch(Dispatchers.IO) {
-            writeDocument(savedDoc)
-            invalidateListOfDocuments()
-        }
     }
 
     private fun invalidateListOfDocuments() {

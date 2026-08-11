@@ -238,7 +238,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 	}
 
 	void commit() {
-		mRepository.commitCurrentDocument();
+		//mRepository.commitCurrentDocument();
 		mAdapter.notifyDataSetChanged();
 		updateMainView();
 	}
@@ -257,7 +257,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 
 	private void makeCurrentDocument() {
 		if (!mIsCurrentDocument) {
-			mRepository.changeCurrentDocument(mDocument);
+			mRepository.updateCurrentDocument(mDocument);
 			mIsCurrentDocument = true;
 			mAdapter.setIsCurrentDocument(true);
 			mButtonBar.setVisibility(mIsCurrentDocument ? View.VISIBLE : View.GONE);

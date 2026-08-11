@@ -192,7 +192,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 			Document document = mRepository.getCurrentDocument();
 			//document.removeRowByMaterial(mMaterial);
 			//document.setHasUnsavedChanges(true);
-			mRepository.commitCurrentDocument();
+			//mRepository.commitCurrentDocument();
 		}
 	}
 

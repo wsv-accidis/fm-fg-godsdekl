@@ -168,7 +168,7 @@ public final class CustomRowDialogFragment extends DialogFragment {
 			Document document = mRepository.getCurrentDocument();
 			//document.removeRowByMaterial(getMaterial());
 			//document.setHasUnsavedChanges(true);
-			mRepository.commitCurrentDocument();
+			//mRepository.commitCurrentDocument();
 		}
 	}
 
@@ -178,7 +178,7 @@ public final class CustomRowDialogFragment extends DialogFragment {
 			Document document = mRepository.getCurrentDocument();
 			//document.addOrUpdateRow(new DocumentRow(getMaterial()));
 			//document.setHasUnsavedChanges(true);
-			mRepository.commitCurrentDocument();
+			//mRepository.commitCurrentDocument();
 		}
 	}
 }

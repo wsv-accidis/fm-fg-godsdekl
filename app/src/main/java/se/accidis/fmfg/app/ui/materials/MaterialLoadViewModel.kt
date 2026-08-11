@@ -3,8 +3,12 @@ package se.accidis.fmfg.app.ui.materials
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import se.accidis.fmfg.app.R
+import se.accidis.fmfg.app.model.DocumentRow
 import se.accidis.fmfg.app.model.Material
+import se.accidis.fmfg.app.model.MaterialSource
+import se.accidis.fmfg.app.model.mutate
 import se.accidis.fmfg.app.old.materials.ValueHelper
+import se.accidis.fmfg.app.services.DocumentsRepository
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -28,15 +32,47 @@ enum class WeightVolumeUnit(val labelResId: Int) {
 /**
  * ViewModel for the Material load screen.
  */
-class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
+class MaterialLoadViewModel(private val initialMaterial: Material) : ViewModel() {
     val canLoadMaterial: Boolean
         get() {
             val numPkgs = numberOfPkgs.toIntOrNull() ?: 0
             val wtVol = ValueHelper.parseValue(weightVolume)
             val hasIdentity =
-                unNr.isNotBlank() || namn.isNotBlank() || fbet.isNotBlank() || fben.isNotBlank()
+                UNnr.isNotBlank() || namn.isNotBlank() || fbet.isNotBlank() || fben.isNotBlank()
             return numPkgs > 0 && wtVol.signum() > 0 && hasIdentity
         }
+
+    fun loadIntoDocument(repository: DocumentsRepository) {
+        if (!canLoadMaterial) {
+            return
+        }
+
+        val material = Material(
+            fbet = fbet.trim(),
+            fben = fben.trim(),
+            UNnr = UNnr.trim(),
+            namn = namn.trim(),
+            klassKod = klassKodList,
+            NEMmg = NEMmgValue.toInt(),
+            tpKat = tpKat,
+            frpGrp = frpGrp,
+            tunnelKod = tunnelKod,
+            miljo = miljo,
+            source = MaterialSource.NONE
+        )
+
+        val row = DocumentRow(
+            material = material,
+            amount = ValueHelper.parseValue(amount),
+            numberOfPackages = numberOfPkgs.toIntOrNull() ?: 0,
+            typeOfPackages = typeOfPkgs.trim(),
+            isVolume = weightVolumeUnit == WeightVolumeUnit.LITER,
+            weightVolume = ValueHelper.parseValue(weightVolume)
+        )
+
+        val mutatedDoc = repository.currentDocument.mutate { rows.add(row) }
+        repository.updateCurrentDocument(mutatedDoc)
+    }
 
     // --------------------------
     // Fields for the DocumentRow
@@ -52,12 +88,12 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
 
     var isNemPanelExpanded by mutableStateOf(initialMaterial.NEMmg > 0)
 
-    val totalNemMg: BigDecimal
-        get() = ValueHelper.parseValue(amount).multiply(BigDecimal(nemMgValue))
+    val totalNEMmg: BigDecimal
+        get() = ValueHelper.parseValue(amount).multiply(BigDecimal(NEMmgValue))
 
     val weightVolumePointsBasis: BigDecimal
-        get() = if (nemMgValue > 0) {
-            totalNemMg.divide(BigDecimal(NemUnit.KILOGRAM.factor), 6, RoundingMode.FLOOR)
+        get() = if (NEMmgValue > 0) {
+            totalNEMmg.divide(BigDecimal(NemUnit.KILOGRAM.factor), 6, RoundingMode.FLOOR)
         } else {
             ValueHelper.parseValue(weightVolume)
         }
@@ -89,31 +125,31 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
 
     var fbet by mutableStateOf(initialMaterial.fbet)
     var fben by mutableStateOf(initialMaterial.fben)
-    var unNr by mutableStateOf(initialMaterial.UNnr)
+    var UNnr by mutableStateOf(initialMaterial.UNnr)
     var namn by mutableStateOf(initialMaterial.namn)
 
     var klassKodList by mutableStateOf(initialMaterial.klassKod)
     var isKlassKodListVisible by mutableStateOf(false)
 
     // Internal value always in mg
-    var nemMgValue by mutableLongStateOf(initialMaterial.NEMmg.toLong())
+    var NEMmgValue by mutableLongStateOf(initialMaterial.NEMmg.toLong())
         private set
 
-    var isNemEnabled by mutableStateOf(initialMaterial.NEMmg != 0)
+    var isNEMEnabled by mutableStateOf(initialMaterial.NEMmg != 0)
 
-    val nemUnitSelected: NemUnit
+    val NEMUnitSelected: NemUnit
         get() = when {
-            !isNemEnabled -> NemUnit.NONE
-            nemMgValue < 100_000L -> NemUnit.GRAM
+            !isNEMEnabled -> NemUnit.NONE
+            NEMmgValue < 100_000L -> NemUnit.GRAM
             else -> NemUnit.KILOGRAM
         }
 
-    var nemInputText: String by mutableStateOf(
-        if (!isNemEnabled) ""
+    var NEMInputText: String by mutableStateOf(
+        if (!isNEMEnabled) ""
         else {
-            val unit = if (nemMgValue < 100_000L) NemUnit.GRAM else NemUnit.KILOGRAM
+            val unit = if (NEMmgValue < 100_000L) NemUnit.GRAM else NemUnit.KILOGRAM
             ValueHelper.formatValue(
-                BigDecimal(nemMgValue).divide(
+                BigDecimal(NEMmgValue).divide(
                     BigDecimal(unit.factor),
                     6,
                     RoundingMode.FLOOR,
@@ -122,7 +158,7 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
         }
     )
 
-    var nemUnitExpanded by mutableStateOf(false)
+    var NEMUnitExpanded by mutableStateOf(false)
 
     var tpKat by mutableIntStateOf(initialMaterial.tpKat)
     var isTpKatExpanded by mutableStateOf(false)
@@ -137,33 +173,33 @@ class MaterialLoadViewModel(initialMaterial: Material) : ViewModel() {
 
     var isEditPanelExpanded by mutableStateOf(false)
 
-    fun onUnNrChanged(newValue: String) {
+    fun onUNnrChanged(newValue: String) {
         if (newValue.length <= 6 && newValue.all { it.isDigit() }) {
-            unNr = newValue
+            UNnr = newValue
         }
     }
 
-    fun onNemInputChanged(newValue: String) {
+    fun onNEMInputChanged(newValue: String) {
         if (newValue.isEmpty() || newValue.all { (it.isDigit() || it == '.' || it == ',') }) {
-            nemInputText = newValue
-            if (isNemEnabled) {
+            NEMInputText = newValue
+            if (isNEMEnabled) {
                 val parsed = ValueHelper.parseValue(newValue)
-                nemMgValue = parsed.multiply(BigDecimal(nemUnitSelected.factor)).toLong()
+                NEMmgValue = parsed.multiply(BigDecimal(NEMUnitSelected.factor)).toLong()
             }
         }
     }
 
     fun onNemUnitSelected(unit: NemUnit) {
         if (unit == NemUnit.NONE) {
-            isNemEnabled = false
-            nemInputText = ""
+            isNEMEnabled = false
+            NEMInputText = ""
         } else {
-            isNemEnabled = true
+            isNEMEnabled = true
             // Recalculate text based on the new unit
             val value =
-                BigDecimal(nemMgValue).divide(BigDecimal(unit.factor), 6, RoundingMode.FLOOR)
-            nemInputText = ValueHelper.formatValue(value)
+                BigDecimal(NEMmgValue).divide(BigDecimal(unit.factor), 6, RoundingMode.FLOOR)
+            NEMInputText = ValueHelper.formatValue(value)
         }
-        nemUnitExpanded = false
+        NEMUnitExpanded = false
     }
 }

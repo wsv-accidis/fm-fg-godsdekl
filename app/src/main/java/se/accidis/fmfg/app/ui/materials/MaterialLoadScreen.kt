@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -33,6 +34,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.model.Material
 import se.accidis.fmfg.app.old.materials.ValueHelper
+import se.accidis.fmfg.app.services.DocumentsRepository
 import se.accidis.fmfg.app.services.LabelsRepository
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -56,10 +58,13 @@ fun MaterialLoadScreen(
     )
 
     val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
+
     val onLoad = {
         if (viewModel.canLoadMaterial) {
             focusManager.clearFocus()
-            /* TODO: Implement load logic */
+            viewModel.loadIntoDocument(DocumentsRepository.getInstance(context))
+            onBack()
         }
     }
 
@@ -117,7 +122,7 @@ private fun MaterialSummaryLabels(viewModel: MaterialLoadViewModel) {
     val labels = listOfNotNull(
         "${viewModel.fbet} ${viewModel.fben}".trim().takeIf { it.isNotBlank() },
         listOfNotNull(
-            viewModel.unNr.takeIf { it.isNotBlank() }?.let { "UN $it" },
+            viewModel.UNnr.takeIf { it.isNotBlank() }?.let { "UN $it" },
             viewModel.namn.takeIf { it.isNotBlank() }
         ).joinToString(" ").takeIf { it.isNotBlank() }
     )
@@ -206,7 +211,7 @@ private fun DocumentRowFields(
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
-                    imeAction = if (viewModel.nemMgValue > 0) ImeAction.Next else ImeAction.Done
+                    imeAction = if (viewModel.NEMmgValue > 0) ImeAction.Next else ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(onDone = { onLoad() }),
                 singleLine = true
@@ -302,7 +307,7 @@ private fun NemCalculationPanel(
         isExpanded = viewModel.isNemPanelExpanded,
         onExpandedChange = { viewModel.isNemPanelExpanded = it }
     ) {
-        if (viewModel.nemMgValue == 0L) {
+        if (viewModel.NEMmgValue == 0L) {
             InputRow {
                 Icon(
                     imageVector = Icons.Default.Warning,
@@ -331,7 +336,7 @@ private fun NemCalculationPanel(
             singleLine = true
         )
 
-        val totalNemMgBd = viewModel.totalNemMg
+        val totalNemMgBd = viewModel.totalNEMmg
         val displayUnit =
             if (totalNemMgBd < BigDecimal(100_000L)) NemUnit.GRAM else NemUnit.KILOGRAM
 
@@ -397,8 +402,8 @@ private fun MaterialEditFields(
 
         InputRow {
             TextField(
-                value = viewModel.unNr,
-                onValueChange = { viewModel.onUnNrChanged(it) },
+                value = viewModel.UNnr,
+                onValueChange = { viewModel.onUNnrChanged(it) },
                 label = { FieldLabel(R.string.material_unnr) },
                 modifier = Modifier.width(100.dp),
                 keyboardOptions = KeyboardOptions(
@@ -421,9 +426,9 @@ private fun MaterialEditFields(
 
         InputRow {
             TextField(
-                value = viewModel.nemInputText,
-                onValueChange = { viewModel.onNemInputChanged(it) },
-                enabled = viewModel.isNemEnabled,
+                value = viewModel.NEMInputText,
+                onValueChange = { viewModel.onNEMInputChanged(it) },
+                enabled = viewModel.isNEMEnabled,
                 label = { FieldLabel(R.string.material_nem_per_piece) },
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(
@@ -439,10 +444,10 @@ private fun MaterialEditFields(
 
             ReadOnlyDropdown(
                 labelResId = R.string.material_nem_unit,
-                value = stringResource(viewModel.nemUnitSelected.labelResId),
+                value = stringResource(viewModel.NEMUnitSelected.labelResId),
                 options = nemLabels.toTypedArray(),
-                expanded = viewModel.nemUnitExpanded,
-                onExpandedChange = { viewModel.nemUnitExpanded = it },
+                expanded = viewModel.NEMUnitExpanded,
+                onExpandedChange = { viewModel.NEMUnitExpanded = it },
                 onOptionSelected = { label ->
                     val index = nemLabels.indexOf(label)
                     if (index >= 0) {
