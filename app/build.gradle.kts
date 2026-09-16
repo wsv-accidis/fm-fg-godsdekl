@@ -10,7 +10,7 @@ android {
 
 	defaultConfig {
 		applicationId = "se.accidis.fmfg.app"
-		compileSdk = 36
+		compileSdk = 37
 		minSdk = 26
 		targetSdk = 36
 		versionCode = 18
