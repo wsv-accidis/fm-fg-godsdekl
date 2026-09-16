@@ -11,6 +11,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import se.accidis.fmfg.app.R
+import se.accidis.fmfg.app.model.Material
+import java.util.UUID
 
 /**
  * Base interface for all navigation destinations in the app.
@@ -51,7 +53,10 @@ data object Settings : NavDestination
  */
 @Serializable
 @Parcelize
-data class MaterialLoad(val material: se.accidis.fmfg.app.model.Material) : NavDestination
+data class MaterialLoad(
+    val material: Material,
+    val sessionId: String = UUID.randomUUID().toString()
+) : NavDestination
 
 /**
  * Enum representing top-level destinations in the app's navigation bar.

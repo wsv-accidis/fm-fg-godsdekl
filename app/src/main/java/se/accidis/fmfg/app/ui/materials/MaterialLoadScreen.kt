@@ -46,10 +46,11 @@ import java.math.RoundingMode
 @Composable
 fun MaterialLoadScreen(
     material: Material,
+    sessionId: String,
     onBack: () -> Unit
 ) {
     val viewModel: MaterialLoadViewModel = viewModel(
-        key = material.uniqueKey,
+        key = "${material.uniqueKey}_$sessionId",
         factory = viewModelFactory {
             initializer {
                 MaterialLoadViewModel(material)

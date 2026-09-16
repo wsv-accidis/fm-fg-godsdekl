@@ -56,7 +56,9 @@ fun MainView() {
                 is Settings -> SettingsScreen()
                 is MaterialLoad -> MaterialLoadScreen(
                     material = dest.material,
-                    onBack = { currentDestination = Materials })
+                    sessionId = dest.sessionId,
+                    onBack = { currentDestination = Materials }
+                )
             }
         }
     }

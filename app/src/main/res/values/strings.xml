@@ -130,7 +130,7 @@
     <string name="material_load_total_value">Totalt dekl. värde:</string>
     <string name="material_load_type_pkgs">Typ av kollin</string>
     <string name="material_load_value">Värde:</string>
-	<string name="material_load_value_basis">Antal kg/liter:</string>
+	<string name="material_load_value_basis">Vikt/volym:</string>
     <string name="material_load_weight_volume">Vikt/volym</string>
 	<string name="material_load_weight_volume_unit">Enhet</string>
 

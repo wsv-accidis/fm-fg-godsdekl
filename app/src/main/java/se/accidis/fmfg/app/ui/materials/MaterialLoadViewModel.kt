@@ -78,13 +78,13 @@ class MaterialLoadViewModel(private val initialMaterial: Material) : ViewModel()
     // Fields for the DocumentRow
     // --------------------------
 
-    var numberOfPkgs by mutableStateOf("0")
+    var numberOfPkgs by mutableStateOf("")
     var typeOfPkgs by mutableStateOf("")
     var isTypeOfPkgsExpanded by mutableStateOf(false)
-    var weightVolume by mutableStateOf("0")
+    var weightVolume by mutableStateOf("")
     var weightVolumeUnit by mutableStateOf(WeightVolumeUnit.KILOGRAM)
     var isWeightVolumeUnitExpanded by mutableStateOf(false)
-    var amount by mutableStateOf("0")
+    var amount by mutableStateOf("")
 
     var isNemPanelExpanded by mutableStateOf(initialMaterial.NEMmg > 0)
 
