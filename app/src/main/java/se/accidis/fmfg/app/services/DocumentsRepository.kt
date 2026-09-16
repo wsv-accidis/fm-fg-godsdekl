@@ -21,7 +21,12 @@ class DocumentsRepository private constructor(private val context: Context) {
     private val prefs = Preferences(context)
 
     private val _currentDocument = MutableStateFlow<Document?>(null)
-    //val currentDocumentFlow: StateFlow<Document?> = _currentDocument.asStateFlow()
+    val currentDocumentFlow: StateFlow<Document>
+        get() {
+            ensureDocument()
+            @Suppress("UNCHECKED_CAST")
+            return _currentDocument as StateFlow<Document>
+        }
 
     val currentDocument: Document
         get() = ensureDocument()

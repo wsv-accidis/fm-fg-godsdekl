@@ -28,11 +28,11 @@ sealed interface NavDestination : Parcelable
 data object Materials : NavDestination
 
 /**
- * Destination for the Documents list screen.
+ * Destination for the Document edit screen.
  */
 @Serializable
 @Parcelize
-data object Documents : NavDestination
+data object DocumentEdit : NavDestination
 
 /**
  * Destination for the References screen.
@@ -67,7 +67,7 @@ enum class TopLevelDestination(
     @StringRes val labelTextId: Int
 ) {
     MATERIALS(Materials, Icons.Default.List, R.string.materials_nav_title),
-    DOCUMENTS(Documents, Icons.Default.Description, R.string.documents_list_nav_title),
+    DOCUMENT(DocumentEdit, Icons.Default.Description, R.string.documents_list_nav_title),
     REFERENCES(References, Icons.Default.Info, R.string.instructions_nav_title),
     SETTINGS(Settings, Icons.Default.Settings, R.string.preferences_nav_title)
 }

@@ -13,6 +13,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import se.accidis.fmfg.app.ui.documents.DocumentEditScreen
 import se.accidis.fmfg.app.ui.materials.MaterialLoadScreen
 import se.accidis.fmfg.app.ui.materials.MaterialsScreen
 import se.accidis.fmfg.app.ui.theme.AppTheme
@@ -51,7 +52,7 @@ fun MainView() {
                     currentDestination = MaterialLoad(it)
                 })
 
-                is Documents -> DocumentsScreen()
+                is DocumentEdit -> DocumentEditScreen()
                 is References -> ReferencesScreen()
                 is Settings -> SettingsScreen()
                 is MaterialLoad -> MaterialLoadScreen(
