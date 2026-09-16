@@ -42,7 +42,7 @@ data class Material(
         get() = BigDecimal(NEMmg).divide(BigDecimal(1_000_000), 6, RoundingMode.FLOOR)
 
     val uniqueKey: String
-        get() = "$UNnr|$namn|$fben|$fbet"
+        get() = "$UNnr|$namn|$fben|$fbet|${klassKod.joinToString(",")}|$tpKat|$frpGrp|$tunnelKod"
 
     fun hasNEM(): Boolean = NEMmg != 0
 

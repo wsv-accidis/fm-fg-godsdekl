@@ -64,18 +64,29 @@ fun MaterialsScreen(onMaterialClick: (Material) -> Unit) {
                 }
 
                 is MaterialsUiState.Success -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(vertical = 8.dp)
-                    ) {
-                        items(
-                            items = state.items,
-                            key = { it.uniqueKey }
-                        ) { material ->
-                            MaterialItem(
-                                material = material,
-                                onClick = { onMaterialClick(material) }
-                            )
+                    if (state.items.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.materials_list_empty),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .align(Alignment.Center)
+                        )
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(vertical = 8.dp)
+                        ) {
+                            items(
+                                items = state.items,
+                                key = { it.uniqueKey }
+                            ) { material ->
+                                MaterialItem(
+                                    material = material,
+                                    onClick = { onMaterialClick(material) }
+                                )
+                            }
                         }
                     }
                 }
