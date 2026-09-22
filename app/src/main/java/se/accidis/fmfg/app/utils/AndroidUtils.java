@@ -11,7 +11,9 @@ import android.view.inputmethod.InputMethodManager;
 
 /**
  * General system utils.
- */
+ *
+ * TODO: Most of these are no longer needed after UI rewrite. Clean up later.
+ * */
 public final class AndroidUtils {
 	public static final String LINE_SEPARATOR = "\n";
 

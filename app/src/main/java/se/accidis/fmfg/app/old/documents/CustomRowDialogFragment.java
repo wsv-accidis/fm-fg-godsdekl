@@ -8,13 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.MultiAutoCompleteTextView;
-import android.widget.TextView;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -26,13 +20,10 @@ import java.util.List;
 
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
-import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Label;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
-import se.accidis.fmfg.app.services.LabelsRepository;
 import se.accidis.fmfg.app.utils.AndroidUtils;
-import se.accidis.fmfg.app.utils.SpaceTokenizer;
 
 /**
  * Dialog fragment for creating or editing a custom row.
@@ -55,7 +46,7 @@ public final class CustomRowDialogFragment extends DialogFragment {
 		final View view = inflater.inflate(R.layout.dialog_custom_row, null);
 
 		mText = (MultiAutoCompleteTextView) view.findViewById(R.id.document_custom_row_text);
-		mText.setTokenizer(new SpaceTokenizer());
+		//mText.setTokenizer(new SpaceTokenizer());
 		mText.setThreshold(1);
 		final ArrayAdapter<String> textSuggestionsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.document_custom_row_text_suggestions));
 		mText.setAdapter(textSuggestionsAdapter);

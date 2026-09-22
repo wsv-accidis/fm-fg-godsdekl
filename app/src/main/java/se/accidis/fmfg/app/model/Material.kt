@@ -167,15 +167,15 @@ data class Material(
                     .map { i -> klassKodJson.getString(i) }
 
             return Material(
-                fbet = JSONUtils.getStringOrNull(json, Keys.FBET).orEmpty(),
-                fben = JSONUtils.getStringOrNull(json, Keys.FBEN).orEmpty(),
-                UNnr = JSONUtils.getStringOrNull(json, Keys.UNNR).orEmpty(),
+                fbet = json.optString(Keys.FBET),
+                fben = json.optString(Keys.FBEN),
+                UNnr = json.optString(Keys.UNNR),
                 namn = json.getString(Keys.NAMN),
                 klassKod = klassKod,
                 NEMmg = json.optInt(Keys.NEMMG),
                 tpKat = json.getInt(Keys.TPKAT),
-                frpGrp = JSONUtils.getStringOrNull(json, Keys.FRPGRP).orEmpty(),
-                tunnelKod = JSONUtils.getStringOrNull(json, Keys.TUNNELKOD).orEmpty(),
+                frpGrp = json.optString(Keys.FRPGRP),
+                tunnelKod = json.optString(Keys.TUNNELKOD),
                 miljo = json.optBoolean(Keys.MILJO),
                 source = source
             )

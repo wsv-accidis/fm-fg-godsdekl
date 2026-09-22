@@ -19,8 +19,8 @@ data class DocumentLink(val id: UUID?, val name: String, val timestamp: DateTime
         fun fromJson(json: JSONObject): DocumentLink {
             return DocumentLink(
                 id = UUID.fromString(json.getString(Document.Keys.ID)),
-                name = JSONUtils.getStringOrNull(json, Document.Keys.NAME),
-                timestamp = JSONUtils.getDateTimeOrNull(json, Document.Keys.TIMESTAMP)
+                name = json.optString(Document.Keys.NAME),
+                timestamp = JSONUtils.optDateTime(json, Document.Keys.TIMESTAMP)
             )
         }
     }
