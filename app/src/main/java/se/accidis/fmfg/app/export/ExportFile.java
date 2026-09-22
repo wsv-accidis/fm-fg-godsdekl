@@ -3,7 +3,6 @@ package se.accidis.fmfg.app.export;
 import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
@@ -12,6 +11,7 @@ import java.io.IOException;
 
 import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
+import timber.log.Timber;
 
 /**
  * Encapsulates file operations related to exporting documents to PDF.
@@ -22,7 +22,6 @@ public final class ExportFile {
 	private static final String FILENAME_ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-";
 	private static final String FILE_PROVIDER_AUTHORITY = "se.accidis.fmfg.fileprovider";
 	private static final char SEPARATOR_CHAR = '_';
-	private static final String TAG = ExportFile.class.getSimpleName();
 	private final File mFile;
 	private final String mFilename;
 	private final Uri mUri;
@@ -45,14 +44,14 @@ public final class ExportFile {
 			for (File file : exportFiles) {
 				long lastModified = file.lastModified();
 				if (lastModified < limit) {
-					Log.d(TAG, "Deleting old export \"" + file.getName() + "\", last modified " + lastModified + ", limit " + limit + ".");
+					Timber.d("Deleting old export \"%s\", last modified %d, limit %d.", file.getName(), lastModified, limit);
 					if (!file.delete()) {
-						Log.e(TAG, "Error deleting export \"" + file.getName() + "\".");
+						Timber.e("Error deleting export \"%s\".", file.getName());
 					}
 				}
 			}
 		} catch (Exception ex) {
-			Log.e(TAG, "Exception while cleaning up old exports:", ex);
+			Timber.e(ex, "Exception while cleaning up old exports:");
 		}
 	}
 

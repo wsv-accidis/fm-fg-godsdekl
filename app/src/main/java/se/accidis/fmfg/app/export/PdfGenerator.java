@@ -2,7 +2,6 @@ package se.accidis.fmfg.app.export;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
@@ -23,6 +22,7 @@ import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.old.materials.ValueHelper;
+import timber.log.Timber;
 import se.accidis.fmfg.app.services.LabelsRepository;
 import se.accidis.fmfg.app.services.Preferences;
 import se.accidis.fmfg.app.utils.AndroidUtils;
@@ -48,7 +48,6 @@ public final class PdfGenerator {
 	private static final float ROW_BOTTOM_PADDING = 8.0f;
 	private static final float SIGNATURE_BLOCK_HEIGHT = 32.0f;
 	private static final float TABLE_TOP_MARGIN = 8.0f;
-	private final static String TAG = PdfGenerator.class.getSimpleName();
 	private static final float VERTICAL_MARGIN = 50.0f;
 	private final Context mContext;
 	private final Document mDocument;
@@ -84,7 +83,7 @@ public final class PdfGenerator {
 			PdfGenerator generator = new PdfGenerator(document, pdf, context);
 			generator.writeDocument();
 		} catch (Exception ex) {
-			Log.e(TAG, "Exception while trying to write PDF to \"" + exportFile.getFilename() + "\".");
+			Timber.e(ex, "Exception while trying to write PDF to \"%s\".", exportFile.getFilename());
 			throw new PdfException(ex);
 		} finally {
 			try {

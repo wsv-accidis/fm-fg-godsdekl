@@ -1,7 +1,6 @@
 package se.accidis.fmfg.app.services
 
 import android.content.Context
-import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -10,7 +9,7 @@ import org.json.JSONArray
 import se.accidis.fmfg.app.model.Material
 import se.accidis.fmfg.app.model.MaterialSource
 import se.accidis.fmfg.app.utils.Resource
-import se.accidis.fmfg.app.utils.TAG
+import timber.log.Timber
 
 /**
  * Repository for the materials list.
@@ -25,11 +24,11 @@ class MaterialsRepository private constructor(context: Context) {
     fun beginLoad() {
         val current = _materialsResource.value
         if (current is Resource.Success && current.data.isNotEmpty()) {
-            Log.d(TAG, "Assets already loaded, nothing to do.")
+            Timber.d("Assets already loaded, nothing to do.")
             return
         }
 
-        Log.d(TAG, "Loading assets.")
+        Timber.d("Loading assets.")
         _materialsResource.value = Resource.Loading
         repositoryScope.launch {
             try {
@@ -40,9 +39,9 @@ class MaterialsRepository private constructor(context: Context) {
                 }
 
                 _materialsResource.value = Resource.Success(loadedMaterials)
-                Log.i(TAG, "Finished loading assets (${loadedMaterials.size} items loaded).")
+                Timber.i("Finished loading assets (%d items loaded).", loadedMaterials.size)
             } catch (ex: Exception) {
-                Log.e(TAG, "Failed to load assets.", ex)
+                Timber.e(ex, "Failed to load assets.")
                 _materialsResource.value = Resource.Error(ex)
             }
         }

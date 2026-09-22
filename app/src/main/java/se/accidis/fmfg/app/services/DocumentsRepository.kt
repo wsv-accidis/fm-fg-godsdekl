@@ -2,7 +2,6 @@ package se.accidis.fmfg.app.services
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -10,7 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import org.json.JSONObject
 import se.accidis.fmfg.app.model.*
 import se.accidis.fmfg.app.utils.Resource
-import se.accidis.fmfg.app.utils.TAG
+import timber.log.Timber
 import java.io.FileNotFoundException
 import java.util.UUID
 
@@ -39,11 +38,11 @@ class DocumentsRepository private constructor(private val context: Context) {
     fun beginLoad() {
         val current = _documents.value
         if (current is Resource.Success && current.data.isNotEmpty()) {
-            Log.d(TAG, "Documents already loaded, nothing to do.")
+            Timber.d("Documents already loaded, nothing to do.")
             return
         }
 
-        Log.d(TAG, "Loading documents.")
+        Timber.d("Loading documents.")
         _documents.value = Resource.Loading
         repositoryScope.launch {
             try {
@@ -55,9 +54,9 @@ class DocumentsRepository private constructor(private val context: Context) {
                 }
 
                 _documents.value = Resource.Success(list)
-                Log.i(TAG, "Finished loading documents (${list.size} documents loaded).")
+                Timber.i("Finished loading documents (%d documents loaded).", list.size)
             } catch (ex: Exception) {
-                Log.e(TAG, "Failed to load documents.", ex)
+                Timber.e(ex, "Failed to load documents.")
                 _documents.value = Resource.Error(ex)
             }
         }
@@ -67,7 +66,7 @@ class DocumentsRepository private constructor(private val context: Context) {
         get() = _documents.value is Resource.Success
 
     fun updateCurrentDocument(document: Document) {
-        Log.d(TAG, "Updating current document with ID: ${document.id}")
+        Timber.d("Updating current document with ID: %s", document.id)
         _currentDocument.value = document
         repositoryScope.launch(Dispatchers.IO) {
             try {
@@ -76,14 +75,14 @@ class DocumentsRepository private constructor(private val context: Context) {
                     it.write(json)
                 }
             } catch (ex: Exception) {
-                Log.e(TAG, "Exception while writing current document.", ex)
+                Timber.e(ex, "Exception while writing current document.")
             }
         }
     }
 
     fun saveCurrentDocument(name: String) {
         val document = ensureDocument()
-        Log.d(TAG, "Saving current document with ID: ${document.id}, name = $name")
+        Timber.d("Saving current document with ID: %s, name = %s", document.id, name)
         val savedDoc = document.mutate { this.name = name }.save()
         repositoryScope.launch(Dispatchers.IO) {
             writeDocument(savedDoc)
@@ -92,13 +91,13 @@ class DocumentsRepository private constructor(private val context: Context) {
     }
 
     suspend fun loadDocument(id: UUID): Document = withContext(Dispatchers.IO) {
-        Log.d(TAG, "Loading document with ID: $id")
+        Timber.d("Loading document with ID: %s", id)
         val filename = getFilenameByDocumentId(id)
         readDocument(filename)
     }
 
     fun deleteDocument(id: UUID) {
-        Log.d(TAG, "Deleting document with ID: $id")
+        Timber.d("Deleting document with ID: %s", id)
         repositoryScope.launch(Dispatchers.IO) {
             val filename = getFilenameByDocumentId(id)
             context.deleteFile(filename)
@@ -116,15 +115,15 @@ class DocumentsRepository private constructor(private val context: Context) {
                 readDocument(CURRENT_DOCUMENT)
             }
         } catch (_: FileNotFoundException) {
-            Log.w(TAG, "Current document not found, might be first startup.")
+            Timber.w("Current document not found, might be first startup.")
             null
         } catch (ex: Exception) {
-            Log.e(TAG, "Exception while reading current document.", ex)
+            Timber.e(ex, "Exception while reading current document.")
             null
         } ?: DocumentBuilder.createNew().mutate { author = prefs.defaultAuthor }
 
         _currentDocument.value = document
-        Log.d(TAG, "Current document initialized with ID: ${document.id}")
+        Timber.d("Current document initialized with ID: %s", document.id)
         return document
     }
 
