@@ -87,7 +87,7 @@ data class Document(
         json.put(Keys.RECIPIENT, recipient)
         json.put(Keys.AUTHOR, author)
         JSONUtils.putIfTrue(json, Keys.UNSAVED_CHANGES, hasUnsavedChanges)
-        JSONUtils.putBooleanOrNull(json, Keys.PROTECTED_TRANSPORT, isProtectedTransport)
+        JSONUtils.putOptBoolean(json, Keys.PROTECTED_TRANSPORT, isProtectedTransport)
         JSONUtils.putIfNotEmpty(json, Keys.VEHICLE_REG, vehicleReg)
         JSONUtils.putIfNotEmpty(json, Keys.VEHICLE_TYPE, vehicleType)
         json.put(Keys.ROWS, JSONArray().apply { rows.forEach { put(it.toJson()) } })
@@ -118,9 +118,9 @@ data class Document(
             return Document(
                 id = UUID.fromString(json.getString(Keys.ID)),
                 author = JSONUtils.getStringOrNull(json, Keys.AUTHOR),
-                hasUnsavedChanges = JSONUtils.optBooleanOrNull(json, Keys.UNSAVED_CHANGES),
+                hasUnsavedChanges = JSONUtils.optBoolean(json, Keys.UNSAVED_CHANGES),
                 timestamp = JSONUtils.getDateTimeOrNull(json, Keys.TIMESTAMP),
-                isProtectedTransport = JSONUtils.optBooleanOrNull(json, Keys.PROTECTED_TRANSPORT),
+                isProtectedTransport = JSONUtils.optBoolean(json, Keys.PROTECTED_TRANSPORT),
                 name = JSONUtils.getStringOrNull(json, Keys.NAME),
                 sender = JSONUtils.getStringOrNull(json, Keys.SENDER),
                 recipient = JSONUtils.getStringOrNull(json, Keys.RECIPIENT),

@@ -33,19 +33,12 @@ public final class JSONUtils {
 		return (json.isNull(key) ? null : json.getString(key));
 	}
 
-	public static Boolean optBooleanOrNull(JSONObject json, String key) {
+	public static Boolean optBoolean(JSONObject json, String key) {
 		int value = json.optInt(key, BOOLEAN_NULL);
-		switch (value) {
-			case BOOLEAN_NULL:
-				return null;
-			case BOOLEAN_TRUE:
-				return true;
-			default:
-				return false;
-		}
+		return value == BOOLEAN_TRUE;
 	}
 
-	public static void putBooleanOrNull(JSONObject json, String key, Boolean value) throws JSONException {
+	public static void putOptBoolean(JSONObject json, String key, Boolean value) throws JSONException {
 		if (null != value) {
 			int intVal = (value ? BOOLEAN_TRUE : BOOLEAN_FALSE);
 			json.put(key, intVal);
@@ -68,7 +61,7 @@ public final class JSONUtils {
 	}
 
 	public static void putIfNotEmpty(JSONObject json, String key, String value) throws JSONException {
-		if(!TextUtils.isEmpty(value)) {
+		if (!TextUtils.isEmpty(value)) {
 			json.put(key, value);
 		}
 	}
