@@ -7,5 +7,8 @@ import se.accidis.fmfg.app.model.DocumentRow
  */
 sealed interface DocumentEditUiState {
     data object Loading : DocumentEditUiState
-    data class Success(val rows: List<DocumentRow>) : DocumentEditUiState
+    data class Success(
+        val rows: List<DocumentRow>,
+        val showFbet: Boolean
+    ) : DocumentEditUiState
 }
