@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -115,11 +117,21 @@ fun MaterialsScreen(onMaterialClick: (Material) -> Unit) {
                     imeAction = ImeAction.None
                 ),
                 trailingIcon = {
-                    IconButton(onClick = { viewModel.toggleSource() }) {
-                        Icon(
-                            painter = painterResource(if (selectedSource == MaterialSource.AMKAT) R.drawable.ic_amkat else R.drawable.ic_adr),
-                            contentDescription = null
-                        )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { viewModel.onSearchQueryChange("") }) {
+                                Icon(
+                                    imageVector = Icons.Default.Clear,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                        IconButton(onClick = { viewModel.toggleSource() }) {
+                            Icon(
+                                painter = painterResource(if (selectedSource == MaterialSource.AMKAT) R.drawable.ic_amkat else R.drawable.ic_adr),
+                                contentDescription = null
+                            )
+                        }
                     }
                 }
             )
