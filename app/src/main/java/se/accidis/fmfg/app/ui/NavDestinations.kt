@@ -55,6 +55,7 @@ data object Settings : NavDestination
 @Parcelize
 data class MaterialLoad(
     val material: Material,
+    val rowIndex: Int? = null,
     val sessionId: String = UUID.randomUUID().toString()
 ) : NavDestination
 

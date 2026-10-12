@@ -32,7 +32,15 @@ enum class WeightVolumeUnit(val labelResId: Int) {
 /**
  * ViewModel for the Material load screen.
  */
-class MaterialLoadViewModel(private val initialMaterial: Material) : ViewModel() {
+class MaterialLoadViewModel(
+    private val initialMaterial: Material,
+    private val initialRow: DocumentRow? = null,
+    private val rowIndex: Int? = null
+) : ViewModel() {
+
+    val isEditing: Boolean
+        get() = rowIndex != null
+
     val canLoadMaterial: Boolean
         get() {
             val numPkgs = numberOfPkgs.toIntOrNull() ?: 0
@@ -70,7 +78,13 @@ class MaterialLoadViewModel(private val initialMaterial: Material) : ViewModel()
             weightVolume = ValueHelper.parseValue(weightVolume)
         )
 
-        val mutatedDoc = repository.currentDocument.mutate { rows.add(row) }
+        val mutatedDoc = repository.currentDocument.mutate {
+            if (rowIndex != null && rowIndex in rows.indices) {
+                rows[rowIndex] = row
+            } else {
+                rows.add(row)
+            }
+        }
         repository.updateCurrentDocument(mutatedDoc)
     }
 
@@ -78,13 +92,23 @@ class MaterialLoadViewModel(private val initialMaterial: Material) : ViewModel()
     // Fields for the DocumentRow
     // --------------------------
 
-    var numberOfPkgs by mutableStateOf("")
-    var typeOfPkgs by mutableStateOf("")
+    var numberOfPkgs by mutableStateOf(
+        if (initialRow != null && initialRow.numberOfPackages > 0) initialRow.numberOfPackages.toString() else ""
+    )
+    var typeOfPkgs by mutableStateOf(
+        initialRow?.typeOfPackages ?: ""
+    )
     var isTypeOfPkgsExpanded by mutableStateOf(false)
-    var weightVolume by mutableStateOf("")
-    var weightVolumeUnit by mutableStateOf(WeightVolumeUnit.KILOGRAM)
+    var weightVolume by mutableStateOf(
+        if (initialRow != null && initialRow.weightVolume.signum() != 0) ValueHelper.formatValue(initialRow.weightVolume) else ""
+    )
+    var weightVolumeUnit by mutableStateOf(
+        if (initialRow?.isVolume == true) WeightVolumeUnit.LITER else WeightVolumeUnit.KILOGRAM
+    )
     var isWeightVolumeUnitExpanded by mutableStateOf(false)
-    var amount by mutableStateOf("")
+    var amount by mutableStateOf(
+        if (initialRow != null && initialRow.amount.signum() != 0) ValueHelper.formatValue(initialRow.amount) else ""
+    )
 
     var isNemPanelExpanded by mutableStateOf(initialMaterial.NEMmg > 0)
 

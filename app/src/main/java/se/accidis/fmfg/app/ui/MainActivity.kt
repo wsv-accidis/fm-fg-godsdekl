@@ -59,13 +59,19 @@ fun MainView() {
                     currentDestination = MaterialLoad(it)
                 })
 
-                is DocumentEdit -> DocumentEditScreen()
+                is DocumentEdit -> DocumentEditScreen(onRowClick = { index, row ->
+                    currentDestination = MaterialLoad(
+                        material = row.material,
+                        rowIndex = index
+                    )
+                })
                 is References -> ReferencesScreen()
                 is Settings -> SettingsScreen()
                 is MaterialLoad -> MaterialLoadScreen(
                     material = dest.material,
+                    rowIndex = dest.rowIndex,
                     sessionId = dest.sessionId,
-                    onBack = { currentDestination = Materials }
+                    onBack = { currentDestination = if (dest.rowIndex != null) DocumentEdit else Materials }
                 )
             }
         }

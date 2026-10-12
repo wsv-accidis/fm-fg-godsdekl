@@ -1,8 +1,9 @@
 package se.accidis.fmfg.app.ui.documents
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +30,9 @@ import se.accidis.fmfg.app.services.DocumentsRepository
 import se.accidis.fmfg.app.services.Preferences
 
 @Composable
-fun DocumentEditScreen() {
+fun DocumentEditScreen(
+    onRowClick: (Int, DocumentRow) -> Unit = { _, _ -> }
+) {
     val context = LocalContext.current.applicationContext
     val viewModel: DocumentEditViewModel = viewModel(
         factory = viewModelFactory {
@@ -64,8 +67,12 @@ fun DocumentEditScreen() {
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(vertical = 8.dp)
                     ) {
-                        items(items = state.rows) { row ->
-                            DocumentRowItem(row = row, showFbet = state.showFbet)
+                        itemsIndexed(items = state.rows) { index, row ->
+                            DocumentRowItem(
+                                row = row,
+                                showFbet = state.showFbet,
+                                onClick = { onRowClick(index, row) }
+                            )
                         }
                     }
                 }
@@ -77,7 +84,8 @@ fun DocumentEditScreen() {
 @Composable
 private fun DocumentRowItem(
     row: DocumentRow,
-    showFbet: Boolean
+    showFbet: Boolean,
+    onClick: () -> Unit
 ) {
     val context = LocalContext.current
     val formattedAmount = remember(row.amount) { ValueHelper.formatValue(row.amount) }
@@ -103,7 +111,7 @@ private fun DocumentRowItem(
     val packagesText = remember(row, context) { row.packagesText(context) }
     val weightVolumeText = remember(row, context) { row.weightVolumeText(context) }
 
-    Column {
+    Column(modifier = Modifier.clickable(onClick = onClick)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()

@@ -105,6 +105,7 @@
 	<string name="material_klasskod_add">Lägg till</string>
 	<string name="material_klasskod_select">Välj etiketter</string>
     <string name="material_load">Lägg till i godsdeklaration</string>
+    <string name="material_edit_load">Ändra i godsdeklaration</string>
 	<string name="material_edit_material">Redigera materiel</string>
 	<string name="material_load_nem_calculation">Beräkning av NEM</string>
 	<string name="material_material">Lasta materiel</string>

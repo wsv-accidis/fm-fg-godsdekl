@@ -15,6 +15,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,28 +47,40 @@ import java.math.RoundingMode
 @Composable
 fun MaterialLoadScreen(
     material: Material,
+    rowIndex: Int? = null,
     sessionId: String,
     onBack: () -> Unit
 ) {
+    val context = LocalContext.current
+    val repository = DocumentsRepository.getInstance(context.applicationContext)
+    val initialRow = remember(rowIndex) {
+        if (rowIndex != null) repository.currentDocument.rows.getOrNull(rowIndex) else null
+    }
+
     val viewModel: MaterialLoadViewModel = viewModel(
-        key = "${material.uniqueKey}_$sessionId",
+        key = "${material.uniqueKey}_${rowIndex}_$sessionId",
         factory = viewModelFactory {
             initializer {
-                MaterialLoadViewModel(material)
+                MaterialLoadViewModel(
+                    initialMaterial = initialRow?.material ?: material,
+                    initialRow = initialRow,
+                    rowIndex = rowIndex
+                )
             }
         }
     )
 
     val focusManager = LocalFocusManager.current
-    val context = LocalContext.current
 
     val onLoad = {
         if (viewModel.canLoadMaterial) {
             focusManager.clearFocus()
-            viewModel.loadIntoDocument(DocumentsRepository.getInstance(context))
+            viewModel.loadIntoDocument(repository)
             onBack()
         }
     }
+
+    val buttonTextResId = if (viewModel.isEditing) R.string.material_edit_load else R.string.material_load
 
     Scaffold(
         topBar = {
@@ -92,7 +105,7 @@ fun MaterialLoadScreen(
                         .fillMaxWidth()
                         .padding(16.dp)
                 ) {
-                    Text(stringResource(R.string.material_load))
+                    Text(stringResource(buttonTextResId))
                 }
             }
         }
