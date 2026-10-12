@@ -3,7 +3,9 @@ package se.accidis.fmfg.app.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -24,6 +26,7 @@ import se.accidis.fmfg.app.ui.theme.AppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
             AppTheme {
                 MainView()
@@ -46,7 +49,11 @@ fun MainView() {
             }
         }
     ) { innerPadding ->
-        BoxWithPadding(modifier = Modifier.padding(innerPadding)) {
+        BoxWithPadding(
+            modifier = Modifier
+                .padding(innerPadding)
+                .consumeWindowInsets(innerPadding)
+        ) {
             when (val dest = currentDestination) {
                 is Materials -> MaterialsScreen(onMaterialClick = {
                     currentDestination = MaterialLoad(it)

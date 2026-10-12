@@ -77,8 +77,7 @@ fun MaterialLoadScreen(
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
                     }
-                },
-                windowInsets = WindowInsets(0, 0, 0, 0)
+                }
             )
         },
         bottomBar = {
@@ -96,15 +95,16 @@ fun MaterialLoadScreen(
                     Text(stringResource(R.string.material_load))
                 }
             }
-        },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(16.dp)
+                .consumeWindowInsets(innerPadding)
+                .imePadding()
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             MaterialSummaryLabels(viewModel)

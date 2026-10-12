@@ -42,7 +42,11 @@ fun MaterialsScreen(onMaterialClick: (Material) -> Unit) {
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     val selectedSource by viewModel.selectedSource.collectAsStateWithLifecycle()
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .imePadding()
+    ) {
         Box(
             modifier = Modifier
                 .weight(1f)
