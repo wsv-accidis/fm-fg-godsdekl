@@ -4,19 +4,17 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -29,6 +27,7 @@ import se.accidis.fmfg.app.old.materials.ValueHelper
 import se.accidis.fmfg.app.services.DocumentsRepository
 import se.accidis.fmfg.app.services.Preferences
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DocumentEditScreen(
     onRowClick: (Int, DocumentRow) -> Unit = { _, _ -> }
@@ -46,33 +45,99 @@ fun DocumentEditScreen(
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        when (val state = uiState) {
-            is DocumentEditUiState.Loading -> {
+    when (val state = uiState) {
+        is DocumentEditUiState.Loading -> {
+            Box(modifier = Modifier.fillMaxSize()) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
+        }
 
-            is DocumentEditUiState.Success -> {
-                if (state.rows.isEmpty()) {
-                    Text(
-                        text = stringResource(R.string.document_empty),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.Center)
-                    )
-                } else {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(vertical = 8.dp)
-                    ) {
-                        itemsIndexed(items = state.rows) { index, row ->
-                            DocumentRowItem(
-                                row = row,
-                                showFbet = state.showFbet,
-                                onClick = { onRowClick(index, row) }
+        is DocumentEditUiState.Success -> {
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                text = state.documentName.ifBlank { stringResource(R.string.document_nav_title) },
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
+                        },
+                        actions = {
+                            var showMenu by remember { mutableStateOf(false) }
+
+                            IconButton(onClick = { showMenu = true }) {
+                                Icon(
+                                    imageVector = Icons.Default.MoreVert,
+                                    contentDescription = null
+                                )
+                            }
+
+                            DropdownMenu(
+                                expanded = showMenu,
+                                onDismissRequest = { showMenu = false }
+                            ) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.document_export)) },
+                                    leadingIcon = { Icon(Icons.Default.PictureAsPdf, contentDescription = null) },
+                                    onClick = { showMenu = false }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.document_set_name)) },
+                                    leadingIcon = { Icon(Icons.Default.Save, contentDescription = null) },
+                                    onClick = { showMenu = false }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.document_edit_opt_fields)) },
+                                    leadingIcon = { Icon(Icons.Default.Tune, contentDescription = null) },
+                                    onClick = { showMenu = false }
+                                )
+                                HorizontalDivider()
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.document_new)) },
+                                    leadingIcon = { Icon(Icons.Default.Add, contentDescription = null) },
+                                    onClick = {
+                                        showMenu = false
+                                        viewModel.createNewDocument()
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.document_open)) },
+                                    leadingIcon = { Icon(Icons.Default.FolderOpen, contentDescription = null) },
+                                    onClick = { showMenu = false }
+                                )
+                            }
+                        }
+                    )
+                }
+            ) { innerPadding ->
+                Box(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .consumeWindowInsets(innerPadding)
+                        .fillMaxSize()
+                ) {
+                    if (state.rows.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.document_empty),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .align(Alignment.Center)
+                        )
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(vertical = 8.dp)
+                        ) {
+                            itemsIndexed(items = state.rows) { index, row ->
+                                DocumentRowItem(
+                                    row = row,
+                                    showFbet = state.showFbet,
+                                    onClick = { onRowClick(index, row) }
+                                )
+                            }
                         }
                     }
                 }

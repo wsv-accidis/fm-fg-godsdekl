@@ -21,7 +21,8 @@ class DocumentEditViewModel(
         .map { document ->
             DocumentEditUiState.Success(
                 rows = document.rows,
-                showFbet = preferences.shouldShowFbetInDocument()
+                showFbet = preferences.shouldShowFbetInDocument(),
+                documentName = document.name
             )
         }
         .stateIn(
@@ -29,4 +30,8 @@ class DocumentEditViewModel(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = DocumentEditUiState.Loading
         )
+
+    fun createNewDocument() {
+        repository.createNewDocument()
+    }
 }

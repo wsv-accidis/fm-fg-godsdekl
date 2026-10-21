@@ -9,6 +9,7 @@ sealed interface DocumentEditUiState {
     data object Loading : DocumentEditUiState
     data class Success(
         val rows: List<DocumentRow>,
-        val showFbet: Boolean
+        val showFbet: Boolean,
+        val documentName: String
     ) : DocumentEditUiState
 }

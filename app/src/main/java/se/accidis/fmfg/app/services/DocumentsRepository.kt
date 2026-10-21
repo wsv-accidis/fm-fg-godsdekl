@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.json.JSONObject
+import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.model.*
 import se.accidis.fmfg.app.utils.Resource
 import timber.log.Timber
@@ -62,6 +63,13 @@ class DocumentsRepository private constructor(private val context: Context) {
         }
     }
 
+    fun createNewDocument() {
+        val document = ensureDocument()
+        saveCurrentDocument(document.name)
+        val newDoc = DocumentBuilder.createNew(prefs.defaultAuthor);
+        updateCurrentDocument(newDoc)
+    }
+
     val isLoaded: Boolean
         get() = _documents.value is Resource.Success
 
@@ -82,8 +90,9 @@ class DocumentsRepository private constructor(private val context: Context) {
 
     fun saveCurrentDocument(name: String) {
         val document = ensureDocument()
-        Timber.d("Saving current document with ID: %s, name = %s", document.id, name)
-        val savedDoc = document.mutate { this.name = name }.save()
+        val saveName = name.ifBlank { context.getString(R.string.document_no_name) }
+        Timber.d("Saving current document with ID: %s, name = %s", document.id, saveName)
+        val savedDoc = document.mutate { this.name = saveName }.save()
         repositoryScope.launch(Dispatchers.IO) {
             writeDocument(savedDoc)
             invalidateListOfDocuments()
