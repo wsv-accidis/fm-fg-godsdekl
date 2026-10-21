@@ -53,6 +53,8 @@ fun DocumentEditScreen(
         }
 
         is DocumentEditUiState.Success -> {
+            var isNameBottomSheetVisible by remember { mutableStateOf(false) }
+
             Scaffold(
                 topBar = {
                     TopAppBar(
@@ -83,14 +85,17 @@ fun DocumentEditScreen(
                                     onClick = { showMenu = false }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.document_set_name)) },
-                                    leadingIcon = { Icon(Icons.Default.Save, contentDescription = null) },
-                                    onClick = { showMenu = false }
-                                )
-                                DropdownMenuItem(
                                     text = { Text(stringResource(R.string.document_edit_opt_fields)) },
                                     leadingIcon = { Icon(Icons.Default.Tune, contentDescription = null) },
                                     onClick = { showMenu = false }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.document_set_name)) },
+                                    leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null) },
+                                    onClick = {
+                                        showMenu = false
+                                        isNameBottomSheetVisible = true
+                                    }
                                 )
                                 HorizontalDivider()
                                 DropdownMenuItem(
@@ -141,6 +146,14 @@ fun DocumentEditScreen(
                         }
                     }
                 }
+            }
+
+            if (isNameBottomSheetVisible) {
+                DocumentNameBottomSheet(
+                    name = state.documentName,
+                    onNameChange = { viewModel.updateName(it) },
+                    onDismiss = { isNameBottomSheetVisible = false }
+                )
             }
         }
     }
@@ -264,5 +277,45 @@ private fun DocumentRowItem(
             thickness = 0.5.dp,
             color = MaterialTheme.colorScheme.outlineVariant
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DocumentNameBottomSheet(
+    name: String,
+    onNameChange: (String) -> Unit,
+    onDismiss: () -> Unit
+) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = rememberModalBottomSheetState()
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.document_set_name_heading),
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            TextField(
+                value = name,
+                onValueChange = onNameChange,
+                label = { Text(stringResource(R.string.document_name_label)) },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+
+            Button(
+                onClick = onDismiss,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(R.string.generic_close))
+            }
+        }
     }
 }

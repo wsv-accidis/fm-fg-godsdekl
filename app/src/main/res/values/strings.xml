@@ -53,6 +53,8 @@
     <string name="document_save_already_saved">Den här godsdeklarationen är redan sparad. Om du sparar den nu så skriver du över den tidigare sparade versionen. Välj "Spara som ny" för att inte skriva över den tidigare.</string>
     <string name="document_sender">Avsändare</string>
 	<string name="document_set_name">Byt rubrik</string>
+	<string name="document_set_name_heading">Ange rubrik</string>
+	<string name="document_name_label">Rubrik</string>
     <string name="document_summary_total_format">Totalt värde %1$s p.</string>
     <string name="document_summary_total_nem_format">Total NEM: %1$s kg.</string>
     <string name="document_summary_tpkat_format">Transportkategori %1$d: %2$s, värde %3$s p.</string>

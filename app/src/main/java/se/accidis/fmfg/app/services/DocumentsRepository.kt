@@ -63,15 +63,11 @@ class DocumentsRepository private constructor(private val context: Context) {
         }
     }
 
-    fun createNewDocument() {
-        val document = ensureDocument()
-        saveCurrentDocument(document.name)
-        val newDoc = DocumentBuilder.createNew(prefs.defaultAuthor);
-        updateCurrentDocument(newDoc)
-    }
-
     val isLoaded: Boolean
         get() = _documents.value is Resource.Success
+
+    val defaultDocumentName: String
+        get() = context.getString(R.string.document_nav_title)
 
     fun updateCurrentDocument(document: Document) {
         Timber.d("Updating current document with ID: %s", document.id)
@@ -90,13 +86,20 @@ class DocumentsRepository private constructor(private val context: Context) {
 
     fun saveCurrentDocument(name: String) {
         val document = ensureDocument()
-        val saveName = name.ifBlank { context.getString(R.string.document_no_name) }
+        val saveName = name.ifBlank { defaultDocumentName }
         Timber.d("Saving current document with ID: %s, name = %s", document.id, saveName)
         val savedDoc = document.mutate { this.name = saveName }.save()
         repositoryScope.launch(Dispatchers.IO) {
             writeDocument(savedDoc)
             invalidateListOfDocuments()
         }
+    }
+
+    fun createNewDocument() {
+        val document = ensureDocument()
+        saveCurrentDocument(document.name)
+        val newDoc = DocumentBuilder.createNew(author = prefs.defaultAuthor)
+        updateCurrentDocument(newDoc)
     }
 
     suspend fun loadDocument(id: UUID): Document = withContext(Dispatchers.IO) {
@@ -129,7 +132,7 @@ class DocumentsRepository private constructor(private val context: Context) {
         } catch (ex: Exception) {
             Timber.e(ex, "Exception while reading current document.")
             null
-        } ?: DocumentBuilder.createNew().mutate { author = prefs.defaultAuthor }
+        } ?: DocumentBuilder.createNew(author = prefs.defaultAuthor)
 
         _currentDocument.value = document
         Timber.d("Current document initialized with ID: %s", document.id)

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import se.accidis.fmfg.app.model.mutate
 import se.accidis.fmfg.app.services.DocumentsRepository
 import se.accidis.fmfg.app.services.Preferences
 
@@ -33,5 +34,10 @@ class DocumentEditViewModel(
 
     fun createNewDocument() {
         repository.createNewDocument()
+    }
+
+    fun updateName(name: String) {
+        val updated = repository.currentDocument.mutate { this.name = name.trim() }
+        repository.updateCurrentDocument(updated)
     }
 }
