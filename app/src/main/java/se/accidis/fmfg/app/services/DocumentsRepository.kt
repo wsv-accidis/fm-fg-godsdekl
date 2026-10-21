@@ -102,6 +102,19 @@ class DocumentsRepository private constructor(private val context: Context) {
         updateCurrentDocument(newDoc)
     }
 
+    fun openDocument(id: UUID) {
+        val current = ensureDocument()
+        saveCurrentDocument(current.name)
+        repositoryScope.launch {
+            try {
+                val loadedDoc = loadDocument(id)
+                updateCurrentDocument(loadedDoc)
+            } catch (ex: Exception) {
+                Timber.e(ex, "Failed to load document with ID: %s", id)
+            }
+        }
+    }
+
     suspend fun loadDocument(id: UUID): Document = withContext(Dispatchers.IO) {
         Timber.d("Loading document with ID: %s", id)
         val filename = getFilenameByDocumentId(id)

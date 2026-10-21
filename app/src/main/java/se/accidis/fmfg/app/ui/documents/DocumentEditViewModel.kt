@@ -6,9 +6,12 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import se.accidis.fmfg.app.model.DocumentLink
 import se.accidis.fmfg.app.model.mutate
 import se.accidis.fmfg.app.services.DocumentsRepository
 import se.accidis.fmfg.app.services.Preferences
+import se.accidis.fmfg.app.utils.Resource
+import java.util.UUID
 
 /**
  * ViewModel for editing the current document.
@@ -32,6 +35,12 @@ class DocumentEditViewModel(
             initialValue = DocumentEditUiState.Loading
         )
 
+    val savedDocuments: StateFlow<Resource<List<DocumentLink>>> = repository.documents
+
+    fun loadSavedDocuments() {
+        repository.beginLoad()
+    }
+
     fun createNewDocument() {
         repository.createNewDocument()
     }
@@ -39,5 +48,9 @@ class DocumentEditViewModel(
     fun updateName(name: String) {
         val updated = repository.currentDocument.mutate { this.name = name.trim() }
         repository.updateCurrentDocument(updated)
+    }
+
+    fun openDocument(id: UUID) {
+        repository.openDocument(id)
     }
 }

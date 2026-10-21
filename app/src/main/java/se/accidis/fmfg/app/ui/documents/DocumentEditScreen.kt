@@ -3,6 +3,7 @@ package se.accidis.fmfg.app.ui.documents
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -22,10 +23,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import se.accidis.fmfg.app.R
+import se.accidis.fmfg.app.model.DocumentLink
 import se.accidis.fmfg.app.model.DocumentRow
 import se.accidis.fmfg.app.old.materials.ValueHelper
 import se.accidis.fmfg.app.services.DocumentsRepository
 import se.accidis.fmfg.app.services.Preferences
+import se.accidis.fmfg.app.utils.Resource
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,6 +48,7 @@ fun DocumentEditScreen(
         }
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val savedDocuments by viewModel.savedDocuments.collectAsStateWithLifecycle()
 
     when (val state = uiState) {
         is DocumentEditUiState.Loading -> {
@@ -54,6 +59,7 @@ fun DocumentEditScreen(
 
         is DocumentEditUiState.Success -> {
             var isNameBottomSheetVisible by remember { mutableStateOf(false) }
+            var isOpenBottomSheetVisible by remember { mutableStateOf(false) }
 
             Scaffold(
                 topBar = {
@@ -109,7 +115,11 @@ fun DocumentEditScreen(
                                 DropdownMenuItem(
                                     text = { Text(stringResource(R.string.document_open)) },
                                     leadingIcon = { Icon(Icons.Default.FolderOpen, contentDescription = null) },
-                                    onClick = { showMenu = false }
+                                    onClick = {
+                                        showMenu = false
+                                        viewModel.loadSavedDocuments()
+                                        isOpenBottomSheetVisible = true
+                                    }
                                 )
                             }
                         }
@@ -150,9 +160,22 @@ fun DocumentEditScreen(
 
             if (isNameBottomSheetVisible) {
                 DocumentNameBottomSheet(
-                    name = state.documentName,
-                    onNameChange = { viewModel.updateName(it) },
-                    onDismiss = { isNameBottomSheetVisible = false }
+                    initialName = state.documentName,
+                    onDismiss = { newName ->
+                        viewModel.updateName(newName)
+                        isNameBottomSheetVisible = false
+                    }
+                )
+            }
+
+            if (isOpenBottomSheetVisible) {
+                DocumentOpenBottomSheet(
+                    documentsResource = savedDocuments,
+                    onDocumentClick = { id ->
+                        viewModel.openDocument(id)
+                        isOpenBottomSheetVisible = false
+                    },
+                    onDismiss = { isOpenBottomSheetVisible = false }
                 )
             }
         }
@@ -283,12 +306,13 @@ private fun DocumentRowItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DocumentNameBottomSheet(
-    name: String,
-    onNameChange: (String) -> Unit,
-    onDismiss: () -> Unit
+    initialName: String,
+    onDismiss: (String) -> Unit
 ) {
+    var textValue by remember(initialName) { mutableStateOf(initialName) }
+
     ModalBottomSheet(
-        onDismissRequest = onDismiss,
+        onDismissRequest = { onDismiss(textValue) },
         sheetState = rememberModalBottomSheetState()
     ) {
         Column(
@@ -303,12 +327,94 @@ private fun DocumentNameBottomSheet(
             )
 
             TextField(
-                value = name,
-                onValueChange = onNameChange,
+                value = textValue,
+                onValueChange = { textValue = it },
                 label = { Text(stringResource(R.string.document_name_label)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
+
+            Button(
+                onClick = { onDismiss(textValue) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(R.string.generic_close))
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DocumentOpenBottomSheet(
+    documentsResource: Resource<List<DocumentLink>>,
+    onDocumentClick: (UUID) -> Unit,
+    onDismiss: () -> Unit
+) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+                .fillMaxHeight(0.8f),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.document_saved_documents),
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
+                when (documentsResource) {
+                    is Resource.Loading -> {
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    }
+
+                    is Resource.Error -> {
+                        Text(
+                            text = stringResource(R.string.generic_unexpected_error),
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .align(Alignment.Center)
+                        )
+                    }
+
+                    is Resource.Success -> {
+                        if (documentsResource.data.isEmpty()) {
+                            Text(
+                                text = stringResource(R.string.documents_list_empty),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .align(Alignment.Center)
+                            )
+                        } else {
+                            LazyColumn(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                items(items = documentsResource.data) { docLink ->
+                                    DocumentLinkItem(
+                                        docLink = docLink,
+                                        onClick = {
+                                            docLink.id?.let { id -> onDocumentClick(id) }
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             Button(
                 onClick = onDismiss,
@@ -317,5 +423,49 @@ private fun DocumentNameBottomSheet(
                 Text(stringResource(R.string.generic_close))
             }
         }
+    }
+}
+
+@Composable
+private fun DocumentLinkItem(
+    docLink: DocumentLink,
+    onClick: () -> Unit
+) {
+    val formattedTimestamp = remember(docLink.timestamp) {
+        docLink.timestamp?.toString("yyyy-MM-dd HH:mm") ?: ""
+    }
+
+    Column(modifier = Modifier.clickable(onClick = onClick)) {
+        ListItem(
+            headlineContent = {
+                Text(
+                    text = docLink.name.ifBlank { stringResource(R.string.document_no_name) },
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal
+                    ),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
+            supportingContent = {
+                if (formattedTimestamp.isNotBlank()) {
+                    Text(
+                        text = formattedTimestamp,
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            fontSize = 12.sp
+                        ),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+        )
+        HorizontalDivider(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            thickness = 0.5.dp,
+            color = MaterialTheme.colorScheme.outlineVariant
+        )
     }
 }
