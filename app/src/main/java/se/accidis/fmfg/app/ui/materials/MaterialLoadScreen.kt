@@ -122,7 +122,7 @@ fun MaterialLoadScreen(
         ) {
             MaterialSummaryLabels(viewModel)
             DocumentRowFields(viewModel, onLoad)
-            MaterialEditPanel(viewModel, onLoad)
+            MaterialEditPanel(viewModel)
         }
     }
 
@@ -224,7 +224,7 @@ private fun DocumentRowFields(
                 label = { FieldLabel(R.string.material_load_weight_volume) },
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
+                    keyboardType = KeyboardType.Decimal,
                     imeAction = if (viewModel.NEMmgValue > 0) ImeAction.Next else ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(onDone = { onLoad() }),
@@ -376,24 +376,23 @@ private fun NemCalculationPanel(
 
 @Composable
 private fun MaterialEditPanel(
-    viewModel: MaterialLoadViewModel,
-    onLoad: () -> Unit
+    viewModel: MaterialLoadViewModel
 ) {
     ExpandableCard(
         titleResId = R.string.material_edit_material,
         isExpanded = viewModel.isEditPanelExpanded,
         onExpandedChange = { viewModel.isEditPanelExpanded = it }
     ) {
-        MaterialEditFields(viewModel, onLoad)
+        MaterialEditFields(viewModel)
     }
 }
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun MaterialEditFields(
-    viewModel: MaterialLoadViewModel,
-    onLoad: () -> Unit
+    viewModel: MaterialLoadViewModel
 ) {
+    val focusManager = LocalFocusManager.current
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         InputRow {
             TextField(
@@ -446,10 +445,10 @@ private fun MaterialEditFields(
                 label = { FieldLabel(R.string.material_nem_per_piece) },
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
+                    keyboardType = KeyboardType.Decimal,
                     imeAction = ImeAction.Done
                 ),
-                keyboardActions = KeyboardActions(onDone = { onLoad() }),
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
                 singleLine = true
             )
 

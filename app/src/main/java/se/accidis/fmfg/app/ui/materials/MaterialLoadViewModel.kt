@@ -126,13 +126,13 @@ class MaterialLoadViewModel(
         get() = weightVolumePointsBasis.multiply(BigDecimal(ValueHelper.getMultiplierByTpKat(tpKat)))
 
     fun onNumberOfPkgsChanged(newValue: String) {
-        if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
+        if (newValue.isEmpty() || (newValue.all { it.isDigit() } && newValue.toIntOrNull() != null)) {
             numberOfPkgs = newValue
         }
     }
 
     fun onWeightVolumeChanged(newValue: String) {
-        if (newValue.isEmpty() || newValue.all { it.isDigit() || it == '.' || it == ',' }) {
+        if (isValidDecimalInput(newValue)) {
             weightVolume = newValue
         }
     }
@@ -161,20 +161,22 @@ class MaterialLoadViewModel(
 
     var isNEMEnabled by mutableStateOf(initialMaterial.NEMmg != 0)
 
-    val NEMUnitSelected: NemUnit
-        get() = when {
+    var NEMUnitSelected by mutableStateOf(
+        when {
             !isNEMEnabled -> NemUnit.NONE
             NEMmgValue < 100_000L -> NemUnit.GRAM
             else -> NemUnit.KILOGRAM
         }
+    )
+        private set
 
     var NEMInputText: String by mutableStateOf(
-        if (!isNEMEnabled) ""
-        else {
-            val unit = if (NEMmgValue < 100_000L) NemUnit.GRAM else NemUnit.KILOGRAM
+        if (!isNEMEnabled) {
+            ""
+        } else {
             ValueHelper.formatValue(
                 BigDecimal(NEMmgValue).divide(
-                    BigDecimal(unit.factor),
+                    BigDecimal(NEMUnitSelected.factor),
                     6,
                     RoundingMode.FLOOR,
                 )
@@ -204,26 +206,52 @@ class MaterialLoadViewModel(
     }
 
     fun onNEMInputChanged(newValue: String) {
-        if (newValue.isEmpty() || newValue.all { (it.isDigit() || it == '.' || it == ',') }) {
-            NEMInputText = newValue
+        if (isValidDecimalInput(newValue)) {
             if (isNEMEnabled) {
                 val parsed = ValueHelper.parseValue(newValue)
-                NEMmgValue = parsed.multiply(BigDecimal(NEMUnitSelected.factor)).toLong()
+                val mg = parsed.multiply(BigDecimal(NEMUnitSelected.factor))
+                if (mg > BigDecimal(Int.MAX_VALUE)) {
+                    return
+                }
+                NEMInputText = newValue
+                NEMmgValue = mg.toLong()
+            } else {
+                NEMInputText = newValue
             }
         }
     }
 
     fun onNemUnitSelected(unit: NemUnit) {
+        NEMUnitSelected = unit
         if (unit == NemUnit.NONE) {
             isNEMEnabled = false
+            NEMmgValue = 0L
             NEMInputText = ""
         } else {
             isNEMEnabled = true
-            // Recalculate text based on the new unit
-            val value =
-                BigDecimal(NEMmgValue).divide(BigDecimal(unit.factor), 6, RoundingMode.FLOOR)
-            NEMInputText = ValueHelper.formatValue(value)
+            NEMInputText = if (NEMmgValue == 0L) {
+                ""
+            } else {
+                // Recalculate text based on the new unit
+                val value =
+                    BigDecimal(NEMmgValue).divide(BigDecimal(unit.factor), 6, RoundingMode.FLOOR)
+                ValueHelper.formatValue(value)
+            }
         }
         NEMUnitExpanded = false
+    }
+
+    private fun isValidDecimalInput(value: String): Boolean {
+        if (value.isEmpty()) return true
+        var hasSeparator = false
+        for (ch in value) {
+            if (ch == '.' || ch == ',') {
+                if (hasSeparator) return false
+                hasSeparator = true
+            } else if (!ch.isDigit()) {
+                return false
+            }
+        }
+        return true
     }
 }
