@@ -52,7 +52,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.model.Material
-import se.accidis.fmfg.app.ui.ValueHelper
+import se.accidis.fmfg.app.utils.ValueHelper
 import se.accidis.fmfg.app.services.DocumentsRepository
 import se.accidis.fmfg.app.ui.components.ExpandableCard
 import se.accidis.fmfg.app.ui.components.FieldLabel

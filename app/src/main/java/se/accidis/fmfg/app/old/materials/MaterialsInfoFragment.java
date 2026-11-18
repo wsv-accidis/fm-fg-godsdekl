@@ -25,7 +25,7 @@ import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
 import se.accidis.fmfg.app.old.MainActivity;
-import se.accidis.fmfg.app.ui.ValueHelper;
+import se.accidis.fmfg.app.utils.ValueHelper;
 
 /**
  * Fragment showing information about a material.

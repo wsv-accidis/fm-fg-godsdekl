@@ -5,7 +5,7 @@ import org.joda.time.DateTime
 import org.json.JSONArray
 import org.json.JSONObject
 import se.accidis.fmfg.app.R
-import se.accidis.fmfg.app.ui.ValueHelper.formatValue
+import se.accidis.fmfg.app.utils.ValueHelper.formatValue
 import se.accidis.fmfg.app.utils.JSONUtils
 import java.math.BigDecimal
 import java.util.UUID

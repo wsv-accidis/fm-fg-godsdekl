@@ -1,4 +1,4 @@
-package se.accidis.fmfg.app.ui
+package se.accidis.fmfg.app.utils
 
 import java.math.BigDecimal
 import java.text.DecimalFormat

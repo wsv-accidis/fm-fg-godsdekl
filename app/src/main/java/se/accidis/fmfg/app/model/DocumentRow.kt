@@ -3,7 +3,7 @@ package se.accidis.fmfg.app.model
 import android.content.Context
 import org.json.JSONObject
 import se.accidis.fmfg.app.R
-import se.accidis.fmfg.app.ui.ValueHelper
+import se.accidis.fmfg.app.utils.ValueHelper
 import java.math.BigDecimal
 
 /**
