@@ -229,8 +229,8 @@ public final class PdfGenerator {
 		if (!TextUtils.isEmpty(mDocument.getVehicleReg())) {
 			result.add(Pair.create(mContext.getString(R.string.document_vehicle_reg), mDocument.getVehicleReg()));
 		}
-		if (null != mDocument.isProtectedTransport()) {
-			result.add(Pair.create(mContext.getString(R.string.document_protected_transport), mContext.getString(mDocument.isProtectedTransport() ? R.string.generic_yes : R.string.generic_no)));
+		if (mDocument.isProtectedTransport()) {
+			result.add(Pair.create(mContext.getString(R.string.document_protected_transport), mContext.getString(R.string.generic_yes)));
 		}
 
 		return result;

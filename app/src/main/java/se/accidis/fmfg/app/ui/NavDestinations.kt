@@ -3,9 +3,9 @@ package se.accidis.fmfg.app.ui
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation3.runtime.NavKey
@@ -68,7 +68,7 @@ enum class TopLevelDestination(
     val icon: ImageVector,
     @StringRes val labelTextId: Int
 ) {
-    MATERIALS(Materials, Icons.Default.List, R.string.materials_nav_title),
+    MATERIALS(Materials, Icons.AutoMirrored.Filled.List, R.string.materials_nav_title),
     DOCUMENT(DocumentEdit, Icons.Default.Description, R.string.documents_list_nav_title),
     REFERENCES(References, Icons.Default.Info, R.string.instructions_nav_title),
     SETTINGS(Settings, Icons.Default.Settings, R.string.preferences_nav_title)

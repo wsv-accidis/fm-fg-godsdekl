@@ -47,6 +47,7 @@ data class DocumentRow(
         return context.getString(resId, ValueHelper.formatValue(weightVolume))
     }
 
+    // TODO: Intentionally always true until PDF generation is updated to handle this properly.
     val isFreeText: Boolean = true
 
     fun toJson(): JSONObject = material.toJson().apply {

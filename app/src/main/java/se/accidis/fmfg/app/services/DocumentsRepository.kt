@@ -17,8 +17,9 @@ import java.util.UUID
 /**
  * Repository for documents.
  */
-class DocumentsRepository private constructor(private val context: Context) {
-    private val prefs = Preferences(context)
+class DocumentsRepository private constructor(context: Context) {
+    private val context: Context = context.applicationContext
+    private val prefs = Preferences(this.context)
 
     private val _currentDocument = MutableStateFlow<Document?>(null)
     val currentDocumentFlow: StateFlow<Document>
@@ -50,7 +51,14 @@ class DocumentsRepository private constructor(private val context: Context) {
                 val list = withContext(Dispatchers.IO) {
                     context.fileList()
                         .filter { it.startsWith(SAVED_DOCUMENT_PREFIX) }
-                        .map { readDocumentLink(it) }
+                        .mapNotNull { fileName ->
+                            try {
+                                readDocumentLink(fileName)
+                            } catch (ex: Exception) {
+                                Timber.w(ex, "Skipping malformed document file: %s", fileName)
+                                null
+                            }
+                        }
                         .sorted()
                 }
 

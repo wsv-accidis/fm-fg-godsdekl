@@ -22,7 +22,7 @@ data class Document(
     val name: String,
     val sender: String,
     val recipient: String,
-    val isProtectedTransport: Boolean?,
+    val isProtectedTransport: Boolean,
     val vehicleReg: String,
     val vehicleType: String
 ) {
@@ -34,7 +34,7 @@ data class Document(
         .fold(BigDecimal.ZERO) { acc, row -> acc.add(row.calculatedValue) }
 
     val hasOptionalFields: Boolean
-        get() = isProtectedTransport != null || vehicleReg.isNotBlank() || vehicleType.isNotBlank()
+        get() = isProtectedTransport || vehicleReg.isNotBlank() || vehicleType.isNotBlank()
 
     val isSaved: Boolean
         get() = timestamp != null
@@ -87,7 +87,7 @@ data class Document(
         json.put(Keys.RECIPIENT, recipient)
         json.put(Keys.AUTHOR, author)
         JSONUtils.putBooleanIfTrue(json, Keys.UNSAVED_CHANGES, hasUnsavedChanges)
-        JSONUtils.putBoolean(json, Keys.PROTECTED_TRANSPORT, isProtectedTransport)
+        JSONUtils.putBooleanIfTrue(json, Keys.PROTECTED_TRANSPORT, isProtectedTransport)
         JSONUtils.putOptString(json, Keys.VEHICLE_REG, vehicleReg)
         JSONUtils.putOptString(json, Keys.VEHICLE_TYPE, vehicleType)
         json.put(Keys.ROWS, JSONArray().apply { rows.forEach { put(it.toJson()) } })

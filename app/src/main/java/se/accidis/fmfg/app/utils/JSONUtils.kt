@@ -45,7 +45,7 @@ object JSONUtils {
 
     fun putBooleanIfTrue(json: JSONObject, key: String, value: Boolean) {
         if (value) {
-            json.put(key, true)
+            putBoolean(json, key, true)
         }
     }
 

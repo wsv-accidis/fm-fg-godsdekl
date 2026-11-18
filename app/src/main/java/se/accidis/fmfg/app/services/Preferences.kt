@@ -16,7 +16,7 @@ class Preferences(context: Context) {
         context.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE)
 
     val defaultAuthor: String
-        get() = prefs.getString(Keys.DEFAULT_AUTHOR, "")!!
+        get() = prefs.getString(Keys.DEFAULT_AUTHOR, "").orEmpty()
 
     var favoriteMaterials: MutableSet<String>
         get() {

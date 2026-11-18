@@ -15,7 +15,7 @@ class DocumentBuilder(document: Document) {
     var name: String = document.name
     var sender: String = document.sender
     var recipient: String = document.recipient
-    var isProtectedTransport: Boolean? = document.isProtectedTransport
+    var isProtectedTransport: Boolean = document.isProtectedTransport
     var vehicleReg: String = document.vehicleReg
     var vehicleType: String = document.vehicleType
 
@@ -43,7 +43,7 @@ class DocumentBuilder(document: Document) {
             name = "",
             sender = "",
             recipient = "",
-            isProtectedTransport = null,
+            isProtectedTransport = false,
             vehicleReg = "",
             vehicleType = ""
         )

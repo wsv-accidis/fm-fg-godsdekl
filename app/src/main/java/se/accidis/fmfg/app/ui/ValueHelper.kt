@@ -10,11 +10,21 @@ import kotlin.text.iterator
  * Simple helper class for calculating and formatting values.
  */
 object ValueHelper {
-    private val valueFormat = DecimalFormat()
+    @Volatile
+    private var formatSymbols: DecimalFormatSymbols =
+        DecimalFormatSymbols.getInstance(Locale.getDefault())
+
+    private val valueFormat: ThreadLocal<DecimalFormat> = ThreadLocal.withInitial {
+        DecimalFormat().apply {
+            maximumFractionDigits = 5
+            minimumFractionDigits = 0
+            decimalFormatSymbols = formatSymbols
+        }
+    }
 
     @JvmStatic
     fun formatValue(bigDecimal: BigDecimal): String {
-        return valueFormat.format(bigDecimal)
+        return requireNotNull(valueFormat.get()).format(bigDecimal)
     }
 
     @JvmStatic
@@ -38,9 +48,7 @@ object ValueHelper {
 
     fun initializeLocale(locale: Locale) {
         Locale.setDefault(locale)
-        valueFormat.maximumFractionDigits = 5
-        valueFormat.minimumFractionDigits = 0
-        valueFormat.decimalFormatSymbols = DecimalFormatSymbols.getInstance(locale)
+        formatSymbols = DecimalFormatSymbols.getInstance(locale)
     }
 
     @JvmStatic

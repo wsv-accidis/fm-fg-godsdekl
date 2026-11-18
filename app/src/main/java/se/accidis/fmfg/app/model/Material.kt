@@ -41,6 +41,7 @@ data class Material(
     val NEMkg: BigDecimal
         get() = BigDecimal(NEMmg).divide(BigDecimal(1_000_000), 6, RoundingMode.FLOOR)
 
+    // Intentionally excludes source, NEMmg, and miljo; materials are uniquely identified by these fields.
     val uniqueKey: String
         get() = "$UNnr|$namn|$fben|$fbet|${klassKod.joinToString(",")}|$tpKat|$frpGrp|$tunnelKod"
 
