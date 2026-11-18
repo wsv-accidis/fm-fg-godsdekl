@@ -1,6 +1,6 @@
 package se.accidis.fmfg.app.ui.materials
 
-import se.accidis.fmfg.app.old.materials.ValueHelper
+import se.accidis.fmfg.app.ui.ValueHelper
 import java.math.BigDecimal
 import java.math.RoundingMode
 

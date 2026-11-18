@@ -26,7 +26,7 @@ import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Material;
 import se.accidis.fmfg.app.services.DocumentsRepository;
-import se.accidis.fmfg.app.utils.AndroidUtils;
+import se.accidis.fmfg.app.ui.ValueHelper;
 
 /**
  * Fragment for creating/editing a document row (loading materials).

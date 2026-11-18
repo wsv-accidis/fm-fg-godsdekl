@@ -10,7 +10,7 @@ import se.accidis.fmfg.app.model.DocumentRow
 import se.accidis.fmfg.app.model.Material
 import se.accidis.fmfg.app.model.MaterialSource
 import se.accidis.fmfg.app.model.mutate
-import se.accidis.fmfg.app.old.materials.ValueHelper
+import se.accidis.fmfg.app.ui.ValueHelper
 import se.accidis.fmfg.app.services.DocumentsRepository
 import java.math.BigDecimal
 import java.math.RoundingMode

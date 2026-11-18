@@ -2,7 +2,7 @@ package se.accidis.fmfg.app
 
 import android.app.Application
 import se.accidis.fmfg.app.export.ExportFile
-import se.accidis.fmfg.app.old.materials.ValueHelper
+import se.accidis.fmfg.app.ui.ValueHelper
 import timber.log.Timber
 import java.util.Locale
 

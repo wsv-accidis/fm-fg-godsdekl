@@ -1,9 +1,10 @@
-package se.accidis.fmfg.app.old.materials
+package se.accidis.fmfg.app.ui
 
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
+import kotlin.text.iterator
 
 /**
  * Simple helper class for calculating and formatting values.

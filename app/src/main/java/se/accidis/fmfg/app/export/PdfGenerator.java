@@ -21,7 +21,7 @@ import se.accidis.fmfg.app.R;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentRow;
 import se.accidis.fmfg.app.model.Material;
-import se.accidis.fmfg.app.old.materials.ValueHelper;
+import se.accidis.fmfg.app.ui.ValueHelper;
 import timber.log.Timber;
 import se.accidis.fmfg.app.services.LabelsRepository;
 import se.accidis.fmfg.app.services.Preferences;
