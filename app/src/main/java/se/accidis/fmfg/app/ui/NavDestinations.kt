@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation3.runtime.NavKey
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import se.accidis.fmfg.app.R
@@ -18,7 +19,7 @@ import java.util.UUID
  * Base interface for all navigation destinations in the app.
  */
 @Serializable
-sealed interface NavDestination : Parcelable
+sealed interface NavDestination : NavKey, Parcelable
 
 /**
  * Destination for the Materials list screen.

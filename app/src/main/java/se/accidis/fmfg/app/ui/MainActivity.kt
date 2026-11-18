@@ -4,17 +4,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
 import se.accidis.fmfg.app.ui.documents.DocumentEditScreen
 import se.accidis.fmfg.app.ui.materials.MaterialLoadScreen
 import se.accidis.fmfg.app.ui.materials.MaterialsScreen
@@ -37,51 +39,76 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainView() {
-    var currentDestination: NavDestination by rememberSaveable { mutableStateOf(Materials) }
+    val backStack = rememberNavBackStack(Materials)
+    val currentDestination = (backStack.lastOrNull() as? NavDestination) ?: Materials
 
     Scaffold(
         bottomBar = {
             if (currentDestination !is MaterialLoad) {
                 FmFgNavigationBar(
                     currentDestination = currentDestination,
-                    onNavigate = { currentDestination = it }
+                    onNavigate = { route ->
+                        if (route != currentDestination) {
+                            backStack.removeAll { it !is Materials }
+                            if (route !is Materials) {
+                                backStack.add(route)
+                            }
+                        }
+                    }
                 )
             }
         }
     ) { innerPadding ->
-        BoxWithPadding(
+        NavDisplay(
+            backStack = backStack,
+            onBack = { backStack.removeLastOrNull() },
             modifier = Modifier
                 .padding(innerPadding)
-                .consumeWindowInsets(innerPadding)
-        ) {
-            when (val dest = currentDestination) {
-                is Materials -> MaterialsScreen(onMaterialClick = {
-                    currentDestination = MaterialLoad(it)
-                })
-
-                is DocumentEdit -> DocumentEditScreen(onRowClick = { index, row ->
-                    currentDestination = MaterialLoad(
-                        material = row.material,
-                        rowIndex = index
+                .consumeWindowInsets(innerPadding),
+            entryProvider = entryProvider {
+                entry<Materials> {
+                    MaterialsScreen(
+                        onMaterialClick = { material ->
+                            backStack.add(MaterialLoad(material))
+                        }
                     )
-                })
-                is References -> ReferencesScreen()
-                is Settings -> SettingsScreen()
-                is MaterialLoad -> MaterialLoadScreen(
-                    material = dest.material,
-                    rowIndex = dest.rowIndex,
-                    sessionId = dest.sessionId,
-                    onBack = { currentDestination = if (dest.rowIndex != null) DocumentEdit else Materials }
-                )
-            }
-        }
-    }
-}
+                }
 
-@Composable
-fun BoxWithPadding(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
-    Box(modifier = modifier) {
-        content()
+                entry<DocumentEdit> {
+                    DocumentEditScreen(
+                        onRowClick = { index, row ->
+                            backStack.add(
+                                MaterialLoad(
+                                    material = row.material,
+                                    rowIndex = index
+                                )
+                            )
+                        }
+                    )
+                }
+
+                entry<References> {
+                    ReferencesScreen()
+                }
+
+                entry<Settings> {
+                    SettingsScreen()
+                }
+
+                entry<MaterialLoad> { dest ->
+                    MaterialLoadScreen(
+                        material = dest.material,
+                        rowIndex = dest.rowIndex,
+                        sessionId = dest.sessionId,
+                        onBack = {
+                            if (backStack.size > 1) {
+                                backStack.removeLastOrNull()
+                            }
+                        }
+                    )
+                }
+            }
+        )
     }
 }
 
