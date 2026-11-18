@@ -80,9 +80,11 @@ fun MaterialsScreen(onMaterialClick: (Material) -> Unit) {
                                 .align(Alignment.Center)
                         )
                     } else {
+                        val statusBarTop =
+                            WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(vertical = 8.dp)
+                            contentPadding = PaddingValues(top = statusBarTop + 8.dp, bottom = 8.dp)
                         ) {
                             items(
                                 items = state.items,
