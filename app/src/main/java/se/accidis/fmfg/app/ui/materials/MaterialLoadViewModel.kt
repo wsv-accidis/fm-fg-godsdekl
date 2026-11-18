@@ -1,7 +1,10 @@
 package se.accidis.fmfg.app.ui.materials
 
-import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.model.DocumentRow
 import se.accidis.fmfg.app.model.Material
@@ -33,49 +36,104 @@ enum class WeightVolumeUnit(val labelResId: Int) {
  * ViewModel for the Material load screen.
  */
 class MaterialLoadViewModel(
-    private val initialMaterial: Material,
-    private val initialRow: DocumentRow? = null,
+    private val repository: DocumentsRepository,
+    material: Material,
     private val rowIndex: Int? = null
 ) : ViewModel() {
 
-    val isEditing: Boolean
-        get() = rowIndex != null
+    private val initialRow: DocumentRow? =
+        rowIndex?.let { repository.currentDocument.rows.getOrNull(it) }
+    private val initialMaterial: Material = initialRow?.material ?: material
 
-    val canLoadMaterial: Boolean
-        get() {
-            val numPkgs = numberOfPkgs.toIntOrNull() ?: 0
-            val wtVol = ValueHelper.parseValue(weightVolume)
-            val hasIdentity =
-                UNnr.isNotBlank() || namn.isNotBlank() || fbet.isNotBlank() || fben.isNotBlank()
-            return numPkgs > 0 && wtVol.signum() > 0 && hasIdentity
+    private val _uiState = MutableStateFlow(createInitialState())
+    val uiState: StateFlow<MaterialLoadUiState> = _uiState.asStateFlow()
+
+    private fun createInitialState(): MaterialLoadUiState {
+        val nemMg = initialMaterial.NEMmg.toLong()
+        val isNemEnabled = nemMg != 0L
+        val nemUnit = when {
+            !isNemEnabled -> NemUnit.NONE
+            nemMg < 100_000L -> NemUnit.GRAM
+            else -> NemUnit.KILOGRAM
+        }
+        val nemText = if (!isNemEnabled) {
+            ""
+        } else {
+            ValueHelper.formatPlainValue(
+                BigDecimal(nemMg).divide(
+                    BigDecimal(nemUnit.factor),
+                    6,
+                    RoundingMode.FLOOR,
+                )
+            )
         }
 
-    fun loadIntoDocument(repository: DocumentsRepository) {
-        if (!canLoadMaterial) {
+        return MaterialLoadUiState(
+            isEditing = rowIndex != null,
+            numberOfPkgs = if (initialRow != null && initialRow.numberOfPackages > 0) {
+                initialRow.numberOfPackages.toString()
+            } else {
+                ""
+            },
+            typeOfPkgs = initialRow?.typeOfPackages ?: "",
+            weightVolume = if (initialRow != null && initialRow.weightVolume.signum() != 0) {
+                ValueHelper.formatPlainValue(initialRow.weightVolume)
+            } else {
+                ""
+            },
+            weightVolumeUnit = if (initialRow?.isVolume == true) {
+                WeightVolumeUnit.LITER
+            } else {
+                WeightVolumeUnit.KILOGRAM
+            },
+            amount = if (initialRow != null && initialRow.amount.signum() != 0) {
+                ValueHelper.formatPlainValue(initialRow.amount)
+            } else {
+                ""
+            },
+            fbet = initialMaterial.fbet,
+            fben = initialMaterial.fben,
+            unNr = initialMaterial.UNnr,
+            namn = initialMaterial.namn,
+            klassKodList = initialMaterial.klassKod,
+            nemMgValue = nemMg,
+            isNemEnabled = isNemEnabled,
+            nemUnitSelected = nemUnit,
+            nemInputText = nemText,
+            tpKat = initialMaterial.tpKat,
+            frpGrp = initialMaterial.frpGrp,
+            tunnelKod = initialMaterial.tunnelKod,
+            miljo = initialMaterial.miljo
+        )
+    }
+
+    fun loadIntoDocument() {
+        val state = _uiState.value
+        if (!state.canLoadMaterial) {
             return
         }
 
         val material = Material(
-            fbet = fbet.trim(),
-            fben = fben.trim(),
-            UNnr = UNnr.trim(),
-            namn = namn.trim(),
-            klassKod = klassKodList,
-            NEMmg = NEMmgValue.toInt(),
-            tpKat = tpKat,
-            frpGrp = frpGrp,
-            tunnelKod = tunnelKod,
-            miljo = miljo,
+            fbet = state.fbet.trim(),
+            fben = state.fben.trim(),
+            UNnr = state.unNr.trim(),
+            namn = state.namn.trim(),
+            klassKod = state.klassKodList,
+            NEMmg = state.nemMgValue.toInt(),
+            tpKat = state.tpKat,
+            frpGrp = state.frpGrp,
+            tunnelKod = state.tunnelKod,
+            miljo = state.miljo,
             source = MaterialSource.NONE
         )
 
         val row = DocumentRow(
             material = material,
-            amount = ValueHelper.parseValue(amount),
-            numberOfPackages = numberOfPkgs.toIntOrNull() ?: 0,
-            typeOfPackages = typeOfPkgs.trim(),
-            isVolume = weightVolumeUnit == WeightVolumeUnit.LITER,
-            weightVolume = ValueHelper.parseValue(weightVolume)
+            amount = ValueHelper.parseValue(state.amount),
+            numberOfPackages = state.numberOfPkgs.toIntOrNull() ?: 0,
+            typeOfPackages = state.typeOfPkgs.trim(),
+            isVolume = state.weightVolumeUnit == WeightVolumeUnit.LITER,
+            weightVolume = ValueHelper.parseValue(state.weightVolume)
         )
 
         val mutatedDoc = repository.currentDocument.mutate {
@@ -88,170 +146,124 @@ class MaterialLoadViewModel(
         repository.updateCurrentDocument(mutatedDoc)
     }
 
-    // --------------------------
-    // Fields for the DocumentRow
-    // --------------------------
-
-    var numberOfPkgs by mutableStateOf(
-        if (initialRow != null && initialRow.numberOfPackages > 0) initialRow.numberOfPackages.toString() else ""
-    )
-    var typeOfPkgs by mutableStateOf(
-        initialRow?.typeOfPackages ?: ""
-    )
-    var isTypeOfPkgsExpanded by mutableStateOf(false)
-    var weightVolume by mutableStateOf(
-        if (initialRow != null && initialRow.weightVolume.signum() != 0) ValueHelper.formatValue(initialRow.weightVolume) else ""
-    )
-    var weightVolumeUnit by mutableStateOf(
-        if (initialRow?.isVolume == true) WeightVolumeUnit.LITER else WeightVolumeUnit.KILOGRAM
-    )
-    var isWeightVolumeUnitExpanded by mutableStateOf(false)
-    var amount by mutableStateOf(
-        if (initialRow != null && initialRow.amount.signum() != 0) ValueHelper.formatValue(initialRow.amount) else ""
-    )
-
-    var isNemPanelExpanded by mutableStateOf(initialMaterial.NEMmg > 0)
-
-    val totalNEMmg: BigDecimal
-        get() = ValueHelper.parseValue(amount).multiply(BigDecimal(NEMmgValue))
-
-    val weightVolumePointsBasis: BigDecimal
-        get() = if (NEMmgValue > 0) {
-            totalNEMmg.divide(BigDecimal(NemUnit.KILOGRAM.factor), 6, RoundingMode.FLOOR)
-        } else {
-            ValueHelper.parseValue(weightVolume)
-        }
-
-    val totalPoints: BigDecimal
-        get() = weightVolumePointsBasis.multiply(BigDecimal(ValueHelper.getMultiplierByTpKat(tpKat)))
-
     fun onNumberOfPkgsChanged(newValue: String) {
         if (newValue.isEmpty() || (newValue.all { it.isDigit() } && newValue.toIntOrNull() != null)) {
-            numberOfPkgs = newValue
+            _uiState.update { it.copy(numberOfPkgs = newValue) }
         }
     }
 
+    fun onTypeOfPkgsChanged(newValue: String) {
+        _uiState.update { it.copy(typeOfPkgs = newValue) }
+    }
+
     fun onWeightVolumeChanged(newValue: String) {
-        if (isValidDecimalInput(newValue)) {
-            weightVolume = newValue
+        if (ValueHelper.isValidDecimalInput(newValue)) {
+            _uiState.update { it.copy(weightVolume = newValue) }
         }
+    }
+
+    fun onWeightVolumeUnitSelected(unit: WeightVolumeUnit) {
+        _uiState.update { it.copy(weightVolumeUnit = unit) }
     }
 
     fun onAmountChanged(newValue: String) {
         if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
-            amount = newValue
+            _uiState.update { it.copy(amount = newValue) }
         }
     }
 
-    // -----------------------
-    // Fields for the Material
-    // -----------------------
+    fun onFbetChanged(newValue: String) {
+        _uiState.update { it.copy(fbet = newValue) }
+    }
 
-    var fbet by mutableStateOf(initialMaterial.fbet)
-    var fben by mutableStateOf(initialMaterial.fben)
-    var UNnr by mutableStateOf(initialMaterial.UNnr)
-    var namn by mutableStateOf(initialMaterial.namn)
+    fun onFbenChanged(newValue: String) {
+        _uiState.update { it.copy(fben = newValue) }
+    }
 
-    var klassKodList by mutableStateOf(initialMaterial.klassKod)
-    var isKlassKodListVisible by mutableStateOf(false)
-
-    // Internal value always in mg
-    var NEMmgValue by mutableLongStateOf(initialMaterial.NEMmg.toLong())
-        private set
-
-    var isNEMEnabled by mutableStateOf(initialMaterial.NEMmg != 0)
-
-    var NEMUnitSelected by mutableStateOf(
-        when {
-            !isNEMEnabled -> NemUnit.NONE
-            NEMmgValue < 100_000L -> NemUnit.GRAM
-            else -> NemUnit.KILOGRAM
-        }
-    )
-        private set
-
-    var NEMInputText: String by mutableStateOf(
-        if (!isNEMEnabled) {
-            ""
-        } else {
-            ValueHelper.formatValue(
-                BigDecimal(NEMmgValue).divide(
-                    BigDecimal(NEMUnitSelected.factor),
-                    6,
-                    RoundingMode.FLOOR,
-                )
-            )
-        }
-    )
-
-    var NEMUnitExpanded by mutableStateOf(false)
-
-    var tpKat by mutableIntStateOf(initialMaterial.tpKat)
-    var isTpKatExpanded by mutableStateOf(false)
-
-    var frpGrp by mutableStateOf(initialMaterial.frpGrp)
-    var isFrpGrpExpanded by mutableStateOf(false)
-
-    var tunnelKod by mutableStateOf(initialMaterial.tunnelKod)
-    var isTunnelKodExpanded by mutableStateOf(false)
-
-    var miljo by mutableStateOf(initialMaterial.miljo)
-
-    var isEditPanelExpanded by mutableStateOf(false)
-
-    fun onUNnrChanged(newValue: String) {
+    fun onUnNrChanged(newValue: String) {
         if (newValue.length <= 6 && newValue.all { it.isDigit() }) {
-            UNnr = newValue
+            _uiState.update { it.copy(unNr = newValue) }
         }
     }
 
-    fun onNEMInputChanged(newValue: String) {
-        if (isValidDecimalInput(newValue)) {
-            if (isNEMEnabled) {
-                val parsed = ValueHelper.parseValue(newValue)
-                val mg = parsed.multiply(BigDecimal(NEMUnitSelected.factor))
-                if (mg > BigDecimal(Int.MAX_VALUE)) {
-                    return
-                }
-                NEMInputText = newValue
-                NEMmgValue = mg.toLong()
+    fun onNamnChanged(newValue: String) {
+        _uiState.update { it.copy(namn = newValue) }
+    }
+
+    fun onRemoveKlassKod(kod: String) {
+        _uiState.update { it.copy(klassKodList = it.klassKodList - kod) }
+    }
+
+    fun onToggleKlassKod(kod: String) {
+        _uiState.update { state ->
+            val updated = if (state.klassKodList.contains(kod)) {
+                state.klassKodList - kod
             } else {
-                NEMInputText = newValue
+                state.klassKodList + kod
+            }
+            state.copy(klassKodList = updated)
+        }
+    }
+
+    fun onNemInputChanged(newValue: String) {
+        if (ValueHelper.isValidDecimalInput(newValue)) {
+            _uiState.update { state ->
+                if (state.isNemEnabled) {
+                    val parsed = ValueHelper.parseValue(newValue)
+                    val mg = parsed.multiply(BigDecimal(state.nemUnitSelected.factor))
+                    if (mg > BigDecimal(Int.MAX_VALUE)) {
+                        return@update state
+                    }
+                    state.copy(nemInputText = newValue, nemMgValue = mg.toLong())
+                } else {
+                    state.copy(nemInputText = newValue)
+                }
             }
         }
     }
 
     fun onNemUnitSelected(unit: NemUnit) {
-        NEMUnitSelected = unit
-        if (unit == NemUnit.NONE) {
-            isNEMEnabled = false
-            NEMmgValue = 0L
-            NEMInputText = ""
-        } else {
-            isNEMEnabled = true
-            NEMInputText = if (NEMmgValue == 0L) {
-                ""
+        _uiState.update { state ->
+            if (unit == NemUnit.NONE) {
+                state.copy(
+                    nemUnitSelected = unit,
+                    isNemEnabled = false,
+                    nemMgValue = 0L,
+                    nemInputText = ""
+                )
             } else {
-                // Recalculate text based on the new unit
-                val value =
-                    BigDecimal(NEMmgValue).divide(BigDecimal(unit.factor), 6, RoundingMode.FLOOR)
-                ValueHelper.formatValue(value)
+                val inputText = if (state.nemMgValue == 0L) {
+                    ""
+                } else {
+                    val value = BigDecimal(state.nemMgValue).divide(
+                        BigDecimal(unit.factor),
+                        6,
+                        RoundingMode.FLOOR
+                    )
+                    ValueHelper.formatPlainValue(value)
+                }
+                state.copy(
+                    nemUnitSelected = unit,
+                    isNemEnabled = true,
+                    nemInputText = inputText
+                )
             }
         }
-        NEMUnitExpanded = false
     }
 
-    private fun isValidDecimalInput(value: String): Boolean {
-        if (value.isEmpty()) return true
-        var hasSeparator = false
-        for (ch in value) {
-            if (ch == '.' || ch == ',') {
-                if (hasSeparator) return false
-                hasSeparator = true
-            } else if (!ch.isDigit()) {
-                return false
-            }
-        }
-        return true
+    fun onTpKatSelected(tpKat: Int) {
+        _uiState.update { it.copy(tpKat = tpKat) }
+    }
+
+    fun onFrpGrpSelected(frpGrp: String) {
+        _uiState.update { it.copy(frpGrp = frpGrp) }
+    }
+
+    fun onTunnelKodSelected(tunnelKod: String) {
+        _uiState.update { it.copy(tunnelKod = tunnelKod) }
+    }
+
+    fun onMiljoChanged(miljo: Boolean) {
+        _uiState.update { it.copy(miljo = miljo) }
     }
 }

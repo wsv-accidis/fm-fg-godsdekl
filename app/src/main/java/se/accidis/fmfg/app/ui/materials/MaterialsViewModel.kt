@@ -15,10 +15,10 @@ class MaterialsViewModel(
 ) : ViewModel() {
 
     private val _searchQuery = MutableStateFlow("")
-    val searchQuery: StateFlow<String> = _searchQuery
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     private val _selectedSource = MutableStateFlow(MaterialSource.AMKAT)
-    val selectedSource: StateFlow<MaterialSource> = _selectedSource
+    val selectedSource: StateFlow<MaterialSource> = _selectedSource.asStateFlow()
 
     val uiState: StateFlow<MaterialsUiState> = combine(
         repository.materialsResource,

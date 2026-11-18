@@ -15,7 +15,11 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +33,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -43,7 +48,7 @@ import java.math.RoundingMode
 /**
  * Screen for editing material properties before loading it into a document.
  */
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MaterialLoadScreen(
     material: Material,
@@ -51,36 +56,40 @@ fun MaterialLoadScreen(
     sessionId: String,
     onBack: () -> Unit
 ) {
-    val context = LocalContext.current
-    val repository = DocumentsRepository.getInstance(context.applicationContext)
-    val initialRow = remember(rowIndex) {
-        if (rowIndex != null) repository.currentDocument.rows.getOrNull(rowIndex) else null
-    }
-
+    val context = LocalContext.current.applicationContext
+    val sessionKey = "${material.uniqueKey}_${rowIndex}_$sessionId"
     val viewModel: MaterialLoadViewModel = viewModel(
-        key = "${material.uniqueKey}_${rowIndex}_$sessionId",
+        key = sessionKey,
         factory = viewModelFactory {
             initializer {
                 MaterialLoadViewModel(
-                    initialMaterial = initialRow?.material ?: material,
-                    initialRow = initialRow,
+                    repository = DocumentsRepository.getInstance(context),
+                    material = material,
                     rowIndex = rowIndex
                 )
             }
         }
     )
 
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var isNemPanelExpanded by rememberSaveable(sessionKey) {
+        mutableStateOf(uiState.nemMgValue > 0)
+    }
+    var isEditPanelExpanded by rememberSaveable(sessionKey) { mutableStateOf(false) }
+    var isKlassKodListVisible by rememberSaveable(sessionKey) { mutableStateOf(false) }
+
     val focusManager = LocalFocusManager.current
 
     val onLoad = {
-        if (viewModel.canLoadMaterial) {
+        if (uiState.canLoadMaterial) {
             focusManager.clearFocus()
-            viewModel.loadIntoDocument(repository)
+            viewModel.loadIntoDocument()
             onBack()
         }
     }
 
-    val buttonTextResId = if (viewModel.isEditing) R.string.material_edit_load else R.string.material_load
+    val buttonTextResId =
+        if (uiState.isEditing) R.string.material_edit_load else R.string.material_load
 
     Scaffold(
         topBar = {
@@ -100,7 +109,7 @@ fun MaterialLoadScreen(
             ) {
                 Button(
                     onClick = onLoad,
-                    enabled = viewModel.canLoadMaterial,
+                    enabled = uiState.canLoadMaterial,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -120,24 +129,40 @@ fun MaterialLoadScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            MaterialSummaryLabels(viewModel)
-            DocumentRowFields(viewModel, onLoad)
-            MaterialEditPanel(viewModel)
+            MaterialSummaryLabels(uiState)
+            DocumentRowFields(
+                uiState = uiState,
+                isNemPanelExpanded = isNemPanelExpanded,
+                onNemPanelExpandedChange = { isNemPanelExpanded = it },
+                viewModel = viewModel,
+                onLoad = onLoad
+            )
+            MaterialEditPanel(
+                uiState = uiState,
+                isExpanded = isEditPanelExpanded,
+                onExpandedChange = { isEditPanelExpanded = it },
+                onAddKlassKodClick = { isKlassKodListVisible = true },
+                viewModel = viewModel
+            )
         }
     }
 
-    if (viewModel.isKlassKodListVisible) {
-        MaterialEditKlassKodBottomSheet(viewModel)
+    if (isKlassKodListVisible) {
+        MaterialEditKlassKodBottomSheet(
+            selectedKlassKods = uiState.klassKodList,
+            onToggleKlassKod = viewModel::onToggleKlassKod,
+            onDismiss = { isKlassKodListVisible = false }
+        )
     }
 }
 
 @Composable
-private fun MaterialSummaryLabels(viewModel: MaterialLoadViewModel) {
+private fun MaterialSummaryLabels(uiState: MaterialLoadUiState) {
     val labels = listOfNotNull(
-        "${viewModel.fbet} ${viewModel.fben}".trim().takeIf { it.isNotBlank() },
+        "${uiState.fbet} ${uiState.fben}".trim().takeIf { it.isNotBlank() },
         listOfNotNull(
-            viewModel.UNnr.takeIf { it.isNotBlank() }?.let { "UN $it" },
-            viewModel.namn.takeIf { it.isNotBlank() }
+            uiState.unNr.takeIf { it.isNotBlank() }?.let { "UN $it" },
+            uiState.namn.takeIf { it.isNotBlank() }
         ).joinToString(" ").takeIf { it.isNotBlank() }
     )
 
@@ -157,14 +182,17 @@ private fun MaterialSummaryLabels(viewModel: MaterialLoadViewModel) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DocumentRowFields(
+    uiState: MaterialLoadUiState,
+    isNemPanelExpanded: Boolean,
+    onNemPanelExpandedChange: (Boolean) -> Unit,
     viewModel: MaterialLoadViewModel,
     onLoad: () -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         InputRow {
             TextField(
-                value = viewModel.numberOfPkgs,
-                onValueChange = { viewModel.onNumberOfPkgsChanged(it) },
+                value = uiState.numberOfPkgs,
+                onValueChange = viewModel::onNumberOfPkgsChanged,
                 label = { FieldLabel(R.string.material_load_num_pkgs) },
                 modifier = Modifier.width(100.dp),
                 keyboardOptions = KeyboardOptions(
@@ -174,21 +202,23 @@ private fun DocumentRowFields(
                 singleLine = true
             )
 
+            var isTypeOfPkgsExpanded by remember { mutableStateOf(false) }
+
             ExposedDropdownMenuBox(
-                expanded = viewModel.isTypeOfPkgsExpanded,
-                onExpandedChange = { viewModel.isTypeOfPkgsExpanded = it },
+                expanded = isTypeOfPkgsExpanded,
+                onExpandedChange = { isTypeOfPkgsExpanded = it },
                 modifier = Modifier.weight(1f)
             ) {
                 val suggestions = stringArrayResource(R.array.material_pkg_types)
                 val filteredSuggestions = suggestions.filter {
-                    it.contains(viewModel.typeOfPkgs, ignoreCase = true)
+                    it.contains(uiState.typeOfPkgs, ignoreCase = true)
                 }
 
                 TextField(
-                    value = viewModel.typeOfPkgs,
+                    value = uiState.typeOfPkgs,
                     onValueChange = {
-                        viewModel.typeOfPkgs = it
-                        viewModel.isTypeOfPkgsExpanded = true
+                        viewModel.onTypeOfPkgsChanged(it)
+                        isTypeOfPkgsExpanded = true
                     },
                     label = { FieldLabel(R.string.material_load_type_pkgs) },
                     modifier = Modifier
@@ -200,15 +230,15 @@ private fun DocumentRowFields(
 
                 if (filteredSuggestions.isNotEmpty()) {
                     ExposedDropdownMenu(
-                        expanded = viewModel.isTypeOfPkgsExpanded,
-                        onDismissRequest = { viewModel.isTypeOfPkgsExpanded = false }
+                        expanded = isTypeOfPkgsExpanded,
+                        onDismissRequest = { isTypeOfPkgsExpanded = false }
                     ) {
                         filteredSuggestions.forEach { suggestion ->
                             DropdownMenuItem(
                                 text = { Text(suggestion) },
                                 onClick = {
-                                    viewModel.typeOfPkgs = suggestion
-                                    viewModel.isTypeOfPkgsExpanded = false
+                                    viewModel.onTypeOfPkgsChanged(suggestion)
+                                    isTypeOfPkgsExpanded = false
                                 }
                             )
                         }
@@ -219,13 +249,13 @@ private fun DocumentRowFields(
 
         InputRow {
             TextField(
-                value = viewModel.weightVolume,
-                onValueChange = { viewModel.onWeightVolumeChanged(it) },
+                value = uiState.weightVolume,
+                onValueChange = viewModel::onWeightVolumeChanged,
                 label = { FieldLabel(R.string.material_load_weight_volume) },
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Decimal,
-                    imeAction = if (viewModel.NEMmgValue > 0) ImeAction.Next else ImeAction.Done
+                    imeAction = if (uiState.nemMgValue > 0) ImeAction.Next else ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(onDone = { onLoad() }),
                 singleLine = true
@@ -236,30 +266,34 @@ private fun DocumentRowFields(
 
             ReadOnlyDropdown(
                 labelResId = R.string.material_load_weight_volume_unit,
-                value = stringResource(viewModel.weightVolumeUnit.labelResId),
+                value = stringResource(uiState.weightVolumeUnit.labelResId),
                 options = unitLabels.toTypedArray(),
-                expanded = viewModel.isWeightVolumeUnitExpanded,
-                onExpandedChange = { viewModel.isWeightVolumeUnitExpanded = it },
                 onOptionSelected = { label ->
                     val index = unitLabels.indexOf(label)
                     if (index >= 0) {
-                        viewModel.weightVolumeUnit = unitOptions[index]
+                        viewModel.onWeightVolumeUnitSelected(unitOptions[index])
                     }
                 },
                 modifier = Modifier.width(120.dp)
             )
         }
 
-        NemCalculationPanel(viewModel, onLoad)
-        CalculationSummary(viewModel)
+        NemCalculationPanel(
+            uiState = uiState,
+            isExpanded = isNemPanelExpanded,
+            onExpandedChange = onNemPanelExpandedChange,
+            onAmountChanged = viewModel::onAmountChanged,
+            onLoad = onLoad
+        )
+        CalculationSummary(uiState)
     }
 }
 
 @Composable
-private fun CalculationSummary(viewModel: MaterialLoadViewModel) {
-    val multiplier = ValueHelper.getMultiplierByTpKat(viewModel.tpKat)
-    val calculatedMassBd = viewModel.weightVolumePointsBasis
-    val pointsBd = viewModel.totalPoints
+private fun CalculationSummary(uiState: MaterialLoadUiState) {
+    val multiplier = ValueHelper.getMultiplierByTpKat(uiState.tpKat)
+    val calculatedMassBd = uiState.weightVolumePointsBasis
+    val pointsBd = uiState.totalPoints
 
     Row(
         modifier = Modifier
@@ -313,15 +347,18 @@ private fun CalculationSummary(viewModel: MaterialLoadViewModel) {
 
 @Composable
 private fun NemCalculationPanel(
-    viewModel: MaterialLoadViewModel,
+    uiState: MaterialLoadUiState,
+    isExpanded: Boolean,
+    onExpandedChange: (Boolean) -> Unit,
+    onAmountChanged: (String) -> Unit,
     onLoad: () -> Unit
 ) {
     ExpandableCard(
         titleResId = R.string.material_load_nem_calculation,
-        isExpanded = viewModel.isNemPanelExpanded,
-        onExpandedChange = { viewModel.isNemPanelExpanded = it }
+        isExpanded = isExpanded,
+        onExpandedChange = onExpandedChange
     ) {
-        if (viewModel.NEMmgValue == 0L) {
+        if (uiState.nemMgValue == 0L) {
             InputRow {
                 Icon(
                     imageVector = Icons.Default.Warning,
@@ -338,8 +375,8 @@ private fun NemCalculationPanel(
         }
 
         TextField(
-            value = viewModel.amount,
-            onValueChange = { viewModel.onAmountChanged(it) },
+            value = uiState.amount,
+            onValueChange = onAmountChanged,
             label = { FieldLabel(R.string.material_load_amount) },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(
@@ -350,7 +387,7 @@ private fun NemCalculationPanel(
             singleLine = true
         )
 
-        val totalNemMgBd = viewModel.totalNEMmg
+        val totalNemMgBd = uiState.totalNemMg
         val displayUnit =
             if (totalNemMgBd < BigDecimal(100_000L)) NemUnit.GRAM else NemUnit.KILOGRAM
 
@@ -376,36 +413,45 @@ private fun NemCalculationPanel(
 
 @Composable
 private fun MaterialEditPanel(
+    uiState: MaterialLoadUiState,
+    isExpanded: Boolean,
+    onExpandedChange: (Boolean) -> Unit,
+    onAddKlassKodClick: () -> Unit,
     viewModel: MaterialLoadViewModel
 ) {
     ExpandableCard(
         titleResId = R.string.material_edit_material,
-        isExpanded = viewModel.isEditPanelExpanded,
-        onExpandedChange = { viewModel.isEditPanelExpanded = it }
+        isExpanded = isExpanded,
+        onExpandedChange = onExpandedChange
     ) {
-        MaterialEditFields(viewModel)
+        MaterialEditFields(
+            uiState = uiState,
+            onAddKlassKodClick = onAddKlassKodClick,
+            viewModel = viewModel
+        )
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun MaterialEditFields(
+    uiState: MaterialLoadUiState,
+    onAddKlassKodClick: () -> Unit,
     viewModel: MaterialLoadViewModel
 ) {
     val focusManager = LocalFocusManager.current
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         InputRow {
             TextField(
-                value = viewModel.fbet,
-                onValueChange = { viewModel.fbet = it },
+                value = uiState.fbet,
+                onValueChange = viewModel::onFbetChanged,
                 label = { FieldLabel(R.string.material_fbet) },
                 modifier = Modifier.width(150.dp),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 singleLine = true
             )
             TextField(
-                value = viewModel.fben,
-                onValueChange = { viewModel.fben = it },
+                value = uiState.fben,
+                onValueChange = viewModel::onFbenChanged,
                 label = { FieldLabel(R.string.material_fben) },
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -415,8 +461,8 @@ private fun MaterialEditFields(
 
         InputRow {
             TextField(
-                value = viewModel.UNnr,
-                onValueChange = { viewModel.onUNnrChanged(it) },
+                value = uiState.unNr,
+                onValueChange = viewModel::onUnNrChanged,
                 label = { FieldLabel(R.string.material_unnr) },
                 modifier = Modifier.width(100.dp),
                 keyboardOptions = KeyboardOptions(
@@ -426,8 +472,8 @@ private fun MaterialEditFields(
                 singleLine = true
             )
             TextField(
-                value = viewModel.namn,
-                onValueChange = { viewModel.namn = it },
+                value = uiState.namn,
+                onValueChange = viewModel::onNamnChanged,
                 label = { FieldLabel(R.string.material_namn) },
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -435,13 +481,17 @@ private fun MaterialEditFields(
             )
         }
 
-        KlassKodChips(viewModel)
+        KlassKodChips(
+            klassKodList = uiState.klassKodList,
+            onRemoveKlassKod = viewModel::onRemoveKlassKod,
+            onAddClick = onAddKlassKodClick
+        )
 
         InputRow {
             TextField(
-                value = viewModel.NEMInputText,
-                onValueChange = { viewModel.onNEMInputChanged(it) },
-                enabled = viewModel.isNEMEnabled,
+                value = uiState.nemInputText,
+                onValueChange = viewModel::onNemInputChanged,
+                enabled = uiState.isNemEnabled,
                 label = { FieldLabel(R.string.material_nem_per_piece) },
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(
@@ -457,10 +507,8 @@ private fun MaterialEditFields(
 
             ReadOnlyDropdown(
                 labelResId = R.string.material_nem_unit,
-                value = stringResource(viewModel.NEMUnitSelected.labelResId),
+                value = stringResource(uiState.nemUnitSelected.labelResId),
                 options = nemLabels.toTypedArray(),
-                expanded = viewModel.NEMUnitExpanded,
-                onExpandedChange = { viewModel.NEMUnitExpanded = it },
                 onOptionSelected = { label ->
                     val index = nemLabels.indexOf(label)
                     if (index >= 0) {
@@ -474,21 +522,17 @@ private fun MaterialEditFields(
         InputRow {
             ReadOnlyDropdown(
                 labelResId = R.string.material_tpkat,
-                value = viewModel.tpKat.toString(),
+                value = uiState.tpKat.toString(),
                 options = stringArrayResource(R.array.material_tpkat_options),
-                expanded = viewModel.isTpKatExpanded,
-                onExpandedChange = { viewModel.isTpKatExpanded = it },
-                onOptionSelected = { viewModel.tpKat = it.toInt() },
+                onOptionSelected = { viewModel.onTpKatSelected(it.toInt()) },
                 modifier = Modifier.weight(1f)
             )
 
             ReadOnlyDropdown(
                 labelResId = R.string.material_frpgrp_short,
-                value = viewModel.frpGrp.ifEmpty { "-" },
+                value = uiState.frpGrp.ifEmpty { "-" },
                 options = stringArrayResource(R.array.material_frpgrp_options),
-                expanded = viewModel.isFrpGrpExpanded,
-                onExpandedChange = { viewModel.isFrpGrpExpanded = it },
-                onOptionSelected = { viewModel.frpGrp = if (it == "-") "" else it },
+                onOptionSelected = { viewModel.onFrpGrpSelected(if (it == "-") "" else it) },
                 modifier = Modifier.weight(1f)
             )
         }
@@ -496,11 +540,9 @@ private fun MaterialEditFields(
         InputRow {
             ReadOnlyDropdown(
                 labelResId = R.string.material_tunnelkod,
-                value = viewModel.tunnelKod.ifEmpty { "-" },
+                value = uiState.tunnelKod.ifEmpty { "-" },
                 options = stringArrayResource(R.array.material_tunnelkod_options),
-                expanded = viewModel.isTunnelKodExpanded,
-                onExpandedChange = { viewModel.isTunnelKodExpanded = it },
-                onOptionSelected = { viewModel.tunnelKod = if (it == "-") "" else it },
+                onOptionSelected = { viewModel.onTunnelKodSelected(if (it == "-") "" else it) },
                 modifier = Modifier.weight(1f)
             )
 
@@ -524,15 +566,19 @@ private fun MaterialEditFields(
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
-                Switch(checked = viewModel.miljo, onCheckedChange = { viewModel.miljo = it })
+                Switch(checked = uiState.miljo, onCheckedChange = viewModel::onMiljoChanged)
             }
         }
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun KlassKodChips(viewModel: MaterialLoadViewModel) {
+private fun KlassKodChips(
+    klassKodList: List<String>,
+    onRemoveKlassKod: (String) -> Unit,
+    onAddClick: () -> Unit
+) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
             stringResource(R.string.material_klasskod),
@@ -543,11 +589,11 @@ private fun KlassKodChips(viewModel: MaterialLoadViewModel) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            viewModel.klassKodList.sortedBy { it }.forEach { kod ->
+            klassKodList.sortedBy { it }.forEach { kod ->
                 val label = LabelsRepository.getLabelByKlassKod(kod)
                 InputChip(
                     selected = true,
-                    onClick = { viewModel.klassKodList -= kod },
+                    onClick = { onRemoveKlassKod(kod) },
                     label = { Text(kod) },
                     modifier = Modifier.height(48.dp),
                     leadingIcon = {
@@ -570,7 +616,7 @@ private fun KlassKodChips(viewModel: MaterialLoadViewModel) {
                 )
             }
             AssistChip(
-                onClick = { viewModel.isKlassKodListVisible = true },
+                onClick = onAddClick,
                 label = { Text(stringResource(R.string.material_klasskod_add)) },
                 leadingIcon = {
                     Icon(
@@ -585,9 +631,13 @@ private fun KlassKodChips(viewModel: MaterialLoadViewModel) {
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MaterialEditKlassKodBottomSheet(viewModel: MaterialLoadViewModel) {
+private fun MaterialEditKlassKodBottomSheet(
+    selectedKlassKods: List<String>,
+    onToggleKlassKod: (String) -> Unit,
+    onDismiss: () -> Unit
+) {
     ModalBottomSheet(
-        onDismissRequest = { viewModel.isKlassKodListVisible = false },
+        onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState()
     ) {
         Column(
@@ -607,16 +657,10 @@ fun MaterialEditKlassKodBottomSheet(viewModel: MaterialLoadViewModel) {
                 modifier = Modifier.weight(1f)
             ) {
                 items(LabelsRepository.allLabels.sortedBy { it.klassKod }) { label ->
-                    val isSelected = viewModel.klassKodList.contains(label.klassKod)
+                    val isSelected = selectedKlassKods.contains(label.klassKod)
                     FilterChip(
                         selected = isSelected,
-                        onClick = {
-                            if (isSelected) {
-                                viewModel.klassKodList -= label.klassKod
-                            } else {
-                                viewModel.klassKodList += label.klassKod
-                            }
-                        },
+                        onClick = { onToggleKlassKod(label.klassKod) },
                         label = { Text(label.klassKod) },
                         leadingIcon = {
                             Icon(
@@ -632,7 +676,7 @@ fun MaterialEditKlassKodBottomSheet(viewModel: MaterialLoadViewModel) {
             }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { viewModel.isKlassKodListVisible = false },
+                onClick = onDismiss,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(stringResource(R.string.generic_close))
@@ -641,7 +685,6 @@ fun MaterialEditKlassKodBottomSheet(viewModel: MaterialLoadViewModel) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ExpandableCard(
     @StringRes titleResId: Int,
@@ -710,14 +753,14 @@ private fun ReadOnlyDropdown(
     @StringRes labelResId: Int,
     value: String,
     options: Array<String>,
-    expanded: Boolean,
-    onExpandedChange: (Boolean) -> Unit,
     onOptionSelected: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var expanded by remember { mutableStateOf(false) }
+
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = onExpandedChange,
+        onExpandedChange = { expanded = it },
         modifier = modifier
     ) {
         TextField(
@@ -731,14 +774,14 @@ private fun ReadOnlyDropdown(
         )
         ExposedDropdownMenu(
             expanded = expanded,
-            onDismissRequest = { onExpandedChange(false) }
+            onDismissRequest = { expanded = false }
         ) {
             options.forEach { option ->
                 DropdownMenuItem(
                     text = { Text(option.ifEmpty { "-" }) },
                     onClick = {
                         onOptionSelected(option)
-                        onExpandedChange(false)
+                        expanded = false
                     }
                 )
             }

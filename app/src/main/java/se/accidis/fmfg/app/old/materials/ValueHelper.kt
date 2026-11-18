@@ -17,6 +17,15 @@ object ValueHelper {
     }
 
     @JvmStatic
+    fun formatPlainValue(bigDecimal: BigDecimal): String {
+        return if (bigDecimal.compareTo(BigDecimal.ZERO) == 0) {
+            "0"
+        } else {
+            bigDecimal.stripTrailingZeros().toPlainString().replace('.', ',')
+        }
+    }
+
+    @JvmStatic
     fun getMultiplierByTpKat(tpKat: Int): Int {
         return when (tpKat) {
             1 -> 50
@@ -31,6 +40,21 @@ object ValueHelper {
         valueFormat.maximumFractionDigits = 5
         valueFormat.minimumFractionDigits = 0
         valueFormat.decimalFormatSymbols = DecimalFormatSymbols.getInstance(locale)
+    }
+
+    @JvmStatic
+    fun isValidDecimalInput(value: String): Boolean {
+        if (value.isEmpty()) return true
+        var hasSeparator = false
+        for (ch in value) {
+            if (ch == '.' || ch == ',') {
+                if (hasSeparator) return false
+                hasSeparator = true
+            } else if (!ch.isDigit()) {
+                return false
+            }
+        }
+        return true
     }
 
     @JvmStatic
