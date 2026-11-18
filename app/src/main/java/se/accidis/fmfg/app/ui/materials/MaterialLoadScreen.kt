@@ -210,8 +210,10 @@ private fun DocumentRowFields(
                 modifier = Modifier.weight(1f)
             ) {
                 val suggestions = stringArrayResource(R.array.material_pkg_types)
-                val filteredSuggestions = suggestions.filter {
-                    it.contains(uiState.typeOfPkgs, ignoreCase = true)
+                val filteredSuggestions = remember(suggestions, uiState.typeOfPkgs) {
+                    suggestions.filter {
+                        it.contains(uiState.typeOfPkgs, ignoreCase = true)
+                    }
                 }
 
                 TextField(
@@ -255,25 +257,22 @@ private fun DocumentRowFields(
                 modifier = Modifier.weight(1f),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Decimal,
-                    imeAction = if (uiState.nemMgValue > 0) ImeAction.Next else ImeAction.Done
+                    imeAction = if (uiState.nemMgValue > 0 && isNemPanelExpanded) {
+                        ImeAction.Next
+                    } else {
+                        ImeAction.Done
+                    }
                 ),
                 keyboardActions = KeyboardActions(onDone = { onLoad() }),
                 singleLine = true
             )
 
-            val unitOptions = WeightVolumeUnit.entries.toList()
-            val unitLabels = unitOptions.map { stringResource(it.labelResId) }
-
             ReadOnlyDropdown(
                 labelResId = R.string.material_load_weight_volume_unit,
                 value = stringResource(uiState.weightVolumeUnit.labelResId),
-                options = unitLabels.toTypedArray(),
-                onOptionSelected = { label ->
-                    val index = unitLabels.indexOf(label)
-                    if (index >= 0) {
-                        viewModel.onWeightVolumeUnitSelected(unitOptions[index])
-                    }
-                },
+                options = WeightVolumeUnit.entries,
+                optionText = { stringResource(it.labelResId) },
+                onOptionSelected = viewModel::onWeightVolumeUnitSelected,
                 modifier = Modifier.width(120.dp)
             )
         }
@@ -502,28 +501,29 @@ private fun MaterialEditFields(
                 singleLine = true
             )
 
-            val nemOptions = NemUnit.entries.toList()
-            val nemLabels = nemOptions.map { stringResource(it.labelResId) }
-
             ReadOnlyDropdown(
                 labelResId = R.string.material_nem_unit,
                 value = stringResource(uiState.nemUnitSelected.labelResId),
-                options = nemLabels.toTypedArray(),
-                onOptionSelected = { label ->
-                    val index = nemLabels.indexOf(label)
-                    if (index >= 0) {
-                        viewModel.onNemUnitSelected(nemOptions[index])
-                    }
-                },
+                options = NemUnit.entries,
+                optionText = { stringResource(it.labelResId) },
+                onOptionSelected = viewModel::onNemUnitSelected,
                 modifier = Modifier.width(100.dp)
             )
         }
+
+        val tpKatArray = stringArrayResource(R.array.material_tpkat_options)
+        val tpKatOptions = remember(tpKatArray) { tpKatArray.toList() }
+        val frpGrpArray = stringArrayResource(R.array.material_frpgrp_options)
+        val frpGrpOptions = remember(frpGrpArray) { frpGrpArray.toList() }
+        val tunnelKodArray = stringArrayResource(R.array.material_tunnelkod_options)
+        val tunnelKodOptions = remember(tunnelKodArray) { tunnelKodArray.toList() }
 
         InputRow {
             ReadOnlyDropdown(
                 labelResId = R.string.material_tpkat,
                 value = uiState.tpKat.toString(),
-                options = stringArrayResource(R.array.material_tpkat_options),
+                options = tpKatOptions,
+                optionText = { it },
                 onOptionSelected = { viewModel.onTpKatSelected(it.toInt()) },
                 modifier = Modifier.weight(1f)
             )
@@ -531,7 +531,8 @@ private fun MaterialEditFields(
             ReadOnlyDropdown(
                 labelResId = R.string.material_frpgrp_short,
                 value = uiState.frpGrp.ifEmpty { "-" },
-                options = stringArrayResource(R.array.material_frpgrp_options),
+                options = frpGrpOptions,
+                optionText = { it.ifEmpty { "-" } },
                 onOptionSelected = { viewModel.onFrpGrpSelected(if (it == "-") "" else it) },
                 modifier = Modifier.weight(1f)
             )
@@ -541,7 +542,8 @@ private fun MaterialEditFields(
             ReadOnlyDropdown(
                 labelResId = R.string.material_tunnelkod,
                 value = uiState.tunnelKod.ifEmpty { "-" },
-                options = stringArrayResource(R.array.material_tunnelkod_options),
+                options = tunnelKodOptions,
+                optionText = { it.ifEmpty { "-" } },
                 onOptionSelected = { viewModel.onTunnelKodSelected(if (it == "-") "" else it) },
                 modifier = Modifier.weight(1f)
             )
@@ -572,7 +574,6 @@ private fun MaterialEditFields(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun KlassKodChips(
     klassKodList: List<String>,
@@ -584,12 +585,14 @@ private fun KlassKodChips(
             stringResource(R.string.material_klasskod),
             style = MaterialTheme.typography.labelMedium
         )
+        val sortedKlassKods = remember(klassKodList) { klassKodList.sorted() }
+
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            klassKodList.sortedBy { it }.forEach { kod ->
+            sortedKlassKods.forEach { kod ->
                 val label = LabelsRepository.getLabelByKlassKod(kod)
                 InputChip(
                     selected = true,
@@ -636,6 +639,8 @@ private fun MaterialEditKlassKodBottomSheet(
     onToggleKlassKod: (String) -> Unit,
     onDismiss: () -> Unit
 ) {
+    val sortedLabels = remember { LabelsRepository.allLabels.sortedBy { it.klassKod } }
+
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState()
@@ -656,7 +661,10 @@ private fun MaterialEditKlassKodBottomSheet(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.weight(1f)
             ) {
-                items(LabelsRepository.allLabels.sortedBy { it.klassKod }) { label ->
+                items(
+                    items = sortedLabels,
+                    key = { it.klassKod }
+                ) { label ->
                     val isSelected = selectedKlassKods.contains(label.klassKod)
                     FilterChip(
                         selected = isSelected,
@@ -749,11 +757,12 @@ private fun InputRow(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ReadOnlyDropdown(
+private fun <T> ReadOnlyDropdown(
     @StringRes labelResId: Int,
     value: String,
-    options: Array<String>,
-    onOptionSelected: (String) -> Unit,
+    options: List<T>,
+    optionText: @Composable (T) -> String,
+    onOptionSelected: (T) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -767,10 +776,13 @@ private fun ReadOnlyDropdown(
             value = value,
             onValueChange = {},
             readOnly = true,
+            singleLine = true,
             label = { FieldLabel(labelResId) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
-            modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true)
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true)
         )
         ExposedDropdownMenu(
             expanded = expanded,
@@ -778,7 +790,7 @@ private fun ReadOnlyDropdown(
         ) {
             options.forEach { option ->
                 DropdownMenuItem(
-                    text = { Text(option.ifEmpty { "-" }) },
+                    text = { Text(optionText(option)) },
                     onClick = {
                         onOptionSelected(option)
                         expanded = false

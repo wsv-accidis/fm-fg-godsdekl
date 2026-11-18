@@ -5,15 +5,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -58,8 +62,8 @@ fun DocumentEditScreen(
         }
 
         is DocumentEditUiState.Success -> {
-            var isNameBottomSheetVisible by remember { mutableStateOf(false) }
-            var isOpenBottomSheetVisible by remember { mutableStateOf(false) }
+            var isNameBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
+            var isOpenBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
 
             Scaffold(
                 topBar = {
@@ -253,10 +257,11 @@ private fun DocumentRowItem(
 
                 // Bottom Left: NEM
                 if (row.hasNEM()) {
+                    val formattedNem = remember(row.NEMkg) { ValueHelper.formatValue(row.NEMkg) }
                     Text(
                         text = stringResource(
                             R.string.document_nem_format,
-                            ValueHelper.formatValue(row.NEMkg)
+                            formattedNem
                         ),
                         style = MaterialTheme.typography.bodySmall.copy(
                             fontSize = 12.sp
@@ -312,11 +317,11 @@ private fun DocumentNameBottomSheet(
     initialName: String,
     onDismiss: (String) -> Unit
 ) {
-    var textValue by remember(initialName) { mutableStateOf(initialName) }
+    var textValue by rememberSaveable(initialName) { mutableStateOf(initialName) }
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss(textValue) },
-        sheetState = rememberModalBottomSheetState()
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ) {
         Column(
             modifier = Modifier
@@ -334,6 +339,8 @@ private fun DocumentNameBottomSheet(
                 onValueChange = { textValue = it },
                 label = { Text(stringResource(R.string.document_name_label)) },
                 modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = { onDismiss(textValue) }),
                 singleLine = true
             )
 
@@ -355,7 +362,7 @@ private fun DocumentOpenBottomSheet(
     onDeleteDocument: (UUID) -> Unit,
     onDismiss: () -> Unit
 ) {
-    var documentToDelete by remember { mutableStateOf<DocumentLink?>(null) }
+    var documentToDeleteId by rememberSaveable { mutableStateOf<UUID?>(null) }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -408,14 +415,17 @@ private fun DocumentOpenBottomSheet(
                                 modifier = Modifier.fillMaxSize(),
                                 verticalArrangement = Arrangement.spacedBy(4.dp)
                             ) {
-                                items(items = documentsResource.data) { docLink ->
+                                items(
+                                    items = documentsResource.data,
+                                    key = { it.id ?: it.hashCode() }
+                                ) { docLink ->
                                     DocumentLinkItem(
                                         docLink = docLink,
                                         onClick = {
                                             docLink.id?.let { id -> onDocumentClick(id) }
                                         },
                                         onDeleteClick = {
-                                            documentToDelete = docLink
+                                            documentToDeleteId = docLink.id
                                         }
                                     )
                                 }
@@ -434,24 +444,24 @@ private fun DocumentOpenBottomSheet(
         }
     }
 
-    documentToDelete?.let { docLink ->
+    documentToDeleteId?.let { id ->
         AlertDialog(
-            onDismissRequest = { documentToDelete = null },
+            onDismissRequest = { documentToDeleteId = null },
             text = {
                 Text(stringResource(R.string.document_delete_heading))
             },
             confirmButton = {
                 TextButton(
                     onClick = {
-                        docLink.id?.let { id -> onDeleteDocument(id) }
-                        documentToDelete = null
+                        onDeleteDocument(id)
+                        documentToDeleteId = null
                     }
                 ) {
                     Text(stringResource(R.string.generic_yes))
                 }
             },
             dismissButton = {
-                TextButton(onClick = { documentToDelete = null }) {
+                TextButton(onClick = { documentToDeleteId = null }) {
                     Text(stringResource(R.string.generic_no))
                 }
             }

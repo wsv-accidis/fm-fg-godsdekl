@@ -3,6 +3,10 @@ package se.accidis.fmfg.app.services
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 /**
  * Wrapper for Android shared preferences. Used to store application data between launches.
@@ -38,6 +42,19 @@ class Preferences(context: Context) {
     fun shouldShowFbetInDocument(): Boolean {
         return prefs.getBoolean(Keys.SHOW_FBET_IN_DOCUMENT, false)
     }
+
+    val showFbetInDocumentFlow: Flow<Boolean> = callbackFlow {
+        trySend(shouldShowFbetInDocument())
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == Keys.SHOW_FBET_IN_DOCUMENT || key == null) {
+                trySend(shouldShowFbetInDocument())
+            }
+        }
+        prefs.registerOnSharedPreferenceChangeListener(listener)
+        awaitClose {
+            prefs.unregisterOnSharedPreferenceChangeListener(listener)
+        }
+    }.distinctUntilChanged()
 
     object Keys {
         const val DEFAULT_AUTHOR: String = "DefaultAuthor"

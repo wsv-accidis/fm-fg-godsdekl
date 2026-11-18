@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import se.accidis.fmfg.app.model.DocumentLink
 import se.accidis.fmfg.app.model.mutate
@@ -18,22 +18,23 @@ import java.util.UUID
  */
 class DocumentEditViewModel(
     private val repository: DocumentsRepository,
-    private val preferences: Preferences
+    preferences: Preferences
 ) : ViewModel() {
 
-    val uiState: StateFlow<DocumentEditUiState> = repository.currentDocumentFlow
-        .map { document ->
-            DocumentEditUiState.Success(
-                rows = document.rows,
-                showFbet = preferences.shouldShowFbetInDocument(),
-                documentName = document.name
-            )
-        }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = DocumentEditUiState.Loading
+    val uiState: StateFlow<DocumentEditUiState> = combine(
+        repository.currentDocumentFlow,
+        preferences.showFbetInDocumentFlow
+    ) { document, showFbet ->
+        DocumentEditUiState.Success(
+            rows = document.rows,
+            showFbet = showFbet,
+            documentName = document.name
         )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = DocumentEditUiState.Loading
+    )
 
     val savedDocuments: StateFlow<Resource<List<DocumentLink>>> = repository.documents
 

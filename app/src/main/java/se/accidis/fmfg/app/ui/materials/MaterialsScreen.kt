@@ -140,7 +140,7 @@ fun MaterialsScreen(onMaterialClick: (Material) -> Unit) {
 }
 
 @Composable
-fun MaterialItem(material: Material, onClick: () -> Unit) {
+private fun MaterialItem(material: Material, onClick: () -> Unit) {
     Column(modifier = Modifier.clickable(onClick = onClick)) {
         ListItem(
             headlineContent = {
