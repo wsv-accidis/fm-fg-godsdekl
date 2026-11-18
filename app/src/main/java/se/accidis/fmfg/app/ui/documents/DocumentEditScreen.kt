@@ -175,6 +175,9 @@ fun DocumentEditScreen(
                         viewModel.openDocument(id)
                         isOpenBottomSheetVisible = false
                     },
+                    onDeleteDocument = { id ->
+                        viewModel.deleteDocument(id)
+                    },
                     onDismiss = { isOpenBottomSheetVisible = false }
                 )
             }
@@ -349,8 +352,11 @@ private fun DocumentNameBottomSheet(
 private fun DocumentOpenBottomSheet(
     documentsResource: Resource<List<DocumentLink>>,
     onDocumentClick: (UUID) -> Unit,
+    onDeleteDocument: (UUID) -> Unit,
     onDismiss: () -> Unit
 ) {
+    var documentToDelete by remember { mutableStateOf<DocumentLink?>(null) }
+
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -407,6 +413,9 @@ private fun DocumentOpenBottomSheet(
                                         docLink = docLink,
                                         onClick = {
                                             docLink.id?.let { id -> onDocumentClick(id) }
+                                        },
+                                        onDeleteClick = {
+                                            documentToDelete = docLink
                                         }
                                     )
                                 }
@@ -424,12 +433,37 @@ private fun DocumentOpenBottomSheet(
             }
         }
     }
+
+    documentToDelete?.let { docLink ->
+        AlertDialog(
+            onDismissRequest = { documentToDelete = null },
+            text = {
+                Text(stringResource(R.string.document_delete_heading))
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        docLink.id?.let { id -> onDeleteDocument(id) }
+                        documentToDelete = null
+                    }
+                ) {
+                    Text(stringResource(R.string.generic_yes))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { documentToDelete = null }) {
+                    Text(stringResource(R.string.generic_no))
+                }
+            }
+        )
+    }
 }
 
 @Composable
 private fun DocumentLinkItem(
     docLink: DocumentLink,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onDeleteClick: () -> Unit
 ) {
     val formattedTimestamp = remember(docLink.timestamp) {
         docLink.timestamp?.toString("yyyy-MM-dd HH:mm") ?: ""
@@ -458,6 +492,14 @@ private fun DocumentLinkItem(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
+                    )
+                }
+            },
+            trailingContent = {
+                IconButton(onClick = onDeleteClick) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = stringResource(R.string.document_delete)
                     )
                 }
             }

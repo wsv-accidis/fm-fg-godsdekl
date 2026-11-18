@@ -53,4 +53,8 @@ class DocumentEditViewModel(
     fun openDocument(id: UUID) {
         repository.openDocument(id)
     }
+
+    fun deleteDocument(id: UUID) {
+        repository.deleteDocument(id)
+    }
 }
