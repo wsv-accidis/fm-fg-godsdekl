@@ -1,39 +1,50 @@
 package se.accidis.fmfg.app.ui.documents
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.FolderOpen
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.PictureAsPdf
+import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import se.accidis.fmfg.app.R
-import se.accidis.fmfg.app.model.DocumentLink
 import se.accidis.fmfg.app.model.DocumentRow
-import se.accidis.fmfg.app.old.materials.ValueHelper
 import se.accidis.fmfg.app.services.DocumentsRepository
 import se.accidis.fmfg.app.services.Preferences
-import se.accidis.fmfg.app.utils.Resource
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -186,338 +197,5 @@ fun DocumentEditScreen(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun DocumentRowItem(
-    row: DocumentRow,
-    showFbet: Boolean,
-    onClick: () -> Unit
-) {
-    val context = LocalContext.current
-    val formattedAmount = remember(row.amount) { ValueHelper.formatValue(row.amount) }
-    val amountText = if (row.hasNEM()) stringResource(R.string.document_amount_format, formattedAmount) else ""
-
-    val middleLeftText = remember(row.material, showFbet, amountText) {
-        buildString {
-            val material = row.material
-            if (material.fben.isNotBlank()) {
-                if (showFbet && material.fbet.isNotBlank()) {
-                    append(material.fbet)
-                    append(' ')
-                }
-                append(material.fben)
-            }
-            if (amountText.isNotBlank()) {
-                if (isNotEmpty()) append(' ')
-                append(amountText)
-            }
-        }
-    }
-
-    val packagesText = remember(row, context) { row.packagesText(context) }
-    val weightVolumeText = remember(row, context) { row.weightVolumeText(context) }
-
-    Column(modifier = Modifier.clickable(onClick = onClick)) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Top
-        ) {
-            // Left Column: Description, NEM summary
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(2.dp)
-            ) {
-                // Top Left: Material
-                Text(
-                    text = row.material.fullText,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium
-                    ),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-
-                // Middle Left: Fben/Fbet + amount
-                if (middleLeftText.isNotBlank()) {
-                    Text(
-                        text = middleLeftText,
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            fontSize = 12.sp
-                        ),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-
-                // Bottom Left: NEM
-                if (row.hasNEM()) {
-                    val formattedNem = remember(row.NEMkg) { ValueHelper.formatValue(row.NEMkg) }
-                    Text(
-                        text = stringResource(
-                            R.string.document_nem_format,
-                            formattedNem
-                        ),
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            fontSize = 12.sp
-                        ),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-
-            // Right Column: Packages, Weight/Volume
-            Column(
-                horizontalAlignment = Alignment.End,
-                verticalArrangement = Arrangement.spacedBy(2.dp)
-            ) {
-                // Top Right: Packages
-                if (packagesText.isNotBlank()) {
-                    Text(
-                        text = packagesText,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium
-                        ),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        textAlign = TextAlign.End
-                    )
-                }
-
-                // Middle Right: Weight/Volume
-                if (weightVolumeText.isNotBlank()) {
-                    Text(
-                        text = weightVolumeText,
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            fontSize = 12.sp
-                        ),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.End
-                    )
-                }
-            }
-        }
-
-        HorizontalDivider(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            thickness = 0.5.dp,
-            color = MaterialTheme.colorScheme.outlineVariant
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun DocumentNameBottomSheet(
-    initialName: String,
-    onDismiss: (String) -> Unit
-) {
-    var textValue by rememberSaveable(initialName) { mutableStateOf(initialName) }
-
-    ModalBottomSheet(
-        onDismissRequest = { onDismiss(textValue) },
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.document_set_name_heading),
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            TextField(
-                value = textValue,
-                onValueChange = { textValue = it },
-                label = { Text(stringResource(R.string.document_name_label)) },
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = { onDismiss(textValue) }),
-                singleLine = true
-            )
-
-            Button(
-                onClick = { onDismiss(textValue) },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(stringResource(R.string.generic_close))
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun DocumentOpenBottomSheet(
-    documentsResource: Resource<List<DocumentLink>>,
-    onDocumentClick: (UUID) -> Unit,
-    onDeleteDocument: (UUID) -> Unit,
-    onDismiss: () -> Unit
-) {
-    var documentToDeleteId by rememberSaveable { mutableStateOf<UUID?>(null) }
-
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .fillMaxHeight(0.8f),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.document_saved_documents),
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-            ) {
-                when (documentsResource) {
-                    is Resource.Loading -> {
-                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                    }
-
-                    is Resource.Error -> {
-                        Text(
-                            text = stringResource(R.string.generic_unexpected_error),
-                            color = MaterialTheme.colorScheme.error,
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .align(Alignment.Center)
-                        )
-                    }
-
-                    is Resource.Success -> {
-                        if (documentsResource.data.isEmpty()) {
-                            Text(
-                                text = stringResource(R.string.documents_list_empty),
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier
-                                    .padding(16.dp)
-                                    .align(Alignment.Center)
-                            )
-                        } else {
-                            LazyColumn(
-                                modifier = Modifier.fillMaxSize(),
-                                verticalArrangement = Arrangement.spacedBy(4.dp)
-                            ) {
-                                items(
-                                    items = documentsResource.data,
-                                    key = { it.id ?: it.hashCode() }
-                                ) { docLink ->
-                                    DocumentLinkItem(
-                                        docLink = docLink,
-                                        onClick = {
-                                            docLink.id?.let { id -> onDocumentClick(id) }
-                                        },
-                                        onDeleteClick = {
-                                            documentToDeleteId = docLink.id
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            Button(
-                onClick = onDismiss,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(stringResource(R.string.generic_close))
-            }
-        }
-    }
-
-    documentToDeleteId?.let { id ->
-        AlertDialog(
-            onDismissRequest = { documentToDeleteId = null },
-            text = {
-                Text(stringResource(R.string.document_delete_heading))
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        onDeleteDocument(id)
-                        documentToDeleteId = null
-                    }
-                ) {
-                    Text(stringResource(R.string.generic_yes))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { documentToDeleteId = null }) {
-                    Text(stringResource(R.string.generic_no))
-                }
-            }
-        )
-    }
-}
-
-@Composable
-private fun DocumentLinkItem(
-    docLink: DocumentLink,
-    onClick: () -> Unit,
-    onDeleteClick: () -> Unit
-) {
-    val formattedTimestamp = remember(docLink.timestamp) {
-        docLink.timestamp?.toString("yyyy-MM-dd HH:mm") ?: ""
-    }
-
-    Column(modifier = Modifier.clickable(onClick = onClick)) {
-        ListItem(
-            headlineContent = {
-                Text(
-                    text = docLink.name.ifBlank { stringResource(R.string.document_no_name) },
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Normal
-                    ),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            },
-            supportingContent = {
-                if (formattedTimestamp.isNotBlank()) {
-                    Text(
-                        text = formattedTimestamp,
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            fontSize = 12.sp
-                        ),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-            },
-            trailingContent = {
-                IconButton(onClick = onDeleteClick) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = stringResource(R.string.document_delete)
-                    )
-                }
-            }
-        )
-        HorizontalDivider(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            thickness = 0.5.dp,
-            color = MaterialTheme.colorScheme.outlineVariant
-        )
     }
 }

@@ -1,37 +1,49 @@
 package se.accidis.fmfg.app.ui.materials
 
-import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -41,7 +53,10 @@ import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.model.Material
 import se.accidis.fmfg.app.old.materials.ValueHelper
 import se.accidis.fmfg.app.services.DocumentsRepository
-import se.accidis.fmfg.app.services.LabelsRepository
+import se.accidis.fmfg.app.ui.components.ExpandableCard
+import se.accidis.fmfg.app.ui.components.FieldLabel
+import se.accidis.fmfg.app.ui.components.InputRow
+import se.accidis.fmfg.app.ui.components.ReadOnlyDropdown
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -407,396 +422,5 @@ private fun NemCalculationPanel(
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold
         )
-    }
-}
-
-@Composable
-private fun MaterialEditPanel(
-    uiState: MaterialLoadUiState,
-    isExpanded: Boolean,
-    onExpandedChange: (Boolean) -> Unit,
-    onAddKlassKodClick: () -> Unit,
-    viewModel: MaterialLoadViewModel
-) {
-    ExpandableCard(
-        titleResId = R.string.material_edit_material,
-        isExpanded = isExpanded,
-        onExpandedChange = onExpandedChange
-    ) {
-        MaterialEditFields(
-            uiState = uiState,
-            onAddKlassKodClick = onAddKlassKodClick,
-            viewModel = viewModel
-        )
-    }
-}
-
-@Composable
-private fun MaterialEditFields(
-    uiState: MaterialLoadUiState,
-    onAddKlassKodClick: () -> Unit,
-    viewModel: MaterialLoadViewModel
-) {
-    val focusManager = LocalFocusManager.current
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        InputRow {
-            TextField(
-                value = uiState.fbet,
-                onValueChange = viewModel::onFbetChanged,
-                label = { FieldLabel(R.string.material_fbet) },
-                modifier = Modifier.width(150.dp),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                singleLine = true
-            )
-            TextField(
-                value = uiState.fben,
-                onValueChange = viewModel::onFbenChanged,
-                label = { FieldLabel(R.string.material_fben) },
-                modifier = Modifier.weight(1f),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                singleLine = true
-            )
-        }
-
-        InputRow {
-            TextField(
-                value = uiState.unNr,
-                onValueChange = viewModel::onUnNrChanged,
-                label = { FieldLabel(R.string.material_unnr) },
-                modifier = Modifier.width(100.dp),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                singleLine = true
-            )
-            TextField(
-                value = uiState.namn,
-                onValueChange = viewModel::onNamnChanged,
-                label = { FieldLabel(R.string.material_namn) },
-                modifier = Modifier.weight(1f),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                singleLine = true
-            )
-        }
-
-        KlassKodChips(
-            klassKodList = uiState.klassKodList,
-            onRemoveKlassKod = viewModel::onRemoveKlassKod,
-            onAddClick = onAddKlassKodClick
-        )
-
-        InputRow {
-            TextField(
-                value = uiState.nemInputText,
-                onValueChange = viewModel::onNemInputChanged,
-                enabled = uiState.isNemEnabled,
-                label = { FieldLabel(R.string.material_nem_per_piece) },
-                modifier = Modifier.weight(1f),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Decimal,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-                singleLine = true
-            )
-
-            ReadOnlyDropdown(
-                labelResId = R.string.material_nem_unit,
-                value = stringResource(uiState.nemUnitSelected.labelResId),
-                options = NemUnit.entries,
-                optionText = { stringResource(it.labelResId) },
-                onOptionSelected = viewModel::onNemUnitSelected,
-                modifier = Modifier.width(100.dp)
-            )
-        }
-
-        val tpKatArray = stringArrayResource(R.array.material_tpkat_options)
-        val tpKatOptions = remember(tpKatArray) { tpKatArray.toList() }
-        val frpGrpArray = stringArrayResource(R.array.material_frpgrp_options)
-        val frpGrpOptions = remember(frpGrpArray) { frpGrpArray.toList() }
-        val tunnelKodArray = stringArrayResource(R.array.material_tunnelkod_options)
-        val tunnelKodOptions = remember(tunnelKodArray) { tunnelKodArray.toList() }
-
-        InputRow {
-            ReadOnlyDropdown(
-                labelResId = R.string.material_tpkat,
-                value = uiState.tpKat.toString(),
-                options = tpKatOptions,
-                optionText = { it },
-                onOptionSelected = { viewModel.onTpKatSelected(it.toInt()) },
-                modifier = Modifier.weight(1f)
-            )
-
-            ReadOnlyDropdown(
-                labelResId = R.string.material_frpgrp_short,
-                value = uiState.frpGrp.ifEmpty { "-" },
-                options = frpGrpOptions,
-                optionText = { it.ifEmpty { "-" } },
-                onOptionSelected = { viewModel.onFrpGrpSelected(if (it == "-") "" else it) },
-                modifier = Modifier.weight(1f)
-            )
-        }
-
-        InputRow {
-            ReadOnlyDropdown(
-                labelResId = R.string.material_tunnelkod,
-                value = uiState.tunnelKod.ifEmpty { "-" },
-                options = tunnelKodOptions,
-                optionText = { it.ifEmpty { "-" } },
-                onOptionSelected = { viewModel.onTunnelKodSelected(if (it == "-") "" else it) },
-                modifier = Modifier.weight(1f)
-            )
-
-            Row(
-                modifier = Modifier.weight(1f),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.label_miljo_sm),
-                        contentDescription = null,
-                        modifier = Modifier.size(32.dp),
-                        tint = Color.Unspecified
-                    )
-                    Text(
-                        stringResource(R.string.material_miljofarligt),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-                Switch(checked = uiState.miljo, onCheckedChange = viewModel::onMiljoChanged)
-            }
-        }
-    }
-}
-
-@Composable
-private fun KlassKodChips(
-    klassKodList: List<String>,
-    onRemoveKlassKod: (String) -> Unit,
-    onAddClick: () -> Unit
-) {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(
-            stringResource(R.string.material_klasskod),
-            style = MaterialTheme.typography.labelMedium
-        )
-        val sortedKlassKods = remember(klassKodList) { klassKodList.sorted() }
-
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            sortedKlassKods.forEach { kod ->
-                val label = LabelsRepository.getLabelByKlassKod(kod)
-                InputChip(
-                    selected = true,
-                    onClick = { onRemoveKlassKod(kod) },
-                    label = { Text(kod) },
-                    modifier = Modifier.height(48.dp),
-                    leadingIcon = {
-                        label?.let {
-                            Icon(
-                                painter = painterResource(it.smallDrawable),
-                                contentDescription = null,
-                                modifier = Modifier.size(32.dp),
-                                tint = Color.Unspecified
-                            )
-                        }
-                    },
-                    trailingIcon = {
-                        Icon(
-                            Icons.Default.Close,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp)
-                        )
-                    }
-                )
-            }
-            AssistChip(
-                onClick = onAddClick,
-                label = { Text(stringResource(R.string.material_klasskod_add)) },
-                leadingIcon = {
-                    Icon(
-                        Icons.Default.Add,
-                        contentDescription = null
-                    )
-                }
-            )
-        }
-    }
-}
-
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-private fun MaterialEditKlassKodBottomSheet(
-    selectedKlassKods: List<String>,
-    onToggleKlassKod: (String) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val sortedLabels = remember { LabelsRepository.allLabels.sortedBy { it.klassKod } }
-
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = rememberModalBottomSheetState()
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxHeight(0.6f)
-        ) {
-            Text(
-                text = stringResource(R.string.material_klasskod_select),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 100.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.weight(1f)
-            ) {
-                items(
-                    items = sortedLabels,
-                    key = { it.klassKod }
-                ) { label ->
-                    val isSelected = selectedKlassKods.contains(label.klassKod)
-                    FilterChip(
-                        selected = isSelected,
-                        onClick = { onToggleKlassKod(label.klassKod) },
-                        label = { Text(label.klassKod) },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(label.smallDrawable),
-                                contentDescription = null,
-                                modifier = Modifier.size(32.dp),
-                                tint = Color.Unspecified
-                            )
-                        },
-                        modifier = Modifier.height(48.dp)
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = onDismiss,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(stringResource(R.string.generic_close))
-            }
-        }
-    }
-}
-
-@Composable
-private fun ExpandableCard(
-    @StringRes titleResId: Int,
-    isExpanded: Boolean,
-    onExpandedChange: (Boolean) -> Unit,
-    content: @Composable ColumnScope.() -> Unit
-) {
-    ElevatedCard(
-        onClick = { onExpandedChange(!isExpanded) },
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(titleResId),
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Icon(
-                    imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                    contentDescription = null
-                )
-            }
-
-            AnimatedVisibility(visible = isExpanded) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    content = content
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun FieldLabel(@StringRes stringResId: Int) {
-    Text(
-        text = stringResource(stringResId),
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis
-    )
-}
-
-@Composable
-private fun InputRow(
-    modifier: Modifier = Modifier,
-    content: @Composable RowScope.() -> Unit
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        content = content
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun <T> ReadOnlyDropdown(
-    @StringRes labelResId: Int,
-    value: String,
-    options: List<T>,
-    optionText: @Composable (T) -> String,
-    onOptionSelected: (T) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var expanded by remember { mutableStateOf(false) }
-
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = it },
-        modifier = modifier
-    ) {
-        TextField(
-            value = value,
-            onValueChange = {},
-            readOnly = true,
-            singleLine = true,
-            label = { FieldLabel(labelResId) },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            colors = ExposedDropdownMenuDefaults.textFieldColors(),
-            modifier = Modifier
-                .fillMaxWidth()
-                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true)
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = { Text(optionText(option)) },
-                    onClick = {
-                        onOptionSelected(option)
-                        expanded = false
-                    }
-                )
-            }
-        }
     }
 }
