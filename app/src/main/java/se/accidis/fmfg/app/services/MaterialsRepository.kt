@@ -1,11 +1,21 @@
 package se.accidis.fmfg.app.services
 
 import android.content.Context
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.json.JSONArray
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.DecodeSequenceMode
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeToSequence
 import se.accidis.fmfg.app.model.Material
 import se.accidis.fmfg.app.model.MaterialSource
 import se.accidis.fmfg.app.utils.Resource
@@ -28,7 +38,7 @@ class MaterialsRepository private constructor(context: Context) {
             return
         }
 
-        Timber.d("Loading assets.")
+        Timber.d("Loading assets...")
         _materialsResource.value = Resource.Loading
         repositoryScope.launch {
             try {
@@ -47,19 +57,51 @@ class MaterialsRepository private constructor(context: Context) {
         }
     }
 
-    private fun loadFromAsset(assetName: String, source: MaterialSource): List<Material> {
-        val str = context.assets.open(assetName).bufferedReader().use { it.readText() }
-        val jsonArray = JSONArray(str)
-        val list = ArrayList<Material>(jsonArray.length())
-        for (i in 0 until jsonArray.length()) {
-            list.add(Material.fromJSON(jsonArray.getJSONObject(i), source))
+    @OptIn(ExperimentalSerializationApi::class)
+    private fun loadFromAsset(assetName: String, source: MaterialSource): List<Material> =
+        context.assets.open(assetName).use { stream ->
+            json.decodeToSequence<MaterialAsset>(stream, DecodeSequenceMode.ARRAY_WRAPPED)
+                .map { it.toMaterial(source) }
+                .toList()
         }
-        return list
+
+    @Serializable
+    private class MaterialAsset(
+        @SerialName(Material.Keys.FBET) val fbet: String = "",
+        @SerialName(Material.Keys.FBEN) val fben: String = "",
+        @SerialName(Material.Keys.UNNR) val unNr: String = "",
+        @SerialName(Material.Keys.NAMN) val namn: String,
+        @SerialName(Material.Keys.KLASSKOD) val klassKod: List<String> = emptyList(),
+        @SerialName(Material.Keys.NEMMG) val nemMg: Int = 0,
+        @SerialName(Material.Keys.TPKAT) val tpKat: Int,
+        @SerialName(Material.Keys.FRPGRP) val frpGrp: String = "",
+        @SerialName(Material.Keys.TUNNELKOD) val tunnelKod: String = "",
+        @SerialName(Material.Keys.MILJO) val miljo: Boolean = false
+    ) {
+        fun toMaterial(source: MaterialSource): Material = Material(
+            fbet = fbet,
+            fben = fben,
+            UNnr = unNr,
+            namn = namn,
+            klassKod = klassKod,
+            NEMmg = nemMg,
+            tpKat = tpKat,
+            frpGrp = frpGrp,
+            tunnelKod = tunnelKod,
+            miljo = miljo,
+            source = source
+        )
     }
 
     companion object {
         private const val ADR_S_JSON_ASSET = "adr-s.mini.json"
         private const val AMKAT_JSON_ASSET = "amkat.mini.json"
+
+        private val json = Json {
+            ignoreUnknownKeys = true
+            coerceInputValues = true
+        }
+
         @Volatile
         private var singleton: MaterialsRepository? = null
 
