@@ -1,6 +1,5 @@
 package se.accidis.fmfg.app.model
 
-import org.joda.time.DateTime
 import java.util.UUID
 
 /**
@@ -22,7 +21,6 @@ class DocumentBuilder(document: Document) {
     fun build(): Document = Document(
         id = id,
         rows = rows,
-        hasUnsavedChanges = true,
         timestamp = timestamp,
         author = author,
         name = name,
@@ -37,7 +35,6 @@ class DocumentBuilder(document: Document) {
         fun createNew(author: String = ""): Document = Document(
             id = UUID.randomUUID(),
             rows = emptyList(),
-            hasUnsavedChanges = true,
             timestamp = null,
             author = author,
             name = "",
@@ -55,9 +52,3 @@ fun Document.mutate(block: DocumentBuilder.() -> Unit): Document {
     builder.block()
     return builder.build()
 }
-
-fun Document.save(): Document =
-    this.copy(
-        hasUnsavedChanges = false,
-        timestamp = DateTime.now()
-    )

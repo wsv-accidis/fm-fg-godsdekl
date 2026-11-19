@@ -155,13 +155,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 			deleteDialog.show(getFragmentManager(), DeleteDialogFragment.class.getSimpleName());
 			return true;
 		} else if (itemId == R.id.document_menu_edit) {
-			if (mRepository.getCurrentDocument().getHasUnsavedChanges()) {
-				final EditUnsavedDialogFragment editDialog = new EditUnsavedDialogFragment();
-				editDialog.setDialogListener(new EditUnsavedDialogListener());
-				editDialog.show(getFragmentManager(), EditUnsavedDialogFragment.class.getSimpleName());
-			} else {
-				makeCurrentDocument();
-			}
+			makeCurrentDocument();
 			return true;
 		} else if (itemId == R.id.document_menu_export) {
 			final ProgressDialog progressDialog = ProgressDialog.show(getContext(), getString(R.string.document_export), getString(R.string.document_export_please_wait), true, false);
@@ -464,7 +458,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 				if (TextUtils.isEmpty(name)) {
 					name = getString(R.string.document_no_name);
 				}
-				mRepository.saveCurrentDocument(name);
+				//mRepository.saveCurrentDocument(name);
 			} catch (Exception ex) {
 				Log.e(TAG, "Exception while saving document.", ex);
 				Toast toast = Toast.makeText(getContext(), R.string.generic_unexpected_error, Toast.LENGTH_LONG);

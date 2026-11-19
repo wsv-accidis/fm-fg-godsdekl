@@ -7,6 +7,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import java.util.UUID
 
 /**
  * Wrapper for Android shared preferences. Used to store application data between launches.
@@ -14,6 +15,24 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 class Preferences(context: Context) {
     private val prefs: SharedPreferences =
         context.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE)
+
+    var currentDocumentId: UUID?
+        get() = prefs.getString(Keys.CURRENT_DOCUMENT_ID, null)?.let {
+            try {
+                UUID.fromString(it)
+            } catch (_: IllegalArgumentException) {
+                null
+            }
+        }
+        set(value) {
+            prefs.edit {
+                if (value != null) {
+                    putString(Keys.CURRENT_DOCUMENT_ID, value.toString())
+                } else {
+                    remove(Keys.CURRENT_DOCUMENT_ID)
+                }
+            }
+        }
 
     val defaultAuthor: String
         get() = prefs.getString(Keys.DEFAULT_AUTHOR, "").orEmpty()
@@ -57,6 +76,7 @@ class Preferences(context: Context) {
     }.distinctUntilChanged()
 
     object Keys {
+        const val CURRENT_DOCUMENT_ID: String = "CurrentDocumentId"
         const val DEFAULT_AUTHOR: String = "DefaultAuthor"
         const val FAVORITE_MATERIALS: String = "FavoriteMaterials"
         const val SHOW_AUTHOR_IN_DOCUMENT: String = "ShowAuthorInDocument"

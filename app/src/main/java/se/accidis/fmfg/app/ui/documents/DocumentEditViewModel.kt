@@ -47,7 +47,12 @@ class DocumentEditViewModel(
     }
 
     fun updateName(name: String) {
-        val updated = repository.currentDocument.mutate { this.name = name.trim() }
+        val current = repository.currentDocument
+        val trimmed = name.trim()
+        if (trimmed == current.name) {
+            return
+        }
+        val updated = current.mutate { this.name = trimmed }
         repository.updateCurrentDocument(updated)
     }
 

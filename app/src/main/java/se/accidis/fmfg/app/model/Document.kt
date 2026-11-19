@@ -16,7 +16,6 @@ import java.util.UUID
 data class Document(
     val id: UUID,
     val rows: List<DocumentRow>,
-    val hasUnsavedChanges: Boolean,
     val timestamp: DateTime?,
     val author: String,
     val name: String,
@@ -35,6 +34,9 @@ data class Document(
 
     val hasOptionalFields: Boolean
         get() = isProtectedTransport || vehicleReg.isNotBlank() || vehicleType.isNotBlank()
+
+    val isEmpty: Boolean
+        get() = rows.isEmpty() && name.isBlank() && sender.isBlank() && recipient.isBlank() && !hasOptionalFields
 
     val isSaved: Boolean
         get() = timestamp != null
@@ -86,7 +88,6 @@ data class Document(
         json.put(Keys.SENDER, sender)
         json.put(Keys.RECIPIENT, recipient)
         json.put(Keys.AUTHOR, author)
-        JSONUtils.putBooleanIfTrue(json, Keys.UNSAVED_CHANGES, hasUnsavedChanges)
         JSONUtils.putBooleanIfTrue(json, Keys.PROTECTED_TRANSPORT, isProtectedTransport)
         JSONUtils.putOptString(json, Keys.VEHICLE_REG, vehicleReg)
         JSONUtils.putOptString(json, Keys.VEHICLE_TYPE, vehicleType)
@@ -103,7 +104,6 @@ data class Document(
         const val ROWS: String = "Rows"
         const val SENDER: String = "Sender"
         const val TIMESTAMP: String = "Timestamp"
-        const val UNSAVED_CHANGES: String = "UnsavedChanges"
         const val VEHICLE_REG: String = "VehicleReg"
         const val VEHICLE_TYPE: String = "VehicleType"
     }
@@ -118,7 +118,6 @@ data class Document(
             return Document(
                 id = UUID.fromString(json.getString(Keys.ID)),
                 author = json.optString(Keys.AUTHOR),
-                hasUnsavedChanges = JSONUtils.optBoolean(json, Keys.UNSAVED_CHANGES),
                 timestamp = JSONUtils.optDateTime(json, Keys.TIMESTAMP),
                 isProtectedTransport = JSONUtils.optBoolean(json, Keys.PROTECTED_TRANSPORT),
                 name = json.optString(Keys.NAME),

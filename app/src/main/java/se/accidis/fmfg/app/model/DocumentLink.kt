@@ -16,6 +16,12 @@ data class DocumentLink(val id: UUID?, val name: String, val timestamp: DateTime
     }
 
     companion object {
+        fun fromDocument(document: Document): DocumentLink = DocumentLink(
+            id = document.id,
+            name = document.name,
+            timestamp = document.timestamp
+        )
+
         fun fromJson(json: JSONObject): DocumentLink {
             return DocumentLink(
                 id = UUID.fromString(json.getString(Document.Keys.ID)),
