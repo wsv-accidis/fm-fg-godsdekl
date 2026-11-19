@@ -22,9 +22,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,7 +56,10 @@ internal fun DocumentOpenBottomSheet(
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+        sheetState = rememberBottomSheetState(
+            initialValue = SheetValue.Hidden,
+            enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded)
+        )
     ) {
         Column(
             modifier = Modifier
@@ -170,17 +174,6 @@ private fun DocumentLinkItem(
 
     Column(modifier = Modifier.clickable(onClick = onClick)) {
         ListItem(
-            headlineContent = {
-                Text(
-                    text = docLink.name.ifBlank { stringResource(R.string.document_no_name) },
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Normal
-                    ),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            },
             supportingContent = {
                 if (formattedTimestamp.isNotBlank()) {
                     Text(
@@ -202,7 +195,17 @@ private fun DocumentLinkItem(
                     )
                 }
             }
-        )
+        ) {
+            Text(
+                text = docLink.name.ifBlank { stringResource(R.string.document_no_name) },
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal
+                ),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
         HorizontalDivider(
             modifier = Modifier.padding(horizontal = 16.dp),
             thickness = 0.5.dp,

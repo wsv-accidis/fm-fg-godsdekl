@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,7 +45,6 @@ import se.accidis.fmfg.app.model.DocumentRow
 import se.accidis.fmfg.app.services.DocumentsRepository
 import se.accidis.fmfg.app.services.Preferences
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DocumentEditScreen(
     onRowClick: (Int, DocumentRow) -> Unit = { _, _ -> }

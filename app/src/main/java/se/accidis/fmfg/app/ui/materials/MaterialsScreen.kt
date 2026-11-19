@@ -145,17 +145,6 @@ fun MaterialsScreen(onMaterialClick: (Material) -> Unit) {
 private fun MaterialItem(material: Material, onClick: () -> Unit) {
     Column(modifier = Modifier.clickable(onClick = onClick)) {
         ListItem(
-            headlineContent = {
-                Text(
-                    text = material.fben.ifBlank { material.namn },
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Normal
-                    ),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            },
             supportingContent = {
                 Text(
                     text = material.fullText,
@@ -167,7 +156,17 @@ private fun MaterialItem(material: Material, onClick: () -> Unit) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-        )
+        ) {
+            Text(
+                text = material.fben.ifBlank { material.namn },
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Normal
+                ),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
         HorizontalDivider(
             modifier = Modifier.padding(horizontal = 16.dp),
             thickness = 0.5.dp,

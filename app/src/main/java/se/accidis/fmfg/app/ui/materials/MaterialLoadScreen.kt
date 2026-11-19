@@ -20,7 +20,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenu
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
@@ -64,7 +64,6 @@ import java.math.RoundingMode
 /**
  * Screen for editing material properties before loading it into a document.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MaterialLoadScreen(
     material: Material,
@@ -196,7 +195,6 @@ private fun MaterialSummaryLabels(uiState: MaterialLoadUiState) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DocumentRowFields(
     uiState: MaterialLoadUiState,
