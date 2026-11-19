@@ -21,7 +21,6 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -37,8 +36,6 @@ internal fun MaterialEditKlassKodBottomSheet(
     onToggleKlassKod: (String) -> Unit,
     onDismiss: () -> Unit
 ) {
-    val sortedLabels = remember { LabelsRepository.allLabels.sortedBy { it.klassKod } }
-
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberBottomSheetState(initialValue = SheetValue.Hidden)
@@ -60,7 +57,7 @@ internal fun MaterialEditKlassKodBottomSheet(
                 modifier = Modifier.weight(1f)
             ) {
                 items(
-                    items = sortedLabels,
+                    items = LabelsRepository.allLabels,
                     key = { it.klassKod }
                 ) { label ->
                     val isSelected = selectedKlassKods.contains(label.klassKod)

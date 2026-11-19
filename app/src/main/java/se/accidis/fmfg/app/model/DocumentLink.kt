@@ -12,7 +12,16 @@ data class DocumentLink(val id: UUID?, val name: String, val timestamp: DateTime
     Comparable<DocumentLink> {
 
     override fun compareTo(other: DocumentLink): Int {
-        return name.compareTo(other.name)
+        val nameCmp = name.compareTo(other.name, ignoreCase = true)
+        if (nameCmp != 0) return nameCmp
+
+        val timeCmp = compareValues(other.timestamp, timestamp)
+        if (timeCmp != 0) return timeCmp
+
+        val caseCmp = name.compareTo(other.name)
+        if (caseCmp != 0) return caseCmp
+
+        return compareValues(id, other.id)
     }
 
     companion object {

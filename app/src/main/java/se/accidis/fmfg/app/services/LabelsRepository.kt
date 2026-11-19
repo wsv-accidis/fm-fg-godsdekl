@@ -11,12 +11,11 @@ import java.util.TreeSet
  * Repository for labels. Static class, holds all data in memory.
  */
 object LabelsRepository {
-    private val labels: MutableMap<String, Label> = HashMap()
+    private val labels: MutableMap<String, Label> = LinkedHashMap()
     private val miljoLabel: Label =
         Label("MILJÖFARLIGT", R.drawable.label_miljo, R.drawable.label_miljo_sm)
 
-    val allLabels: Collection<Label>
-        get() = labels.values
+    val allLabels: List<Label> by lazy { labels.values.toList() }
 
     @JvmStatic
     fun getLabelsByDocument(document: Document, smallImages: Boolean): List<Int> {
