@@ -3,21 +3,25 @@ package se.accidis.fmfg.app.services
 import android.content.Context
 import androidx.core.util.AtomicFile
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import org.json.JSONObject
 import se.accidis.fmfg.app.model.Document
 import se.accidis.fmfg.app.model.DocumentBuilder
 import se.accidis.fmfg.app.model.DocumentLink
+import se.accidis.fmfg.app.model.mutate
 import se.accidis.fmfg.app.utils.Resource
 import timber.log.Timber
 import java.io.FileNotFoundException
@@ -28,27 +32,33 @@ import java.util.UUID
  */
 class DocumentsRepository private constructor(context: Context) {
     private val context: Context = context.applicationContext
-    private val documentInitLock = Any()
     private val ioDispatcher = Dispatchers.IO.limitedParallelism(1)
     private var loadJob: Job? = null
     private val prefs = Preferences(this.context)
-    private val repositoryScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private val repositoryScope = CoroutineScope(Dispatchers.Main.immediate + SupervisorJob())
 
     private val _currentDocument = MutableStateFlow<Document?>(null)
-    val currentDocument: Document
-        get() = ensureDocument()
-    val currentDocumentFlow: StateFlow<Document>
-        get() {
-            ensureDocument()
-            @Suppress("UNCHECKED_CAST")
-            return _currentDocument as StateFlow<Document>
-        }
+    val currentDocumentFlow: Flow<Document> = _currentDocument.filterNotNull()
+    val currentDocumentOrNull: Document?
+        get() = _currentDocument.value
 
     private val _documents = MutableStateFlow<Resource<List<DocumentLink>>>(Resource.Loading)
     val documents: StateFlow<Resource<List<DocumentLink>>> = _documents.asStateFlow()
 
     val isLoaded: Boolean
         get() = _documents.value is Resource.Success
+
+    private val initialDocumentLoad: Deferred<Document> = repositoryScope.async(ioDispatcher) {
+        val document = migrateLegacyCurrentDocument() ?: loadActiveDocument()
+            ?: DocumentBuilder.createNew(author = prefs.defaultAuthor)
+        _currentDocument.compareAndSet(null, document)
+        val current = _currentDocument.value ?: document
+        Timber.d("Current document initialized with ID: %s", current.id)
+        current
+    }
+
+    suspend fun awaitCurrentDocument(): Document =
+        _currentDocument.value ?: initialDocumentLoad.await()
 
     fun beginLoad() {
         if (_documents.value is Resource.Success) {
@@ -88,29 +98,33 @@ class DocumentsRepository private constructor(context: Context) {
     }
 
     fun createNewDocument() {
-        val current = ensureDocument()
-        if (current.isEmpty) {
-            Timber.d("Current document is already empty, nothing to do.")
-            return
-        }
+        repositoryScope.launch {
+            val current = awaitCurrentDocument()
+            if (current.isEmpty) {
+                Timber.d("Current document is already empty, nothing to do.")
+                return@launch
+            }
 
-        val newDoc = DocumentBuilder.createNew(author = prefs.defaultAuthor)
-        Timber.d("Created new document with ID: %s", newDoc.id)
-        _currentDocument.value = newDoc
-        prefs.currentDocumentId = null
+            val newDoc = DocumentBuilder.createNew(author = prefs.defaultAuthor)
+            Timber.d("Created new document with ID: %s", newDoc.id)
+            _currentDocument.value = newDoc
+            prefs.currentDocumentId = null
+        }
     }
 
     fun deleteDocument(id: UUID) {
         Timber.d("Deleting document with ID: %s", id)
-        if (ensureDocument().id == id) {
-            _currentDocument.value = DocumentBuilder.createNew(author = prefs.defaultAuthor)
-            prefs.currentDocumentId = null
-        }
+        repositoryScope.launch {
+            if (awaitCurrentDocument().id == id) {
+                _currentDocument.value = DocumentBuilder.createNew(author = prefs.defaultAuthor)
+                prefs.currentDocumentId = null
+            }
 
-        repositoryScope.launch(ioDispatcher) {
-            val file = context.getFileStreamPath(getFilenameByDocumentId(id))
-            AtomicFile(file).delete()
-            removeDocumentLink(id)
+            withContext(ioDispatcher) {
+                val file = context.getFileStreamPath(getFilenameByDocumentId(id))
+                AtomicFile(file).delete()
+                removeDocumentLink(id)
+            }
         }
     }
 
@@ -119,13 +133,20 @@ class DocumentsRepository private constructor(context: Context) {
         readDocument(getFilenameByDocumentId(id))
     }
 
-    fun openDocument(id: UUID) {
-        if (ensureDocument().id == id) {
-            Timber.d("Document with ID %s is already open.", id)
-            return
-        }
-
+    fun mutateCurrentDocument(transform: DocumentBuilder.() -> Unit) {
         repositoryScope.launch {
+            val current = awaitCurrentDocument()
+            updateCurrentDocument(current.mutate(transform))
+        }
+    }
+
+    fun openDocument(id: UUID) {
+        repositoryScope.launch {
+            if (awaitCurrentDocument().id == id) {
+                Timber.d("Document with ID %s is already open.", id)
+                return@launch
+            }
+
             try {
                 val loadedDoc = loadDocument(id)
                 _currentDocument.value = loadedDoc
@@ -165,22 +186,6 @@ class DocumentsRepository private constructor(context: Context) {
             } catch (ex: Exception) {
                 Timber.e(ex, "Exception while auto-saving document with ID: %s", savedDoc.id)
             }
-        }
-    }
-
-    private fun ensureDocument(): Document {
-        _currentDocument.value?.let { return it }
-
-        synchronized(documentInitLock) {
-            _currentDocument.value?.let { return it }
-
-            val document = runBlocking(ioDispatcher) {
-                migrateLegacyCurrentDocument() ?: loadActiveDocument()
-            } ?: DocumentBuilder.createNew(author = prefs.defaultAuthor)
-
-            _currentDocument.value = document
-            Timber.d("Current document initialized with ID: %s", document.id)
-            return document
         }
     }
 

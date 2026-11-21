@@ -1,15 +1,16 @@
 package se.accidis.fmfg.app.ui.materials
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.model.DocumentRow
 import se.accidis.fmfg.app.model.Material
 import se.accidis.fmfg.app.model.MaterialSource
-import se.accidis.fmfg.app.model.mutate
 import se.accidis.fmfg.app.utils.ValueHelper
 import se.accidis.fmfg.app.services.DocumentsRepository
 import java.math.BigDecimal
@@ -42,13 +43,28 @@ class MaterialLoadViewModel(
 ) : ViewModel() {
 
     private val initialRow: DocumentRow? =
-        rowIndex?.let { repository.currentDocument.rows.getOrNull(it) }
-    private val initialMaterial: Material = initialRow?.material ?: material
+        rowIndex?.let { repository.currentDocumentOrNull?.rows?.getOrNull(it) }
 
-    private val _uiState = MutableStateFlow(createInitialState())
+    private val _uiState = MutableStateFlow(
+        createInitialState(initialRow?.material ?: material, initialRow)
+    )
     val uiState: StateFlow<MaterialLoadUiState> = _uiState.asStateFlow()
 
-    private fun createInitialState(): MaterialLoadUiState {
+    init {
+        if (rowIndex != null && initialRow == null) {
+            viewModelScope.launch {
+                val row = repository.awaitCurrentDocument().rows.getOrNull(rowIndex)
+                if (row != null) {
+                    _uiState.value = createInitialState(row.material, row)
+                }
+            }
+        }
+    }
+
+    private fun createInitialState(
+        initialMaterial: Material,
+        initialRow: DocumentRow?
+    ): MaterialLoadUiState {
         val nemMg = initialMaterial.NEMmg.toLong()
         val isNemEnabled = nemMg != 0L
         val nemUnit = when {
@@ -136,14 +152,13 @@ class MaterialLoadViewModel(
             weightVolume = ValueHelper.parseValue(state.weightVolume)
         )
 
-        val mutatedDoc = repository.currentDocument.mutate {
+        repository.mutateCurrentDocument {
             if (rowIndex != null && rowIndex in rows.indices) {
                 rows[rowIndex] = row
             } else {
                 rows.add(row)
             }
         }
-        repository.updateCurrentDocument(mutatedDoc)
     }
 
     fun onNumberOfPkgsChanged(newValue: String) {

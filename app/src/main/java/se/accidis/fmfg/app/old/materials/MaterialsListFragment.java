@@ -190,8 +190,8 @@ public final class MaterialsListFragment extends ListFragment implements MainAct
 	}
 
 	private Set<Material> getLoadedMaterials() {
-		Document currentDocument = DocumentsRepository.getInstance(getContext()).getCurrentDocument();
-		return currentDocument.getMaterialsSet();
+		Document currentDocument = DocumentsRepository.getInstance(getContext()).getCurrentDocumentOrNull();
+		return currentDocument != null ? currentDocument.getMaterialsSet() : java.util.Collections.emptySet();
 	}
 
 	private void initializeList() {

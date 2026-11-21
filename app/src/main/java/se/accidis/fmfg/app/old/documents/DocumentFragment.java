@@ -213,7 +213,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 		}
 
 		if (null == mDocument) {
-			mDocument = mRepository.getCurrentDocument();
+			mDocument = mRepository.getCurrentDocumentOrNull();
 			mIsCurrentDocument = true;
 		}
 
@@ -315,7 +315,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 	private final class CustomRowDialogListener implements CustomRowDialogFragment.CustomRowDialogListener {
 		@Override
 		public void onDismiss() {
-			mDocument = mRepository.getCurrentDocument();
+			mDocument = mRepository.getCurrentDocumentOrNull();
 			mAdapter.setDocument(mDocument);
 		}
 	}
@@ -426,7 +426,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 	private final class MaterialsLoadDialogListener implements MaterialsLoadDialogFragment.MaterialsLoadDialogListener {
 		@Override
 		public void onDismiss() {
-			mDocument = mRepository.getCurrentDocument();
+			mDocument = mRepository.getCurrentDocumentOrNull();
 			mAdapter.setDocument(mDocument);
 		}
 	}

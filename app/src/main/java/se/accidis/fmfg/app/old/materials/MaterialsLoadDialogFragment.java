@@ -57,10 +57,10 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 		mMultiplier = new BigDecimal(multiplier);
 
 		mRepository = DocumentsRepository.getInstance(getContext());
-		Document document = mRepository.getCurrentDocument();
+		Document document = mRepository.getCurrentDocumentOrNull();
 		DocumentRow row = null; // document.getRowByMaterial(mMaterial);
 
-		mDocumentTotalValue = document.getCalculatedTotalValue();
+		mDocumentTotalValue = document != null ? document.getCalculatedTotalValue() : BigDecimal.ZERO;
 		boolean hasExistingRow = false;
 		if (null != row) {
 			hasExistingRow = true;
@@ -189,7 +189,7 @@ public final class MaterialsLoadDialogFragment extends DialogFragment {
 	private final class RemoveClickedListener implements DialogInterface.OnClickListener {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			Document document = mRepository.getCurrentDocument();
+			//Document document = mRepository.getCurrentDocument();
 			//document.removeRowByMaterial(mMaterial);
 			//document.setHasUnsavedChanges(true);
 			//mRepository.commitCurrentDocument();

@@ -156,7 +156,7 @@ public final class CustomRowDialogFragment extends DialogFragment {
 	private final class RemoveClickedListener implements DialogInterface.OnClickListener {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			Document document = mRepository.getCurrentDocument();
+			//Document document = mRepository.getCurrentDocument();
 			//document.removeRowByMaterial(getMaterial());
 			//document.setHasUnsavedChanges(true);
 			//mRepository.commitCurrentDocument();
@@ -166,7 +166,7 @@ public final class CustomRowDialogFragment extends DialogFragment {
 	private final class SaveClickedListener implements DialogInterface.OnClickListener {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			Document document = mRepository.getCurrentDocument();
+			//Document document = mRepository.getCurrentDocument();
 			//document.addOrUpdateRow(new DocumentRow(getMaterial()));
 			//document.setHasUnsavedChanges(true);
 			//mRepository.commitCurrentDocument();

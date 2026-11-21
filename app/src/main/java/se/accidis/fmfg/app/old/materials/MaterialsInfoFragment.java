@@ -192,7 +192,7 @@ public final class MaterialsInfoFragment extends Fragment implements MainActivit
 	private final class RemoveButtonClickListener implements View.OnClickListener {
 		@Override
 		public void onClick(View v) {
-			Document document = mRepository.getCurrentDocument();
+			//Document document = mRepository.getCurrentDocument();
 			//document.removeRowByMaterial(mMaterial);
 			//document.setHasUnsavedChanges(true);
 			//mRepository.commitCurrentDocument();

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import se.accidis.fmfg.app.model.DocumentLink
 import se.accidis.fmfg.app.model.mutate
 import se.accidis.fmfg.app.services.DocumentsRepository
@@ -47,13 +48,14 @@ class DocumentEditViewModel(
     }
 
     fun updateName(name: String) {
-        val current = repository.currentDocument
-        val trimmed = name.trim()
-        if (trimmed == current.name) {
-            return
+        viewModelScope.launch {
+            val current = repository.awaitCurrentDocument()
+            val trimmed = name.trim()
+            if (trimmed == current.name) {
+                return@launch
+            }
+            repository.updateCurrentDocument(current.mutate { this.name = trimmed })
         }
-        val updated = current.mutate { this.name = trimmed }
-        repository.updateCurrentDocument(updated)
     }
 
     fun openDocument(id: UUID) {
