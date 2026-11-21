@@ -29,7 +29,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -39,11 +38,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.model.DocumentLink
+import se.accidis.fmfg.app.ui.components.rememberSheetDismissHandler
 import se.accidis.fmfg.app.utils.Resource
 import java.util.UUID
 
@@ -62,22 +61,7 @@ internal fun DocumentOpenBottomSheet(
         initialValue = SheetValue.Hidden,
         enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded)
     )
-    val scope = rememberCoroutineScope()
-    var isDismissing by remember { mutableStateOf(false) }
-
-    fun dismissWithAnimation(afterHide: () -> Unit) {
-        if (isDismissing) return
-        isDismissing = true
-        scope.launch {
-            sheetState.hide()
-        }.invokeOnCompletion {
-            if (!sheetState.isVisible) {
-                afterHide()
-            } else {
-                isDismissing = false
-            }
-        }
-    }
+    val dismissWithAnimation = rememberSheetDismissHandler(sheetState)
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,

@@ -17,16 +17,14 @@ import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import se.accidis.fmfg.app.R
+import se.accidis.fmfg.app.ui.components.rememberSheetDismissHandler
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,22 +37,7 @@ internal fun DocumentNameBottomSheet(
         initialValue = SheetValue.Hidden,
         enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded)
     )
-    val scope = rememberCoroutineScope()
-    var isDismissing by remember { mutableStateOf(false) }
-
-    fun dismissWithAnimation() {
-        if (isDismissing) return
-        isDismissing = true
-        scope.launch {
-            sheetState.hide()
-        }.invokeOnCompletion {
-            if (!sheetState.isVisible) {
-                onDismiss(textValue)
-            } else {
-                isDismissing = false
-            }
-        }
-    }
+    val dismissWithAnimation = rememberSheetDismissHandler(sheetState)
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss(textValue) },
@@ -77,12 +60,14 @@ internal fun DocumentNameBottomSheet(
                 label = { Text(stringResource(R.string.document_name_label)) },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = { dismissWithAnimation() }),
+                keyboardActions = KeyboardActions(
+                    onDone = { dismissWithAnimation { onDismiss(textValue) } }
+                ),
                 singleLine = true
             )
 
             Button(
-                onClick = { dismissWithAnimation() },
+                onClick = { dismissWithAnimation { onDismiss(textValue) } },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(stringResource(R.string.generic_close))
