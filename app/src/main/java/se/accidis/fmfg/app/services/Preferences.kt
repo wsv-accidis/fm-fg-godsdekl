@@ -37,23 +37,6 @@ class Preferences private constructor(context: Context) {
     val defaultAuthor: String
         get() = prefs.getString(Keys.DEFAULT_AUTHOR, "").orEmpty()
 
-    var favoriteMaterials: MutableSet<String>
-        get() {
-            val set = prefs.getStringSet(
-                Keys.FAVORITE_MATERIALS,
-                null
-            )
-            return if (set != null) HashSet(set) else HashSet()
-        }
-        set(materialsKeys) {
-            prefs.edit {
-                putStringSet(
-                    Keys.FAVORITE_MATERIALS,
-                    materialsKeys
-                )
-            }
-        }
-
     fun shouldShowAuthorInDocument(): Boolean {
         return prefs.getBoolean(Keys.SHOW_AUTHOR_IN_DOCUMENT, false)
     }
@@ -78,7 +61,6 @@ class Preferences private constructor(context: Context) {
     object Keys {
         const val CURRENT_DOCUMENT_ID: String = "CurrentDocumentId"
         const val DEFAULT_AUTHOR: String = "DefaultAuthor"
-        const val FAVORITE_MATERIALS: String = "FavoriteMaterials"
         const val SHOW_AUTHOR_IN_DOCUMENT: String = "ShowAuthorInDocument"
         const val SHOW_FBET_IN_DOCUMENT: String = "ShowFbetInDocument"
     }

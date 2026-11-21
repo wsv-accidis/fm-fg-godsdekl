@@ -4,7 +4,6 @@ import androidx.annotation.DrawableRes
 import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.model.Document
 import se.accidis.fmfg.app.model.Label
-import se.accidis.fmfg.app.model.Material
 import java.util.TreeSet
 
 /**
@@ -44,25 +43,6 @@ object LabelsRepository {
         }
 
         return labelDrawables
-    }
-
-    fun getLabelsByMaterial(material: Material, smallImages: Boolean): List<Int> {
-        val labels = ArrayList<Int>()
-        for (klassKod in material.klassKod) {
-            val label = getLabelByKlassKod(klassKod)
-            if (null != label) {
-                val drawable = if (smallImages) label.smallDrawable else label.largeDrawable
-                if (!labels.contains(drawable)) {
-                    labels.add(drawable)
-                }
-            }
-        }
-
-        if (material.miljo) {
-            labels.add(if (smallImages) miljoLabel.smallDrawable else miljoLabel.largeDrawable)
-        }
-
-        return labels
     }
 
     fun getLabelByKlassKod(klassKod: String): Label? {

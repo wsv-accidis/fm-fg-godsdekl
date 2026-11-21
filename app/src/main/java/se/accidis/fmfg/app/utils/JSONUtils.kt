@@ -8,7 +8,6 @@ import org.json.JSONObject
  * Utility methods for working with JSON.
  */
 object JSONUtils {
-    private const val BOOLEAN_FALSE = 2
     private const val BOOLEAN_NULL = 0
     private const val BOOLEAN_TRUE = 1
 
@@ -33,16 +32,9 @@ object JSONUtils {
         return value == BOOLEAN_TRUE
     }
 
-    fun putBoolean(json: JSONObject, key: String, value: Boolean?) {
-        if (null != value) {
-            val intVal = (if (value) BOOLEAN_TRUE else BOOLEAN_FALSE)
-            json.put(key, intVal)
-        }
-    }
-
     fun putBooleanIfTrue(json: JSONObject, key: String, value: Boolean) {
         if (value) {
-            putBoolean(json, key, true)
+            json.put(key, BOOLEAN_TRUE)
         }
     }
 
