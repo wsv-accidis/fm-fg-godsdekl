@@ -13,7 +13,7 @@ import java.util.UUID
 /**
  * Model object for a document link.
  */
-data class DocumentLink(val id: UUID?, val name: String, val timestamp: DateTime?) :
+data class DocumentLink(val id: UUID, val name: String, val timestamp: DateTime?) :
     Comparable<DocumentLink> {
 
     override fun compareTo(other: DocumentLink): Int {
@@ -26,7 +26,7 @@ data class DocumentLink(val id: UUID?, val name: String, val timestamp: DateTime
         val caseCmp = name.compareTo(other.name)
         if (caseCmp != 0) return caseCmp
 
-        return compareValues(id, other.id)
+        return id.compareTo(other.id)
     }
 
     @Serializable

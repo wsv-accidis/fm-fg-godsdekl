@@ -52,7 +52,7 @@ public final class DocumentsListFragment extends ListFragment implements MainAct
         AndroidUtils.hideSoftKeyboard(getContext(), getView());
 
         DocumentsRepository repository = DocumentsRepository.getInstance(getContext());
-        if (!mIsLoaded || !repository.isLoaded()) {
+        if (!mIsLoaded) {
             // repository.setOnLoadedListener(new DocumentsLoadedListener());
             repository.beginLoad();
         } else {

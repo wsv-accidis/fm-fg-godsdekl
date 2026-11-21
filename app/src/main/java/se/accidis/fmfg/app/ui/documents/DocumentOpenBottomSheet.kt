@@ -132,14 +132,12 @@ internal fun DocumentOpenBottomSheet(
                             ) {
                                 items(
                                     items = documentsResource.data,
-                                    key = { it.id ?: it.hashCode() }
+                                    key = { it.id }
                                 ) { docLink ->
                                     DocumentLinkItem(
                                         docLink = docLink,
                                         onClick = {
-                                            docLink.id?.let { id ->
-                                                dismissWithAnimation { onDocumentClick(id) }
-                                            }
+                                            dismissWithAnimation { onDocumentClick(docLink.id) }
                                         },
                                         onDeleteClick = {
                                             documentToDeleteId = docLink.id

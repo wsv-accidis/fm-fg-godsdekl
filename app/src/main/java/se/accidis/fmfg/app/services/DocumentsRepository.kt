@@ -45,9 +45,6 @@ class DocumentsRepository private constructor(context: Context) {
     private val _documents = MutableStateFlow<Resource<List<DocumentLink>>>(Resource.Loading)
     val documents: StateFlow<Resource<List<DocumentLink>>> = _documents.asStateFlow()
 
-    val isLoaded: Boolean
-        get() = _documents.value is Resource.Success
-
     private val initialDocumentLoad: Deferred<Document> = repositoryScope.async(ioDispatcher) {
         val document = migrateLegacyCurrentDocument() ?: loadActiveDocument()
             ?: DocumentBuilder.createNew(author = prefs.defaultAuthor)
@@ -128,15 +125,14 @@ class DocumentsRepository private constructor(context: Context) {
         }
     }
 
-    suspend fun loadDocument(id: UUID): Document = withContext(ioDispatcher) {
-        Timber.d("Loading document with ID: %s", id)
-        readDocument(getFilenameByDocumentId(id))
-    }
-
     fun mutateCurrentDocument(transform: DocumentBuilder.() -> Unit) {
         repositoryScope.launch {
             val current = awaitCurrentDocument()
-            updateCurrentDocument(current.mutate(transform))
+            val updated = current.mutate(transform)
+            if (updated == current) {
+                return@launch
+            }
+            updateCurrentDocument(updated)
         }
     }
 
@@ -148,7 +144,10 @@ class DocumentsRepository private constructor(context: Context) {
             }
 
             try {
-                val loadedDoc = loadDocument(id)
+                val loadedDoc = withContext(ioDispatcher) {
+                    Timber.d("Loading document with ID: %s", id)
+                    readDocument(getFilenameByDocumentId(id))
+                }
                 _currentDocument.value = loadedDoc
                 prefs.currentDocumentId = loadedDoc.id
             } catch (ex: Exception) {
@@ -159,16 +158,21 @@ class DocumentsRepository private constructor(context: Context) {
 
     fun updateCurrentDocument(document: Document) {
         if (document.isEmpty) {
-            val emptyDoc = document.copy(timestamp = null)
+            val wasSaved = document.isSaved
+            val emptyDoc = if (wasSaved) document.copy(timestamp = null) else document
             Timber.d("Current document is empty, skipping auto-save for ID: %s", emptyDoc.id)
             _currentDocument.value = emptyDoc
-            prefs.currentDocumentId = null
+            if (prefs.currentDocumentId != null) {
+                prefs.currentDocumentId = null
+            }
 
-            repositoryScope.launch(ioDispatcher) {
-                val file = context.getFileStreamPath(getFilenameByDocumentId(emptyDoc.id))
-                if (file.exists()) {
-                    AtomicFile(file).delete()
-                    removeDocumentLink(emptyDoc.id)
+            if (wasSaved) {
+                repositoryScope.launch(ioDispatcher) {
+                    val file = context.getFileStreamPath(getFilenameByDocumentId(emptyDoc.id))
+                    if (file.exists()) {
+                        AtomicFile(file).delete()
+                        removeDocumentLink(emptyDoc.id)
+                    }
                 }
             }
             return
