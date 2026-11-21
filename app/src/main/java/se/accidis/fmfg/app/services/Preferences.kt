@@ -12,9 +12,9 @@ import java.util.UUID
 /**
  * Wrapper for Android shared preferences. Used to store application data between launches.
  */
-class Preferences(context: Context) {
+class Preferences private constructor(context: Context) {
     private val prefs: SharedPreferences =
-        context.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE)
+        context.applicationContext.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE)
 
     var currentDocumentId: UUID?
         get() = prefs.getString(Keys.CURRENT_DOCUMENT_ID, null)?.let {
@@ -85,5 +85,14 @@ class Preferences(context: Context) {
 
     companion object {
         const val PREFERENCES_FILE: String = "ThePreferences"
+
+        @Volatile
+        private var singleton: Preferences? = null
+
+        @JvmStatic
+        fun getInstance(context: Context): Preferences =
+            singleton ?: synchronized(this) {
+                singleton ?: Preferences(context).also { singleton = it }
+            }
     }
 }

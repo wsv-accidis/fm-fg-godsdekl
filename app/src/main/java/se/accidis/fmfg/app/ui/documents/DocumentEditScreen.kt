@@ -55,7 +55,7 @@ fun DocumentEditScreen(
             initializer {
                 DocumentEditViewModel(
                     repository = DocumentsRepository.getInstance(context),
-                    preferences = Preferences(context)
+                    preferences = Preferences.getInstance(context)
                 )
             }
         }

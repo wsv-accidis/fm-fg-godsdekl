@@ -34,7 +34,7 @@ class DocumentsRepository private constructor(context: Context) {
     private val context: Context = context.applicationContext
     private val ioDispatcher = Dispatchers.IO.limitedParallelism(1)
     private var loadJob: Job? = null
-    private val prefs = Preferences(this.context)
+    private val prefs = Preferences.getInstance(this.context)
     private val repositoryScope = CoroutineScope(Dispatchers.Main.immediate + SupervisorJob())
 
     private val _currentDocument = MutableStateFlow<Document?>(null)

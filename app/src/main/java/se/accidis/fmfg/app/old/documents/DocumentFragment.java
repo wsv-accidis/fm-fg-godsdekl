@@ -93,7 +93,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_document, container, false);
 
-		mPrefs = new Preferences(getContext());
+		mPrefs = Preferences.getInstance(getContext());
 		mButtonBar = view.findViewById(R.id.document_button_bar);
 
 		Button saveButton = (Button) view.findViewById(R.id.document_button_save);

@@ -30,8 +30,12 @@ class MaterialsViewModel(
             is Resource.Loading -> MaterialsUiState.Loading
             is Resource.Error -> MaterialsUiState.Error(resource.throwable)
             is Resource.Success -> {
-                val filtered = resource.data.filter { material ->
-                    material.source == source && (query.isBlank() || material.matches(query))
+                val sourceItems = resource.data[source].orEmpty()
+                val normalizedQuery = query.trim()
+                val filtered = if (normalizedQuery.isEmpty()) {
+                    sourceItems
+                } else {
+                    sourceItems.filter { it.matches(normalizedQuery) }
                 }
                 MaterialsUiState.Success(filtered)
             }

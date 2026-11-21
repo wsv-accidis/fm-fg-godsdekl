@@ -39,10 +39,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.model.DocumentLink
 import se.accidis.fmfg.app.utils.Resource
 import java.util.UUID
+
+private val timestampFormatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm")
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -169,7 +173,7 @@ private fun DocumentLinkItem(
     onDeleteClick: () -> Unit
 ) {
     val formattedTimestamp = remember(docLink.timestamp) {
-        docLink.timestamp?.toString("yyyy-MM-dd HH:mm") ?: ""
+        docLink.timestamp?.toString(timestampFormatter) ?: ""
     }
 
     Column(modifier = Modifier.clickable(onClick = onClick)) {

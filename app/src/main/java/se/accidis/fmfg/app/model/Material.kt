@@ -2,7 +2,6 @@ package se.accidis.fmfg.app.model
 
 import android.os.Bundle
 import android.os.Parcelable
-import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import org.json.JSONArray
@@ -29,14 +28,11 @@ data class Material(
     val miljo: Boolean,
     val source: MaterialSource = MaterialSource.NONE
 ) : Parcelable {
-    @IgnoredOnParcel
-    val klassKodAsString: String = createLabels()
+    val klassKodAsString: String
+        get() = createLabels()
 
-    @IgnoredOnParcel
-    val fullText: String = createFullText()
-
-    @IgnoredOnParcel
-    private val mSearchText: String = createSearchText()
+    val fullText: String
+        get() = createFullText()
 
     val NEMkg: BigDecimal
         get() = BigDecimal(NEMmg).divide(BigDecimal(1_000_000), 6, RoundingMode.FLOOR)
@@ -47,7 +43,11 @@ data class Material(
 
     fun hasNEM(): Boolean = NEMmg != 0
 
-    fun matches(search: CharSequence): Boolean = mSearchText.contains(search, ignoreCase = true)
+    fun matches(search: CharSequence): Boolean =
+        namn.contains(search, ignoreCase = true) ||
+            fbet.contains(search, ignoreCase = true) ||
+            fben.contains(search, ignoreCase = true) ||
+            UNnr.contains(search, ignoreCase = true)
 
     fun toBundle(): Bundle = Bundle().apply {
         putString(Keys.FBET, fbet)
@@ -86,9 +86,10 @@ data class Material(
             if (isNotEmpty()) append(' ')
             append(namn)
         }
-        if (klassKodAsString.isNotBlank()) {
+        val labels = klassKodAsString
+        if (labels.isNotBlank()) {
             if (isNotEmpty()) append(", ")
-            append(klassKodAsString)
+            append(labels)
         }
         if (frpGrp.isNotBlank()) {
             if (isNotEmpty()) append(", ")
@@ -105,22 +106,6 @@ data class Material(
         if (klassKod.size == 1) return klassKod[0]
         val rest = klassKod.drop(1).joinToString(", ")
         return "${klassKod[0]} ($rest)"
-    }
-
-    private fun createSearchText(): String = buildString {
-        append(namn.lowercase())
-        if (fbet.isNotBlank()) {
-            append(' ')
-            append(fbet.lowercase())
-        }
-        if (fben.isNotBlank()) {
-            append(' ')
-            append(fben.lowercase())
-        }
-        if (UNnr.isNotBlank()) {
-            append(' ')
-            append(UNnr)
-        }
     }
 
     /**

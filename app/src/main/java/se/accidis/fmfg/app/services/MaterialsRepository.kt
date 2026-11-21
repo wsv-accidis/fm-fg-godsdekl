@@ -26,14 +26,16 @@ import timber.log.Timber
  */
 class MaterialsRepository private constructor(context: Context) {
     private val context: Context = context.applicationContext
-    private val _materialsResource = MutableStateFlow<Resource<List<Material>>>(Resource.Loading)
-    val materialsResource: StateFlow<Resource<List<Material>>> = _materialsResource.asStateFlow()
+    private val _materialsResource =
+        MutableStateFlow<Resource<Map<MaterialSource, List<Material>>>>(Resource.Loading)
+    val materialsResource: StateFlow<Resource<Map<MaterialSource, List<Material>>>> =
+        _materialsResource.asStateFlow()
 
     private val repositoryScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     fun beginLoad() {
         val current = _materialsResource.value
-        if (current is Resource.Success && current.data.isNotEmpty()) {
+        if (current is Resource.Success && current.data.values.any { it.isNotEmpty() }) {
             Timber.d("Assets already loaded, nothing to do.")
             return
         }
@@ -45,11 +47,15 @@ class MaterialsRepository private constructor(context: Context) {
                 val loadedMaterials = withContext(Dispatchers.IO) {
                     val adrJob = async { loadFromAsset(ADR_S_JSON_ASSET, MaterialSource.ADR_S) }
                     val amkatJob = async { loadFromAsset(AMKAT_JSON_ASSET, MaterialSource.AMKAT) }
-                    adrJob.await() + amkatJob.await()
+                    mapOf(
+                        MaterialSource.ADR_S to adrJob.await(),
+                        MaterialSource.AMKAT to amkatJob.await()
+                    )
                 }
 
                 _materialsResource.value = Resource.Success(loadedMaterials)
-                Timber.i("Finished loading assets (%d items loaded).", loadedMaterials.size)
+                val totalCount = loadedMaterials.values.sumOf { it.size }
+                Timber.i("Finished loading assets (%d items loaded).", totalCount)
             } catch (ex: Exception) {
                 Timber.e(ex, "Failed to load assets.")
                 _materialsResource.value = Resource.Error(ex)

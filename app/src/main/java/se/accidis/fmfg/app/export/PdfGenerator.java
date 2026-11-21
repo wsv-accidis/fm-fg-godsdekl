@@ -61,7 +61,7 @@ public final class PdfGenerator {
 		mDocument = document;
 		mPdf = pdf;
 		mContext = context;
-		mPrefs = new Preferences(context);
+		mPrefs = Preferences.getInstance(context);
 
 		mLabelFont = new Font(mPdf, CoreFont.TIMES_ROMAN);
 		mLabelFont.setSize(6.0f);
