@@ -2,7 +2,6 @@ package se.accidis.fmfg.app.ui.materials
 
 import se.accidis.fmfg.app.utils.ValueHelper
 import java.math.BigDecimal
-import java.math.RoundingMode
 
 /**
  * UI state for the Material load screen.
@@ -37,14 +36,16 @@ data class MaterialLoadUiState(
     }
 
     val totalNemMg: BigDecimal =
-        ValueHelper.parseValue(amount).multiply(BigDecimal(nemMgValue))
+        ValueHelper.parseValue(amount).multiply(BigDecimal.valueOf(nemMgValue))
 
     val weightVolumePointsBasis: BigDecimal = if (nemMgValue > 0) {
-        totalNemMg.divide(BigDecimal(NemUnit.KILOGRAM.factor), 6, RoundingMode.FLOOR)
+        NemUnit.KILOGRAM.fromMg(totalNemMg)
     } else {
         ValueHelper.parseValue(weightVolume)
     }
 
     val totalPoints: BigDecimal =
-        weightVolumePointsBasis.multiply(BigDecimal(ValueHelper.getMultiplierByTpKat(tpKat)))
+        weightVolumePointsBasis.multiply(
+            BigDecimal.valueOf(ValueHelper.getMultiplierByTpKat(tpKat).toLong())
+        )
 }

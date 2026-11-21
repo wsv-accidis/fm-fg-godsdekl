@@ -22,7 +22,32 @@ import java.math.RoundingMode
 enum class NemUnit(val labelResId: Int, val factor: Long) {
     NONE(R.string.unit_none, 0L),
     GRAM(R.string.unit_g, 1_000L),
-    KILOGRAM(R.string.unit_kg, 1_000_000L)
+    KILOGRAM(R.string.unit_kg, 1_000_000L);
+
+    private val factorDecimal: BigDecimal = BigDecimal.valueOf(factor)
+
+    fun fromMg(mg: Long): BigDecimal = fromMg(BigDecimal.valueOf(mg))
+
+    fun fromMg(mg: BigDecimal): BigDecimal {
+        if (factor == 0L) return BigDecimal.ZERO
+        return mg.divide(factorDecimal, 6, RoundingMode.FLOOR)
+    }
+
+    fun toMg(value: BigDecimal): BigDecimal = value.multiply(factorDecimal)
+
+    companion object {
+        private const val GRAM_THRESHOLD_MG = 100_000L
+        private val GRAM_THRESHOLD_DECIMAL = BigDecimal.valueOf(GRAM_THRESHOLD_MG)
+
+        fun forMg(mg: Long): NemUnit = when {
+            mg == 0L -> NONE
+            mg < GRAM_THRESHOLD_MG -> GRAM
+            else -> KILOGRAM
+        }
+
+        fun displayUnitForMg(mg: BigDecimal): NemUnit =
+            if (mg < GRAM_THRESHOLD_DECIMAL) GRAM else KILOGRAM
+    }
 }
 
 /**
@@ -66,22 +91,12 @@ class MaterialLoadViewModel(
         initialRow: DocumentRow?
     ): MaterialLoadUiState {
         val nemMg = initialMaterial.NEMmg.toLong()
-        val isNemEnabled = nemMg != 0L
-        val nemUnit = when {
-            !isNemEnabled -> NemUnit.NONE
-            nemMg < 100_000L -> NemUnit.GRAM
-            else -> NemUnit.KILOGRAM
-        }
-        val nemText = if (!isNemEnabled) {
-            ""
+        val nemUnit = NemUnit.forMg(nemMg)
+        val isNemEnabled = nemUnit != NemUnit.NONE
+        val nemText = if (isNemEnabled) {
+            ValueHelper.formatPlainValue(nemUnit.fromMg(nemMg))
         } else {
-            ValueHelper.formatPlainValue(
-                BigDecimal(nemMg).divide(
-                    BigDecimal(nemUnit.factor),
-                    6,
-                    RoundingMode.FLOOR,
-                )
-            )
+            ""
         }
 
         return MaterialLoadUiState(
@@ -225,8 +240,8 @@ class MaterialLoadViewModel(
             _uiState.update { state ->
                 if (state.isNemEnabled) {
                     val parsed = ValueHelper.parseValue(newValue)
-                    val mg = parsed.multiply(BigDecimal(state.nemUnitSelected.factor))
-                    if (mg > BigDecimal(Int.MAX_VALUE)) {
+                    val mg = state.nemUnitSelected.toMg(parsed)
+                    if (mg > MAX_NEM_MG) {
                         return@update state
                     }
                     state.copy(nemInputText = newValue, nemMgValue = mg.toLong())
@@ -250,12 +265,7 @@ class MaterialLoadViewModel(
                 val inputText = if (state.nemMgValue == 0L) {
                     ""
                 } else {
-                    val value = BigDecimal(state.nemMgValue).divide(
-                        BigDecimal(unit.factor),
-                        6,
-                        RoundingMode.FLOOR
-                    )
-                    ValueHelper.formatPlainValue(value)
+                    ValueHelper.formatPlainValue(unit.fromMg(state.nemMgValue))
                 }
                 state.copy(
                     nemUnitSelected = unit,
@@ -280,5 +290,9 @@ class MaterialLoadViewModel(
 
     fun onMiljoChanged(miljo: Boolean) {
         _uiState.update { it.copy(miljo = miljo) }
+    }
+
+    companion object {
+        private val MAX_NEM_MG: BigDecimal = BigDecimal.valueOf(Int.MAX_VALUE.toLong())
     }
 }

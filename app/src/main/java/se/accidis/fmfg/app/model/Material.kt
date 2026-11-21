@@ -2,13 +2,12 @@ package se.accidis.fmfg.app.model
 
 import android.os.Bundle
 import android.os.Parcelable
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import org.json.JSONArray
 import org.json.JSONObject
-import se.accidis.fmfg.app.utils.JSONUtils
 import java.math.BigDecimal
-import java.math.RoundingMode
 
 /**
  * Model object for materials.
@@ -28,18 +27,22 @@ data class Material(
     val miljo: Boolean,
     val source: MaterialSource = MaterialSource.NONE
 ) : Parcelable {
-    val klassKodAsString: String
-        get() = createLabels()
+    @IgnoredOnParcel
+    val klassKodAsString: String by lazy(LazyThreadSafetyMode.PUBLICATION) { createLabels() }
 
-    val fullText: String
-        get() = createFullText()
+    @IgnoredOnParcel
+    val fullText: String by lazy(LazyThreadSafetyMode.PUBLICATION) { createFullText() }
 
-    val NEMkg: BigDecimal
-        get() = BigDecimal(NEMmg).divide(BigDecimal(1_000_000), 6, RoundingMode.FLOOR)
+    @IgnoredOnParcel
+    val NEMkg: BigDecimal by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        BigDecimal.valueOf(NEMmg.toLong(), 6)
+    }
 
     // Intentionally excludes source, NEMmg, and miljo; materials are uniquely identified by these fields.
-    val uniqueKey: String
-        get() = "$UNnr|$namn|$fben|$fbet|${klassKod.joinToString(",")}|$tpKat|$frpGrp|$tunnelKod"
+    @IgnoredOnParcel
+    val uniqueKey: String by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        "$UNnr|$namn|$fben|$fbet|${klassKod.joinToString(",")}|$tpKat|$frpGrp|$tunnelKod"
+    }
 
     fun hasNEM(): Boolean = NEMmg != 0
 

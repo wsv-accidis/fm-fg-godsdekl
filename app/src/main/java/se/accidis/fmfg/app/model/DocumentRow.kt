@@ -17,19 +17,15 @@ data class DocumentRow(
     val isVolume: Boolean,
     val weightVolume: BigDecimal
 ) {
-    private val multiplier: BigDecimal =
-        BigDecimal(ValueHelper.getMultiplierByTpKat(material.tpKat))
+    val NEMkg: BigDecimal = material.NEMkg.multiply(amount)
 
-    val calculatedValue: BigDecimal
-        get() {
-            val baseValue = if (material.NEMmg != 0) NEMkg else weightVolume
-            return baseValue.multiply(multiplier)
-        }
+    val calculatedValue: BigDecimal = run {
+        val multiplier = BigDecimal.valueOf(ValueHelper.getMultiplierByTpKat(material.tpKat).toLong())
+        val baseValue = if (material.NEMmg != 0) NEMkg else weightVolume
+        baseValue.multiply(multiplier)
+    }
 
     fun hasNEM(): Boolean = material.hasNEM()
-
-    val NEMkg: BigDecimal
-        get() = material.NEMkg.multiply(amount)
 
     fun packagesText(context: Context): String = when {
         numberOfPackages == 0 && typeOfPackages.isBlank() -> ""

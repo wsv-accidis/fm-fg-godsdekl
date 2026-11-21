@@ -58,8 +58,6 @@ import se.accidis.fmfg.app.ui.components.ExpandableCard
 import se.accidis.fmfg.app.ui.components.FieldLabel
 import se.accidis.fmfg.app.ui.components.InputRow
 import se.accidis.fmfg.app.ui.components.ReadOnlyDropdown
-import java.math.BigDecimal
-import java.math.RoundingMode
 
 /**
  * Screen for editing material properties before loading it into a document.
@@ -402,16 +400,8 @@ private fun NemCalculationPanel(
         )
 
         val totalNemMgBd = uiState.totalNemMg
-        val displayUnit =
-            if (totalNemMgBd < BigDecimal(100_000L)) NemUnit.GRAM else NemUnit.KILOGRAM
-
-        val totalNemDisplayValue = ValueHelper.formatValue(
-            totalNemMgBd.divide(
-                BigDecimal(displayUnit.factor),
-                6,
-                RoundingMode.FLOOR
-            )
-        )
+        val displayUnit = NemUnit.displayUnitForMg(totalNemMgBd)
+        val totalNemDisplayValue = ValueHelper.formatValue(displayUnit.fromMg(totalNemMgBd))
 
         Text(
             text = stringResource(
