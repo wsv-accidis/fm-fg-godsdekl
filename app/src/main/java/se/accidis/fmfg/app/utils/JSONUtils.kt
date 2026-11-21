@@ -12,20 +12,17 @@ object JSONUtils {
     private const val BOOLEAN_NULL = 0
     private const val BOOLEAN_TRUE = 1
 
-    fun optDateTime(json: JSONObject, key: String): DateTime? {
-        val str = json.optString(key)
-        if (!str.isEmpty()) {
-            val parser = ISODateTimeFormat.dateTimeNoMillis()
-            return parser.parseDateTime(str)
-        } else {
-            return null
-        }
-    }
+    private val isoDateTimeFormatter = ISODateTimeFormat.dateTimeNoMillis()
+
+    fun optDateTime(json: JSONObject, key: String): DateTime? =
+        parseDateTime(json.optString(key))
+
+    fun parseDateTime(str: String?): DateTime? =
+        if (!str.isNullOrEmpty()) isoDateTimeFormatter.parseDateTime(str) else null
 
     fun putDateTime(json: JSONObject, key: String, dateTime: DateTime?) {
         if (null != dateTime) {
-            val formatter = ISODateTimeFormat.dateTimeNoMillis()
-            json.put(key, dateTime.toString(formatter))
+            json.put(key, dateTime.toString(isoDateTimeFormatter))
         } else {
             json.put(key, null)
         }

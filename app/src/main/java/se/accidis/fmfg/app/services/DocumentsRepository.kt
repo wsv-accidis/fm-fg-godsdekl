@@ -248,8 +248,7 @@ class DocumentsRepository private constructor(context: Context) {
 
     private fun readDocumentLink(fileName: String): DocumentLink {
         val file = context.getFileStreamPath(fileName)
-        val str = AtomicFile(file).openRead().bufferedReader().use { it.readText() }
-        return DocumentLink.fromJson(JSONObject(str))
+        return AtomicFile(file).openRead().use { DocumentLink.fromStream(it) }
     }
 
     private fun removeDocumentLink(id: UUID) {
