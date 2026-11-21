@@ -1,6 +1,5 @@
 package se.accidis.fmfg.app.ui.materials
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -143,8 +142,9 @@ fun MaterialsScreen(onMaterialClick: (Material) -> Unit) {
 
 @Composable
 private fun MaterialItem(material: Material, onClick: () -> Unit) {
-    Column(modifier = Modifier.clickable(onClick = onClick)) {
+    Column {
         ListItem(
+            onClick = onClick,
             supportingContent = {
                 Text(
                     text = material.fullText,

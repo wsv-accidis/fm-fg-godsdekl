@@ -1,6 +1,5 @@
 package se.accidis.fmfg.app.ui.documents
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import se.accidis.fmfg.app.R
@@ -57,13 +58,30 @@ internal fun DocumentOpenBottomSheet(
     onDismiss: () -> Unit
 ) {
     var documentToDeleteId by rememberSaveable { mutableStateOf<UUID?>(null) }
+    val sheetState = rememberBottomSheetState(
+        initialValue = SheetValue.Hidden,
+        enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded)
+    )
+    val scope = rememberCoroutineScope()
+    var isDismissing by remember { mutableStateOf(false) }
+
+    fun dismissWithAnimation(afterHide: () -> Unit) {
+        if (isDismissing) return
+        isDismissing = true
+        scope.launch {
+            sheetState.hide()
+        }.invokeOnCompletion {
+            if (!sheetState.isVisible) {
+                afterHide()
+            } else {
+                isDismissing = false
+            }
+        }
+    }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
-        sheetState = rememberBottomSheetState(
-            initialValue = SheetValue.Hidden,
-            enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded)
-        )
+        sheetState = sheetState
     ) {
         Column(
             modifier = Modifier
@@ -119,7 +137,9 @@ internal fun DocumentOpenBottomSheet(
                                     DocumentLinkItem(
                                         docLink = docLink,
                                         onClick = {
-                                            docLink.id?.let { id -> onDocumentClick(id) }
+                                            docLink.id?.let { id ->
+                                                dismissWithAnimation { onDocumentClick(id) }
+                                            }
                                         },
                                         onDeleteClick = {
                                             documentToDeleteId = docLink.id
@@ -133,7 +153,7 @@ internal fun DocumentOpenBottomSheet(
             }
 
             Button(
-                onClick = onDismiss,
+                onClick = { dismissWithAnimation(onDismiss) },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(stringResource(R.string.generic_close))
@@ -176,8 +196,9 @@ private fun DocumentLinkItem(
         docLink.timestamp?.toString(timestampFormatter) ?: ""
     }
 
-    Column(modifier = Modifier.clickable(onClick = onClick)) {
+    Column {
         ListItem(
+            onClick = onClick,
             supportingContent = {
                 if (formattedTimestamp.isNotBlank()) {
                     Text(

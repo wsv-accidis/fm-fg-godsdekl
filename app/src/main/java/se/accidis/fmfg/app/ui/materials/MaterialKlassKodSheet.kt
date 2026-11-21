@@ -21,11 +21,17 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.services.LabelsRepository
 
@@ -36,9 +42,27 @@ internal fun MaterialEditKlassKodBottomSheet(
     onToggleKlassKod: (String) -> Unit,
     onDismiss: () -> Unit
 ) {
+    val sheetState = rememberBottomSheetState(initialValue = SheetValue.Hidden)
+    val scope = rememberCoroutineScope()
+    var isDismissing by remember { mutableStateOf(false) }
+
+    fun dismissWithAnimation() {
+        if (isDismissing) return
+        isDismissing = true
+        scope.launch {
+            sheetState.hide()
+        }.invokeOnCompletion {
+            if (!sheetState.isVisible) {
+                onDismiss()
+            } else {
+                isDismissing = false
+            }
+        }
+    }
+
     ModalBottomSheet(
         onDismissRequest = onDismiss,
-        sheetState = rememberBottomSheetState(initialValue = SheetValue.Hidden)
+        sheetState = sheetState
     ) {
         Column(
             modifier = Modifier
@@ -79,7 +103,7 @@ internal fun MaterialEditKlassKodBottomSheet(
             }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = onDismiss,
+                onClick = { dismissWithAnimation() },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(stringResource(R.string.generic_close))
