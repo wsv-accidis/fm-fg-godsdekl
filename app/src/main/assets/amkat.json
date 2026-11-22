@@ -157,7 +157,7 @@
   },
   {
     "Fbet": "M4012-119901",
-    "Fben": "12,7 LÖS PTR90 BAND",
+    "Fben": "12,7 LÖS PTR 90 BAND",
     "UNnr": "0338",
     "Namn": "PATRONER FÖR VAPEN LÖS AMMUNITION, eller PATRONER, HANDELDVAPEN, LÖS AMMUNITION",
     "KlassKod": [
@@ -493,7 +493,7 @@
   },
   {
     "Fbet": "M4012-117111",
-    "Fben": "12,7 SLBRSPRJBAND4+1",
+    "Fben": "12,7 SLBRSPRJBAND 4+1",
     "UNnr": "0009",
     "Namn": "BRANDAMMUNITION, med eller utan central-, separerings- eller drivladdning",
     "KlassKod": [
@@ -622,7 +622,7 @@
   },
   {
     "Fbet": "M4120-010104",
-    "Fben": "120 PSVINGGR94 AMÖ1",
+    "Fben": "120 PSVINGGR 94 AMÖ1",
     "UNnr": "0281",
     "Namn": "RAKETMOTORER",
     "KlassKod": [
@@ -633,7 +633,7 @@
   },
   {
     "Fbet": "M4120-010114",
-    "Fben": "120 PSVINGGR94 AMÖ2",
+    "Fben": "120 PSVINGGR 94 AMÖ2",
     "UNnr": "0044",
     "Namn": "TÄNDHATTAR",
     "KlassKod": [
@@ -644,7 +644,7 @@
   },
   {
     "Fbet": "M4120-858914",
-    "Fben": "120 PSVINGGR94 EHL",
+    "Fben": "120 PSVINGGR 94 EHL",
     "UNnr": "0006",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -692,7 +692,7 @@
   },
   {
     "Fbet": "M4120-802614",
-    "Fben": "120 SVINGGR25",
+    "Fben": "120 SVINGGR 25",
     "UNnr": "0006",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -704,7 +704,7 @@
   },
   {
     "Fbet": "M4120-802264",
-    "Fben": "120 SVINGGR58 AMRÖJ",
+    "Fben": "120 SVINGGR 58 AMRÖJ",
     "UNnr": "0006",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -716,7 +716,7 @@
   },
   {
     "Fbet": "M4120-802604",
-    "Fben": "120 SVINGGR58 Z",
+    "Fben": "120 SVINGGR 58 Z",
     "UNnr": "0006",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -728,7 +728,7 @@
   },
   {
     "Fbet": "M4120-802254",
-    "Fben": "120 SVINGGR58C",
+    "Fben": "120 SVINGGR 58C",
     "UNnr": "0006",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -811,7 +811,7 @@
   },
   {
     "Fbet": "M4120-152405",
-    "Fben": "120/95 SLSGR22 M339",
+    "Fben": "120/95 SLSGR 22 M339",
     "UNnr": "0006",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -835,7 +835,7 @@
   },
   {
     "Fbet": "M4120-159130",
-    "Fben": "120/95 SLÖVNPRJ01",
+    "Fben": "120/95 SLÖVNPRJ 01",
     "UNnr": "0326",
     "Namn": "PATRONER FÖR VAPEN, LÖS AMMUNITION",
     "KlassKod": [
@@ -847,7 +847,7 @@
   },
   {
     "Fbet": "M4120-159140",
-    "Fben": "120/95 SLÖVNPRJ19",
+    "Fben": "120/95 SLÖVNPRJ 19",
     "UNnr": "0328",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
     "KlassKod": [
@@ -859,7 +859,7 @@
   },
   {
     "Fbet": "M4120-159120",
-    "Fben": "120/95 SLÖVNPRJ2000",
+    "Fben": "120/95 SLÖVNPRJ 2000",
     "UNnr": "0328",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
     "KlassKod": [
@@ -871,7 +871,7 @@
   },
   {
     "Fbet": "M4120-159150",
-    "Fben": "120/95 SLÖVNPRJDM88",
+    "Fben": "120/95 SLÖVNPRJ DM88",
     "UNnr": "0328",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
     "KlassKod": [
@@ -883,7 +883,7 @@
   },
   {
     "Fbet": "M4120-159000",
-    "Fben": "120/95 SLÖVNGR95 BARL",
+    "Fben": "120/95 SLÖVNGR 95 BARL",
     "UNnr": "0417",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -907,7 +907,7 @@
   },
   {
     "Fbet": "M4120-159010",
-    "Fben": "120 SLÖVNGRBARL DM98",
+    "Fben": "120 SLÖVNGR BARL DM98",
     "UNnr": "0328",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
     "KlassKod": [
@@ -919,7 +919,7 @@
   },
   {
     "Fbet": "M4411-123905",
-    "Fben": "135 SHU56/70 AMRÖJ",
+    "Fben": "135 SHU 56/70 AMRÖJ",
     "UNnr": "0286",
     "Namn": "STRIDSDELAR, RAKET med sprängladdning",
     "KlassKod": [
@@ -931,7 +931,7 @@
   },
   {
     "Fbet": "M4411-124902",
-    "Fben": "135 SHU70 AMRÖJ",
+    "Fben": "135 SHU 70 AMRÖJ",
     "UNnr": "0286",
     "Namn": "STRIDSDELAR, RAKET med sprängladdning",
     "KlassKod": [
@@ -943,7 +943,7 @@
   },
   {
     "Fbet": "M4411-033000",
-    "Fben": "135 SRAK56D AMRÖJ",
+    "Fben": "135 SRAK 56D AMRÖJ",
     "UNnr": "0182",
     "Namn": "RAKETER, med sprängladdning",
     "KlassKod": [
@@ -979,7 +979,7 @@
   },
   {
     "Fbet": "M4152-004207",
-    "Fben": "152 HPGR36 AMRÖJ",
+    "Fben": "152 HPGR 36 AMRÖJ",
     "UNnr": "0168",
     "Namn": "PROJEKTILER, med sprängladdning",
     "KlassKod": [
@@ -1087,7 +1087,7 @@
   },
   {
     "Fbet": "M4155-002220",
-    "Fben": "155 SGR54-77",
+    "Fben": "155 SGR 54-77",
     "UNnr": "0168",
     "Namn": "PROJEKTILER, med sprängladdning",
     "KlassKod": [
@@ -1099,7 +1099,7 @@
   },
   {
     "Fbet": "M4155-002400",
-    "Fben": "155 SGR77",
+    "Fben": "155 SGR 77",
     "UNnr": "0168",
     "Namn": "PROJEKTILER, med sprängladdning",
     "KlassKod": [
@@ -1111,7 +1111,7 @@
   },
   {
     "Fbet": "M4155-008120",
-    "Fben": "155 ÖVNGR54-77 Z",
+    "Fben": "155 ÖVNGR 54-77 Z",
     "UNnr": "0169",
     "Namn": "PROJEKTILER, med sprängladdning",
     "KlassKod": [
@@ -1459,7 +1459,7 @@
   },
   {
     "Fbet": "M4027-114046",
-    "Fben": "27/85 SLHPGR07VBAND",
+    "Fben": "27/85 SLHPGR 07 VBAND",
     "UNnr": "0328",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
     "KlassKod": [
@@ -1483,7 +1483,7 @@
   },
   {
     "Fbet": "M4027-119001",
-    "Fben": "27/85 ÖVNPRJ85VBAND",
+    "Fben": "27/85 ÖVNPRJ 85 VBAND",
     "UNnr": "0328",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
     "KlassKod": [
@@ -1495,7 +1495,7 @@
   },
   {
     "Fbet": "M4030-209010",
-    "Fben": "30/75 ÖVNPRJ75 SLJ",
+    "Fben": "30/75 ÖVNPRJ 75 SLJ",
     "UNnr": "0328",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL",
     "KlassKod": [
@@ -1699,7 +1699,7 @@
   },
   {
     "Fbet": "M4040-209901",
-    "Fben": "40/48 ELDMARKPRJ48",
+    "Fben": "40/48 ELDMARKPRJ 48",
     "UNnr": "0417",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -1747,7 +1747,7 @@
   },
   {
     "Fbet": "M4040-202976",
-    "Fben": "40/48 KULSGR87",
+    "Fben": "40/48 KULSGR 87",
     "UNnr": "0321",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -1771,7 +1771,7 @@
   },
   {
     "Fbet": "M4040-202301",
-    "Fben": "40/48 SLSGR483 AMRÖ",
+    "Fben": "40/48 SLSGR 483 AMRÖ",
     "UNnr": "0321",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -1783,7 +1783,7 @@
   },
   {
     "Fbet": "M4040-202401",
-    "Fben": "40/48 SLSGR484 AMRÖ",
+    "Fben": "40/48 SLSGR 484 AMRÖ",
     "UNnr": "0321",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -1795,7 +1795,7 @@
   },
   {
     "Fbet": "M4040-202274",
-    "Fben": "40/48 SLSGR485M",
+    "Fben": "40/48 SLSGR 485M",
     "UNnr": "0321",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -1807,7 +1807,7 @@
   },
   {
     "Fbet": "M4040-202257",
-    "Fben": "40/48 SLSGR486",
+    "Fben": "40/48 SLSGR 486",
     "UNnr": "0321",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -2047,7 +2047,7 @@
   },
   {
     "Fbet": "M4005-309900",
-    "Fben": "5,56 LÖS PTR5B BAND",
+    "Fben": "5,56 LÖS PTR 5B BAND",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2107,7 +2107,7 @@
   },
   {
     "Fbet": "M4005-306401",
-    "Fben": "5,56 SKPTR5 SLNBAND",
+    "Fben": "5,56 SKPTR 5 SLNBAND",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2309,7 +2309,7 @@
   },
   {
     "Fbet": "M4057-119910",
-    "Fben": "57 SALUTSKOTT08 RED",
+    "Fben": "57 SALUTSKOTT 08 RED",
     "UNnr": "0375",
     "Namn": "KNALLADDNINGAR, EXPLOSIVA",
     "KlassKod": [
@@ -2321,7 +2321,7 @@
   },
   {
     "Fbet": "M4057-119900",
-    "Fben": "57 SALUTSKOTT94 RED",
+    "Fben": "57 SALUTSKOTT 94 RED",
     "UNnr": "0467",
     "Namn": "FÖREMÅL, EXPLOSIVA, N.O.S.",
     "KlassKod": [
@@ -2333,7 +2333,7 @@
   },
   {
     "Fbet": "M4057-003904",
-    "Fben": "57 SMGR70 FKSAR",
+    "Fben": "57 SMGR 70 FKSAR",
     "UNnr": "0168",
     "Namn": "PROJEKTILER, med sprängladdning",
     "KlassKod": [
@@ -2356,7 +2356,7 @@
   },
   {
     "Fbet": "M4057-712904",
-    "Fben": "57/70 KULSGR 2000LK",
+    "Fben": "57/70 KULSGR 2000 LK",
     "UNnr": "0321",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -2368,7 +2368,7 @@
   },
   {
     "Fbet": "M4057-709201",
-    "Fben": "57/70 KULSGR70 BARL",
+    "Fben": "57/70 KULSGR 70 BARL",
     "UNnr": "0417",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2380,7 +2380,7 @@
   },
   {
     "Fbet": "M4057-702915",
-    "Fben": "57/70 KULSGR92Z ZAR",
+    "Fben": "57/70 KULSGR 92Z ZAR",
     "UNnr": "0321",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -2404,7 +2404,7 @@
   },
   {
     "Fbet": "M4057-709215",
-    "Fben": "57/70 SGR501-76BARL",
+    "Fben": "57/70 SGR 501-76 BARL",
     "UNnr": "0417",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2416,7 +2416,7 @@
   },
   {
     "Fbet": "M4057-709305",
-    "Fben": "57/70 SGR70 Z SPL",
+    "Fben": "57/70 SGR 70 Z SPL",
     "UNnr": "0321",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -2428,7 +2428,7 @@
   },
   {
     "Fbet": "M4057-709211",
-    "Fben": "57/70 SMGR70 BARL",
+    "Fben": "57/70 SMGR 70 BARL",
     "UNnr": "0417",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2440,7 +2440,7 @@
   },
   {
     "Fbet": "M4057-703904",
-    "Fben": "57/70 SMGR70 FKS",
+    "Fben": "57/70 SMGR 70 FKS",
     "UNnr": "0321",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -2464,7 +2464,7 @@
   },
   {
     "Fbet": "M4057-709225",
-    "Fben": "57/70SMGR501-82BARL",
+    "Fben": "57/70 SMGR 501-82 BARL",
     "UNnr": "0417",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2536,7 +2536,7 @@
   },
   {
     "Fbet": "M4006-106110",
-    "Fben": "6,5 PRJ91 HS",
+    "Fben": "6,5 PRJ 91 HS",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2560,7 +2560,7 @@
   },
   {
     "Fbet": "M4006-109110",
-    "Fben": "6,5/94 PRJ17 REDL",
+    "Fben": "6,5/94 PRJ 17 REDL",
     "UNnr": "0339",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2572,7 +2572,7 @@
   },
   {
     "Fbet": "M4006-106050",
-    "Fben": "6,5/94 PRJ41",
+    "Fben": "6,5/94 PRJ 41",
     "UNnr": "0339",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2584,7 +2584,7 @@
   },
   {
     "Fbet": "M4006-106051",
-    "Fben": "6,5/94 PRJ41",
+    "Fben": "6,5/94 PRJ 41",
     "UNnr": "0339",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2596,7 +2596,7 @@
   },
   {
     "Fbet": "M4006-106060",
-    "Fben": "6,5/94 PRJ41 PRICK",
+    "Fben": "6,5/94 PRJ 41 PRICK",
     "UNnr": "0339",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2608,7 +2608,7 @@
   },
   {
     "Fbet": "M4006-106070",
-    "Fben": "6,5/94 PRJ41 PRICK",
+    "Fben": "6,5/94 PRJ 41 PRICK",
     "UNnr": "0339",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2620,7 +2620,7 @@
   },
   {
     "Fbet": "M4006-106080",
-    "Fben": "6,5/94 PRJ41 PRICK",
+    "Fben": "6,5/94 PRJ 41 PRICK",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2632,7 +2632,7 @@
   },
   {
     "Fbet": "M4006-106410",
-    "Fben": "6,5/94 SLPRJ41",
+    "Fben": "6,5/94 SLPRJ 41",
     "UNnr": "0339",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2668,7 +2668,7 @@
   },
   {
     "Fbet": "M4415-082801",
-    "Fben": "63 RAKMO70",
+    "Fben": "63 RAKMO 70",
     "UNnr": "0186",
     "Namn": "RAKETMOTORER",
     "KlassKod": [
@@ -2680,7 +2680,7 @@
   },
   {
     "Fbet": "M4007-109900",
-    "Fben": "7,5 LÖS PTR87",
+    "Fben": "7,5 LÖS PTR 87",
     "UNnr": "0339",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2740,7 +2740,7 @@
   },
   {
     "Fbet": "M4007-506620",
-    "Fben": "7,62 IRPPRJBANDM13",
+    "Fben": "7,62 IRPPRJBAND M13",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2788,7 +2788,7 @@
   },
   {
     "Fbet": "M4007-519900",
-    "Fben": "7,62 LÖS PTR10 BAND",
+    "Fben": "7,62 LÖS PTR 10 BAND",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2812,7 +2812,7 @@
   },
   {
     "Fbet": "M4007-519920",
-    "Fben": "7,62 LÖSBAND10 M13",
+    "Fben": "7,62 LÖSBAND 10 M13",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2824,7 +2824,7 @@
   },
   {
     "Fbet": "M4007-519910",
-    "Fben": "7,62 LÖSBAND10B M13",
+    "Fben": "7,62 LÖSBAND 10B M13",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2848,7 +2848,7 @@
   },
   {
     "Fbet": "M4007-516030",
-    "Fben": "7,62 NBAND10 M13",
+    "Fben": "7,62 NBAND 10 M13",
     "UNnr": "0339",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2860,7 +2860,7 @@
   },
   {
     "Fbet": "M4007-516020",
-    "Fben": "7,62 NBAND10B M13",
+    "Fben": "7,62 NBAND 10B M13",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2872,7 +2872,7 @@
   },
   {
     "Fbet": "M4007-506110",
-    "Fben": "7,62 PRJ90 HS",
+    "Fben": "7,62 PRJ 90 HS",
     "UNnr": "0339",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2920,7 +2920,7 @@
   },
   {
     "Fbet": "M4007-516460",
-    "Fben": "7,62 SLNB10B 1+4M13",
+    "Fben": "7,62 SLNB 10B 1+4 M13",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2932,7 +2932,7 @@
   },
   {
     "Fbet": "M4007-516470",
-    "Fben": "7,62 SLNB10B 1+9M13",
+    "Fben": "7,62 SLNB 10B 1+9 M13",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2956,7 +2956,7 @@
   },
   {
     "Fbet": "M4007-516450",
-    "Fben": "7,62 SLNBAND 9+1M13",
+    "Fben": "7,62 SLNBAND 9+1 M13",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2968,7 +2968,7 @@
   },
   {
     "Fbet": "M4007-516430",
-    "Fben": "7,62 SLNBAND10 M13",
+    "Fben": "7,62 SLNBAND 10 M13",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -2980,7 +2980,7 @@
   },
   {
     "Fbet": "M4007-516420",
-    "Fben": "7,62 SLNBAND10B M13",
+    "Fben": "7,62 SLNBAND 10B M13",
     "UNnr": "0012",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -3304,7 +3304,7 @@
   },
   {
     "Fbet": "M4007-516440",
-    "Fben": "7,62SLNBAND10 KSP58",
+    "Fben": "7,62 SLNBAND 10 KSP 58",
     "UNnr": "0339",
     "Namn": "PATRONER FÖR VAPEN, FULLPROJEKTIL eller PATRONER, HANDELDVAPEN",
     "KlassKod": [
@@ -3316,7 +3316,7 @@
   },
   {
     "Fbet": "M4542-101000",
-    "Fben": "75 FOTOB62",
+    "Fben": "75 FOTOB 62",
     "UNnr": "0039",
     "Namn": "FOTOBOMBER",
     "KlassKod": [
@@ -3344,7 +3344,7 @@
     "UNnr": "1838",
     "Namn": "TITANTETRAKLORID",
     "KlassKod": [
-	  "6.1",
+      "6.1",
       "8"
     ],
     "TpKat": 1,
@@ -3557,7 +3557,7 @@
   },
   {
     "Fbet": "M4080-202315",
-    "Fben": "80 SVINGGR24",
+    "Fben": "80 SVINGGR 24",
     "UNnr": "0006",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -3581,7 +3581,7 @@
   },
   {
     "Fbet": "M4080-202305",
-    "Fben": "80 SVINGGR80 Z",
+    "Fben": "80 SVINGGR 80 Z",
     "UNnr": "0168",
     "Namn": "PROJEKTILER, med sprängladdning",
     "KlassKod": [
@@ -3629,7 +3629,7 @@
   },
   {
     "Fbet": "M4084-422004",
-    "Fben": "84/18 SGR23",
+    "Fben": "84/18 SGR 23",
     "UNnr": "0321",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -3713,7 +3713,7 @@
   },
   {
     "Fbet": "M4084-412214",
-    "Fben": "84/48B SGR00B",
+    "Fben": "84/48B SGR 00B",
     "UNnr": "0321",
     "Namn": "PATRONER FÖR VAPEN, med sprängladdning",
     "KlassKod": [
@@ -3904,7 +3904,7 @@
   },
   {
     "Fbet": "M4728-800110",
-    "Fben": "AMÖSATS 155BONUS /S",
+    "Fben": "AMÖSATS 155 BONUS /S",
     "UNnr": "0168",
     "Namn": "PROJEKTILER, med sprängladdning",
     "KlassKod": [
@@ -3998,7 +3998,7 @@
   },
   {
     "Fbet": "M4747-130401",
-    "Fben": "AVFYRINGSPTR67",
+    "Fben": "AVFYRINGSPTR 67",
     "UNnr": "0431",
     "Namn": "FÖREMÅL, PYROTEKNISKA, för tekniska ändamål",
     "KlassKod": [
@@ -4079,7 +4079,7 @@
   },
   {
     "Fbet": "M4344-471121",
-    "Fben": "BANSÄKRING TORP47",
+    "Fben": "BANSÄKRING TORP 47",
     "UNnr": "0221",
     "Namn": "STRIDSDELAR, TORPED med sprängladdning",
     "KlassKod": [
@@ -4318,7 +4318,7 @@
   },
   {
     "Fbet": "M4703-530002",
-    "Fben": "CTIDR55 URV AMRÖJ",
+    "Fben": "CTIDR 55 URV AMRÖJ",
     "UNnr": "0410",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -4390,7 +4390,7 @@
   },
   {
     "Fbet": "M4400-015121",
-    "Fben": "DESTR-FÖRB RB15F /T",
+    "Fben": "DESTR-FÖRB RB 15F /T",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -4401,7 +4401,7 @@
   },
   {
     "Fbet": "M4722-501301",
-    "Fben": "DET54",
+    "Fben": "DET 54",
     "UNnr": "0073",
     "Namn": "SPRÄNGKAPSLAR FÖR AMMUNITION",
     "KlassKod": [
@@ -4496,7 +4496,7 @@
   },
   {
     "Fbet": "M4793-503802",
-    "Fben": "DRIVLNG HV18 AMRÖJ",
+    "Fben": "DRIVLNG HV 18 AMRÖJ",
     "UNnr": "0323",
     "Namn": "AKTIVATORER, EXPLOSIVA",
     "KlassKod": [
@@ -4520,7 +4520,7 @@
   },
   {
     "Fbet": "M4793-503702",
-    "Fben": "DRIVLNG MV18 AMRÖJ",
+    "Fben": "DRIVLNG MV 18 AMRÖJ",
     "UNnr": "0323",
     "Namn": "AKTIVATORER, EXPLOSIVA",
     "KlassKod": [
@@ -4532,7 +4532,7 @@
   },
   {
     "Fbet": "M4793-503901",
-    "Fben": "DRIVLNG SHG18 AMRÖJ",
+    "Fben": "DRIVLNG SHG 18 AMRÖJ",
     "UNnr": "0323",
     "Namn": "AKTIVATORER, EXPLOSIVA",
     "KlassKod": [
@@ -4544,7 +4544,7 @@
   },
   {
     "Fbet": "M4793-503501",
-    "Fben": "DRIVLNG SHG28 AMRÖJ",
+    "Fben": "DRIVLNG SHG 28 AMRÖJ",
     "UNnr": "0323",
     "Namn": "AKTIVATORER, EXPLOSIVA",
     "KlassKod": [
@@ -4556,7 +4556,7 @@
   },
   {
     "Fbet": "M4793-503301",
-    "Fben": "DRIVLNG SHG40 AMRÖJ",
+    "Fben": "DRIVLNG SHG 40 AMRÖJ",
     "UNnr": "0323",
     "Namn": "AKTIVATORER, EXPLOSIVA",
     "KlassKod": [
@@ -4615,7 +4615,7 @@
   },
   {
     "Fbet": "M4708-803210",
-    "Fben": "DRIVPATRON13 /S",
+    "Fben": "DRIVPATRON 13 /S",
     "UNnr": "0338",
     "Namn": "PATRONER FÖR VAPEN LÖS AMMUNITION, eller PATRONER, HANDELDVAPEN, LÖS AMMUNITION",
     "KlassKod": [
@@ -4627,7 +4627,7 @@
   },
   {
     "Fbet": "M4080-201540",
-    "Fben": "DRIVPATRON13 LNG1",
+    "Fben": "DRIVPATRON 13 LNG 1",
     "UNnr": "0338",
     "Namn": "PATRONER FÖR VAPEN LÖS AMMUNITION, eller PATRONER, HANDELDVAPEN, LÖS AMMUNITION",
     "KlassKod": [
@@ -4639,7 +4639,7 @@
   },
   {
     "Fbet": "M4080-201541",
-    "Fben": "DRIVPATRON13 LNG2",
+    "Fben": "DRIVPATRON 13 LNG 2",
     "UNnr": "0338",
     "Namn": "PATRONER FÖR VAPEN LÖS AMMUNITION, eller PATRONER, HANDELDVAPEN, LÖS AMMUNITION",
     "KlassKod": [
@@ -4651,7 +4651,7 @@
   },
   {
     "Fbet": "M4080-201542",
-    "Fben": "DRIVPATRON13 LNG3",
+    "Fben": "DRIVPATRON 13 LNG 3",
     "UNnr": "0338",
     "Namn": "PATRONER FÖR VAPEN LÖS AMMUNITION, eller PATRONER, HANDELDVAPEN, LÖS AMMUNITION",
     "KlassKod": [
@@ -4663,7 +4663,7 @@
   },
   {
     "Fbet": "M4080-201543",
-    "Fben": "DRIVPATRON13 LNG4",
+    "Fben": "DRIVPATRON 13 LNG 4",
     "UNnr": "0338",
     "Namn": "PATRONER FÖR VAPEN LÖS AMMUNITION, eller PATRONER, HANDELDVAPEN, LÖS AMMUNITION",
     "KlassKod": [
@@ -4675,7 +4675,7 @@
   },
   {
     "Fbet": "M4080-201544",
-    "Fben": "DRIVPATRON13 LNG5",
+    "Fben": "DRIVPATRON 13 LNG 5",
     "UNnr": "0338",
     "Namn": "PATRONER FÖR VAPEN LÖS AMMUNITION, eller PATRONER, HANDELDVAPEN, LÖS AMMUNITION",
     "KlassKod": [
@@ -4687,7 +4687,7 @@
   },
   {
     "Fbet": "M4080-201545",
-    "Fben": "DRIVPATRON13 LNG6",
+    "Fben": "DRIVPATRON 13 LNG 6",
     "UNnr": "0338",
     "Namn": "PATRONER FÖR VAPEN LÖS AMMUNITION, eller PATRONER, HANDELDVAPEN, LÖS AMMUNITION",
     "KlassKod": [
@@ -4711,7 +4711,7 @@
   },
   {
     "Fbet": "M4120-801500",
-    "Fben": "DRIVPTR42",
+    "Fben": "DRIVPTR 42",
     "UNnr": "0242",
     "Namn": "DRIVLADDNINGAR FÖR ARTILLERIPJÄSER",
     "KlassKod": [
@@ -4723,7 +4723,7 @@
   },
   {
     "Fbet": "M4080-201530",
-    "Fben": "DRIVPTR80",
+    "Fben": "DRIVPTR 80",
     "UNnr": "0325",
     "Namn": "ÖVERFÖRINGSTÄNDARE",
     "KlassKod": [
@@ -4735,7 +4735,7 @@
   },
   {
     "Fbet": "M4301-001540",
-    "Fben": "DRIVPTR83 LÅDA40",
+    "Fben": "DRIVPTR 83 LÅDA 40",
     "UNnr": "0327",
     "Namn": "PATRONER FÖR VAPEN, LÖS AMMUNITION, eller PATRONER, HANDELDVAPEN, LÖS AMMUNITION",
     "KlassKod": [
@@ -5626,7 +5626,7 @@
   },
   {
     "Fbet": "M4702-150202",
-    "Fben": "ELTSKR501",
+    "Fben": "ELTSKR 501",
     "UNnr": "0320",
     "Namn": "TÄNDPATRONER",
     "KlassKod": [
@@ -5875,7 +5875,7 @@
   },
   {
     "Fbet": "M4728-900601",
-    "Fben": "EMTRL PART AMRÖJ/S",
+    "Fben": "EMTRL PART AMRÖJ /S",
     "UNnr": "0288",
     "Namn": "RSV-LADDNINGAR, FLEXIBLA, LINJÄRA",
     "KlassKod": [
@@ -5899,7 +5899,7 @@
   },
   {
     "Fbet": "M4341-471131",
-    "Fben": "ENH M20 TORP471 S",
+    "Fben": "ENH M20 TORP 471 S",
     "UNnr": "0451",
     "Namn": "TORPEDER, med sprängladdning",
     "KlassKod": [
@@ -5911,7 +5911,7 @@
   },
   {
     "Fbet": "M4341-471132",
-    "Fben": "ENH M20 TORP471 Ö",
+    "Fben": "ENH M20 TORP 471 Ö",
     "UNnr": "0451",
     "Namn": "TORPEDER, med sprängladdning",
     "KlassKod": [
@@ -5922,7 +5922,7 @@
   },
   {
     "Fbet": "M4341-472131",
-    "Fben": "ENH M20 TORP472 S",
+    "Fben": "ENH M20 TORP 472 S",
     "UNnr": "0451",
     "Namn": "TORPEDER, med sprängladdning",
     "KlassKod": [
@@ -5934,7 +5934,7 @@
   },
   {
     "Fbet": "M4341-471121",
-    "Fben": "ENH M8502 TORP471 S",
+    "Fben": "ENH M8502 TORP 471 S",
     "UNnr": "0451",
     "Namn": "TORPEDER, med sprängladdning",
     "KlassKod": [
@@ -5946,7 +5946,7 @@
   },
   {
     "Fbet": "M4341-471122",
-    "Fben": "ENH M8502 TORP471 Ö",
+    "Fben": "ENH M8502 TORP 471 Ö",
     "UNnr": "0451",
     "Namn": "TORPEDER, med sprängladdning",
     "KlassKod": [
@@ -5957,7 +5957,7 @@
   },
   {
     "Fbet": "M4341-472121",
-    "Fben": "ENH M8502 TORP472 S",
+    "Fben": "ENH M8502 TORP 472 S",
     "UNnr": "0221",
     "Namn": "STRIDSDELAR, TORPED med sprängladdning",
     "KlassKod": [
@@ -5969,7 +5969,7 @@
   },
   {
     "Fbet": "M4120-858011",
-    "Fben": "ENH PSVINGGR94 BAR",
+    "Fben": "ENH PSVINGGR 94 BAR",
     "UNnr": "0414",
     "Namn": "DRIVLADDNINGAR FÖR ARTILLERIPJÄSER",
     "KlassKod": [
@@ -5981,7 +5981,7 @@
   },
   {
     "Fbet": "M4341-471141",
-    "Fben": "ENH TC TORP471 S",
+    "Fben": "ENH TC TORP 471 S",
     "UNnr": "0221",
     "Namn": "STRIDSDELAR, TORPED med sprängladdning",
     "KlassKod": [
@@ -5993,7 +5993,7 @@
   },
   {
     "Fbet": "M4341-472141",
-    "Fben": "ENH TC TORP472 S",
+    "Fben": "ENH TC TORP 472 S",
     "UNnr": "0221",
     "Namn": "STRIDSDELAR, TORPED med sprängladdning",
     "KlassKod": [
@@ -6005,7 +6005,7 @@
   },
   {
     "Fbet": "M4400-023001",
-    "Fben": "ENHETSLAST RB23",
+    "Fben": "ENHETSLAST RB 23",
     "UNnr": "0182",
     "Namn": "RAKETER, med sprängladdning",
     "KlassKod": [
@@ -6016,7 +6016,7 @@
   },
   {
     "Fbet": "M4400-057012",
-    "Fben": "ENHETSLAST RB57 /T",
+    "Fben": "ENHETSLAST RB 57 /T",
     "UNnr": "0182",
     "Namn": "RAKETER, med sprängladdning",
     "KlassKod": [
@@ -6256,7 +6256,7 @@
   },
   {
     "Fbet": "M4703-621702",
-    "Fben": "FBAR46 AMRÖJ",
+    "Fben": "FBAR 46 AMRÖJ",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -6681,7 +6681,7 @@
   },
   {
     "Fbet": "F7888-000015",
-    "Fben": "GYRO RB17",
+    "Fben": "GYRO RB 17",
     "UNnr": "0432",
     "Namn": "FÖREMÅL, PYROTEKNISKA, för tekniska ändamål",
     "KlassKod": [
@@ -6752,7 +6752,7 @@
   },
   {
     "Fbet": "M4745-101002",
-    "Fben": "HANDLYSSKOTT IR600M",
+    "Fben": "HANDLYSSKOTT IR 600M",
     "UNnr": "0297",
     "Namn": "LYSAMMUNITION, med eller utan central-, separerings- eller drivladdning",
     "KlassKod": [
@@ -6764,7 +6764,7 @@
   },
   {
     "Fbet": "M4791-801112",
-    "Fben": "HANDREMSRAK A400M",
+    "Fben": "HANDREMSRAK A 400M",
     "UNnr": "0438",
     "Namn": "RAKETER, med separeringsladdning",
     "KlassKod": [
@@ -7339,7 +7339,7 @@
   },
   {
     "Fbet": "M8451-539010",
-    "Fben": "KLYVLADDNS MINRÖJ/S",
+    "Fben": "KLYVLADDNS MINRÖJ /S",
     "UNnr": "0059",
     "Namn": "RSV-LADDNINGAR, utan sprängkapsel",
     "KlassKod": [
@@ -7397,7 +7397,7 @@
   },
   {
     "Fbet": "M4724-103001",
-    "Fben": "KONLNG46 3 KG",
+    "Fben": "KONLNG 46 3 KG",
     "UNnr": "0048",
     "Namn": "FÖRSTÖRELSELADDNINGAR",
     "KlassKod": [
@@ -7409,7 +7409,7 @@
   },
   {
     "Fbet": "M4724-101002",
-    "Fben": "KONLNG46B 1,5 KG",
+    "Fben": "KONLNG 46B 1,5 KG",
     "UNnr": "0048",
     "Namn": "FÖRSTÖRELSELADDNINGAR",
     "KlassKod": [
@@ -7421,7 +7421,7 @@
   },
   {
     "Fbet": "M4724-103002",
-    "Fben": "KONLNG46B 3 KG",
+    "Fben": "KONLNG 46B 3 KG",
     "UNnr": "0048",
     "Namn": "FÖRSTÖRELSELADDNINGAR",
     "KlassKod": [
@@ -7591,7 +7591,7 @@
   },
   {
     "Fbet": "M4702-290001",
-    "Fben": "KRPTR55",
+    "Fben": "KRPTR 55",
     "UNnr": "0254",
     "Namn": "LYSAMMUNITION, med eller utan central-, separerings- eller drivladdning",
     "KlassKod": [
@@ -8352,7 +8352,7 @@
   },
   {
     "Fbet": "M4733-200101",
-    "Fben": "LYSMINA48",
+    "Fben": "LYSMINA 48",
     "UNnr": "0297",
     "Namn": "LYSAMMUNITION, med eller utan central-, separerings- eller drivladdning",
     "KlassKod": [
@@ -9008,7 +9008,7 @@
   },
   {
     "Fbet": "M4705-410002",
-    "Fben": "MINTÄNDARE47 AMRÖJ",
+    "Fben": "MINTÄNDARE 47 AMRÖJ",
     "UNnr": "0364",
     "Namn": "SPRÄNGKAPSLAR FÖR AMMUNITION",
     "KlassKod": [
@@ -9020,7 +9020,7 @@
   },
   {
     "Fbet": "M4705-410102",
-    "Fben": "MINTÄNDARE49B",
+    "Fben": "MINTÄNDARE 49B",
     "UNnr": "0378",
     "Namn": "TÄNDHATTAR",
     "KlassKod": [
@@ -9031,7 +9031,7 @@
   },
   {
     "Fbet": "M4400-098058",
-    "Fben": "MOTOR RB98",
+    "Fben": "MOTOR RB 98",
     "UNnr": "0281",
     "Namn": "RAKETMOTORER",
     "KlassKod": [
@@ -9273,7 +9273,7 @@
   },
   {
     "Fbet": "M4702-621351",
-    "Fben": "NONEL SL NR109",
+    "Fben": "NONEL SL NR 109",
     "UNnr": "0360",
     "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA, apterade",
     "KlassKod": [
@@ -9285,7 +9285,7 @@
   },
   {
     "Fbet": "M4702-621311",
-    "Fben": "NONEL SL NR17",
+    "Fben": "NONEL SL NR 17",
     "UNnr": "0360",
     "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA, apterade",
     "KlassKod": [
@@ -9297,7 +9297,7 @@
   },
   {
     "Fbet": "M4702-621321",
-    "Fben": "NONEL SL NR25",
+    "Fben": "NONEL SL NR 25",
     "UNnr": "0360",
     "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA, apterade",
     "KlassKod": [
@@ -9309,7 +9309,7 @@
   },
   {
     "Fbet": "M4702-621331",
-    "Fben": "NONEL SL NR42",
+    "Fben": "NONEL SL NR 42",
     "UNnr": "0360",
     "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA, apterade",
     "KlassKod": [
@@ -9321,7 +9321,7 @@
   },
   {
     "Fbet": "M4702-621341",
-    "Fben": "NONEL SL NR67",
+    "Fben": "NONEL SL NR 67",
     "UNnr": "0360",
     "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA, apterade",
     "KlassKod": [
@@ -9679,7 +9679,7 @@
   },
   {
     "Fbet": "M4702-622042",
-    "Fben": "NONELSTART100M",
+    "Fben": "NONELSTART 100M",
     "UNnr": "0500",
     "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA, apterade",
     "KlassKod": [
@@ -9691,7 +9691,7 @@
   },
   {
     "Fbet": "M4702-622052",
-    "Fben": "NONELSTART130M",
+    "Fben": "NONELSTART 130M",
     "UNnr": "0500",
     "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA, apterade",
     "KlassKod": [
@@ -9935,7 +9935,7 @@
     "KlassKod": [
       "1.3G"
     ],
-	"NEMmg": 390000,
+    "NEMmg": 390000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -10383,7 +10383,7 @@
   },
   {
     "Fbet": "M4400-101018",
-    "Fben": "RAKMO PROV RB101",
+    "Fben": "RAKMO PROV RB 101",
     "UNnr": "0281",
     "Namn": "RAKETMOTORER",
     "KlassKod": [
@@ -10418,7 +10418,7 @@
   },
   {
     "Fbet": "M4400-015318",
-    "Fben": "RAKMOTÄND RB15MKII",
+    "Fben": "RAKMOTÄND RB 15 MKII",
     "UNnr": "0454",
     "Namn": "ÖVERFÖRINGSTÄNDARE",
     "KlassKod": [
@@ -10609,7 +10609,7 @@
   },
   {
     "Fbet": "M4400-015060",
-    "Fben": "RB 15MK3",
+    "Fben": "RB 15 MK3",
     "UNnr": "0398",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -10621,7 +10621,7 @@
   },
   {
     "Fbet": "M4400-015040",
-    "Fben": "RB 15MKII",
+    "Fben": "RB 15 MKII",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -10633,7 +10633,7 @@
   },
   {
     "Fbet": "M4400-015220",
-    "Fben": "RB 15MKII  DFB",
+    "Fben": "RB 15 MKII DFB",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -10644,7 +10644,7 @@
   },
   {
     "Fbet": "M4400-015230",
-    "Fben": "RB 15MKII M DMT",
+    "Fben": "RB 15 MKII M DMT",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -10655,7 +10655,7 @@
   },
   {
     "Fbet": "M4400-015041",
-    "Fben": "RB 15MKII M TUB",
+    "Fben": "RB 15 MKII M TUB",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -10667,7 +10667,7 @@
   },
   {
     "Fbet": "M4400-015221",
-    "Fben": "RB 15MKII M TUB DFB",
+    "Fben": "RB 15 MKII M TUB DFB",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -10679,7 +10679,7 @@
   },
   {
     "Fbet": "M4400-015051",
-    "Fben": "RB 15MKII M TUB PL",
+    "Fben": "RB 15 MKII M TUB PL",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -10691,7 +10691,7 @@
   },
   {
     "Fbet": "M4400-015450",
-    "Fben": "RB 15MKII TMFB",
+    "Fben": "RB 15 MKII TMFB",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -11288,7 +11288,7 @@
   },
   {
     "Fbet": "M4400-098091",
-    "Fben": "RB 98 LV/T",
+    "Fben": "RB 98 LV /T",
     "UNnr": "0182",
     "Namn": "RAKETER, med sprängladdning",
     "KlassKod": [
@@ -11312,7 +11312,7 @@
   },
   {
     "Fbet": "M4400-099011",
-    "Fben": "RB 99/T",
+    "Fben": "RB 99 /T",
     "UNnr": "0182",
     "Namn": "RAKETER, med sprängladdning",
     "KlassKod": [
@@ -11324,7 +11324,7 @@
   },
   {
     "Fbet": "M4400-023062",
-    "Fben": "RB-BÖRDA RB23 HÖG",
+    "Fben": "RB-BÖRDA RB 23 HÖG",
     "UNnr": "0182",
     "Namn": "RAKETER, med sprängladdning",
     "KlassKod": [
@@ -11336,7 +11336,7 @@
   },
   {
     "Fbet": "M4400-023052",
-    "Fben": "RB-BÖRDA RB23 LÅG",
+    "Fben": "RB-BÖRDA RB 23 LÅG",
     "UNnr": "0182",
     "Namn": "RAKETER, med sprängladdning",
     "KlassKod": [
@@ -11348,7 +11348,7 @@
   },
   {
     "Fbet": "M4400-015080",
-    "Fben": "RB15MK4F",
+    "Fben": "RB 15 MK4F",
     "UNnr": "0398",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -11360,7 +11360,7 @@
   },
   {
     "Fbet": "M4400-015081",
-    "Fben": "RB15MK4F /T",
+    "Fben": "RB 15 MK4F /T",
     "UNnr": "0398",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -11372,7 +11372,7 @@
   },
   {
     "Fbet": "M4400-015465",
-    "Fben": "RB15MKII M T MOD1AD",
+    "Fben": "RB 15 MKII M T MOD1 AD",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -11384,7 +11384,7 @@
   },
   {
     "Fbet": "M4400-015463",
-    "Fben": "RB15MKII M T MOD1TD",
+    "Fben": "RB 15 MKII M T MOD1 TD",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -11396,7 +11396,7 @@
   },
   {
     "Fbet": "M4400-015464",
-    "Fben": "RB15MKII M T VBY AD",
+    "Fben": "RB 15 MKII M T VBY AD",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -11408,7 +11408,7 @@
   },
   {
     "Fbet": "M4400-015462",
-    "Fben": "RB15MKII M T VBY TD",
+    "Fben": "RB 15 MKII M T VBY TD",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -11420,7 +11420,7 @@
   },
   {
     "Fbet": "M4400-015043",
-    "Fben": "RB15MKII M TUB MOD1",
+    "Fben": "RB 15 MKII M TUB MOD1",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -11432,7 +11432,7 @@
   },
   {
     "Fbet": "M4400-015451",
-    "Fben": "RB15MKII M TUB TMFB",
+    "Fben": "RB 15 MKII M TUB TMFB",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -11444,7 +11444,7 @@
   },
   {
     "Fbet": "M4400-015042",
-    "Fben": "RB15MKII M TUB VBY",
+    "Fben": "RB 15 MKII M TUB VBY",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -11456,7 +11456,7 @@
   },
   {
     "Fbet": "M4400-015231",
-    "Fben": "RB15MKII T MOD1 DMT",
+    "Fben": "RB 15 MKII T MOD1 DMT",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -11468,7 +11468,7 @@
   },
   {
     "Fbet": "M4400-015222",
-    "Fben": "RB15MKII T MOD1DFB",
+    "Fben": "RB 15 MKII T MOD1 DFB",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -11480,7 +11480,7 @@
   },
   {
     "Fbet": "M4400-023061",
-    "Fben": "RB23 HÖG",
+    "Fben": "RB 23 HÖG",
     "UNnr": "0182",
     "Namn": "RAKETER, med sprängladdning",
     "KlassKod": [
@@ -11492,7 +11492,7 @@
   },
   {
     "Fbet": "M4400-023051",
-    "Fben": "RB23 LÅG",
+    "Fben": "RB 23 LÅG",
     "UNnr": "0182",
     "Namn": "RAKETER, med sprängladdning",
     "KlassKod": [
@@ -11516,7 +11516,7 @@
   },
   {
     "Fbet": "M4708-802101",
-    "Fben": "REFTÄNDM FORDM13R/S",
+    "Fben": "REFTÄNDM FORDM13R /S",
     "UNnr": "0255",
     "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA, apterade",
     "KlassKod": [
@@ -11708,7 +11708,7 @@
   },
   {
     "Fbet": "M4728-800301",
-    "Fben": "RÖJLNG 30 OXA/S",
+    "Fben": "RÖJLNG 30 OXA /S",
     "UNnr": "0441",
     "Namn": "RSV-LADDNINGAR, utan sprängkapsel",
     "KlassKod": [
@@ -11944,11 +11944,11 @@
   },
   {
     "Fbet": "M4415-082802",
-    "Fben": "RÖKHUVUD70",
+    "Fben": "RÖKHUVUD 70",
     "UNnr": "1838",
     "Namn": "TITANTETRAKLORID",
     "KlassKod": [
-	  "6.1",
+      "6.1",
       "8"
     ],
     "NEMmg": 104000,
@@ -12203,7 +12203,7 @@
   },
   {
     "Fbet": "M4400-015511",
-    "Fben": "SAMFRB 15MKII M TUB",
+    "Fben": "SAMFRB 15 MKII M TUB",
     "UNnr": "0491",
     "Namn": "DRIVLADDNINGAR",
     "KlassKod": [
@@ -12215,7 +12215,7 @@
   },
   {
     "Fbet": "M4400-015510",
-    "Fben": "SAMFUNKTRB 15MKII",
+    "Fben": "SAMFUNKTRB 15 MKII",
     "UNnr": "0491",
     "Namn": "DRIVLADDNINGAR",
     "KlassKod": [
@@ -12239,7 +12239,7 @@
   },
   {
     "Fbet": "M4703-110303",
-    "Fben": "SAR56B AMRÖJ",
+    "Fben": "SAR 56B AMRÖJ",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -12374,7 +12374,7 @@
     "Namn": "GIFTIG VÄTSKA, FRÄTANDE, ORGANISK, N.O.S.",
     "KlassKod": [
       "6.1",
-	  "8"
+      "8"
     ],
     "TpKat": 1,
     "FrpGrp": "I",
@@ -12387,7 +12387,7 @@
     "Namn": "GIFTIG VÄTSKA, FRÄTANDE, ORGANISK, N.O.S.",
     "KlassKod": [
       "6.1",
-	  "8"
+      "8"
     ],
     "TpKat": 1,
     "FrpGrp": "I",
@@ -13147,7 +13147,7 @@
   },
   {
     "Fbet": "M4701-190201",
-    "Fben": "SLAGTNIPP M SPTR46",
+    "Fben": "SLAGTNIPP M SPTR 46",
     "UNnr": "0073",
     "Namn": "SPRÄNGKAPSLAR FÖR AMMUNITION",
     "KlassKod": [
@@ -13243,7 +13243,7 @@
   },
   {
     "Fbet": "M4709-107902",
-    "Fben": "SLJ15/73 VITT",
+    "Fben": "SLJ 15/73 VITT",
     "UNnr": "0306",
     "Namn": "SPÅRLJUS FÖR AMMUNITION",
     "KlassKod": [
@@ -13537,7 +13537,7 @@
   },
   {
     "Fbet": "M4721-400102",
-    "Fben": "SPRÄNGDEG 46 PTRAMRÖ",
+    "Fben": "SPRÄNGDEG 46 PTR AMRÖ",
     "UNnr": "0150",
     "Namn": "PENTAERYTRITTETRANITRAT (PENTAERYTRITOLTETRANITRAT, PETN), FUKTAD, med minst 25 vikt-% vatten, eller OKÄNSLIGGJORD med minst 15 vikt-% desensibiliseringsmedel",
     "KlassKod": [
@@ -13680,7 +13680,7 @@
   },
   {
     "Fbet": "M4311-063008",
-    "Fben": "SPRÄNGMINJAKTMÅLF63",
+    "Fben": "SPRÄNGMINJAKTMÅL F63",
     "UNnr": "0137",
     "Namn": "MINOR, med sprängladdning",
     "KlassKod": [
@@ -13692,7 +13692,7 @@
   },
   {
     "Fbet": "M4311-066008",
-    "Fben": "SPRÄNGMINJAKTMÅLF66",
+    "Fben": "SPRÄNGMINJAKTMÅL F66",
     "UNnr": "0137",
     "Namn": "MINOR, med sprängladdning",
     "KlassKod": [
@@ -13715,7 +13715,7 @@
   },
   {
     "Fbet": "M4313-050008",
-    "Fben": "SPRÄNGMÅL SJB50",
+    "Fben": "SPRÄNGMÅL SJB 50",
     "UNnr": "0056",
     "Namn": "SJUNKBOMBER",
     "KlassKod": [
@@ -13795,7 +13795,7 @@
   },
   {
     "Fbet": "M4721-500001",
-    "Fben": "SPRÄNGSTAV46",
+    "Fben": "SPRÄNGSTAV 46",
     "UNnr": "0150",
     "Namn": "PENTAERYTRITTETRANITRAT (PENTAERYTRITOLTETRANITRAT, PETN), FUKTAD, med minst 25 vikt-% vatten, eller OKÄNSLIGGJORD med minst 15 vikt-% desensibiliseringsmedel",
     "KlassKod": [
@@ -13888,7 +13888,7 @@
   },
   {
     "Fbet": "M4701-210221",
-    "Fben": "SPTR46 KRSTUBINTÄND",
+    "Fben": "SPTR 46 KRSTUBINTÄND",
     "UNnr": "0360",
     "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA, apterade",
     "KlassKod": [
@@ -13900,7 +13900,7 @@
   },
   {
     "Fbet": "M4701-210202",
-    "Fben": "SPTR46B",
+    "Fben": "SPTR 46B",
     "UNnr": "0029",
     "Namn": "SPRÄNGKAPSLAR, ICKE ELEKTRISKA",
     "KlassKod": [
@@ -13912,7 +13912,7 @@
   },
   {
     "Fbet": "M4701-210211",
-    "Fben": "SPTR46B M KRSTUBIN",
+    "Fben": "SPTR 46B M KRSTUBIN",
     "UNnr": "0360",
     "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA, apterade",
     "KlassKod": [
@@ -13924,7 +13924,7 @@
   },
   {
     "Fbet": "M4701-210203",
-    "Fben": "SPTR46C",
+    "Fben": "SPTR 46C",
     "UNnr": "0029",
     "Namn": "SPRÄNGKAPSLAR, ICKE ELEKTRISKA",
     "KlassKod": [
@@ -13936,7 +13936,7 @@
   },
   {
     "Fbet": "M4701-210205",
-    "Fben": "SPTR46D",
+    "Fben": "SPTR 46D",
     "UNnr": "0029",
     "Namn": "SPRÄNGKAPSLAR, ICKE ELEKTRISKA",
     "KlassKod": [
@@ -14020,7 +14020,7 @@
   },
   {
     "Fbet": "M4703-340203",
-    "Fben": "STIDAR33 URV AMRÖJ",
+    "Fben": "STIDAR 33 URV AMRÖJ",
     "UNnr": "0410",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -14032,7 +14032,7 @@
   },
   {
     "Fbet": "M4703-340601",
-    "Fben": "STIDAR85 URV GRK",
+    "Fben": "STIDAR 85 URV GRK",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -14044,7 +14044,7 @@
   },
   {
     "Fbet": "M4704-210013",
-    "Fben": "STIDR03",
+    "Fben": "STIDR 03",
     "UNnr": "0410",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -14133,7 +14133,7 @@
   },
   {
     "Fbet": "M4794-100802",
-    "Fben": "STOLUTSKJPTR59B",
+    "Fben": "STOLUTSKJPTR 59B",
     "UNnr": "0275",
     "Namn": "AKTIVATORER, EXPLOSIVA",
     "KlassKod": [
@@ -14144,7 +14144,7 @@
   },
   {
     "Fbet": "M4794-100912",
-    "Fben": "STOLUTSKJPTR72B",
+    "Fben": "STOLUTSKJPTR 72B",
     "UNnr": "0275",
     "Namn": "AKTIVATORER, EXPLOSIVA",
     "KlassKod": [
@@ -14167,7 +14167,7 @@
   },
   {
     "Fbet": "M4343-621001",
-    "Fben": "STRIDSDEL 621/T",
+    "Fben": "STRIDSDEL 621 /T",
     "UNnr": "0221",
     "Namn": "STRIDSDELAR, TORPED med sprängladdning",
     "KlassKod": [
@@ -14226,7 +14226,7 @@
   },
   {
     "Fbet": "M4343-471120",
-    "Fben": "STRIDSDEL TORP47",
+    "Fben": "STRIDSDEL TORP 47",
     "UNnr": "0221",
     "Namn": "STRIDSDELAR, TORPED med sprängladdning",
     "KlassKod": [
@@ -14238,7 +14238,7 @@
   },
   {
     "Fbet": "M4343-471121",
-    "Fben": "STRIDSDEL TORP47 /T",
+    "Fben": "STRIDSDEL TORP 47 /T",
     "UNnr": "0221",
     "Namn": "STRIDSDELAR, TORPED med sprängladdning",
     "KlassKod": [
@@ -14405,7 +14405,7 @@
   },
   {
     "Fbet": "M4730-000001",
-    "Fben": "STRVMINA41-47",
+    "Fben": "STRVMINA 41-47",
     "UNnr": "0137",
     "Namn": "MINOR, med sprängladdning",
     "KlassKod": [
@@ -14477,7 +14477,7 @@
   },
   {
     "Fbet": "M4708-801502",
-    "Fben": "STUBINTÄNDSATS 2B/S",
+    "Fben": "STUBINTÄNDSATS 2B /S",
     "UNnr": "0361",
     "Namn": "SPRÄNGKAPSLAR, ICKE-ELEKTRISKA, apterade",
     "KlassKod": [
@@ -14513,7 +14513,7 @@
   },
   {
     "Fbet": "M4400-077178",
-    "Fben": "STYRENHET RB77",
+    "Fben": "STYRENHET RB 77",
     "UNnr": "0454",
     "Namn": "ÖVERFÖRINGSTÄNDARE",
     "KlassKod": [
@@ -14537,7 +14537,7 @@
   },
   {
     "Fbet": "M4400-017128",
-    "Fben": "STYRSEKTION RB17",
+    "Fben": "STYRSEKTION RB 17",
     "UNnr": "0454",
     "Namn": "ÖVERFÖRINGSTÄNDARE",
     "KlassKod": [
@@ -14608,7 +14608,7 @@
   },
   {
     "Fbet": "M4705-410302",
-    "Fben": "T ÖVNTRPM11 AMRÖJ",
+    "Fben": "T ÖVNTRPM 11 AMRÖJ",
     "UNnr": "0317",
     "Namn": "ANTÄNDMEDEL",
     "KlassKod": [
@@ -14827,7 +14827,7 @@
   },
   {
     "Fbet": "M4314-630050",
-    "Fben": "TLNG UVT05/SJB33",
+    "Fben": "TLNG UVT05 /SJB33",
     "UNnr": "0060",
     "Namn": "ÖVERFÖRINGSLADDNINGAR",
     "KlassKod": [
@@ -14839,7 +14839,7 @@
   },
   {
     "Fbet": "M4314-630099",
-    "Fben": "TLNG UVT05/SJB33",
+    "Fben": "TLNG UVT05 /SJB33",
     "UNnr": "0060",
     "Namn": "ÖVERFÖRINGSLADDNINGAR",
     "KlassKod": [
@@ -14887,7 +14887,7 @@
   },
   {
     "Fbet": "M4400-015431",
-    "Fben": "TM-FÖRB RB15 F /T",
+    "Fben": "TM-FÖRB RB 15 F /T",
     "UNnr": "0397",
     "Namn": "VÄTSKERAKETER, med sprängladdning",
     "KlassKod": [
@@ -15010,7 +15010,7 @@
   },
   {
     "Fbet": "M4341-451103",
-    "Fben": "TORPED 451S/T3",
+    "Fben": "TORPED 451S /T3",
     "UNnr": "0451",
     "Namn": "TORPEDER, med sprängladdning",
     "KlassKod": [
@@ -15044,7 +15044,7 @@
   },
   {
     "Fbet": "M4341-451203",
-    "Fben": "TORPED 451Ö/T3",
+    "Fben": "TORPED 451Ö /T3",
     "UNnr": "0432",
     "Namn": "FÖREMÅL, PYROTEKNISKA, för tekniska ändamål",
     "KlassKod": [
@@ -15089,7 +15089,7 @@
   },
   {
     "Fbet": "M4341-452103",
-    "Fben": "TORPED 452S/T3",
+    "Fben": "TORPED 452S /T3",
     "UNnr": "0451",
     "Namn": "TORPEDER, med sprängladdning",
     "KlassKod": [
@@ -15228,7 +15228,7 @@
   },
   {
     "Fbet": "M4731-310023",
-    "Fben": "TRAMPMINA49B AMRÖJ",
+    "Fben": "TRAMPMINA 49B AMRÖJ",
     "UNnr": "0137",
     "Namn": "MINOR, med sprängladdning",
     "KlassKod": [
@@ -15492,7 +15492,7 @@
   },
   {
     "Fbet": "M4702-100512",
-    "Fben": "TSKR37A JÄRN",
+    "Fben": "TSKR 37A JÄRN",
     "UNnr": "0320",
     "Namn": "TÄNDPATRONER",
     "KlassKod": [
@@ -15504,7 +15504,7 @@
   },
   {
     "Fbet": "M4702-100553",
-    "Fben": "TSKR391",
+    "Fben": "TSKR 391",
     "UNnr": "0320",
     "Namn": "TÄNDPATRONER",
     "KlassKod": [
@@ -15516,7 +15516,7 @@
   },
   {
     "Fbet": "M4400-015139",
-    "Fben": "TUB MOD1 T RB15MKII",
+    "Fben": "TUB MOD1 T RB 15 MKII",
     "UNnr": "0491",
     "Namn": "DRIVLADDNINGAR",
     "KlassKod": [
@@ -15540,7 +15540,7 @@
   },
   {
     "Fbet": "M4400-015149",
-    "Fben": "TUB RB15MKII PL",
+    "Fben": "TUB RB 15 MKII PL",
     "UNnr": "0491",
     "Namn": "DRIVLADDNINGAR",
     "KlassKod": [
@@ -15552,7 +15552,7 @@
   },
   {
     "Fbet": "M4400-015129",
-    "Fben": "TUB RB15MKII VBY",
+    "Fben": "TUB RB 15 MKII VBY",
     "UNnr": "0491",
     "Namn": "DRIVLADDNINGAR",
     "KlassKod": [
@@ -15593,8 +15593,8 @@
     "Namn": "TÅRGASAMMUNITION, med central-, separerings- eller drivladdning",
     "KlassKod": [
       "1.4G",
-	  "6.1",
-	  "8"
+      "6.1",
+      "8"
     ],
     "NEMmg": 15000,
     "TpKat": 2,
@@ -15616,7 +15616,7 @@
   },
   {
     "Fbet": "M4702-255701",
-    "Fben": "TÄND REMS-PTR TP84",
+    "Fben": "TÄND REMS-PTR TP 84",
     "UNnr": "0317",
     "Namn": "ANTÄNDMEDEL",
     "KlassKod": [
@@ -15721,7 +15721,7 @@
   },
   {
     "Fbet": "M4702-255601",
-    "Fben": "TÄNDARE IR-PTR TP84",
+    "Fben": "TÄNDARE IR-PTR TP 84",
     "UNnr": "0325",
     "Namn": "ÖVERFÖRINGSTÄNDARE",
     "KlassKod": [
@@ -15766,7 +15766,7 @@
   },
   {
     "Fbet": "M4705-410301",
-    "Fben": "TÄNDARE ÖVNTRUPPM11",
+    "Fben": "TÄNDARE ÖVNTRUPPM 11",
     "UNnr": "0317",
     "Namn": "ANTÄNDMEDEL",
     "KlassKod": [
@@ -15778,7 +15778,7 @@
   },
   {
     "Fbet": "M4702-400202",
-    "Fben": "TÄNDARE64B",
+    "Fben": "TÄNDARE 64B",
     "UNnr": "0325",
     "Namn": "ÖVERFÖRINGSTÄNDARE",
     "KlassKod": [
@@ -15801,7 +15801,7 @@
   },
   {
     "Fbet": "M4701-111701",
-    "Fben": "TÄNDHATT NONEL NR20",
+    "Fben": "TÄNDHATT NONEL NR 20",
     "UNnr": "0044",
     "Namn": "TÄNDHATTAR",
     "KlassKod": [
@@ -16107,7 +16107,7 @@
   },
   {
     "Fbet": "M4708-802301",
-    "Fben": "TÄNDMDUTR9-TA9 K0/S",
+    "Fben": "TÄNDMDUTR 9-TA9 K0 /S",
     "UNnr": "0255",
     "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA, apterade",
     "KlassKod": [
@@ -16119,7 +16119,7 @@
   },
   {
     "Fbet": "M4708-802311",
-    "Fben": "TÄNDMDUTR9-TA9 K1/S",
+    "Fben": "TÄNDMDUTR 9-TA9 K1 /S",
     "UNnr": "0255",
     "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA, apterade",
     "KlassKod": [
@@ -16131,7 +16131,7 @@
   },
   {
     "Fbet": "M4708-802321",
-    "Fben": "TÄNDMDUTR9-TA9 K2/S",
+    "Fben": "TÄNDMDUTR 9-TA9 K2 /S",
     "UNnr": "0255",
     "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA, apterade",
     "KlassKod": [
@@ -16143,7 +16143,7 @@
   },
   {
     "Fbet": "M4708-802331",
-    "Fben": "TÄNDMDUTR9-TA9 K3/S",
+    "Fben": "TÄNDMDUTR 9-TA9 K3 /S",
     "UNnr": "0255",
     "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA, apterade",
     "KlassKod": [
@@ -16155,7 +16155,7 @@
   },
   {
     "Fbet": "M4708-802341",
-    "Fben": "TÄNDMDUTR9-TA9 K4/S",
+    "Fben": "TÄNDMDUTR 9-TA9 K4 /S",
     "UNnr": "0255",
     "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA, apterade",
     "KlassKod": [
@@ -16167,7 +16167,7 @@
   },
   {
     "Fbet": "M4708-802351",
-    "Fben": "TÄNDMDUTR9-TA9 K5/S",
+    "Fben": "TÄNDMDUTR 9-TA9 K5 /S",
     "UNnr": "0255",
     "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA, apterade",
     "KlassKod": [
@@ -16179,7 +16179,7 @@
   },
   {
     "Fbet": "M4708-802361",
-    "Fben": "TÄNDMDUTR9-TA9 K6/S",
+    "Fben": "TÄNDMDUTR 9-TA9 K6 /S",
     "UNnr": "0255",
     "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA, apterade",
     "KlassKod": [
@@ -16191,7 +16191,7 @@
   },
   {
     "Fbet": "M4708-802371",
-    "Fben": "TÄNDMDUTR9-TA9 K7/S",
+    "Fben": "TÄNDMDUTR 9-TA9 K7 /S",
     "UNnr": "0255",
     "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA, apterade",
     "KlassKod": [
@@ -16203,7 +16203,7 @@
   },
   {
     "Fbet": "M4708-802381",
-    "Fben": "TÄNDMDUTR9-TA9 K8/S",
+    "Fben": "TÄNDMDUTR 9-TA9 K8 /S",
     "UNnr": "0255",
     "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA, apterade",
     "KlassKod": [
@@ -16215,7 +16215,7 @@
   },
   {
     "Fbet": "M4708-802391",
-    "Fben": "TÄNDMDUTR9-TA9 K9/S",
+    "Fben": "TÄNDMDUTR 9-TA9 K9 /S",
     "UNnr": "0255",
     "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA, apterade",
     "KlassKod": [
@@ -16555,7 +16555,7 @@
   },
   {
     "Fbet": "M4313-005020",
-    "Fben": "UVT05B",
+    "Fben": "UVT 05B",
     "UNnr": "0408",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -16567,7 +16567,7 @@
   },
   {
     "Fbet": "M4313-005030",
-    "Fben": "UVT05B MOD",
+    "Fben": "UVT 05B MOD",
     "UNnr": "0408",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -16579,7 +16579,7 @@
   },
   {
     "Fbet": "M4313-005130",
-    "Fben": "UVT05B MOD /T",
+    "Fben": "UVT 05B MOD /T",
     "UNnr": "0408",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -16651,7 +16651,7 @@
   },
   {
     "Fbet": "M4728-400021",
-    "Fben": "VÄGSLNG 4X15KG PL/S",
+    "Fben": "VÄGSLNG 4X15KG PL /S",
     "UNnr": "0048",
     "Namn": "FÖRSTÖRELSELADDNINGAR",
     "KlassKod": [
@@ -16687,7 +16687,7 @@
   },
   {
     "Fbet": "M4704-143103",
-    "Fben": "ZONAR70 GRK 12",
+    "Fben": "ZONAR 70 GRK 12",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -16699,7 +16699,7 @@
   },
   {
     "Fbet": "M4704-153600",
-    "Fben": "ZONAR71",
+    "Fben": "ZONAR 71",
     "UNnr": "0410",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -16711,7 +16711,7 @@
   },
   {
     "Fbet": "M4704-143203",
-    "Fben": "ZONAR84 GRK 12",
+    "Fben": "ZONAR 84 GRK 12",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -16723,7 +16723,7 @@
   },
   {
     "Fbet": "M4704-143303",
-    "Fben": "ZONAR84 GRK 8",
+    "Fben": "ZONAR 84 GRK 8",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -16735,7 +16735,7 @@
   },
   {
     "Fbet": "M4704-411108",
-    "Fben": "ZONAR87 LV 40",
+    "Fben": "ZONAR 87 LV 40",
     "UNnr": "0410",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -16927,7 +16927,7 @@
   },
   {
     "Fbet": "M4703-180005",
-    "Fben": "ÖFHKSAR501C",
+    "Fben": "ÖFHKSAR 501C",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -16939,7 +16939,7 @@
   },
   {
     "Fbet": "M4703-180006",
-    "Fben": "ÖFHKSAR501C AMRÖJ",
+    "Fben": "ÖFHKSAR 501C AMRÖJ",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -16951,7 +16951,7 @@
   },
   {
     "Fbet": "M4703-180801",
-    "Fben": "ÖFHKSAR72 AMRÖJ",
+    "Fben": "ÖFHKSAR 72 AMRÖJ",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -16975,7 +16975,7 @@
   },
   {
     "Fbet": "M4703-160811",
-    "Fben": "ÖFKSAR58B GRK",
+    "Fben": "ÖFKSAR 58B GRK",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -16987,7 +16987,7 @@
   },
   {
     "Fbet": "M4703-161001",
-    "Fben": "ÖFKSAR73 GRK",
+    "Fben": "ÖFKSAR 73 GRK",
     "UNnr": "0410",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -16999,7 +16999,7 @@
   },
   {
     "Fbet": "M4704-101303",
-    "Fben": "ÖFZONAR20",
+    "Fben": "ÖFZONAR 20",
     "UNnr": "0408",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -17011,7 +17011,7 @@
   },
   {
     "Fbet": "M4704-101113",
-    "Fben": "ÖFZONAR75B MK",
+    "Fben": "ÖFZONAR 75B MK",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -17023,7 +17023,7 @@
   },
   {
     "Fbet": "M4704-101203",
-    "Fben": "ÖFZONAR94 MK",
+    "Fben": "ÖFZONAR 94 MK",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -17035,7 +17035,7 @@
   },
   {
     "Fbet": "M4703-170803",
-    "Fben": "ÖHKSAR42B",
+    "Fben": "ÖHKSAR 42B",
     "UNnr": "0106",
     "Namn": "TÄNDRÖR",
     "KlassKod": [
@@ -17047,7 +17047,7 @@
   },
   {
     "Fbet": "M4703-173101",
-    "Fben": "ÖHKSAR80",
+    "Fben": "ÖHKSAR 80",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -17059,7 +17059,7 @@
   },
   {
     "Fbet": "M4703-173201",
-    "Fben": "ÖHKSAR86 GRK",
+    "Fben": "ÖHKSAR 86 GRK",
     "UNnr": "0410",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -17071,7 +17071,7 @@
   },
   {
     "Fbet": "M4703-171511",
-    "Fben": "ÖHKSAR90",
+    "Fben": "ÖHKSAR 90",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -17083,7 +17083,7 @@
   },
   {
     "Fbet": "M4703-380222",
-    "Fben": "ÖHKSTIDAR51B AMRÖJ",
+    "Fben": "ÖHKSTIDAR 51B AMRÖJ",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -17095,7 +17095,7 @@
   },
   {
     "Fbet": "M4703-380221",
-    "Fben": "ÖHKSTIDAR51B URV",
+    "Fben": "ÖHKSTIDAR 51B URV",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -17107,7 +17107,7 @@
   },
   {
     "Fbet": "M4703-151301",
-    "Fben": "ÖKSAR49 GRK",
+    "Fben": "ÖKSAR 49 GRK",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -17119,7 +17119,7 @@
   },
   {
     "Fbet": "M4703-151506",
-    "Fben": "ÖKSAR65 AMRÖJ",
+    "Fben": "ÖKSAR 65 AMRÖJ",
     "UNnr": "0409",
     "Namn": "TÄNDRÖR, med säkringar",
     "KlassKod": [
@@ -17467,7 +17467,7 @@
   },
   {
     "Fbet": "M4711-103200",
-    "Fben": "ÖOBJMINHUND A11:160",
+    "Fben": "ÖOBJ MINHUND A11:160",
     "UNnr": "0137",
     "Namn": "MINOR, med sprängladdning",
     "KlassKod": [
@@ -17609,7 +17609,7 @@
   },
   {
     "Fbet": "M4708-805001",
-    "Fben": "ÖVNELTÄNDSATS10VA/S",
+    "Fben": "ÖVNELTÄNDSATS 10VA /S",
     "UNnr": "0030",
     "Namn": "SPRÄNGKAPSLAR, ELEKTRISKA, apterade",
     "KlassKod": [
@@ -17954,7 +17954,7 @@
   },
   {
     "Fbet": "M4400-056511",
-    "Fben": "ÖVNRB56 M MARKLADD",
+    "Fben": "ÖVNRB 56 M MARKLADD",
     "UNnr": "0182",
     "Namn": "RAKETER, med sprängladdning",
     "KlassKod": [
@@ -18013,7 +18013,7 @@
   },
   {
     "Fbet": "M4705-215002",
-    "Fben": "ÖVNSLAGTÄND42-48B",
+    "Fben": "ÖVNSLAGTÄND 42-48B",
     "UNnr": "0317",
     "Namn": "ANTÄNDMEDEL",
     "KlassKod": [
@@ -18025,7 +18025,7 @@
   },
   {
     "Fbet": "M4705-215003",
-    "Fben": "ÖVNSLAGTÄND42-48P",
+    "Fben": "ÖVNSLAGTÄND 42-48P",
     "UNnr": "0317",
     "Namn": "ANTÄNDMEDEL",
     "KlassKod": [
@@ -18049,7 +18049,7 @@
   },
   {
     "Fbet": "M4705-215001",
-    "Fben": "ÖVNSLAGTÄNDARE42-48",
+    "Fben": "ÖVNSLAGTÄNDARE 42-48",
     "UNnr": "0317",
     "Namn": "ANTÄNDMEDEL",
     "KlassKod": [
@@ -18085,7 +18085,7 @@
   },
   {
     "Fbet": "M4705-416133",
-    "Fben": "ÖVNT U3 1,5T  AMRÖJ",
+    "Fben": "ÖVNT U3 1,5T AMRÖJ",
     "UNnr": "0317",
     "Namn": "ANTÄNDMEDEL",
     "KlassKod": [
