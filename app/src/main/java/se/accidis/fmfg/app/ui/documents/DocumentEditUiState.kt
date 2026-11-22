@@ -24,6 +24,7 @@ sealed interface DocumentEditUiState {
         val isProtectedTransport: Boolean,
         val totalNemKg: BigDecimal,
         val tpKatTotals: List<TpKatTotal>,
-        val totalValue: BigDecimal
+        val totalValue: BigDecimal,
+        val isViolatingColoadingRules: Boolean
     ) : DocumentEditUiState
 }

@@ -10,6 +10,7 @@ import se.accidis.fmfg.app.model.DocumentLink
 import se.accidis.fmfg.app.model.Material
 import se.accidis.fmfg.app.services.DocumentsRepository
 import se.accidis.fmfg.app.services.Preferences
+import se.accidis.fmfg.app.utils.ColoadingHelper
 import se.accidis.fmfg.app.utils.Resource
 import java.util.UUID
 
@@ -48,7 +49,8 @@ class DocumentEditViewModel(
             isProtectedTransport = document.isProtectedTransport,
             totalNemKg = document.totalNEMkg,
             tpKatTotals = tpKatTotals,
-            totalValue = document.calculatedTotalValue
+            totalValue = document.calculatedTotalValue,
+            isViolatingColoadingRules = ColoadingHelper.isViolationOfColoadingRules(document)
         )
     }.stateIn(
         scope = viewModelScope,

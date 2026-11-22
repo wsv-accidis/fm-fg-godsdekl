@@ -177,6 +177,11 @@ fun DocumentEditScreen(
                                     totalValue = state.totalValue
                                 )
                             }
+                            if (state.isViolatingColoadingRules) {
+                                item(key = "coloading_warning") {
+                                    DocumentColoadingWarningRow()
+                                }
+                            }
                         }
                     }
                 }
