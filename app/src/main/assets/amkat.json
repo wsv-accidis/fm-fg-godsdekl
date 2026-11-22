@@ -2297,6 +2297,17 @@
     "TunnelKod": "E"
   },
   {
+    "Fbet": "F4375-000082",
+    "Fben": "57 MM ADAPTER M/02",
+    "UNnr": "0375",
+    "Namn": "KNALLADDNINGAR, EXPLOSIVA",
+    "KlassKod": [
+      "1.2D"
+    ],
+    "TpKat": 1,
+    "TunnelKod": "B1000C"
+  },
+  {
     "Fbet": "M4057-119910",
     "Fben": "57 SALUTSKOTT08 RED",
     "UNnr": "0375",
@@ -4103,6 +4114,17 @@
     "TunnelKod": "E"
   },
   {
+    "Fbet": "M4954-098010",
+    "Fben": "BLROBOT 98 IRIS-T",
+    "UNnr": "0182",
+    "Namn": "RAKETER, med sprängladdning",
+    "KlassKod": [
+      "1.2E"
+    ],
+    "TpKat": 1,
+    "TunnelKod": "B1000C"
+  },
+  {
     "Fbet": "M4585-051000",
     "Fben": "BOMB GBU-39",
     "UNnr": "0035",
@@ -4117,6 +4139,18 @@
   {
     "Fbet": "M4585-041000",
     "Fben": "BOMB GBU49",
+    "UNnr": "0034",
+    "Namn": "BOMBER, med sprängladdning",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 82200000,
+    "TpKat": 1,
+    "TunnelKod": "B1000C"
+  },
+  {
+    "Fbet": "M4585-041100",
+    "Fben": "BOMB GBU49 LOT5A",
     "UNnr": "0034",
     "Namn": "BOMBER, med sprängladdning",
     "KlassKod": [
@@ -5876,6 +5910,17 @@
     "TunnelKod": "B1000C"
   },
   {
+    "Fbet": "M4341-471132",
+    "Fben": "ENH M20 TORP471 Ö",
+    "UNnr": "0451",
+    "Namn": "TORPEDER, med sprängladdning",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "TpKat": 1,
+    "TunnelKod": "B1000C"
+  },
+  {
     "Fbet": "M4341-472131",
     "Fben": "ENH M20 TORP472 S",
     "UNnr": "0451",
@@ -5896,6 +5941,17 @@
       "1.1D"
     ],
     "NEMmg": 50730000,
+    "TpKat": 1,
+    "TunnelKod": "B1000C"
+  },
+  {
+    "Fbet": "M4341-471122",
+    "Fben": "ENH M8502 TORP471 Ö",
+    "UNnr": "0451",
+    "Namn": "TORPEDER, med sprängladdning",
+    "KlassKod": [
+      "1.1D"
+    ],
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -7476,6 +7532,17 @@
     "TunnelKod": "E"
   },
   {
+    "Fbet": "M4746-300031",
+    "Fben": "KRAVALLSPRUTA",
+    "UNnr": "1950",
+    "Namn": "AEROSOLER, kvävningsframkallande",
+    "KlassKod": [
+      "2.2"
+    ],
+    "TpKat": 3,
+    "TunnelKod": "E"
+  },
+  {
     "Fbet": "M4746-305031",
     "Fben": "KRAVALLSPRUTA ÖVN",
     "UNnr": "1950",
@@ -8557,6 +8624,18 @@
   {
     "Fbet": "M4311-024123",
     "Fben": "MINA F24B-1 OAPT",
+    "UNnr": "0137",
+    "Namn": "MINOR, med sprängladdning",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "NEMmg": 104000000,
+    "TpKat": 1,
+    "TunnelKod": "B1000C"
+  },
+  {
+    "Fbet": "M4311-024131",
+    "Fben": "MINA F24B-2",
     "UNnr": "0137",
     "Namn": "MINOR, med sprängladdning",
     "KlassKod": [
@@ -12602,6 +12681,18 @@
     "TunnelKod": "E"
   },
   {
+    "Fbet": "M4744-100701",
+    "Fben": "SIGNPTR 4 VIT",
+    "UNnr": "0312",
+    "Namn": "SIGNALPATRONER",
+    "KlassKod": [
+      "1.4G"
+    ],
+    "NEMmg": 14000,
+    "TpKat": 2,
+    "TunnelKod": "E"
+  },
+  {
     "Fbet": "M4744-101113",
     "Fben": "SIGNPTR 5 GRÖN",
     "UNnr": "0312",
@@ -15021,6 +15112,17 @@
     "TunnelKod": "B1000C"
   },
   {
+    "Fbet": "M4341-471112",
+    "Fben": "TORPED 471 Ö",
+    "UNnr": "0221",
+    "Namn": "STRIDSDELAR, TORPED med sprängladdning",
+    "KlassKod": [
+      "1.1D"
+    ],
+    "TpKat": 1,
+    "TunnelKod": "B1000C"
+  },
+  {
     "Fbet": "M4341-472111",
     "Fben": "TORPED 472 S",
     "UNnr": "0221",
@@ -15093,6 +15195,17 @@
   {
     "Fbet": "M4341-621200",
     "Fben": "TORPED 621 Ö",
+    "UNnr": "0450",
+    "Namn": "VÄTSKETORPEDER, med inert stridsdel",
+    "KlassKod": [
+      "1.3J"
+    ],
+    "TpKat": 1,
+    "TunnelKod": "C"
+  },
+  {
+    "Fbet": "M4341-621400",
+    "Fben": "TORPED 621 Ö BL",
     "UNnr": "0450",
     "Namn": "VÄTSKETORPEDER, med inert stridsdel",
     "KlassKod": [
@@ -17423,6 +17536,30 @@
     "TunnelKod": "E"
   },
   {
+    "Fbet": "M4400-098510",
+    "Fben": "ÖVN RB 98 IRIS-T",
+    "UNnr": "0182",
+    "Namn": "RAKETER, med sprängladdning",
+    "KlassKod": [
+      "1.2E"
+    ],
+    "NEMmg": 125000,
+    "TpKat": 1,
+    "TunnelKod": "B1000C"
+  },
+  {
+    "Fbet": "M4585-541100",
+    "Fben": "ÖVNBOMB GBU49 LOT5A",
+    "UNnr": "1066",
+    "Namn": "KVÄVE, KOMPRIMERAD",
+    "KlassKod": [
+      "2.2"
+    ],
+    "NEMmg": 5400,
+    "TpKat": 3,
+    "TunnelKod": "E"
+  },
+  {
     "Fbet": "M4705-415201",
     "Fben": "ÖVNBRYTTÄNDARE",
     "UNnr": "0317",
@@ -17716,6 +17853,17 @@
     "Namn": "RAKETER, med inert stridsdel",
     "KlassKod": [
       "1.3C"
+    ],
+    "TpKat": 1,
+    "TunnelKod": "C5000D"
+  },
+  {
+    "Fbet": "M4742-405399",
+    "Fben": "ÖVNINGSRÖK 90",
+    "UNnr": "0016",
+    "Namn": "RÖKAMMUNITION, med eller utan central-, separerings- eller drivladdning",
+    "KlassKod": [
+      "1.3G"
     ],
     "TpKat": 1,
     "TunnelKod": "C5000D"
