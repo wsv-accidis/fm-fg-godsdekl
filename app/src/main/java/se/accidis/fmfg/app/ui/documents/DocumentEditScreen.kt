@@ -170,6 +170,13 @@ fun DocumentEditScreen(
                                     onClick = { onRowClick(index, row) }
                                 )
                             }
+                            item(key = "totals") {
+                                DocumentTotalsRow(
+                                    totalNemKg = state.totalNemKg,
+                                    tpKatTotals = state.tpKatTotals,
+                                    totalValue = state.totalValue
+                                )
+                            }
                         }
                     }
                 }

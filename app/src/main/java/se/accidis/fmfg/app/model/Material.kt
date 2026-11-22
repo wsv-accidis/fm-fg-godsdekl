@@ -129,7 +129,7 @@ data class Material(
     }
 
     companion object {
-        const val TPKAT_MAX: Int = 3
+        const val TPKAT_MAX: Int = 4
         const val TPKAT_MIN: Int = 1
 
         @JvmStatic

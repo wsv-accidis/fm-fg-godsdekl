@@ -1,6 +1,14 @@
 package se.accidis.fmfg.app.ui.documents
 
 import se.accidis.fmfg.app.model.DocumentRow
+import java.math.BigDecimal
+
+data class TpKatTotal(
+    val tpKat: Int,
+    val weightKg: BigDecimal,
+    val volumeLiter: BigDecimal,
+    val value: BigDecimal
+)
 
 /**
  * UI state for the Document Edit screen.
@@ -13,6 +21,9 @@ sealed interface DocumentEditUiState {
         val documentName: String,
         val vehicleReg: String,
         val vehicleType: String,
-        val isProtectedTransport: Boolean
+        val isProtectedTransport: Boolean,
+        val totalNemKg: BigDecimal,
+        val tpKatTotals: List<TpKatTotal>,
+        val totalValue: BigDecimal
     ) : DocumentEditUiState
 }

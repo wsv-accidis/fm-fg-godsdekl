@@ -49,7 +49,7 @@ data class Document(
             .filter { it.hasNEM() }
             .fold(BigDecimal.ZERO) { acc, row -> acc.add(row.NEMkg) }
 
-    fun weightVolumeStringByTpKat(tpKat: Int, context: Context): String {
+    fun weightAndVolumeByTpKat(tpKat: Int): Pair<BigDecimal, BigDecimal> {
         var totalWeight = BigDecimal.ZERO
         var totalVolume = BigDecimal.ZERO
 
@@ -60,6 +60,12 @@ data class Document(
                 else -> totalWeight = totalWeight.add(row.weightVolume)
             }
         }
+
+        return totalWeight to totalVolume
+    }
+
+    fun weightVolumeStringByTpKat(tpKat: Int, context: Context): String {
+        val (totalWeight, totalVolume) = weightAndVolumeByTpKat(tpKat)
 
         val hasWeight = totalWeight.signum() != 0
         val hasVolume = totalVolume.signum() != 0

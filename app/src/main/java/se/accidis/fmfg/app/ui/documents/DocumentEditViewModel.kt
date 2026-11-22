@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import se.accidis.fmfg.app.model.DocumentLink
+import se.accidis.fmfg.app.model.Material
 import se.accidis.fmfg.app.services.DocumentsRepository
 import se.accidis.fmfg.app.services.Preferences
 import se.accidis.fmfg.app.utils.Resource
@@ -24,13 +25,30 @@ class DocumentEditViewModel(
         repository.currentDocumentFlow,
         preferences.showFbetInDocumentFlow
     ) { document, showFbet ->
+        val tpKatTotals = (Material.TPKAT_MIN..Material.TPKAT_MAX).mapNotNull { tpKat ->
+            val (weightKg, volumeLiter) = document.weightAndVolumeByTpKat(tpKat)
+            if (weightKg.signum() != 0 || volumeLiter.signum() != 0) {
+                TpKatTotal(
+                    tpKat = tpKat,
+                    weightKg = weightKg,
+                    volumeLiter = volumeLiter,
+                    value = document.calculatedValueByTpKat(tpKat)
+                )
+            } else {
+                null
+            }
+        }
+
         DocumentEditUiState.Success(
             rows = document.rows,
             showFbet = showFbet,
             documentName = document.name,
             vehicleReg = document.vehicleReg,
             vehicleType = document.vehicleType,
-            isProtectedTransport = document.isProtectedTransport
+            isProtectedTransport = document.isProtectedTransport,
+            totalNemKg = document.totalNEMkg,
+            tpKatTotals = tpKatTotals,
+            totalValue = document.calculatedTotalValue
         )
     }.stateIn(
         scope = viewModelScope,
