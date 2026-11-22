@@ -10,6 +10,9 @@ sealed interface DocumentEditUiState {
     data class Success(
         val rows: List<DocumentRow>,
         val showFbet: Boolean,
-        val documentName: String
+        val documentName: String,
+        val vehicleReg: String,
+        val vehicleType: String,
+        val isProtectedTransport: Boolean
     ) : DocumentEditUiState
 }

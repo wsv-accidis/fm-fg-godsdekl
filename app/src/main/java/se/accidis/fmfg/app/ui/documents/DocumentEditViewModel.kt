@@ -27,7 +27,10 @@ class DocumentEditViewModel(
         DocumentEditUiState.Success(
             rows = document.rows,
             showFbet = showFbet,
-            documentName = document.name
+            documentName = document.name,
+            vehicleReg = document.vehicleReg,
+            vehicleType = document.vehicleType,
+            isProtectedTransport = document.isProtectedTransport
         )
     }.stateIn(
         scope = viewModelScope,
@@ -48,6 +51,18 @@ class DocumentEditViewModel(
     fun updateName(name: String) {
         repository.mutateCurrentDocument {
             this.name = name.trim()
+        }
+    }
+
+    fun updateOptionalFields(
+        vehicleReg: String,
+        vehicleType: String,
+        isProtectedTransport: Boolean
+    ) {
+        repository.mutateCurrentDocument {
+            this.vehicleReg = vehicleReg.trim()
+            this.vehicleType = vehicleType.trim()
+            this.isProtectedTransport = isProtectedTransport
         }
     }
 

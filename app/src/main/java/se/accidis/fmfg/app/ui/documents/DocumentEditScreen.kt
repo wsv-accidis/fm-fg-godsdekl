@@ -72,6 +72,7 @@ fun DocumentEditScreen(
 
         is DocumentEditUiState.Success -> {
             var isNameBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
+            var isOptionalFieldsBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
             var isOpenBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
 
             Scaffold(
@@ -106,7 +107,10 @@ fun DocumentEditScreen(
                                 DropdownMenuItem(
                                     text = { Text(stringResource(R.string.document_edit_opt_fields)) },
                                     leadingIcon = { Icon(Icons.Default.Tune, contentDescription = null) },
-                                    onClick = { showMenu = false }
+                                    onClick = {
+                                        showMenu = false
+                                        isOptionalFieldsBottomSheetVisible = true
+                                    }
                                 )
                                 DropdownMenuItem(
                                     text = { Text(stringResource(R.string.document_set_name)) },
@@ -177,6 +181,22 @@ fun DocumentEditScreen(
                     onDismiss = { newName ->
                         viewModel.updateName(newName)
                         isNameBottomSheetVisible = false
+                    }
+                )
+            }
+
+            if (isOptionalFieldsBottomSheetVisible) {
+                DocumentOptionalFieldsBottomSheet(
+                    initialVehicleReg = state.vehicleReg,
+                    initialVehicleType = state.vehicleType,
+                    initialIsProtectedTransport = state.isProtectedTransport,
+                    onDismiss = { vehicleReg, vehicleType, isProtectedTransport ->
+                        viewModel.updateOptionalFields(
+                            vehicleReg = vehicleReg,
+                            vehicleType = vehicleType,
+                            isProtectedTransport = isProtectedTransport
+                        )
+                        isOptionalFieldsBottomSheetVisible = false
                     }
                 )
             }
