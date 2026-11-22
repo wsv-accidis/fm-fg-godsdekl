@@ -67,7 +67,7 @@
     "KlassKod": [
       "1.2G"
     ],
-    "NEMmg": 2900,
+    "NEMmg": 17500,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -79,7 +79,7 @@
     "KlassKod": [
       "1.2G"
     ],
-    "NEMmg": 3000,
+    "NEMmg": 19000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -187,7 +187,7 @@
     "KlassKod": [
       "1.4C"
     ],
-    "NEMmg": 15000,
+    "NEMmg": 15500,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -259,7 +259,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 17500,
+    "NEMmg": 19000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -271,7 +271,7 @@
     "KlassKod": [
       "1.4C"
     ],
-    "NEMmg": 18500,
+    "NEMmg": 15500,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -283,7 +283,7 @@
     "KlassKod": [
       "1.4C"
     ],
-    "NEMmg": 17000,
+    "NEMmg": 15500,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -427,7 +427,7 @@
     "KlassKod": [
       "1.4C"
     ],
-    "NEMmg": 14000,
+    "NEMmg": 15000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -511,7 +511,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2000,
+    "NEMmg": 1800,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -535,7 +535,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2000,
+    "NEMmg": 1800,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -547,7 +547,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2000,
+    "NEMmg": 1800,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -604,7 +604,7 @@
     "KlassKod": [
       "1.2C"
     ],
-    "NEMmg": 920000,
+    "NEMmg": 923000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -616,7 +616,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 3370000,
+    "NEMmg": 430000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -662,7 +662,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 3230000,
+    "NEMmg": 430000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -686,7 +686,7 @@
     "KlassKod": [
       "1.1E"
     ],
-    "NEMmg": 2729000,
+    "NEMmg": 3500000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -746,7 +746,7 @@
     "KlassKod": [
       "1.2C"
     ],
-    "NEMmg": 640000,
+    "NEMmg": 641000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -805,7 +805,7 @@
     "KlassKod": [
       "1.1E"
     ],
-    "NEMmg": 6104000,
+    "NEMmg": 6100000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -817,7 +817,7 @@
     "KlassKod": [
       "1.1E"
     ],
-    "NEMmg": 6650000,
+    "NEMmg": 7400000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -829,7 +829,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 3404000,
+    "NEMmg": 3400000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -853,7 +853,7 @@
     "KlassKod": [
       "1.2C"
     ],
-    "NEMmg": 6320000,
+    "NEMmg": 6300000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -973,7 +973,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 3000,
+    "NEMmg": 100,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -1009,7 +1009,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 4200000,
+    "NEMmg": 3200000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1045,7 +1045,7 @@
     "KlassKod": [
       "1.3C"
     ],
-    "NEMmg": 2900000,
+    "NEMmg": 2400000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -1057,7 +1057,7 @@
     "KlassKod": [
       "1.3C"
     ],
-    "NEMmg": 750000,
+    "NEMmg": 830000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -1069,7 +1069,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 4200000,
+    "NEMmg": 4300000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1081,7 +1081,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 10100000,
+    "NEMmg": 8500000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1141,7 +1141,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 6380000,
+    "NEMmg": 6430000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1153,7 +1153,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 6380000,
+    "NEMmg": 6430000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1201,7 +1201,7 @@
     "KlassKod": [
       "1.2G"
     ],
-    "NEMmg": 10600,
+    "NEMmg": 4300,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1213,7 +1213,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 43000,
+    "NEMmg": 39000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1297,7 +1297,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 1000,
+    "NEMmg": 1100,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -1537,7 +1537,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 27000,
+    "NEMmg": 26000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1573,7 +1573,7 @@
     "KlassKod": [
       "1.4C"
     ],
-    "NEMmg": 500,
+    "NEMmg": 5000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -1621,7 +1621,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 40000,
+    "NEMmg": 42000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1693,7 +1693,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 500,
+    "NEMmg": 5000,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -1705,7 +1705,7 @@
     "KlassKod": [
       "1.3C"
     ],
-    "NEMmg": 1285000,
+    "NEMmg": 505000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -1825,7 +1825,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 623000,
+    "NEMmg": 613000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1837,7 +1837,7 @@
     "KlassKod": [
       "1.3C"
     ],
-    "NEMmg": 512000,
+    "NEMmg": 505000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -1861,7 +1861,7 @@
     "KlassKod": [
       "1.3C"
     ],
-    "NEMmg": 517000,
+    "NEMmg": 505000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -1873,7 +1873,7 @@
     "KlassKod": [
       "1.3C"
     ],
-    "NEMmg": 517000,
+    "NEMmg": 505000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -1885,7 +1885,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 621000,
+    "NEMmg": 591000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1897,7 +1897,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 621000,
+    "NEMmg": 611000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1909,7 +1909,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 621000,
+    "NEMmg": 611000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1933,7 +1933,7 @@
     "KlassKod": [
       "1.2C"
     ],
-    "NEMmg": 572400,
+    "NEMmg": 570000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1945,7 +1945,7 @@
     "KlassKod": [
       "1.2C"
     ],
-    "NEMmg": 550000,
+    "NEMmg": 540000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1957,7 +1957,7 @@
     "KlassKod": [
       "1.2C"
     ],
-    "NEMmg": 550000,
+    "NEMmg": 540000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -1969,7 +1969,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 100,
+    "NEMmg": 20,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -1981,7 +1981,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 100,
+    "NEMmg": 20,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -1993,7 +1993,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 100,
+    "NEMmg": 20,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2005,7 +2005,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 100,
+    "NEMmg": 20,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2161,7 +2161,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2000,
+    "NEMmg": 1700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2304,7 +2304,7 @@
     "KlassKod": [
       "1.2D"
     ],
-    "NEMmg": 170000,
+    "NEMmg": 60000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -2316,7 +2316,7 @@
     "KlassKod": [
       "1.2D"
     ],
-    "NEMmg": 150000,
+    "NEMmg": 170000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -2351,7 +2351,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 1000500,
+    "NEMmg": 1600000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -2375,7 +2375,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 1190000,
+    "NEMmg": 1550000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -2447,7 +2447,7 @@
     "KlassKod": [
       "1.3C"
     ],
-    "NEMmg": 1200000,
+    "NEMmg": 1250000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -2543,7 +2543,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 3000,
+    "NEMmg": 2600,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2639,7 +2639,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 3000,
+    "NEMmg": 2800,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2651,7 +2651,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 3000,
+    "NEMmg": 3100,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2663,7 +2663,7 @@
     "KlassKod": [
       "1.3C"
     ],
-    "NEMmg": 1215000,
+    "NEMmg": 1200000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -2711,7 +2711,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2800,
+    "NEMmg": 2750,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2831,7 +2831,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2900,
+    "NEMmg": 2700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2843,7 +2843,7 @@
     "KlassKod": [
       "1.4C"
     ],
-    "NEMmg": 2900,
+    "NEMmg": 2750,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -2855,7 +2855,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2900,
+    "NEMmg": 2750,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2879,7 +2879,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 3000,
+    "NEMmg": 2630,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2891,7 +2891,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2900,
+    "NEMmg": 2700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2939,7 +2939,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 3000,
+    "NEMmg": 2700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2963,7 +2963,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2800,
+    "NEMmg": 2700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2975,7 +2975,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2800,
+    "NEMmg": 2750,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -2999,7 +2999,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 3400,
+    "NEMmg": 2700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -3071,7 +3071,7 @@
     "KlassKod": [
       "1.4C"
     ],
-    "NEMmg": 2900,
+    "NEMmg": 3000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -3191,7 +3191,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2900,
+    "NEMmg": 2750,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -3299,7 +3299,7 @@
     "KlassKod": [
       "1.4C"
     ],
-    "NEMmg": 2900,
+    "NEMmg": 2700,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -3384,7 +3384,7 @@
     "KlassKod": [
       "1.1C"
     ],
-    "NEMmg": 125000,
+    "NEMmg": 140000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -3468,7 +3468,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 10200,
+    "NEMmg": 834000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -3504,7 +3504,7 @@
     "KlassKod": [
       "1.2G"
     ],
-    "NEMmg": 1928000,
+    "NEMmg": 28000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -3516,7 +3516,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 1065000,
+    "NEMmg": 165000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -3540,7 +3540,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 814900,
+    "NEMmg": 934000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -3600,7 +3600,7 @@
     "KlassKod": [
       "1.1E"
     ],
-    "NEMmg": 1500000,
+    "NEMmg": 1470000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -3612,7 +3612,7 @@
     "KlassKod": [
       "1.2G"
     ],
-    "NEMmg": 1200000,
+    "NEMmg": 395000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -3624,7 +3624,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 919000,
+    "NEMmg": 940000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -3636,7 +3636,7 @@
     "KlassKod": [
       "1.2C"
     ],
-    "NEMmg": 670000,
+    "NEMmg": 675000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -3720,7 +3720,7 @@
     "KlassKod": [
       "1.2C"
     ],
-    "NEMmg": 396500,
+    "NEMmg": 400000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -3732,7 +3732,7 @@
     "KlassKod": [
       "1.1E"
     ],
-    "NEMmg": 885500,
+    "NEMmg": 884000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -3744,7 +3744,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 100,
+    "NEMmg": 20,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -3756,7 +3756,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 100,
+    "NEMmg": 20,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -3779,7 +3779,7 @@
     "KlassKod": [
       "1.4C"
     ],
-    "NEMmg": 300,
+    "NEMmg": 400,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -3791,7 +3791,7 @@
     "KlassKod": [
       "1.4C"
     ],
-    "NEMmg": 500,
+    "NEMmg": 370,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -3815,7 +3815,7 @@
     "KlassKod": [
       "1.4C"
     ],
-    "NEMmg": 400,
+    "NEMmg": 430,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -3993,6 +3993,7 @@
     "KlassKod": [
       "1.4G"
     ],
+    "NEMmg": 100,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -4121,7 +4122,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 82165000,
+    "NEMmg": 82200000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -4205,7 +4206,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 1000000,
+    "NEMmg": 1320000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -4265,7 +4266,7 @@
     "KlassKod": [
       "1.2D"
     ],
-    "NEMmg": 50000,
+    "NEMmg": 53000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -4467,7 +4468,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 14000,
+    "NEMmg": 3700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -4491,7 +4492,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 14000,
+    "NEMmg": 3300,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -4503,7 +4504,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 12000,
+    "NEMmg": 4000,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -4586,7 +4587,7 @@
     "KlassKod": [
       "1.4C"
     ],
-    "NEMmg": 1840000,
+    "NEMmg": 1240000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -4717,7 +4718,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 8000,
+    "NEMmg": 6680,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -4729,7 +4730,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 10000,
+    "NEMmg": 9920,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -4741,7 +4742,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 10000,
+    "NEMmg": 9920,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -4753,7 +4754,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 11500,
+    "NEMmg": 9170,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -4765,7 +4766,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 17000,
+    "NEMmg": 9170,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -4859,7 +4860,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 36500,
+    "NEMmg": 21400,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -4919,7 +4920,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 500,
+    "NEMmg": 5000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -4931,7 +4932,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 700000,
+    "NEMmg": 702000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -5609,7 +5610,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 600,
+    "NEMmg": 60,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -5621,7 +5622,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 100,
+    "NEMmg": 25,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -5633,7 +5634,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 100,
+    "NEMmg": 30,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -6181,6 +6182,7 @@
     "KlassKod": [
       "1.3G"
     ],
+    "NEMmg": 245000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -6534,7 +6536,7 @@
       "2.1"
     ],
     "TpKat": 2,
-    "TunnelKod": "B/C"
+    "TunnelKod": "B/D"
   },
   {
     "Fbet": "M4702-291802",
@@ -6556,7 +6558,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 82165000,
+    "NEMmg": 82170000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -6640,7 +6642,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 150000,
+    "NEMmg": 75000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -6664,7 +6666,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 150000,
+    "NEMmg": 208000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -6700,7 +6702,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 150000,
+    "NEMmg": 133000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -6875,7 +6877,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 110000,
+    "NEMmg": 120000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -6887,7 +6889,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 110000,
+    "NEMmg": 60000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -6899,7 +6901,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 110100,
+    "NEMmg": 110000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -6911,7 +6913,7 @@
     "KlassKod": [
       "4.2"
     ],
-    "NEMmg": 2000,
+    "NEMmg": 60000,
     "TpKat": 0,
     "FrpGrp": "I",
     "TunnelKod": "B/E"
@@ -6936,7 +6938,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 110100,
+    "NEMmg": 110000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -6948,7 +6950,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 100100,
+    "NEMmg": 110,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -7057,7 +7059,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 660100,
+    "NEMmg": 660000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -7069,7 +7071,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 600100,
+    "NEMmg": 110,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -7081,7 +7083,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 135000,
+    "NEMmg": 180000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -7141,6 +7143,7 @@
     "KlassKod": [
       "1.3G"
     ],
+    "NEMmg": 265000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -7188,7 +7191,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 23100,
+    "NEMmg": 270000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -7200,6 +7203,7 @@
     "KlassKod": [
       "4.2"
     ],
+    "NEMmg": 30000,
     "TpKat": 0,
     "FrpGrp": "I",
     "TunnelKod": "B/E"
@@ -7308,7 +7312,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 1000,
+    "NEMmg": 100,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -8113,7 +8117,7 @@
     "KlassKod": [
       "1.2G"
     ],
-    "NEMmg": 12000,
+    "NEMmg": 21500,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -8161,7 +8165,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 44000,
+    "NEMmg": 20500,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -8402,7 +8406,7 @@
     "KlassKod": [
       "1.4D"
     ],
-    "NEMmg": 20200,
+    "NEMmg": 10244,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -8414,7 +8418,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 105000000,
+    "NEMmg": 104000000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -8594,7 +8598,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 1000000,
+    "NEMmg": 280000000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -8773,7 +8777,7 @@
     "KlassKod": [
       "1.1E"
     ],
-    "NEMmg": 18600000,
+    "NEMmg": 18740000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -8785,7 +8789,7 @@
     "KlassKod": [
       "1.1E"
     ],
-    "NEMmg": 78600000,
+    "NEMmg": 78740000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -8797,7 +8801,7 @@
     "KlassKod": [
       "1.4D"
     ],
-    "NEMmg": 5200,
+    "NEMmg": 5910,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -8809,7 +8813,7 @@
     "KlassKod": [
       "1.4D"
     ],
-    "NEMmg": 4500,
+    "NEMmg": 3700,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -9004,7 +9008,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 27000,
+    "NEMmg": 22000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -9112,7 +9116,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 48100,
+    "NEMmg": 53000,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -9136,7 +9140,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 48100,
+    "NEMmg": 52000,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -9148,7 +9152,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2001400,
+    "NEMmg": 793000,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -9160,7 +9164,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 49000,
+    "NEMmg": 793000,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -9280,7 +9284,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 18500,
+    "NEMmg": 1500,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -9364,7 +9368,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 18500,
+    "NEMmg": 1250,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -9436,7 +9440,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 11000,
+    "NEMmg": 1100,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -9508,7 +9512,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 18500,
+    "NEMmg": 1200,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -9532,7 +9536,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 13200,
+    "NEMmg": 13020,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -9602,7 +9606,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 18500,
+    "NEMmg": 2700,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -9614,7 +9618,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 18500,
+    "NEMmg": 3200,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -9709,7 +9713,7 @@
     "KlassKod": [
       "1.4B"
     ],
-    "NEMmg": 1000,
+    "NEMmg": 2170,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -9733,7 +9737,7 @@
     "KlassKod": [
       "1.4B"
     ],
-    "NEMmg": 1000,
+    "NEMmg": 6100,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -9756,7 +9760,7 @@
     "KlassKod": [
       "1.4B"
     ],
-    "NEMmg": 1000,
+    "NEMmg": 6100,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -9816,7 +9820,7 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 302000,
+    "NEMmg": 245000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -10400,7 +10404,7 @@
     "KlassKod": [
       "1.1E"
     ],
-    "NEMmg": 65800000,
+    "NEMmg": 533000000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -10412,7 +10416,7 @@
     "KlassKod": [
       "1.3C"
     ],
-    "NEMmg": 218900000,
+    "NEMmg": 219000000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -10424,7 +10428,7 @@
     "KlassKod": [
       "1.3C"
     ],
-    "NEMmg": 218900000,
+    "NEMmg": 219000000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -10637,7 +10641,7 @@
     "KlassKod": [
       "1.1E"
     ],
-    "NEMmg": 13300000,
+    "NEMmg": 13260000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -10815,7 +10819,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 9450000,
+    "NEMmg": 4900000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -10839,7 +10843,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 9450000,
+    "NEMmg": 4900000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -10863,7 +10867,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 9450000,
+    "NEMmg": 4900000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -10887,7 +10891,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 9450000,
+    "NEMmg": 4900000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -11211,7 +11215,7 @@
     "KlassKod": [
       "1.2E"
     ],
-    "NEMmg": 62000000,
+    "NEMmg": 31000000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -11451,7 +11455,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 400,
+    "NEMmg": 1000,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -11463,7 +11467,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 400,
+    "NEMmg": 1000,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -11523,7 +11527,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 400,
+    "NEMmg": 1000,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -11607,7 +11611,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 575000,
+    "NEMmg": 57500,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -11631,7 +11635,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 1710000,
+    "NEMmg": 57000,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -11655,7 +11659,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 5467200,
+    "NEMmg": 250000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -11689,7 +11693,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 1900000,
+    "NEMmg": 1800000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -11734,8 +11738,7 @@
     "UNnr": "0303",
     "Namn": "RÖKAMMUNITION med eller utan central-, separerings- eller drivladdning",
     "KlassKod": [
-      "1.4G",
-	  "8"
+      "1.4G"
     ],
     "NEMmg": 2400000,
     "TpKat": 2,
@@ -11784,31 +11787,31 @@
     "KlassKod": [
       "1.3G"
     ],
-    "NEMmg": 1600000,
+    "NEMmg": 800000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
   {
     "Fbet": "M4742-200701",
-    "Fben": "RÖKFACKLA22",
+    "Fben": "RÖKFACKLA 22",
     "UNnr": "0197",
     "Namn": "RÖKSIGNALER",
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 660000,
+    "NEMmg": 660,
     "TpKat": 2,
     "TunnelKod": "E"
   },
   {
     "Fbet": "M4742-410201",
-    "Fben": "RÖKGR MASKE66VIS/IR",
+    "Fben": "RÖKGR MASKE 66 VIS/IR",
     "UNnr": "0303",
     "Namn": "RÖKAMMUNITION med eller utan central-, separerings- eller drivladdning",
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 925000,
+    "NEMmg": 924000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -11856,7 +11859,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 220000,
+    "NEMmg": 193000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -12055,7 +12058,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 30000,
+    "NEMmg": 51000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -12079,7 +12082,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 100000,
+    "NEMmg": 115000,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -12355,7 +12358,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 80000,
+    "NEMmg": 75000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -12391,7 +12394,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 191000,
+    "NEMmg": 190000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -12403,7 +12406,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 190000,
+    "NEMmg": 191000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -12498,6 +12501,7 @@
     "KlassKod": [
       "1.3G"
     ],
+    "NEMmg": 50000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -12521,7 +12525,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 108000000,
+    "NEMmg": 55000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -12569,7 +12573,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 15000,
+    "NEMmg": 14000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -12581,7 +12585,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 15000,
+    "NEMmg": 14000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -12617,7 +12621,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 30000,
+    "NEMmg": 25500,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -12749,7 +12753,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 135000,
+    "NEMmg": 136000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -12761,7 +12765,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 100000000,
+    "NEMmg": 105000000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -12773,7 +12777,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 105540000,
+    "NEMmg": 105000000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -12797,7 +12801,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 105540000,
+    "NEMmg": 105000000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -12821,7 +12825,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 105540000,
+    "NEMmg": 105000000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -12880,6 +12884,7 @@
     "KlassKod": [
       "1.1D"
     ],
+    "NEMmg": 105000000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -12951,7 +12956,7 @@
     "KlassKod": [
       "1.4B"
     ],
-    "NEMmg": 2000,
+    "NEMmg": 200,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -13011,7 +13016,7 @@
     "KlassKod": [
       "1.1E"
     ],
-    "NEMmg": 454500,
+    "NEMmg": 453000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -13023,7 +13028,7 @@
     "KlassKod": [
       "1.1E"
     ],
-    "NEMmg": 585300,
+    "NEMmg": 585000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -13057,6 +13062,7 @@
     "KlassKod": [
       "1.1B"
     ],
+    "NEMmg": 1000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -13068,6 +13074,7 @@
     "KlassKod": [
       "1.4G"
     ],
+    "NEMmg": 200,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -13415,18 +13422,6 @@
   },
   {
     "Fbet": "M4721-400001",
-    "Fben": "SPRÄNGDEG46 PTR",
-    "UNnr": "0150",
-    "Namn": "PENTAERYTRITTETRANITRAT (PENTAERYTRITOLTETRANITRAT, PETN), FUKTAD, med minst 25 vikt-% vatten, eller OKÄNSLIGGJORD med minst 15 vikt-% desensibiliseringsmedel",
-    "KlassKod": [
-      "1.1D"
-    ],
-    "NEMmg": 1000000,
-    "TpKat": 1,
-    "TunnelKod": "B1000C"
-  },
-  {
-    "Fbet": "M4721-400101",
     "Fben": "SPRÄNGDEG 46 PTR",
     "UNnr": "0150",
     "Namn": "PENTAERYTRITTETRANITRAT (PENTAERYTRITOLTETRANITRAT, PETN), FUKTAD, med minst 25 vikt-% vatten, eller OKÄNSLIGGJORD med minst 15 vikt-% desensibiliseringsmedel",
@@ -13796,7 +13791,7 @@
     "KlassKod": [
       "1.4B"
     ],
-    "NEMmg": 2000,
+    "NEMmg": 8000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -13808,7 +13803,7 @@
     "KlassKod": [
       "1.1B"
     ],
-    "NEMmg": 300,
+    "NEMmg": 3500,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -13964,7 +13959,7 @@
     "KlassKod": [
       "1.4D"
     ],
-    "NEMmg": 300,
+    "NEMmg": 200,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -14206,7 +14201,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 4040000,
+    "NEMmg": 4090000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -14337,7 +14332,7 @@
     "KlassKod": [
       "1.2D"
     ],
-    "NEMmg": 4600,
+    "NEMmg": 4500,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -14349,7 +14344,7 @@
     "KlassKod": [
       "1.4B"
     ],
-    "NEMmg": 22000,
+    "NEMmg": 39500,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -14361,7 +14356,7 @@
     "KlassKod": [
       "1.4B"
     ],
-    "NEMmg": 40000,
+    "NEMmg": 65000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -14385,7 +14380,7 @@
     "KlassKod": [
       "1.1B"
     ],
-    "NEMmg": 1100000,
+    "NEMmg": 1040000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -14397,7 +14392,7 @@
     "KlassKod": [
       "1.1B"
     ],
-    "NEMmg": 1120000,
+    "NEMmg": 1070000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -15021,7 +15016,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 50730000,
+    "NEMmg": 50800000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -15033,7 +15028,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 50730000,
+    "NEMmg": 50800000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -15270,7 +15265,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 90000,
+    "NEMmg": 255000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -15282,7 +15277,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 21000,
+    "NEMmg": 210000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -15354,7 +15349,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 3000,
+    "NEMmg": 1880,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -15366,7 +15361,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 2300,
+    "NEMmg": 1800,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -15488,7 +15483,7 @@
 	  "6.1",
 	  "8"
     ],
-    "NEMmg": 30000,
+    "NEMmg": 15000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -15498,7 +15493,9 @@
     "UNnr": "0301",
     "Namn": "TÅRGASAMMUNITION, med central-, separerings- eller drivladdning",
     "KlassKod": [
-      "1.4G"
+      "1.4G",
+      "6.1",
+      "8"
     ],
     "NEMmg": 63000,
     "TpKat": 2,
@@ -15571,7 +15568,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 3600,
+    "NEMmg": 1000,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -16003,7 +16000,7 @@
     "KlassKod": [
       "1.4B"
     ],
-    "NEMmg": 24000,
+    "NEMmg": 30000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -16169,6 +16166,7 @@
     "KlassKod": [
       "1.3C"
     ],
+    "NEMmg": 546000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -16180,6 +16178,7 @@
     "KlassKod": [
       "1.3C"
     ],
+    "NEMmg": 390000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -16297,7 +16296,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 400000,
+    "NEMmg": 448000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -16437,7 +16436,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 55600,
+    "NEMmg": 555000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -16449,7 +16448,7 @@
     "KlassKod": [
       "1.1D"
     ],
-    "NEMmg": 55600,
+    "NEMmg": 55000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -16917,7 +16916,7 @@
     "KlassKod": [
       "1.2D"
     ],
-    "NEMmg": 4900,
+    "NEMmg": 4700,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -17491,7 +17490,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 40000,
+    "NEMmg": 4000,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -17515,7 +17514,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 3000,
+    "NEMmg": 1630,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -17539,7 +17538,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 1600,
+    "NEMmg": 1630,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -17551,7 +17550,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 14000,
+    "NEMmg": 1400,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -17575,7 +17574,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 1000,
+    "NEMmg": 1400,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -17599,7 +17598,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 10000,
+    "NEMmg": 2000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -17634,7 +17633,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 1000,
+    "NEMmg": 1500,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -17658,7 +17657,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 1600,
+    "NEMmg": 1630,
     "TpKat": 4,
     "TunnelKod": "E"
   },
@@ -17670,7 +17669,7 @@
     "KlassKod": [
       "1.3C"
     ],
-    "NEMmg": 1760600,
+    "NEMmg": 1760000,
     "TpKat": 1,
     "TunnelKod": "C5000D"
   },
@@ -17729,7 +17728,7 @@
     "KlassKod": [
       "1.2G"
     ],
-    "NEMmg": 1730000,
+    "NEMmg": 1600000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -17741,7 +17740,7 @@
     "KlassKod": [
       "1.2G"
     ],
-    "NEMmg": 3800000,
+    "NEMmg": 3600000,
     "TpKat": 1,
     "TunnelKod": "B1000C"
   },
@@ -17771,19 +17770,19 @@
   },
   {
     "Fbet": "M4705-415001",
-    "Fben": "ÖVNMINTÄNDARE47",
+    "Fben": "ÖVNMINTÄNDARE 47",
     "UNnr": "0317",
     "Namn": "ANTÄNDMEDEL",
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 3000,
+    "NEMmg": 30000,
     "TpKat": 2,
     "TunnelKod": "E"
   },
   {
     "Fbet": "M4705-415102",
-    "Fben": "ÖVNMINTÄNDARE49B",
+    "Fben": "ÖVNMINTÄNDARE 49B",
     "UNnr": "0317",
     "Namn": "ANTÄNDMEDEL",
     "KlassKod": [
@@ -17848,7 +17847,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 37600,
+    "NEMmg": 3800,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -17896,7 +17895,7 @@
     "KlassKod": [
       "1.4G"
     ],
-    "NEMmg": 1000,
+    "NEMmg": 200,
     "TpKat": 2,
     "TunnelKod": "E"
   },
@@ -18004,7 +18003,7 @@
     "KlassKod": [
       "1.4S"
     ],
-    "NEMmg": 3000,
+    "NEMmg": 1630,
     "TpKat": 4,
     "TunnelKod": "E"
   },
