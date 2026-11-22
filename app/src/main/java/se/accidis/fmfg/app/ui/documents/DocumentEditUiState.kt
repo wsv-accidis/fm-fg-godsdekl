@@ -19,6 +19,8 @@ sealed interface DocumentEditUiState {
         val rows: List<DocumentRow>,
         val showFbet: Boolean,
         val documentName: String,
+        val sender: String,
+        val recipient: String,
         val vehicleReg: String,
         val vehicleType: String,
         val isProtectedTransport: Boolean,

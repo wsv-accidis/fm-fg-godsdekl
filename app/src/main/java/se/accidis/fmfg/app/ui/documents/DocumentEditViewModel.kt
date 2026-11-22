@@ -44,6 +44,8 @@ class DocumentEditViewModel(
             rows = document.rows,
             showFbet = showFbet,
             documentName = document.name,
+            sender = document.sender,
+            recipient = document.recipient,
             vehicleReg = document.vehicleReg,
             vehicleType = document.vehicleType,
             isProtectedTransport = document.isProtectedTransport,
@@ -71,6 +73,13 @@ class DocumentEditViewModel(
     fun updateName(name: String) {
         repository.mutateCurrentDocument {
             this.name = name.trim()
+        }
+    }
+
+    fun updateAddresses(sender: String, recipient: String) {
+        repository.mutateCurrentDocument {
+            this.sender = sender.trim()
+            this.recipient = recipient.trim()
         }
     }
 

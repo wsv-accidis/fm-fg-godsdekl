@@ -62,6 +62,8 @@
     <string name="document_summary_tpkat_format">Transportkategori %1$d: %2$s, värde %3$s p.</string>
     <string name="document_tap_to_edit_address">Tryck här för att ange namn och adress.</string>
 	<string name="document_tap_to_edit_author">Tryck här för att ange dina uppgifter.</string>
+    <string name="document_tap_to_edit_recipient">Tryck här för att ange mottagare.</string>
+    <string name="document_tap_to_edit_sender">Tryck här för att ange avsändare.</string>
     <string name="document_unspecified_package">kolli</string>
     <string name="document_unspecified_packages">kollin</string>
 	<string name="document_vehicle_reg">Fordonets reg.nr</string>

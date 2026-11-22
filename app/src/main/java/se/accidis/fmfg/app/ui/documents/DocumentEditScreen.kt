@@ -74,6 +74,7 @@ fun DocumentEditScreen(
             var isNameBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
             var isOptionalFieldsBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
             var isOpenBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
+            var activeAddressField by rememberSaveable { mutableStateOf<DocumentAddressField?>(null) }
 
             Scaffold(
                 topBar = {
@@ -143,48 +144,74 @@ fun DocumentEditScreen(
                     )
                 }
             ) { innerPadding ->
-                Box(
+                LazyColumn(
                     modifier = Modifier
                         .padding(innerPadding)
                         .consumeWindowInsets(innerPadding)
-                        .fillMaxSize()
+                        .fillMaxSize(),
+                    contentPadding = PaddingValues(bottom = 8.dp)
                 ) {
-                    if (state.rows.isEmpty()) {
-                        Text(
-                            text = stringResource(R.string.document_empty),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .align(Alignment.Center)
+                    item(key = "addresses") {
+                        DocumentAddressRows(
+                            sender = state.sender,
+                            recipient = state.recipient,
+                            onAddressClick = { field -> activeAddressField = field }
                         )
+                    }
+
+                    if (state.rows.isEmpty()) {
+                        item(key = "empty") {
+                            Box(
+                                modifier = Modifier
+                                    .fillParentMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 32.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.document_empty),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
                     } else {
-                        LazyColumn(
-                            modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(vertical = 8.dp)
-                        ) {
-                            itemsIndexed(items = state.rows) { index, row ->
-                                DocumentRowItem(
-                                    row = row,
-                                    showFbet = state.showFbet,
-                                    onClick = { onRowClick(index, row) }
-                                )
-                            }
-                            item(key = "totals") {
-                                DocumentTotalsRow(
-                                    totalNemKg = state.totalNemKg,
-                                    tpKatTotals = state.tpKatTotals,
-                                    totalValue = state.totalValue
-                                )
-                            }
-                            if (state.isViolatingColoadingRules) {
-                                item(key = "coloading_warning") {
-                                    DocumentColoadingWarningRow()
-                                }
+                        itemsIndexed(items = state.rows) { index, row ->
+                            DocumentRowItem(
+                                row = row,
+                                showFbet = state.showFbet,
+                                showDivider = index < state.rows.lastIndex,
+                                onClick = { onRowClick(index, row) }
+                            )
+                        }
+                        item(key = "totals") {
+                            DocumentTotalsRow(
+                                totalNemKg = state.totalNemKg,
+                                tpKatTotals = state.tpKatTotals,
+                                totalValue = state.totalValue
+                            )
+                        }
+                        if (state.isViolatingColoadingRules) {
+                            item(key = "coloading_warning") {
+                                DocumentColoadingWarningRow()
                             }
                         }
                     }
                 }
+            }
+
+            activeAddressField?.let { field ->
+                DocumentAddressBottomSheet(
+                    initialFocusField = field,
+                    initialSender = state.sender,
+                    initialRecipient = state.recipient,
+                    onDismiss = { newSender, newRecipient ->
+                        viewModel.updateAddresses(
+                            sender = newSender,
+                            recipient = newRecipient
+                        )
+                        activeAddressField = null
+                    }
+                )
             }
 
             if (isNameBottomSheetVisible) {

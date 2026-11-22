@@ -27,6 +27,7 @@ import se.accidis.fmfg.app.utils.ValueHelper
 internal fun DocumentRowItem(
     row: DocumentRow,
     showFbet: Boolean,
+    showDivider: Boolean = true,
     onClick: () -> Unit
 ) {
     val context = LocalContext.current
@@ -138,10 +139,12 @@ internal fun DocumentRowItem(
             }
         }
 
-        HorizontalDivider(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            thickness = 0.5.dp,
-            color = MaterialTheme.colorScheme.outlineVariant
-        )
+        if (showDivider) {
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                thickness = 0.5.dp,
+                color = MaterialTheme.colorScheme.outlineVariant
+            )
+        }
     }
 }
