@@ -176,6 +176,15 @@ class MaterialLoadViewModel(
         }
     }
 
+    fun removeFromDocument() {
+        val index = rowIndex ?: return
+        repository.mutateCurrentDocument {
+            if (index in rows.indices) {
+                rows.removeAt(index)
+            }
+        }
+    }
+
     fun onNumberOfPkgsChanged(newValue: String) {
         if (newValue.isEmpty() || (newValue.all { it.isDigit() } && newValue.toIntOrNull() != null)) {
             _uiState.update { it.copy(numberOfPkgs = newValue) }

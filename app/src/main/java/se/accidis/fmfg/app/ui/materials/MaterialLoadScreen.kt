@@ -17,7 +17,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenu
@@ -29,6 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -90,6 +93,7 @@ fun MaterialLoadScreen(
     }
     var isEditPanelExpanded by rememberSaveable(sessionKey) { mutableStateOf(false) }
     var isKlassKodListVisible by rememberSaveable(sessionKey) { mutableStateOf(false) }
+    var isDeleteConfirmationVisible by rememberSaveable(sessionKey) { mutableStateOf(false) }
 
     val focusManager = LocalFocusManager.current
 
@@ -111,6 +115,16 @@ fun MaterialLoadScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                    }
+                },
+                actions = {
+                    if (uiState.isEditing) {
+                        IconButton(onClick = { isDeleteConfirmationVisible = true }) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = stringResource(R.string.material_remove)
+                            )
+                        }
                     }
                 }
             )
@@ -166,6 +180,32 @@ fun MaterialLoadScreen(
             selectedKlassKods = uiState.klassKodList,
             onToggleKlassKod = viewModel::onToggleKlassKod,
             onDismiss = { isKlassKodListVisible = false }
+        )
+    }
+
+    if (isDeleteConfirmationVisible) {
+        AlertDialog(
+            onDismissRequest = { isDeleteConfirmationVisible = false },
+            text = {
+                Text(stringResource(R.string.document_row_delete_heading))
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        isDeleteConfirmationVisible = false
+                        focusManager.clearFocus()
+                        viewModel.removeFromDocument()
+                        onBack()
+                    }
+                ) {
+                    Text(stringResource(R.string.generic_yes))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { isDeleteConfirmationVisible = false }) {
+                    Text(stringResource(R.string.generic_no))
+                }
+            }
         )
     }
 }

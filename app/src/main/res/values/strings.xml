@@ -33,6 +33,7 @@
 	<string name="document_custom_row_text">Fritext</string>
     <string name="document_delete">Ta bort</string>
     <string name="document_delete_heading">Vill du ta bort den här godsdeklarationen? Detta går inte att ångra.</string>
+    <string name="document_row_delete_heading">Vill du ta bort den här raden?</string>
     <string name="document_edit">Redigera</string>
 	<string name="document_edit_opt_fields">Ytterligare info</string>
     <string name="document_edit_unsaved_heading">Du har gjort ändringar i den nuvarande godsdeklarationen som inte är sparade. Om du börjar redigera den här godsdeklarationen så förlorar du de osparade ändringarna. Vill du fortsätta?</string>
