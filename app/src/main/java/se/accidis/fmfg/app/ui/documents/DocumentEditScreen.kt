@@ -1,7 +1,19 @@
 package se.accidis.fmfg.app.ui.documents
 
+import android.app.ActivityOptions
+import android.app.PendingIntent
+import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.Context
+import android.content.Intent
+import android.graphics.drawable.Icon
+import android.net.Uri
+import android.os.Build
+import android.service.chooser.ChooserAction
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,6 +26,7 @@ import androidx.compose.material.icons.filled.FolderOpen
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -23,8 +36,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,32 +51,59 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import se.accidis.fmfg.app.R
+import se.accidis.fmfg.app.export.PdfGenerator
 import se.accidis.fmfg.app.model.DocumentRow
 import se.accidis.fmfg.app.services.DocumentsRepository
 import se.accidis.fmfg.app.services.Preferences
+import timber.log.Timber
 
 @Composable
 fun DocumentEditScreen(
     onRowClick: (Int, DocumentRow) -> Unit = { _, _ -> }
 ) {
-    val context = LocalContext.current.applicationContext
+    val context = LocalContext.current
+    val appContext = context.applicationContext
+    val lifecycleOwner = LocalLifecycleOwner.current
     val viewModel: DocumentEditViewModel = viewModel(
         factory = viewModelFactory {
             initializer {
                 DocumentEditViewModel(
-                    repository = DocumentsRepository.getInstance(context),
-                    preferences = Preferences.getInstance(context)
+                    repository = DocumentsRepository.getInstance(appContext),
+                    preferences = Preferences.getInstance(appContext)
                 )
             }
         }
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val savedDocuments by viewModel.savedDocuments.collectAsStateWithLifecycle()
+    var isExportErrorVisible by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(viewModel, lifecycleOwner) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.events.collect { event ->
+                when (event) {
+                    is DocumentEditEvent.SharePdf -> {
+                        if (!sharePdf(context, event.uri, event.subject, event.filename)) {
+                            isExportErrorVisible = true
+                        }
+                    }
+
+                    DocumentEditEvent.ExportError -> {
+                        isExportErrorVisible = true
+                    }
+                }
+            }
+        }
+    }
 
     when (val state = uiState) {
         is DocumentEditUiState.Loading -> {
@@ -103,7 +145,11 @@ fun DocumentEditScreen(
                                 DropdownMenuItem(
                                     text = { Text(stringResource(R.string.document_export)) },
                                     leadingIcon = { Icon(Icons.Default.PictureAsPdf, contentDescription = null) },
-                                    onClick = { showMenu = false }
+                                    enabled = !state.isExporting,
+                                    onClick = {
+                                        showMenu = false
+                                        viewModel.exportToPdf(appContext)
+                                    }
                                 )
                                 DropdownMenuItem(
                                     text = { Text(stringResource(R.string.document_edit_opt_fields)) },
@@ -253,6 +299,90 @@ fun DocumentEditScreen(
                     onDismiss = { isOpenBottomSheetVisible = false }
                 )
             }
+
+            if (state.isExporting) {
+                AlertDialog(
+                    onDismissRequest = {},
+                    properties = DialogProperties(
+                        dismissOnBackPress = false,
+                        dismissOnClickOutside = false
+                    ),
+                    title = { Text(stringResource(R.string.document_export)) },
+                    text = {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            CircularProgressIndicator()
+                            Text(stringResource(R.string.document_export_please_wait))
+                        }
+                    },
+                    confirmButton = {}
+                )
+            }
         }
+    }
+
+    if (isExportErrorVisible) {
+        AlertDialog(
+            onDismissRequest = { isExportErrorVisible = false },
+            title = { Text(stringResource(R.string.document_export)) },
+            text = { Text(stringResource(R.string.document_export_error)) },
+            confirmButton = {
+                TextButton(onClick = { isExportErrorVisible = false }) {
+                    Text(stringResource(R.string.generic_close))
+                }
+            }
+        )
+    }
+}
+
+private const val SAVE_PDF_REQUEST_CODE = 1001
+
+private fun sharePdf(context: Context, uri: Uri, subject: String, filename: String): Boolean {
+    val sendIntent = Intent(Intent.ACTION_SEND).apply {
+        type = PdfGenerator.PDF_CONTENT_TYPE
+        putExtra(Intent.EXTRA_STREAM, uri)
+        putExtra(Intent.EXTRA_SUBJECT, subject)
+        clipData = ClipData.newRawUri(subject, uri)
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+    val chooserIntent = Intent.createChooser(
+        sendIntent,
+        context.getString(R.string.document_export_chooser_title)
+    ).apply {
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            val saveIntent = SavePdfActivity.createIntent(context, uri, filename)
+            val options = ActivityOptions.makeBasic().apply {
+                val startMode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA) {
+                    ActivityOptions.MODE_BACKGROUND_ACTIVITY_START_ALLOW_ALWAYS
+                } else {
+                    @Suppress("DEPRECATION")
+                    ActivityOptions.MODE_BACKGROUND_ACTIVITY_START_ALLOWED
+                }
+                setPendingIntentCreatorBackgroundActivityStartMode(startMode)
+            }
+            val pendingIntent = PendingIntent.getActivity(
+                context,
+                SAVE_PDF_REQUEST_CODE,
+                saveIntent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+                options.toBundle()
+            )
+            val saveAction = ChooserAction.Builder(
+                Icon.createWithResource(context, R.drawable.ic_save),
+                context.getString(R.string.document_export_save_as_file),
+                pendingIntent
+            ).build()
+            putExtra(Intent.EXTRA_CHOOSER_CUSTOM_ACTIONS, arrayOf(saveAction))
+        }
+    }
+    return try {
+        context.startActivity(chooserIntent)
+        true
+    } catch (ex: ActivityNotFoundException) {
+        Timber.e(ex, "No activity found to handle PDF share intent.")
+        false
     }
 }

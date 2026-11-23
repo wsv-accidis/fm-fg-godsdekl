@@ -19,6 +19,12 @@
 			</intent-filter>
 		</activity>
 
+		<activity
+			android:name=".ui.documents.SavePdfActivity"
+			android:excludeFromRecents="true"
+			android:exported="false"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
 		<provider
 			android:name="androidx.core.content.FileProvider"
 			android:authorities="se.accidis.fmfg.fileprovider"
