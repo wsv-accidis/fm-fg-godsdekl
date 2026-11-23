@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,9 +13,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import se.accidis.fmfg.app.R
-import se.accidis.fmfg.app.export.ExportFile
 import se.accidis.fmfg.app.export.PdfGenerator
 import se.accidis.fmfg.app.model.DocumentLink
 import se.accidis.fmfg.app.model.Material
@@ -98,13 +95,7 @@ class DocumentEditViewModel(
             _isExporting.value = true
             try {
                 val document = repository.awaitCurrentDocument()
-                val exportFile = withContext(Dispatchers.IO) {
-                    ExportFile.cleanUpOldExports(appContext)
-                    val file = ExportFile.fromDocument(document, PdfGenerator.PDF_EXTENSION, appContext)
-                    Timber.i("Exporting current document to \"%s\".", file.file.path)
-                    PdfGenerator.exportToPdf(document, file, appContext)
-                    file
-                }
+                val exportFile = PdfGenerator.exportDocument(document, appContext)
                 val subject = document.name.trim().ifBlank {
                     appContext.getString(R.string.document_export_default_name)
                 }

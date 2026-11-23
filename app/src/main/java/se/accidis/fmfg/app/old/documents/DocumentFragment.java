@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.UUID;
 
 import se.accidis.fmfg.app.R;
-import se.accidis.fmfg.app.export.ExportFile;
-import se.accidis.fmfg.app.export.PdfGenerator;
+// import se.accidis.fmfg.app.export.ExportFile;
+// import se.accidis.fmfg.app.export.PdfGenerator;
 import se.accidis.fmfg.app.model.Document;
 import se.accidis.fmfg.app.model.DocumentLink;
 import se.accidis.fmfg.app.model.DocumentRow;
@@ -158,9 +158,11 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 			makeCurrentDocument();
 			return true;
 		} else if (itemId == R.id.document_menu_export) {
+			/*
 			final ProgressDialog progressDialog = ProgressDialog.show(getContext(), getString(R.string.document_export), getString(R.string.document_export_please_wait), true, false);
 			final ExportPdfAsyncTask exportTask = new ExportPdfAsyncTask(getActivity(), progressDialog);
 			exportTask.execute();
+			*/
 			return true;
 		} else if (itemId == R.id.document_menu_opt_fields) {
 			final OptionalFieldsDialogFragment optFieldsDialog = OptionalFieldsDialogFragment.createInstance(mDocument, !mIsCurrentDocument);
@@ -364,6 +366,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 		}
 	}
 
+	/*
 	private class ExportPdfAsyncTask extends AsyncTask<Void, Void, Void> {
 		private final Activity mContext;
 		private final ProgressDialog mProgressDialog;
@@ -422,6 +425,7 @@ public final class DocumentFragment extends ListFragment implements MainActivity
 			return null;
 		}
 	}
+	*/
 
 	private final class MaterialsLoadDialogListener implements MaterialsLoadDialogFragment.MaterialsLoadDialogListener {
 		@Override
