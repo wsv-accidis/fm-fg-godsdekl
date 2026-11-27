@@ -7,7 +7,7 @@ contact me if you have any questions._
 Det här är en mobilapp för digital godsdeklaration av farligt gods-transporter riktad till personal
 inom [Försvarsmakten](http://www.forsvarsmakten.se/). Syftet är att enkelt kunna framställa
 godsdeklarationer som uppfyller kraven i
-[SäkI Tp FG](https://www.forsvarsmakten.se/siteassets/2-om-forsvarsmakten/dokument/reglementen/saki_tp_farligt_gods_2013.pdf)
+[R Tp FG](https://www.forsvarsmakten.se/globalassets/02-om-forsvarsmakten/myndighetsinformation/dokument/reglementen/r-tp-fg-2013.pdf)
 vid transport av materiel och utrustning, exempelvis ammunition och drivmedel.
 
 Appen saknar dock anknytning till Försvarsmakten; den är utvecklad på privat initiativ.
@@ -39,15 +39,14 @@ FM FG Godsdeklaration innehåller information från följande källor (ej sekret
 
 * [AmKat Data/Bild (FMV)](https://rib.msb.se/bib/Search/Document?id=27000)
 * [AmKat SystFört (FMV)](https://rib.msb.se/bib/Search/Document?id=26248)
-* [SäkR G (Försvarsmakten)](https://www.forsvarsmakten.se/siteassets/2-om-forsvarsmakten/dokument/reglementen/sakr-g.pdf)
-* [SäkI TP FG (Försvarsmakten)](https://www.forsvarsmakten.se/siteassets/2-om-forsvarsmakten/dokument/reglementen/saki_tp_farligt_gods_2013.pdf)
+* [SäkR G (Försvarsmakten)](https://www.forsvarsmakten.se/globalassets/02-om-forsvarsmakten/myndighetsinformation/dokument/reglementen/sakr-g2.pdf)
+* [R Tp FG (Försvarsmakten)](https://www.forsvarsmakten.se/globalassets/02-om-forsvarsmakten/myndighetsinformation/dokument/reglementen/r-tp-fg-2013.pdf)
 * [Etiketter för transport av farligt gods (MCF)](https://www.mcf.se/sv/amnesomraden/skydd-mot-olyckor-och-farliga-amnen/farligt-gods/skyltar-och-etiketter-for-transport-av-farligt-gods/om-etiketter-och-skyltar-for-transport-av-farligt-gods/)
 * [Skriftliga instruktioner vid transport av farligt gods (MCF)](https://www.mcf.se/sv/amnesomraden/skydd-mot-olyckor-och-farliga-amnen/farligt-gods/skyltar-och-etiketter-for-transport-av-farligt-gods/skriftliga-instruktioner/)
 
 Samt följande tredjepartsbibliotek:
  
 * [Joda-Time för Android](https://github.com/dlew/joda-time-android)
-* [Material Design Icons från Google](https://github.com/google/material-design-icons)
 * [PDFjet Open Source Edition for Java](https://pdfjet.com/java/index.html)
 
 Samt allmänna bibliotek för utveckling av Android-appar som publicerats av Google.
