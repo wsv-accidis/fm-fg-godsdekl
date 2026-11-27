@@ -13,6 +13,7 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import se.accidis.fmfg.app.R
 import se.accidis.fmfg.app.model.Material
+import se.accidis.fmfg.app.ui.references.ReferencePage
 import java.util.UUID
 
 /**
@@ -41,6 +42,15 @@ data object DocumentEdit : NavDestination
 @Serializable
 @Parcelize
 data object References : NavDestination
+
+/**
+ * Destination for a single reference documentation page.
+ */
+@Serializable
+@Parcelize
+data class ReferenceDetail(
+    val page: ReferencePage,
+) : NavDestination
 
 /**
  * Destination for the Settings screen.

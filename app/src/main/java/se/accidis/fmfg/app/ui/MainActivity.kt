@@ -22,6 +22,8 @@ import androidx.navigation3.ui.NavDisplay
 import se.accidis.fmfg.app.ui.documents.DocumentEditScreen
 import se.accidis.fmfg.app.ui.materials.MaterialLoadScreen
 import se.accidis.fmfg.app.ui.materials.MaterialsScreen
+import se.accidis.fmfg.app.ui.references.ReferenceDetailScreen
+import se.accidis.fmfg.app.ui.references.ReferencesScreen
 import se.accidis.fmfg.app.ui.theme.AppTheme
 
 /**
@@ -50,7 +52,7 @@ fun MainView() {
     Scaffold(
         contentWindowInsets = WindowInsets(0),
         bottomBar = {
-            if (currentDestination !is MaterialLoad) {
+            if (currentDestination !is MaterialLoad && currentDestination !is ReferenceDetail) {
                 FmFgNavigationBar(
                     currentDestination = currentDestination,
                     onNavigate = { route ->
@@ -94,7 +96,22 @@ fun MainView() {
                 }
 
                 entry<References> {
-                    ReferencesScreen()
+                    ReferencesScreen(
+                        onPageClick = { page ->
+                            backStack.add(ReferenceDetail(page))
+                        }
+                    )
+                }
+
+                entry<ReferenceDetail> { dest ->
+                    ReferenceDetailScreen(
+                        page = dest.page,
+                        onBack = {
+                            if (backStack.size > 1) {
+                                backStack.removeLastOrNull()
+                            }
+                        }
+                    )
                 }
 
                 entry<Settings> {
